@@ -24,7 +24,7 @@ under the terms of the GNU Affero General Public License as published by
    You should have received a copy of the GNU General Public License
  along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-                       Copyright bangcorrupt 2023
+                       Copyright bangcorrupt 2024
 
 ----------------------------------------------------------------------*/
 
@@ -33,7 +33,7 @@ under the terms of the GNU Affero General Public License as published by
  *
  * @brief   Minimal example application for Freetribe.
  *
- * This simple example uses a non-blocking delay 
+ * This example uses a non-blocking delay 
  * to toggle an LED at regular intervals.
  */
 
@@ -59,7 +59,18 @@ static uint32_t g_start_time;
 /**
  * @brief   Initialise the application.
  *
- * Store the current value of the delay timer in a static global variable.
+ * 
+ */
+/**
+ * @brief   Initialise application.
+ *
+ * Store the current value of the delay timer in a 
+ * static global variable. Status is assumed successful.
+ *
+ * @return status   Status code indicating success:
+ *                  - #SUCCESS
+ *                  - #WARNING
+ *                  - #ERROR
  */
 t_status app_init(void) {
 
@@ -70,9 +81,9 @@ t_status app_init(void) {
 }
 
 /**
- * @brief   Run the application.
+ * @brief   Run application.
  *
- * Test if 1 second has passed since we last set `start_time.
+ * Test if 1 second has passed  since we last set `start_time`.  
  * If so, toggle an LED and reset `start_time.
  */
 void app_run(void) {
