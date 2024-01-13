@@ -57,20 +57,15 @@ static uint32_t g_start_time;
 /*----- Extern function implementations ------------------------------*/
 
 /**
- * @brief   Initialise the application.
- *
- * 
- */
-/**
  * @brief   Initialise application.
  *
  * Store the current value of the delay timer in a 
  * static global variable. Status is assumed successful.
  *
  * @return status   Status code indicating success:
- *                  - #SUCCESS
- *                  - #WARNING
- *                  - #ERROR
+ *                  - SUCCESS
+ *                  - WARNING
+ *                  - ERROR
  */
 t_status app_init(void) {
 
@@ -84,7 +79,7 @@ t_status app_init(void) {
  * @brief   Run application.
  *
  * Test if 1 second has passed  since we last set `start_time`.  
- * If so, toggle an LED and reset `start_time.
+ * If so, toggle an LED and reset `start_time`.
  */
 void app_run(void) {
 

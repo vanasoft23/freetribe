@@ -30,10 +30,10 @@ under the terms of the GNU Affero General Public License as published by
 
 /* Original work by monome, modified by bangcorrupt 2023 */
 
-/*
+/**
  * @file    attenuate.c
  *
- * @brief   A very simple template module.
+ * @brief   A basic example module.
  *          Applies attenuation with slew to each input signal.
  *
  */
@@ -51,25 +51,30 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Macros and Definitions ---------------------------------------*/
 
-// Maximum positive fract32 value
-#define PARAM_AMP_MAX 0x7fffffff
-#define PARAM_SLEW_DEFAULT 0x00010000
 
-// Enumerate parameters.
+#define PARAM_AMP_MAX 0x7fffffff        ///< Maximum amplitude scale value.
+#define PARAM_SLEW_DEFAULT 0x00010000   ///< Default parameter slew time.
+
+/**
+ * @brief   Enumeration of module paramters.
+ *
+ * Index of each external parameter of module.
+ *
+ */
 enum params {
-    // Attenuation multiplier values.
-    PARAM_LEVEL0,
-    PARAM_LEVEL1,
-    // Number of parameters.
-    PARAM_COUNT
+
+    PARAM_LEVEL0,   ///< Attenuation multiplier channel 0.
+    PARAM_LEVEL1,   ///< Attenuation multiplier channel 1.
+
+    PARAM_COUNT     ///< Should remain last to return number of paramters.
 };
 
 /*----- Static variable definitions ----------------------------------*/
 
-// Input parameters.
+/// Input parameters for amplitude scaling.
 static fract32 g_level[2];
 
-// Parameter slew filters.
+/// Parameter slew filters.
 static filter_1p_lo g_level_slew[2];
 
 /*----- Extern variable definitions ----------------------------------*/
@@ -78,6 +83,11 @@ static filter_1p_lo g_level_slew[2];
 
 /*----- Extern function implementations ------------------------------*/
 
+/**
+ * @brief   Initialise module.
+ *
+ * Initialise parameters and slew filters.
+ */
 void module_init(void) {
 
     // Initialise 1pole filters for input attenuation slew.
@@ -93,8 +103,14 @@ void module_init(void) {
     filter_1p_lo_set_slew(&(g_level_slew[1]), PARAM_SLEW_DEFAULT);
 }
 
-// Frame process function.
-// void module_process(fract32 **inputs, fract32 **outputs, uint32_t frames) {
+/**
+ * @brief   Process audio.   
+ *
+ * Update slewed parameters and scale audio amplitude.
+ *
+ * @param[in]   in  Pointer to input buffer.
+ * @param[out]  out Pointer to input buffer.
+ */
 void module_process(fract32 *in, fract32 *out) {
 
     // Process parameter slew.
@@ -106,7 +122,14 @@ void module_process(fract32 *in, fract32 *out) {
     out[1] = mult_fr1x32x32(in[1], g_level[1]);
 }
 
-// Sets slew filter input if parameter smoothed.
+/**
+ * @brief   Set parameter.   
+ *
+ * Set input to parameter slew filters.
+ *
+ * @param[in]   param_index Index of parameter to set. 
+ * @param[in]   vallue      Value of parameter. 
+ */
 void module_set_param(uint16_t param_index, int32_t value) {
 
     switch (param_index) {
@@ -128,30 +151,51 @@ void module_set_param(uint16_t param_index, int32_t value) {
     }
 }
 
-// Returns current slew value if parameter smoothed.
+/**
+ * @brief   Get parameter.   
+ *
+ * Return current slew value of parameter.
+ *
+ * @param[in]   param_index Index of parameter to get. 
+ *
+ * @return      value       Value of parameter.
+ */
 int32_t module_get_param(uint16_t param_index) {
+
+    int32_t value = 0;
 
     switch (param_index) {
 
     // Input attenuation values
     case PARAM_LEVEL0:
-        return g_level[0];
+        value = g_level[0];
 
     case PARAM_LEVEL1:
-        return g_level[1];
+        value = g_level[1];
 
     default:
         break;
     }
-    return 0;
+
+    return value;
 }
 
-// TODO: Return uint16_t?
-//
-// Get number of parameters.
+/// TODO: Return uint16_t?
+/**
+ * @brief   Get number of parameters.
+ *
+ * @return  Number of parameters
+ */
 uint32_t module_get_param_count(void) { return PARAM_COUNT; }
 
-// Buffer 'text' must provide 'MAX_PARAM_NAME_LENGTH' bytes of storage.
+/**
+ * @brief   Get name of parameter at index.
+ *
+ * @param[in]   param_index     Index pf parameter.
+ * @param[out]  text            Buffer to store string. 
+ *                              Must provide 'MAX_PARAM_NAME_LENGTH' 
+ *                              bytes of storage.
+ */
 void module_get_param_name(uint16_t param_index, char *text) {
 
     switch (param_index) {
