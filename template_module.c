@@ -79,8 +79,7 @@ void module_init(void) {
  * @param[out]  out Pointer to input buffer.
  */
 void module_process(fract32 *in, fract32 *out) {
-    // void module_process(fract32 **inputs, fract32 **outputs, uint32_t frames)
-    // {
+    //
 }
 
 /**
