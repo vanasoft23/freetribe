@@ -51,10 +51,10 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    ZOIA_BYPASS,
-    ZOIA_PRESS,
-    ZOIA_RELEASE,
-    ZOIA_TURN,
+    ZOIA_EVENT_BYPASS,
+    ZOIA_EVENT_PRESS,
+    ZOIA_EVENT_RELEASE,
+    ZOIA_EVENT_TURN,
 
     ZOIA_EVENT_COUNT
 } e_zoia_event;

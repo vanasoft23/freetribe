@@ -41,6 +41,7 @@ under the terms of the GNU Affero General Public License as published by
 
 #include "freetribe.h"
 
+#include "zoia_control.h"
 #include "zoia_interface.h"
 #include "zoia_queue.h"
 
@@ -49,6 +50,8 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 /*----- Static variable definitions ----------------------------------*/
+
+static t_zoia_event g_event;
 
 /*----- Extern variable definitions ----------------------------------*/
 
@@ -69,16 +72,25 @@ void zoia_encoder(int32_t clicks) {
     }
 }
 
-/// TODO: This triggers a bug in ZOIA.
-//
 void zoia_home(void) {
 
     int i;
     for (i = 0; i < 5; i++) {
-
-        ft_send_cc(0, 61, 42);
-        ft_send_cc(0, 62, 42);
+        zoia_back();
     }
+}
+
+void zoia_back(void) {
+
+    g_event.value = ZOIA_VALUE_BACK;
+
+    g_event.type = ZOIA_EVENT_PRESS;
+
+    zoia_enqueue(&g_event);
+
+    g_event.type = ZOIA_EVENT_RELEASE;
+
+    zoia_enqueue(&g_event);
 }
 
 void zoia_patch_set(uint8_t patch_index) {
@@ -96,26 +108,36 @@ void zoia_patch_set(uint8_t patch_index) {
 
 static void _encoder_inc(uint32_t clicks) {
 
+    g_event.type = ZOIA_EVENT_TURN;
+    g_event.value = 127;
+
     while (clicks > 63) {
 
-        ft_send_cc(0, 63, 127);
+        zoia_enqueue(&g_event);
 
         clicks -= 63;
     }
 
-    ft_send_cc(0, 63, 64 + clicks);
+    g_event.value = 64 + clicks;
+
+    zoia_enqueue(&g_event);
 }
 
 static void _encoder_dec(uint32_t clicks) {
 
+    g_event.type = ZOIA_EVENT_TURN;
+    g_event.value = 0;
+
     while (clicks > 63) {
 
-        ft_send_cc(0, 63, 0);
+        zoia_enqueue(&g_event);
 
         clicks -= 63;
     }
 
-    ft_send_cc(0, 63, 64 - clicks);
+    g_event.value = 64 - clicks;
+
+    zoia_enqueue(&g_event);
 }
 
 /*----- End of file --------------------------------------------------*/
