@@ -43,7 +43,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Typedefs -----------------------------------------------------*/
 
-typedef enum { STATE_INIT, STATE_RUN, STATE_ERROR } t_template_task_state;
+typedef enum { STATE_INIT, STATE_RUN, STATE_ERROR } e_template_task_state;
 
 /*----- Static variable definitions ----------------------------------*/
 
@@ -58,7 +58,7 @@ static void _template_run(void);
 
 void svc_template_task(void) {
 
-    static t_template_task_state state = STATE_INIT;
+    static e_template_task_state state = STATE_INIT;
 
     switch (state) {
 
