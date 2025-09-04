@@ -11,6 +11,7 @@ TARGET_EXEC := bfin.elf
 TARGET_BIN := bfin.ldr
 
 BUILD_DIR := ./build
+ASM_DIR := $(BUILD_DIR)/asm
 SRC_DIR := ./src
 LIB_DIR := ./lib
 MODULE_DIR ?= $(SRC_DIR)/modules/$(MODULE)
@@ -28,9 +29,10 @@ BIN := $(BFIN_TOOLCHAIN)$(PREFIX)objcopy
 CPU := bf527
 
 # C compilation options
-OPTIMISE = -g -O3
+# OPTIMISE = -g -O3
+OPTIMISE = -Os
 CFLAGS := -mcpu=$(CPU) $(OPTIMISE) -mfast-fp  -fdata-sections -ffunction-sections -Wall 
-CFLAGS += -DBLACKFIN
+CFLAGS += -DDEBUG -DBLACKFIN
 # Assembly compilation options
 ASM_FLAGS := -x assembler-with-cpp
 
@@ -57,6 +59,8 @@ SRCS += $(shell find $(LIB_DIR)/aleph-dsp/lib/libfixmath/libfixmath  -name '*.cp
 		-name '*.c' -or -name '*.S')
 
 SRCS += $(shell find $(MODULE_DIR)  -name '*.cpp' -or -name '*.c' -or -name '*.S')
+
+ASMS := $(SRCS:%=$(ASM_DIR)/%.s)
 
 # Prepends BUILD_DIR and appends .o to every src file.
 # As an example, ./your_dir/hello.cpp turns into: ./build/./your_dir/hello.cpp.o 
@@ -108,9 +112,21 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
+# Emit compiler-generated assembly for inspection
+$(ASM_DIR)/%.c.s: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -S $< -o $@
+
+$(ASM_DIR)/%.cpp.s: %.cpp
+	mkdir -p $(dir $@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -S $< -o $@
+
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
+
+.PHONY: asm
+asm: $(ASMS)
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those

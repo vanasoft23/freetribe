@@ -16,6 +16,7 @@ NEWLIB ?= /usr/arm-none-eabi/include/
 INC_DIRS := $(NEWLIB)
 
 BUILD_DIR := ./build
+ASM_DIR := $(BUILD_DIR)/asm
 SRC_DIR := ./src
 LIB_DIR := ./lib
 APP_DIR ?= $(SRC_DIR)/apps/$(APP)
@@ -31,10 +32,12 @@ BIN=$(PREFIX)objcopy
 
 # C compilation options.
 NEST_INT ?= 0
-OPTIMISE ?= -g3 -Og
+# OPTIMISE ?= -g3 -Og
 # OPTIMISE ?= -O3
+OPTIMISE ?= -Os
 CPU ?= arm926ej-s
-CFLAGS := -mcpu=$(CPU) $(OPTIMISE)  -fdata-sections -ffunction-sections -fanalyzer -fstack-usage -Wstack-usage=128 -Wall
+CFLAGS := -mcpu=$(CPU) $(OPTIMISE)  -fdata-sections -ffunction-sections -fanalyzer -fstack-usage -Wstack-usage=128 -Wall -Wno-unused
+CFLAGS += -DDEBUG
 
 # Assembly compilation options.
 ASM_FLAGS := -x assembler-with-cpp
@@ -61,6 +64,9 @@ SRCS += $(shell find $(LIB_DIR)  \( -name '*.cpp' -or -name '*.c' -or -name '*.S
 SRCS += $(shell find $(LIB_DIR)/LEAF/leaf/  -name '*.cpp' -or -name '*.c' -or -name '*.S')
 
 SRCS += $(shell find $(APP_DIR)  -name '*.cpp' -or -name '*.c' -or -name '*.S')
+
+ASMS := $(filter-out %.S, $(SRCS))
+ASMS := $(ASMS:%=$(ASM_DIR)/%.s)
 
 # Prepends BUILD_DIR and appends .o to every src file.
 # As an example, ./your_dir/hello.cpp turns into: ./build/./your_dir/hello.cpp.o 
@@ -112,10 +118,21 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
+# Emit compiler-generated assembly for inspection
+$(ASM_DIR)/%.c.s: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -S -fverbose-asm $< -o $@
+
+$(ASM_DIR)/%.cpp.s: %.cpp
+	mkdir -p $(dir $@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -S -fverbose-asm $< -o $@
 
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
+
+.PHONY: asm
+asm: $(ASMS)
 
 # Include the .d makefiles. The - at the front suppresses
 # the errors of missing Makefiles. 
