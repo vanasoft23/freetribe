@@ -176,8 +176,7 @@ int main(void) {
     // dev_sdcard_init();
     // _print_test_block();
 
-    list_root();
-
+    // list_root();
 
 
     /// TODO: Implement scheduler.

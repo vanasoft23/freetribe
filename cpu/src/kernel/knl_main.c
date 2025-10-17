@@ -126,6 +126,20 @@ void knl_register_user_tick_callback(uint32_t divisor, void (*callback)(void)) {
     }
 }
 
+void knl_enter_supervisor_mode() {
+    asm volatile("mrs r0, CPSR ");
+    asm volatile("bic r0, #0x0F");
+    asm volatile("orr r0, #0x13");
+    asm volatile("msr CPSR, r0 ");
+}
+
+void knl_enter_user_mode() {
+    asm volatile("mrs r0, CPSR ");
+    asm volatile("bic r0, #0x0F");
+    asm volatile("orr r0, #0x10");
+    asm volatile("msr CPSR, r0 ");
+}
+
 /*----- Static function implementations ------------------------------*/
 
 static t_status _kernel_init(void) {

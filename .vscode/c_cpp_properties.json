@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/maxim/code/gcc-am1802-include/c++/12",
+                "/home/maxim/code/gcc-am1802-include/x86_64-linux-gnu/c++/12",
+                "/home/maxim/code/gcc-am1802-include/c++/12/backward",
+                "/home/maxim/code/gcc-am1802-include/x86_64-linux-gnu",
+                "/home/maxim/code/gcc-am1802-include",
+                "/home/maxim/code/blackfin-include"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c89",
+            "intelliSenseMode": "linux-gcc-arm",
+            "defines": [
+                "__STDC_VERSION__=201000LU"
+            ]
+        }
+    ],
+    "version": 4
+}

@@ -93,9 +93,9 @@ void timer_init(t_timer_config config) {
 
     // Clear all interrupts.
     TimerIntStatusClear(config.base_addr, TMR_INTSTAT12_TIMER_NON_CAPT |
-                                              TMR_INTSTAT12_TIMER_CAPT |
-                                              TMR_INTSTAT34_TIMER_NON_CAPT |
-                                              TMR_INTSTAT34_TIMER_CAPT);
+                                          TMR_INTSTAT12_TIMER_CAPT |
+                                          TMR_INTSTAT34_TIMER_NON_CAPT |
+                                          TMR_INTSTAT34_TIMER_CAPT);
 }
 
 uint32_t timer_count_get(uint32_t base_addr) {

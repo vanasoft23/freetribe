@@ -1,3 +1,4 @@
+
 /*
  * Linker script for Freetribe.
  */
@@ -6,13 +7,14 @@ OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 
 HEAP_SIZE = 0x800;
-STACK_SIZE = 0x1f80;
+STACK_SIZE = 0x1f80; /* 8064 bytes */
 VECTOR_TABLE_SIZE = 0x80;
 
 MEMORY
 {
-    OC_RAM (rwx)    : ORIGIN = 0x80000000, LENGTH = 0x20000
-    ARM_RAM (rwx)   : ORIGIN = 0xFFFF0000, LENGTH = 0x2000
+    OC_RAM (rwx)    : ORIGIN = 0x80000000, LENGTH = 0x20000 /* 128kb */
+    ARM_RAM (rwx)   : ORIGIN = 0xFFFF0000, LENGTH = 0x2000 /* 8kb */
+    DDR2_RAM (rw)   : ORIGIN = 0xc0000000, LENGTH = 64M /* sk hynix h5ps5162kfr-s5c chip maximum is 64MB */
 }
 
 SECTIONS
@@ -53,9 +55,7 @@ SECTIONS
 	.heap ALIGN(8) :
 	{
         _heap_start = .;
-
 	     . += HEAP_SIZE;
-
         _heap_end = .;
 	} > OC_RAM
 
@@ -67,8 +67,6 @@ SECTIONS
 	{
         . = ALIGN(8); 
         _vector_table = .;
-
-
 	    . += VECTOR_TABLE_SIZE; 
 
 	} > ARM_RAM
@@ -87,11 +85,12 @@ SECTIONS
 	{
         . = ALIGN(8); 
         _stack_low = .;
-
-
 	     . += STACK_SIZE; 
-
         _stack = .;
 	} > ARM_RAM
+
+
+	_ddr2_start = ORIGIN(DDR2_RAM);
+	_ddr2_end = ORIGIN(DDR2_RAM) + LENGTH(DDR2_RAM);
 
 }

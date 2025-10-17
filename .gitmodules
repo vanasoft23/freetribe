@@ -10,3 +10,9 @@
 [submodule "cpu/lib/LEAF"]
 	path = cpu/lib/LEAF
 	url = ../LEAF.git
+[submodule "cpu/lib/tinyusb"]
+	path = cpu/lib/tinyusb
+	url = https://github.com/vananasun/tinyusb.git
+[submodule "cpu/lib/FreeRTOS"]
+	path = cpu/lib/FreeRTOS
+	url = https://github.com/FreeRTOS/FreeRTOS.git

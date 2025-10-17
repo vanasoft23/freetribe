@@ -1,0 +1,2 @@
+question:
+Is it possible that on the PCB's AM1802 EMIFA only has connected GPIO functionality for the data line pins (EMA_D0 through EMA_D15), but not the other EMIFA pins. Even though HostDMA's HOST_CE, HOST_ACK, HOST_WR, HOST_RD, HOST_ADDR pins are connected to EMIFA itself, but cannot be probed from AM1802 GPIO, regardless of the fact that these pins should be able to be changed to GPIO mode on the AM1802? How would I confirm this at the software level?

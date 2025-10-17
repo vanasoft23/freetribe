@@ -29,13 +29,13 @@ under the terms of the GNU Affero General Public License as published by
 ----------------------------------------------------------------------*/
 
 /**
- * @file    error.h
+ * @file    macros.h
  *
- * @brief   Exports API for error.c.
+ * @brief   Macros that could be included in utils.h
  */
 
-#ifndef ERROR_H
-#define ERROR_H
+#ifndef MACROS_H
+#define MACROS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,28 +43,44 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
+#include <stdint.h>
+
 /*----- Macros -------------------------------------------------------*/
 
-/*----- Typedefs -----------------------------------------------------*/
+//
+// Debugging helpers
+// @TODO: refactor this bitch (would be cool to have a logging pipe
+//        from DSP to CPU... I'm still debugging with sysex&print, haha)
+//                                                             kill me
+//
+#ifdef DEBUG
+#   ifndef BLACKFIN
+#      include "freetribe.h" // ft_print, ft_printf
+#   endif
+#   define DEBUG_LOG(fmt, ...)  ft_printf(fmt, ##__VA_ARGS__)
+#else
+#   define DEBUG_LOG(...)
+#endif
 
-typedef enum {
-    SUCCESS,
-    ERROR,
-    WARNING,
-    UNRECOVERABLE_ERROR,
-    TASK_INIT_ERROR,
-    UNHANDLED_STATE_ERROR,
-    RING_BUFFER_INIT_ERROR,
-    RING_BUFFER_PUT_ERROR,
-    RING_BUFFER_GET_ERROR,
-    PANEL_PARSE_ERROR
-} t_status;
+#ifdef BLACKFIN
+#define STATIC_ASSERT(cond, msg) \
+    typedef char static_assertion_##msg[(cond) ? 1 : -1]
+#endif
 
-/*----- Extern variable declarations ---------------------------------*/
+// Bit operations
+#define HI16(x)              ((uint16_t)((((uint32_t)(x)) >> 16) & 0xFFFF))
+#define LO16(x)              ((uint16_t)(((uint32_t)(x)) & 0xFFFF))
+#define COMBINE16(high, low) (((uint32_t)(high) << 16) | ((uint32_t)(low) & 0xFFFF))
 
-/*----- Extern function prototypes -----------------------------------*/
+// `*(to_struct*)&my_struct` is undefined behavior with strict aliasing
+#define STRUCT_CAST(to_type, from_val) \
+    ((union { __typeof__(from_val) f; to_type t; }){ .f = (from_val) }).t
 
-t_status error_check(t_status error);
+// Math helpers
+#ifndef MIN
+#   define MIN(A,B) ((A) < (B) ? (A) : (B))
+#endif
+
 
 #ifdef __cplusplus
 }

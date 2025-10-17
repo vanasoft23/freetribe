@@ -45,6 +45,8 @@ under the terms of the GNU Affero General Public License as published by
 
 #include "per_gpio.h"
 #include "per_spi.h"
+#include "dev_cpu_spi.h"
+#include "dev_cpu_ipc.h"
 
 #include "module.h"
 
@@ -188,6 +190,8 @@ static t_status _cpu_init(void) {
 
     // Initialise CPU SPI device driver.
     dev_cpu_spi_init();
+
+    dev_cpu_ipc_init();
 
     // _transmit_message(MSG_TYPE_SYSTEM, SYSTEM_READY, NULL, 0);
 

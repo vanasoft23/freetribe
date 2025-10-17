@@ -86,6 +86,7 @@ under the terms of the GNU Affero General Public License as published by
 
 #include "per_ddr.h"
 
+#include "FreeRTOSConfig.h"
 #include "startup.h"
 
 /*----- Macros -------------------------------------------------------*/
@@ -113,6 +114,8 @@ static volatile unsigned int page_table[4 * 1024]
     __attribute__((aligned(16 * 1024)));
 
 /*----- Extern variable definitions ----------------------------------*/
+
+uint8_t *ucHeap; // FreeRTOS heap
 
 /*----- Extern function prototypes -----------------------------------*/
 
@@ -171,6 +174,9 @@ void start_boot(void) {
     _pll1_init(PLL1_MUL, PLL1_POSTDIV, PLL1_DIV1, PLL1_DIV2, PLL1_DIV3);
 
     per_ddr_init();
+    
+    // FreeRTOS heap gets stored into DDR RAM for now
+    ucHeap = (uint8_t*)0xC0000000;
 
     _config_cache_mmu();
 

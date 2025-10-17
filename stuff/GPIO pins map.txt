@@ -1,0 +1,62 @@
+
+// #define PIN_EMA_D_15       56 // GP3[7]  <-> PH15
+// #define PIN_EMA_D_14       55 // GP3[6]  <-> PH14
+// #define PIN_EMA_D_13       54 // GP3[5]  <-> PH13
+// #define PIN_EMA_D_12       53 // GP3[4]  <-> PH12
+// #define PIN_EMA_D_11       52 // GP3[3]  <-> PH11
+// #define PIN_EMA_D_10       51 // GP3[2]  <-> PH10
+// #define PIN_EMA_D_9        50 // GP3[1]  <-> PH9
+// #define PIN_EMA_D_8        49 // GP3[0]  <-> PH8
+// #define PIN_EMA_D_7        80 // GP4[15] <-> PH7
+// #define PIN_EMA_D_6        79 // GP4[14] <-> PH6
+// #define PIN_EMA_D_5        78 // GP4[13] <-> PH5
+// #define PIN_EMA_D_4        77 // GP4[12] <-> PH4
+// #define PIN_EMA_D_3        76 // GP4[11] <-> PH3
+// #define PIN_EMA_D_2        75 // GP4[10] <-> PH2
+// #define PIN_EMA_D_1        74 // GP4[9]  <-> PH1
+// #define PIN_EMA_D_0        73 // GP4[8]  <-> PH0
+// #define PIN_EMA_A_22       71 // GP4[6]
+// #define PIN_EMA_A_21       70 // GP4[5]
+// #define PIN_EMA_A_20       69 // GP4[4]
+// #define PIN_EMA_A_19       68 // GP4[3]
+// #define PIN_EMA_A_18       67 // GP4[2]
+// #define PIN_EMA_A_17       66 // GP4[1]
+// #define PIN_EMA_A_16       65 // GP4[0]
+// #define PIN_EMA_A_15       96 // GP5[15]
+// #define PIN_EMA_A_14       95 // GP5[14]
+// #define PIN_EMA_A_13       94 // GP5[13]
+// #define PIN_EMA_A_12       93 // GP5[12]
+// #define PIN_EMA_A_11       92 // GP5[11]
+// #define PIN_EMA_A_10       91 // GP5[10]
+// #define PIN_EMA_A_9        90 // GP5[9]
+// #define PIN_EMA_A_8        89 // GP5[8]
+// #define PIN_EMA_A_7        88 // GP5[7]
+// #define PIN_EMA_A_6        87 // GP5[6]
+// #define PIN_EMA_A_5        86 // GP5[5]
+// #define PIN_EMA_A_4        85 // GP5[4]
+// #define PIN_EMA_A_3        84 // GP5[3]
+// #define PIN_EMA_A_2        83 // GP5[2]
+// #define PIN_EMA_A_1        82 // GP5[1]
+// #define PIN_EMA_A_0        81 // GP5[0]
+// #define PIN_EMA_BA_0       41 // GP2[8]
+// #define PIN_EMA_BA_1       42 // GP2[9]
+// #define PIN_EMA_CLK        40 // GP2[7]
+// #define PIN_EMA_SDCKE      39 // GP2[6]
+// #define PIN_EMA_RAS        38 // GP2[5]
+// #define PIN_EMA_CAS        37 // GP2[4]
+// #define PIN_EMA_CS_0       33 // GP2[0]
+// #define PIN_EMA_CS_2       64 // GP3[15]
+// #define PIN_EMA_CS_3       63 // GP3[14]
+// #define PIN_EMA_CS_4       62 // GP3[13]
+// #define PIN_EMA_CS_5       61 // GP3[12]
+// #define PIN_EMA_A_RW       58 // GP3[9]
+// #define PIN_EMA_WE         60 // GP3[11] (can be used for interrupt!)
+// #define PIN_EMA_WEN_DQM_1  35 // GP2[2]
+// #define PIN_EMA_WEN_DQM_0  36 // GP2[3]
+// #define PIN_EMA_OE         59 // GP3[10] (can be used for interrupt!)
+// #define PIN_EMA_WAIT_0     57 // GP3[8]
+// #define PIN_EMA_WAIT_1     34 // GP2[1]
+
+// #define HRDY_PIN PIN_EMA_WAIT_0
+// #define EMIFA_GPIO_INT_CHANNEL 9
+

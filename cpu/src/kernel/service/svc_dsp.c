@@ -354,6 +354,8 @@ static t_status _dsp_init(void) {
 
 static void _dsp_boot(void) {
 
+// #define NO_DSP_BOOT
+#ifndef NO_DSP_BOOT
     /// TODO: Use queue and interrupt?
     ///         SPI hardware ENA max timeout
     ///         is too short for DSP boot.
@@ -361,6 +363,7 @@ static void _dsp_boot(void) {
     //
     // Transmit LDR to DSP.
     dev_dsp_spi_tx_boot(bfin_ldr, bfin_ldr_len);
+#endif
 }
 
 /// TODO: Move to protocol separate module.

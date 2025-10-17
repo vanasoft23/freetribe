@@ -46,6 +46,7 @@ under the terms of the GNU Affero General Public License as published by
 #include "per_spi.h"
 #include "per_sport.h"
 #include "svc_cpu.h"
+#include "heap.h"
 
 #include "knl_profile.h"
 
@@ -92,6 +93,8 @@ int main(void) {
     sysint_init();
 
     dma_init();
+
+    heap_init();
 
     // Initialise communication with CPU.
     svc_cpu_task();

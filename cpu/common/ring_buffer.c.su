@@ -1,0 +1,6 @@
+../common/ring_buffer.c:67:5:ring_buffer_init	20	static
+../common/ring_buffer.c:99:5:ring_buffer_put	8	static
+../common/ring_buffer.c:114:5:ring_buffer_put_force	16	static
+../common/ring_buffer.c:142:5:ring_buffer_get	8	static
+../common/ring_buffer.c:166:5:rb_data_ready	0	static
+../common/ring_buffer.c:168:5:rb_buffer_full	0	static

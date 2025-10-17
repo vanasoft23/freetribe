@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "execute freetribe",
+            "type": "shell",
+            "command": "~/venv/bin/python3 ~/code/hacktribe/scripts/execute_freetribe.py ${workspaceFolder}/cpu/build/cpu.bin \"UMC404HD 192k:UMC404HD 192k MIDI 1\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\"",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make system23",
+            "type": "shell",
+            "command": "docker compose exec freetribe make APP=system23 MODULE=system23",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
+            "label": "make clean",
+            "type": "shell",
+            "command": "docker compose exec freetribe make clean",
+            "group": {
+                "kind": "build"
+            }
+        }
+    ]
+}
