@@ -1,0 +1,15 @@
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:457:13:_spi_transmit_data1	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:330:20:_spi_isr	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:404:13:_spi1_isr	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:402:13:_spi0_isr	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:114:6:per_spi_init	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:155:6:per_spi_unregister_interrupts	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:172:6:per_spi_set_data_format	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:191:6:per_spi_initialised	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:197:6:per_spi_chip_format	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:211:6:per_spi_write_isr	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:220:6:per_spi_write_blocking	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:239:6:per_spi_transfer_isr	4	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:262:6:per_spi_transfer_blocking	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:289:6:per_spi_transfer_blocking_end	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_spi.c:308:6:per_spi_register_callback	0	static

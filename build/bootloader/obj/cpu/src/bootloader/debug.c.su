@@ -1,0 +1,3 @@
+C:/dev/System23/freetribe/cpu/src/bootloader/debug.c:71:6:ft_printf	16	static
+C:/dev/System23/freetribe/cpu/src/bootloader/debug.c:86:5:boot_tusb_printf	16	static
+C:/dev/System23/freetribe/cpu/src/bootloader/debug.c:101:6:error	16	static

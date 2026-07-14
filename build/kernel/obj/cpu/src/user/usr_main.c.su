@@ -1,0 +1,6 @@
+C:/dev/System23/freetribe/cpu/src/user/usr_main.c:119:32:app_init	0	static
+C:/dev/System23/freetribe/cpu/src/user/usr_main.c:130:17:_usr_init	8	static
+C:/dev/System23/freetribe/cpu/src/user/usr_main.c:124:28:app_run	0	static
+C:/dev/System23/freetribe/cpu/src/user/usr_main.c:139:13:_usr_run	8	static
+C:/dev/System23/freetribe/cpu/src/user/usr_main.c:85:6:usr_main_process	8	static
+C:/dev/System23/freetribe/cpu/src/user/usr_main.c:70:6:usr_main_task	8	static

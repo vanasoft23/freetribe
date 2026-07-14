@@ -1,0 +1,9 @@
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_lcd.c:221:13:_lcd_mode	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_lcd.c:209:13:_lcd_tx	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_lcd.c:223:13:_lcd_command	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_lcd.c:93:6:dev_lcd_init	56	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_lcd.c:142:6:dev_lcd_reset	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_lcd.c:160:6:dev_lcd_set_page	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_lcd.c:144:6:dev_lcd_set_frame	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_lcd.c:178:6:dev_lcd_set_contrast	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_lcd.c:195:6:dev_lcd_set_backlight	16	static

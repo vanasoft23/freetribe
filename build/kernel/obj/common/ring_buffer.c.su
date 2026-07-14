@@ -1,0 +1,8 @@
+C:/dev/System23/freetribe/common/ring_buffer.c:157:12:_ring_buffer_full	0	static
+C:/dev/System23/freetribe/common/ring_buffer.c:161:12:_ring_buffer_empty	0	static
+C:/dev/System23/freetribe/common/ring_buffer.c:67:5:ring_buffer_init	12	static
+C:/dev/System23/freetribe/common/ring_buffer.c:99:5:ring_buffer_put	32	static
+C:/dev/System23/freetribe/common/ring_buffer.c:114:5:ring_buffer_put_force	32	static
+C:/dev/System23/freetribe/common/ring_buffer.c:142:5:ring_buffer_get	32	static
+C:/dev/System23/freetribe/common/ring_buffer.c:166:5:rb_data_ready	8	static
+C:/dev/System23/freetribe/common/ring_buffer.c:168:5:rb_buffer_full	8	static

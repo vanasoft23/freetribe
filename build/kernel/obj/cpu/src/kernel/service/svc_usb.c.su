@@ -1,0 +1,17 @@
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:250:1:_usb_msc_status_from_device	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:242:13:_usb_idle_failed	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:231:13:_usb_lock	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:240:13:_usb_unlock	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:40:6:svc_usb_task	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:63:6:svc_usb_ready	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:65:6:svc_usb_init_failed	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:67:6:svc_usb_mounted	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:83:6:svc_usb_cdc_connected	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:99:10:svc_usb_cdc_available	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:115:10:svc_usb_cdc_read	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:131:10:svc_usb_cdc_write	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:147:10:svc_usb_vendor_write	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:163:6:svc_usb_msc_export_sdcard_readonly	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:193:6:svc_usb_msc_disable	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:210:6:svc_usb_msc_exported	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_usb.c:226:29:svc_usb_msc_export_status	0	static

@@ -1,0 +1,8 @@
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.c:81:6:delay_init	40	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.c:96:6:delay_ready	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.c:192:10:delay_get_current_count	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.c:98:6:delay_block_us	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.c:190:6:delay_block_ms	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.c:142:6:delay_us	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.c:181:6:delay_start	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.c:196:6:delay_cycles	0	static

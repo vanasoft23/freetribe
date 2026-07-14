@@ -1,0 +1,26 @@
+kernel/obj/cpu/lib/tinyusb/src/common/tusb_fifo.c.o: \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.c \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal.h \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_common.h \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/tusb_option.h \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_compiler.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/usb/tusb_config.h \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_mcu.h \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_verify.h \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_types.h \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_debug.h \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal_freertos.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/FreeRTOS.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/system/FreeRTOSConfig.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/projdefs.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/portable.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/deprecated_definitions.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/portmacro.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/mpu_wrappers.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/semphr.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/queue.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/task.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/list.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/queue.h \
+  C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/task.h \
+  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.h

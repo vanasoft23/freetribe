@@ -1,0 +1,10 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "[m68k]": {
+        "editor.rulers": []
+    },
+    "cortex-debug.variableUseNaturalFormat": true,
+    "cmake.configureArgs": [
+        "-DNO_BOOTSECT_VERIFY=1"
+    ]
+}

@@ -1,0 +1,4 @@
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:98:13:_usb0_isr	0	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:57:6:boot_usb_init	16	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:70:6:boot_usb_task	0	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:76:6:boot_usb_terminate	8	static

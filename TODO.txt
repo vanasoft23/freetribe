@@ -1,0 +1,144 @@
+[AI AGENTS, PLEASE IGNORE THIS TODO FILE!]
+
+*** BOOTLOADER ***
+
+------------OBJDUMP MUST MATCH CALCULATION
+----CHECK LINKER ASSERTION SRAM SIZEOF VS ACTUAL BIN SIZE
+
+M   Add check to see whether a factory firmware is installed when booting flash...
+
+M   FIX VSB HEADER RECOGNITION E2 SYNTH
+
+M   dev_flash.c int_enable PUT BACK  // @FIXME: enable in freetribe kernel!
+
+S   Already installed check
+
+S   !!! ONLY ALLOW FLASHING BOOTLOADER WHEN BATTERIES ARE INSERTED AND ABOVE 10% !!!
+
+S   Exit button shuts down the electribe
+
+C   Bootloader config ini (options: NO_BOOTSECT_VERIFY, autorun)
+
+C   Probably should replace chunked flashing to allow for using factory CRC16.
+    Instead of chunking, it'd be a single 128 KiB backup flash read stored in DDR.
+    We'd verify the CRC16 at the end, and generate our own for future updates.
+
+C   French, Czech and Italian language localizations
+
+
+*** KERNEL ***
+
+##
+## Flash driver
+##
+- Test and verify flash write
+- Test and verify flash read
+- Check whether reads&writes of length 1 are possible
+- Check whether address is sector index or actual address in flash
+- Check whether address can be odd
+
+##
+## SPI driver ont-kankeren
+##
+
+-   TEST of flash_write en flash_read 1 byte kunnen lezen/schrijven!
+
+-  SPI & FLASH DRIVER REFACTOR
+   Vraag: hoe separate ik dev_lcd & dev_flash BOOTLOADER en FLASH ?
+          met #ifdefs? of een OSAL header i.c.m init parameters
+
+-  Bitbang CS assert moet per_spi_chip_format gebruiken
+   MAAR WEL DE PINMUX SETTINGS TERUGZETTEN SVP!!!
+
+
+
+
+
+##
+## UART/MCU/PANEL driver
+##
+BUG PROBLEEM:
+ UART FIFO is 16 bytes, maar messages zijn 5 bytes. de vierde unhandled msg
+ houdt maar 1 byte over wegens overflow -> ring buffer shift met 1 byte!
+FIX:
+ gebeurtenis: UART FIFO overflow error IRQ
+ vervolgstap: device layer error callback cancelt RX interrupt verwachting
+              (ring buffer hoeft niet geleegd te worden)
+          
+
+
+- ontkoppel van bootloader zodat er geen FREETRIBE_FREERTOS #ifdefs meer nodig zijn
+latency issue fix:
+- implement port_YIELD_FROM_ISR ??
+error/edge case handling:
+- <<GA NA OF DIT UBERHAUBT MOGELIJK IS>> handle overflow bytes in device layer ringbuffer -> discard to reset shift
+
+##################################################################################
+
+
+- reprioritise interrupt channels (interrupts can share channels!)
+
+- CPU Serial console interface supporting semihosting
+- CPU serial console interface supporting UART MIDI
+
+
+
+- move apps gui_task into kernel or something (away from app)
+- decouple panel task from FreeRTOS so bootloader can remain non-realtime
+
+Features:
+- DSP serial console interface!
+
+
+** Reverse engineering Factory Firmware **
+- Figure out what GPIO GP7[9] and GP8[11] do and why they have rise/fall triggers
+
+
+***************************************************************************
+***
+*** REFACTORING & ARCHITECTUUR
+***
+***************************************************************************
+
+- Bootloader file browser set_error and _draw_popup code is SHIT
+
+- VRAAG: kunnen per_uart en per_spi of ze ook zelf de CSL functionaliteit
+         overnemen?
+zo ja?
+-> Borrow from am18x-lib headers (and source) instead?!
+
+- VRAAG: mag een peripheral module ooit een andere peripheral aanroepen?
+         zoals per_uart en per_spi die interrupts registreren.
+
+- VRAAG: Where does the centralized interrupt priority
+
+- REFLECTEER op of per_emifa en per_hostdma oprecht de hardware representeren,
+  en niet teveel werk uit handen nemen van device layer. Is het correct dat
+  per_emifa een state machine is bijvoorbeeld? de naam per_emifa_task suggereert
+  scheduler/OS abstractie!
+
+- VRAAG: Waar moet de CPU stdlib komen?
+
+- per_pinmux.c migrate initializations to their respective drivers,
+  come up with clever solution like masks to make setting it up tidy.
+
+- single interrupt priorities
+
+- refactor SPI driver: it should have 1 blocking, and 1 interrupt tx&rx.
+  factory boot incompatibility should be solved at device flash/lcd layer.
+
+- merge AM180x-lib into AM1802-csl? ask AI what to do, possible scenarios:
+  1. keep both; maybe this is still the best option
+  2. keep only am180x-lib; then the MMCSD driver doesn't need any changes,
+     but the entire rest of the code base will need major changes.
+  3. keep only am1802-csl; then the MMCSD driver will need major changes,
+     potentially breaking, and probably makes the code way uglier.
+
+- VRAAG: Wat hoort wel en niet thuis in common
+         - os_compat.h kan mss weg? for this I need to make separate bootloader panel code maybe ?
+         - ft_error is in common, alleenmaar voor de ring buffer? eigenlijk is dat nutteloos,
+           zelfs als het exposed is aan userspace onder het mom van "freetribe api"
+
+- documentations
+
+- unnecessary includes

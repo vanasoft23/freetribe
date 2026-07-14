@@ -1,0 +1,893 @@
+{
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"add_firmware_target"
+		],
+		"files" : 
+		[
+			"cmake/firmware.cmake",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 439,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 246,
+				"parent" : 1
+			}
+		]
+	},
+	"id" : "bootloader::@6890427a1f51a3e7e1df",
+	"name" : "bootloader",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				70,
+				71,
+				72,
+				73,
+				74,
+				75,
+				76,
+				77,
+				78,
+				79,
+				80,
+				81,
+				82,
+				83,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89,
+				90,
+				91,
+				92,
+				93,
+				94,
+				95,
+				96,
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106,
+				107,
+				108,
+				109,
+				110,
+				111,
+				112,
+				113,
+				114,
+				115,
+				116,
+				117,
+				118
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/bootloader",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/bootloader.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/bootloader.bin.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/bootloader.elf.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/common/ft_error.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/common/ring_buffer.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/common/utils.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/FatFS/ff.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/FatFS/ffsystem.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/FatFS/ffunicode.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_10X13.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_10X13_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_12X15.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_12X15_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_16X18.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_16X18_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_20X23.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_20X23_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_25X28.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_25X28_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_29X35.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_29X35_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_35X40.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_35X40_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_39X45.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_39X45_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_45X52.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_45X52_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_49X57.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_49X57_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_6X6.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_6X6_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_9X10.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/arial_9X10_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_10x16.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_12x16.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_12x20.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_16x26.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_22x36.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_24x40.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_32x53.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_4x6.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_5x12.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_5x8.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_6x10.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_6x8.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_7x12.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_8x12.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_8x12_cyrillic.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_8x14.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/Fonts/font_8x8.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/ugui.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/ugui_button.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/ugui_checkbox.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/ugui_image.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/ugui_progress.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/UGUI/ugui_textbox.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_edma.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_psc.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_spi.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_timer.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_uart.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_usb.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/keyboard.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/micro_menu.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/midi_fsm.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/sysex_codec.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/tinyprintf/tinyprintf.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/tinyusb/src/class/cdc/cdc_device.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/tinyusb/src/class/dfu/dfu_device.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/tinyusb/src/class/msc/msc_device.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/tinyusb/src/class/vendor/vendor_device.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/tinyusb/src/common/tusb_fifo.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/tinyusb/src/device/usbd.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/tinyusb/src/portable/mentor/musb/dcd_musb.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/lib/tinyusb/src/tusb.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/boot_image.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/debug.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/exceptionhandler.S.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/file_browser.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/flash_bootloader.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/gui.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/handoff.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/init.S.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/main.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/startup.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/usb/boot_dfu.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/usb/boot_msc_disk.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/usb/boot_usb.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/bootloader/usb/usb_descriptors.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/device/dev_board.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/device/dev_flash.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/device/dev_lcd.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/device/dev_mcu.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/device/dev_sdcard.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_aintc.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_ddr.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_gpio.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_mmcsd.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_mmcsd_prot.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_pinmux.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_spi.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_timer.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_uart.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/peripheral/per_usb.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/service/svc_delay.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/service/svc_fatfs.c.o.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/bootloader/obj/cpu/src/kernel/service/svc_panel.c.o.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

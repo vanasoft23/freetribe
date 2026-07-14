@@ -1,0 +1,13 @@
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:582:24:_sdmmc_cmd	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:695:31:_sdmmc_cmd_noarg	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:681:24:_sdmmc_acmd	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:716:24:_sdmmc_read_fail	120	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:797:13:_sdmmc_log_write_state	120	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:540:24:_sdmmc_resp	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:167:13:dev_sdcard_err_string	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:171:17:dev_sdcard_read	72	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:331:17:dev_sdcard_write	64	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:470:6:dev_sdcard_present	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:427:17:dev_sdcard_init	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:482:10:dev_sdcard_get_sector_count	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_sdcard.c:487:17:dev_sdcard_terminate	8	static

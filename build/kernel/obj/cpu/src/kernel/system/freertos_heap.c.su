@@ -1,0 +1,2 @@
+C:/dev/System23/freetribe/cpu/src/kernel/system/freertos_heap.c:9:6:vApplicationGetRandomHeapCanary	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/freertos_heap.c:13:6:vApplicationStackOverflowHook	0	static

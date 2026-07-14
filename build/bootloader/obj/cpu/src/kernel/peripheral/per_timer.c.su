@@ -1,0 +1,2 @@
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_timer.c:67:6:timer_init	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_timer.c:125:10:timer_count_get	0	static

@@ -1,0 +1,5 @@
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_dfu.c:71:10:tud_dfu_get_timeout_cb	0	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_dfu.c:78:6:tud_dfu_download_cb	24	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_dfu.c:115:6:tud_dfu_manifest_cb	32	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_dfu.c:151:6:tud_dfu_abort_cb	0	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_dfu.c:157:6:tud_dfu_detach_cb	0	static

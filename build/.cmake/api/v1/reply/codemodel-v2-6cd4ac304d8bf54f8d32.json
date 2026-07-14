@@ -1,0 +1,123 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "freetribe",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "bootloader::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bootloader-Debug-ab2aa191b8021be4c9ce.json",
+					"name" : "bootloader",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bootloader_clean::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bootloader_clean-Debug-c09bb04d46a406196998.json",
+					"name" : "bootloader_clean",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "debug_bringup::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-debug_bringup-Debug-1e6710703a4bcd7e46de.json",
+					"name" : "debug_bringup",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "debug_bringup_clean::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-debug_bringup_clean-Debug-7e30b1ae2a9967b61227.json",
+					"name" : "debug_bringup_clean",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dsp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dsp-Debug-bdab4d3beaa78a2cd836.json",
+					"name" : "dsp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dsp_clean::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dsp_clean-Debug-3ab403d0f6d77aaf61c5.json",
+					"name" : "dsp_clean",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "kernel::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-kernel-Debug-42d4c805113be5c30679.json",
+					"name" : "kernel",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "kernel_clean::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-kernel_clean-Debug-d7a324da4bf8e272e2ef.json",
+					"name" : "kernel_clean",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/dev/System23/freetribe/build",
+		"source" : "C:/dev/System23/freetribe"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

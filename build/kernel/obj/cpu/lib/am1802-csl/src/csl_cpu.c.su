@@ -1,0 +1,8 @@
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_cpu.c:56:6:CPUSwitchToPrivilegedMode	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_cpu.c:72:6:CPUSwitchToUserMode	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_cpu.c:91:6:CPUAbortHandler	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_cpu.c:98:14:CPUIntStatus	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_cpu.c:114:6:CPUirqd	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_cpu.c:126:6:CPUirqe	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_cpu.c:138:6:CPUfiqd	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_cpu.c:150:6:CPUfiqe	0	static

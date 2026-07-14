@@ -1,0 +1,10 @@
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:162:13:_trs_rx_enqueue	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:157:12:_trs_tx_dequeue	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:172:13:_trs_tx_byte	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:183:13:_trs_tx_callback	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:178:13:_trs_rx_byte	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:197:13:_trs_rx_callback	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:95:6:dev_trs_init	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:134:6:dev_trs_tx_enqueue	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:145:5:dev_trs_rx_dequeue	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_trs.c:150:6:dev_trs_register_rx_callback	0	static

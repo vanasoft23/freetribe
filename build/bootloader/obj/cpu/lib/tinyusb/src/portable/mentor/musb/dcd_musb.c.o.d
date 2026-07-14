@@ -1,0 +1,40 @@
+C:/dev/System23/freetribe/build/bootloader/obj/cpu/lib/tinyusb/src/portable/mentor/musb/dcd_musb.c.o: \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/dcd_musb.c \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/tusb_option.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_compiler.h \
+ C:/dev/System23/freetribe/cpu/src/bootloader/usb/tusb_config.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_mcu.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/musb_type.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/device/dcd.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_common.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_verify.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_types.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_debug.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal_none.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/musb_am1802.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_interrupt.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_types.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/soc_AM1808.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_usbOtg_AM1808.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_usbphyGS60.h
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/tusb_option.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_compiler.h:
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/tusb_config.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_mcu.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/musb_type.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/device/dcd.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_common.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_verify.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_types.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_debug.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal_none.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/musb_am1802.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_interrupt.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_types.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/soc_AM1808.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_usbOtg_AM1808.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_usbphyGS60.h:

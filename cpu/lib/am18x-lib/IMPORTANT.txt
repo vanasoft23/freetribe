@@ -1,0 +1,3 @@
+Hi, this repo will be removed once I rewrite the SDMMC driver properly using the existing am1802-csl.
+We need some proper unit/target testing to iron out some scary bugs
+~max/vanasoft23

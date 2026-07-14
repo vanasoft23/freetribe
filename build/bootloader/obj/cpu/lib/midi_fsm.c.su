@@ -1,0 +1,8 @@
+C:/dev/System23/freetribe/cpu/lib/midi_fsm.c:200:13:null_event_cb	0	static
+C:/dev/System23/freetribe/cpu/lib/midi_fsm.c:206:13:null_sysex_cb	0	static
+C:/dev/System23/freetribe/cpu/lib/midi_fsm.c:212:20:invoke_callback.part.0	0	static
+C:/dev/System23/freetribe/cpu/lib/midi_fsm.c:212:20:invoke_callback	16	static
+C:/dev/System23/freetribe/cpu/lib/midi_fsm.c:479:10:midi_init_fsm	0	static
+C:/dev/System23/freetribe/cpu/lib/midi_fsm.c:491:10:midi_register_event_handler	0	static
+C:/dev/System23/freetribe/cpu/lib/midi_fsm.c:503:10:midi_register_sysex_handler	0	static
+C:/dev/System23/freetribe/cpu/lib/midi_fsm.c:513:10:midi_receive_byte	8	static

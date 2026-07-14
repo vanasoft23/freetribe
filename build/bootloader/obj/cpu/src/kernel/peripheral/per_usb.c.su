@@ -1,0 +1,3 @@
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_usb.c:79:13:_usb0_isr	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_usb.c:58:6:per_usb_init_device	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_usb.c:70:6:per_usb_terminate	8	static

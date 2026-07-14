@@ -1,0 +1,11 @@
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:167:13:_mcu_rx_enqueue	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:162:12:_mcu_tx_dequeue	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:177:13:_mcu_tx_msg	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:188:13:_mcu_tx_callback	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:183:13:_mcu_rx_msg	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:208:13:_mcu_error_callback	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:201:13:_mcu_rx_callback	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:98:6:dev_mcu_init	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:138:6:dev_mcu_tx_enqueue	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:150:5:dev_mcu_rx_dequeue	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_mcu.c:155:6:dev_mcu_register_rx_callback	0	static

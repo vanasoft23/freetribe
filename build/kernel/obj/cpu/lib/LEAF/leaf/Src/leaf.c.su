@@ -1,0 +1,6 @@
+C:/dev/System23/freetribe/cpu/lib/LEAF/leaf/Src/leaf.c:58:6:LEAF_defaultErrorCallback	0	static
+C:/dev/System23/freetribe/cpu/lib/LEAF/leaf/Src/leaf.c:21:6:LEAF_init	16	static
+C:/dev/System23/freetribe/cpu/lib/LEAF/leaf/Src/leaf.c:46:6:LEAF_setSampleRate	8	static
+C:/dev/System23/freetribe/cpu/lib/LEAF/leaf/Src/leaf.c:53:8:LEAF_getSampleRate	0	static
+C:/dev/System23/freetribe/cpu/lib/LEAF/leaf/Src/leaf.c:64:6:LEAF_internalErrorCallback	8	static
+C:/dev/System23/freetribe/cpu/lib/LEAF/leaf/Src/leaf.c:70:6:LEAF_setErrorCallback	0	static

@@ -1,0 +1,14 @@
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:456:13:_panel_dispatch_event	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:518:13:_panel_user_event_dispatch	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:536:13:_panel_rx_notify_from_isr	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:523:13:_panel_post_user_event	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:330:17:_panel_parse	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:299:17:_panel_init	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:141:6:svc_panel_process	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:125:6:svc_panel_task	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:178:6:svc_panel_register_callback	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:219:6:svc_panel_request_buttons	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:228:6:svc_panel_calib_xy	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:249:6:svc_panel_set_trigger_mode	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:266:6:svc_panel_set_led	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.c:281:6:svc_panel_toggle_led	16	static

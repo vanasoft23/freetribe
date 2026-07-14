@@ -1,0 +1,13 @@
+services:
+  freetribe:
+    platform: linux/amd64
+    image: bangcorrupt/freetribe
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    hostname: ft
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/freetribe

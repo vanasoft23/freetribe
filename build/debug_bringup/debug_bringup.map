@@ -1,0 +1,1613 @@
+Archive member included to satisfy reference by file (symbol)
+
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_udivsi3.o)
+                              C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o (__aeabi_uidiv)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_divsi3.o)
+                              (__aeabi_idiv)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_dvmd_tls.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o (exit)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-impure.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o) (_global_impure_ptr)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o (__libc_init_array)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-memset.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o (memset)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o) (__call_exitprocs)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-atexit.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o) (atexit)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-fini.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o) (__libc_fini_array)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o) (__retarget_lock_acquire_recursive)
+c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__atexit.o)
+                              c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-atexit.o) (__register_exitproc)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crti.o
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crti.o
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crti.o
+ .text          0x00000000       0x70 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtbegin.o
+ .data          0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtbegin.o
+ .bss           0x00000000       0x1c c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtbegin.o
+ .rodata        0x00000000       0x24 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtbegin.o
+ .init_array    0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtbegin.o
+ .fini_array    0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtbegin.o
+ .eh_frame      0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtbegin.o
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtbegin.o
+ .text          0x00000000      0x138 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o
+ .ARM.extab     0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o
+ .ARM.exidx     0x00000000       0x10 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o
+ .ARM.attributes
+                0x00000000       0x1a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .text.start_boot
+                0x00000000      0x170 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .bss.page_table
+                0x00000000     0x4000 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .rodata.vecTbl
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .text.per_ddr_terminate
+                0x00000000       0x4c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .text.per_ddr_memtest
+                0x00000000       0x44 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15ICacheDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15DCacheDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15ICacheEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15DCacheEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15DCacheFlush
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15DCacheClean
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15DCacheCleanFlush
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15ICacheFlush
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15ICacheFlushBuff
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15DCacheCleanBuff
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15TtbSet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15MMUDisable
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15MMUEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15HighVectorEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15HighVectorDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15DomainAccessClient
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15DomainAccessManager
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15InvalidateTLB
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_info    0x00000000      0x1ff C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_abbrev  0x00000000       0xb9 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_loc     0x00000000       0x74 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_aranges
+                0x00000000       0xa8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_ranges  0x00000000       0x98 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_line    0x00000000      0x24b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_str     0x00000000      0x27b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_frame   0x00000000      0x130 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.Cppi41DmaProcessBD
+                0x00000000      0x124 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.Cppi41DmaInit
+                0x00000000      0x3c0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.enableCoreTxDMA
+                0x00000000       0x5c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.enableCoreRxDMA
+                0x00000000       0x84 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.disableCoreRxDMA
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.disableCoreTxDMA
+                0x00000000       0x5c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.getFreeBd
+                0x00000000       0x24 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.putFreeBd
+                0x00000000       0x24 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.pushToSubmitQ
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .rodata.doDmaTxTransfer.str1.1
+                0x00000000       0x41 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.doDmaTxTransfer
+                0x00000000      0x1e8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.doDmaRxTransfer
+                0x00000000       0x94 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.dmaRxCompletion
+                0x00000000       0x6c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.CppiDmaGetPendStatus
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.CppiDmaGetINTD0Status
+                0x00000000       0x48 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.cppiDmaAllocBuffer
+                0x00000000       0x4c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.cppiDmaFreeBuffer
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.cppiDmaAllocnBuffer
+                0x00000000       0x90 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.cppiDmaFreenBuffer
+                0x00000000       0x70 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.dmaTxCompletion
+                0x00000000       0x98 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text.cppiDmaHandleError
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .bss.cppiInfo  0x00000000      0x114 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .bss.dBuffer   0x00000000    0x20000 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .bss.dmaBuffer
+                0x00000000      0x800 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .bss.linking_ram0
+                0x00000000     0x1000 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .bss.region0DescriptorSpace
+                0x00000000    0x14100 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .debug_info    0x00000000     0x150a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .debug_abbrev  0x00000000      0x3d3 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .debug_loc     0x00000000     0x12ba C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .debug_aranges
+                0x00000000       0xb8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .debug_ranges  0x00000000      0x200 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .debug_line    0x00000000      0xeec C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .debug_str     0x00000000      0x78d C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .debug_frame   0x00000000      0x208 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .text.CPUSwitchToPrivilegedMode
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .text.CPUSwitchToUserMode
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .text.CPUAbortHandler
+                0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .text.CPUIntStatus
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .text.CPUirqd  0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .text.CPUirqe  0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .text.CPUfiqd  0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .text.CPUfiqe  0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .debug_info    0x00000000       0xda C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .debug_abbrev  0x00000000       0x6b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .debug_loc     0x00000000       0x15 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .debug_aranges
+                0x00000000       0x58 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .debug_ranges  0x00000000       0x48 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .debug_line    0x00000000      0x124 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .debug_str     0x00000000      0x197 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .debug_frame   0x00000000       0x90 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3Init
+                0x00000000       0xf0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3PeripheralIdGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3EnableChInShadowReg
+                0x00000000       0x78 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3DisableChInShadowReg
+                0x00000000       0x7c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3ChannelToParamMap
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3MapChToEvtQ
+                0x00000000       0x60 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3UnmapChToEvtQ
+                0x00000000       0x54 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3MapQdmaChToPaRAM
+                0x00000000       0x48 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3SetQdmaTrigWord
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3ClrMissEvt
+                0x00000000       0x58 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3QdmaClrMissEvt
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3ClrCCErr
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3SetEvt
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3ClrEvt
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3EnableDmaEvt
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3DisableDmaEvt
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3EnableQdmaEvt
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3DisableQdmaEvt
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3GetCCErrStatus
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3GetIntrStatus
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3IntrStatusHighGet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3GetErrIntrStatus
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3ErrIntrHighStatusGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3QdmaGetErrIntrStatus
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3EnableEvtIntr
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3DisableEvtIntr
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3ClrIntr
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3GetPaRAM
+                0x00000000       0x24 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3QdmaGetPaRAM
+                0x00000000       0x24 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3SetPaRAM
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3QdmaSetPaRAM
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3QdmaSetPaRAMEntry
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3QdmaGetPaRAMEntry
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3RequestChannel
+                0x00000000       0xa0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3EnableTransfer
+                0x00000000       0x6c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3DisableTransfer
+                0x00000000       0x6c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3FreeChannel
+                0x00000000       0x80 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3ClearErrorBits
+                0x00000000       0xb4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3Deinit
+                0x00000000       0x94 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3ContextSave
+                0x00000000       0xc8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text.EDMA3ContextRestore
+                0x00000000       0xc8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .bss.regionId  0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .debug_info    0x00000000     0x15da C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .debug_abbrev  0x00000000      0x327 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .debug_loc     0x00000000     0x17e9 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .debug_aranges
+                0x00000000      0x160 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .debug_ranges  0x00000000      0x240 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .debug_line    0x00000000      0xe9e C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .debug_str     0x00000000      0x67d C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .debug_frame   0x00000000      0x33c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAModuleIdRead
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANANDCSSet
+                0x00000000       0x50 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANAND4BitECCAddrCalcStart
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANANDECCStart
+                0x00000000       0x6c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANAND4BitECCSelect
+                0x00000000       0x58 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAMaxExtWaitCycleSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFACSWaitPinSelect
+                0x00000000       0x94 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAWaitPinPolaritySet
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAAsyncDevDataBusWidthSelect
+                0x00000000       0x6c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAAsyncDevOpModeSelect
+                0x00000000       0x5c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAExtendedWaitConfig
+                0x00000000       0x7c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFASDRAMConfig
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFASDRAMSelfRefModeConfig
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFASDRAMPowDownModeConfig
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFASDRAMRefDurPowDownModeEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFASDRAMRefRateSet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFASDRAMTimingConfig
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFASDRAMSelfRefExitTimeConfig
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAWaitPinStatusGet
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANAND4BitECCStateGet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANAND4BitECCNumOfErrsGet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANORPageModeConfig
+                0x00000000       0x60 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANORPageSizeSet
+                0x00000000       0x64 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANORPageAccessDelaySet
+                0x00000000       0x68 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANAND4BitECCLoad
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANANDEccValGet
+                0x00000000       0xdc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANAND4BitEccErrAddrGet
+                0x00000000       0x5c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFANAND4BitEccErrValGet
+                0x00000000       0x5c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAWaitTimingConfig
+                0x00000000       0x5c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFARawIntStatusRead
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFARawIntClear
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAMskedIntStatusRead
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAMskedIntClear
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAMskedIntEnable
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text.EMIFAMskedIntDisable
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .debug_info    0x00000000      0x965 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .debug_abbrev  0x00000000      0x128 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .debug_loc     0x00000000      0xab9 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .debug_aranges
+                0x00000000      0x130 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .debug_ranges  0x00000000      0x120 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .debug_line    0x00000000      0x946 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .debug_str     0x00000000      0x55a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .debug_frame   0x00000000      0x240 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIODirModeSet
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIODirModeGet
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOPinWrite
+                0x00000000       0x48 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOPinRead
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOIntTypeSet
+                0x00000000       0xa8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOIntTypeGet
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOPinIntStatus
+                0x00000000       0x30 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOPinIntClear
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOBankIntEnable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOBankIntDisable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOBankPinsWrite
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOBankDirModeSet
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text.GPIOBankOutputDataSet
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .debug_info    0x00000000      0x5a8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .debug_abbrev  0x00000000      0x13e C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .debug_loc     0x00000000      0xae8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .debug_aranges
+                0x00000000       0x80 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .debug_ranges  0x00000000       0x70 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .debug_line    0x00000000      0x3af C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .debug_str     0x00000000      0x27f C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .debug_frame   0x00000000       0xe8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntDefaultHandler
+                0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntRegister
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntUnRegister
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntChannelSet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntChannelGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntGlobalEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntGlobalDisable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntSystemEnable
+                0x00000000       0x24 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntSystemDisable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntSystemStatusClear
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntSystemStatusRawGet
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntSystemStatusEnabledGet
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntIRQEnable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntIRQDisable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntFIQEnable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntFIQDisable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntAINTCInit
+                0x00000000       0x6c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntMasterIRQEnable
+                0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntMasterIRQDisable
+                0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntMasterFIQEnable
+                0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntMasterFIQDisable
+                0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntMasterStatusGet
+                0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntDisable
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntEnable
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text.IntNestModeSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .bss.fnRAMVectors
+                0x00000000      0x194 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_info    0x00000000      0x582 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_abbrev  0x00000000      0x240 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_loc     0x00000000      0x41d C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_aranges
+                0x00000000       0xe0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_ranges  0x00000000       0xe8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_line    0x00000000      0x485 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_str     0x00000000      0x363 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_frame   0x00000000      0x1a8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxReset
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxReset
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPWriteFifoEnable
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPReadFifoEnable
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxFmtMaskSet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxFmtMaskSet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxFmtSet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxFmtSet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxFmtI2SSet
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxFmtI2SSet
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxFrameSyncCfg
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxFrameSyncCfg
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxClkCfg
+                0x00000000       0x4c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxClkCfg
+                0x00000000       0x4c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxClkPolaritySet
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxClkPolaritySet
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxHFClkPolaritySet
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxHFClkPolaritySet
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxRxClkSyncEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxRxClkSyncDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPSerializerTxSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPSerializerRxSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPSerializerInactivate
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPPinGPIOSet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPPinMcASPSet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPPinDirOutputSet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPPinDirInputSet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxTimeSlotSet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxTimeSlotSet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPAMuteEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPAMuteDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxClkCheckConfig
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxClkCheckConfig
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPAMUTEINActivate
+                0x00000000       0x24 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxIntEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxIntEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxIntDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxIntDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxSerActivate
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxSerActivate
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxClkStart
+                0x00000000       0x40 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxClkStart
+                0x00000000       0x40 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxEnable
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxEnable
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxBufRead
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxBufWrite
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPDITEnable
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPDITDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPDITChanStatWrite
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPDITChanUsrDataWrite
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPDITChanStatRead
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPDITChanUsrDataRead
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPTxStatusGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPRxStatusGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPContextSave
+                0x00000000       0xcc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text.McASPContextRestore
+                0x00000000       0xd4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .debug_info    0x00000000     0x1091 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .debug_abbrev  0x00000000      0x1d9 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .debug_loc     0x00000000      0x69d C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .debug_aranges
+                0x00000000      0x1d8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .debug_ranges  0x00000000      0x1f8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .debug_line    0x00000000      0xc1b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .debug_str     0x00000000      0x73c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .debug_frame   0x00000000      0x3b0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCRun   0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCStop  0x00000000       0x50 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCWriteProtectEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCWriteProtectDisable
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCIntAlarmEnable
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCIntAlarmDisable
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCIntTimerEnable
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCIntTimerDisable
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCBusyStatusGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCRunStatusGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmIntStatusGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmIntStatusClear
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCEventUpdateGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCMinRoundingEnable
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCMinRoundingDisable
+                0x00000000       0x44 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAutoCompEnable
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAutoCompDisable
+                0x00000000       0x44 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCHourModeSet
+                0x00000000       0x50 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCHourModeGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCSet32CounterEnable
+                0x00000000       0x54 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCSet32CounterDisable
+                0x00000000       0x5c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCDisable
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCEnable
+                0x00000000       0x54 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCEnableStatus
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCSplitPwrEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCSplitPwrDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCSecondSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCSecondGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCMinuteSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCMinuteGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCHourSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCHourGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCMeridiemSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCMeridiemGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCDayOfMonthSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCDayOfMonthGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCMonthSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCMonthGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCYearSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCYearGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCDayOfTheWeekSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCDayOfTheWeekGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCTimeSet
+                0x00000000       0x6c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCTimeGet
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCCalendarSet
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCCalendarGet
+                0x00000000       0x40 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmSecondSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmSecondGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmMinuteSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmMinuteGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmHourSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmHourGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmHourMeridiemSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmHourMeridiemGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmTimeSet
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmTimeGet
+                0x00000000       0x48 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmDayOfMonthSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmDayOfMonthGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmMonthSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmMonthGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmYearSet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmYearGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmCalendarSet
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarmCalendarGet
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCCompensationSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCCompensationGet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCScratchPadSet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCScratchPadGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCSoftwareReset
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCRevisionIDGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCIdleModeConfigure
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCWakeUpAlarmEventControl
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCWakeUpTimerEventControl
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCTestModeControl
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTC32KClkSourceSelect
+                0x00000000       0x30 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTC32KClkClockControl
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCOscillatorStateControl
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCFeedbackResistanceSelect
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCConfigPmicPowerEnable
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCIntAlarm2Enable
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarm2IntStatusGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarm2IntStatusClear
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarm2TimeSet
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text.RTCAlarm2CalendarSet
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .debug_info    0x00000000     0x1426 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .debug_abbrev  0x00000000      0x12e C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .debug_loc     0x00000000     0x1034 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .debug_aranges
+                0x00000000      0x2b8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .debug_ranges  0x00000000      0x2a8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .debug_line    0x00000000     0x11ac C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .debug_str     0x00000000      0x871 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .debug_frame   0x00000000      0x5e0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIClkConfigure
+                0x00000000       0x30 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIReset
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIOutOfReset
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIModeConfigure
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIPinControl
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPISetPinControl
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIGetPinControl
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIDelayConfigure
+                0x00000000       0x54 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIDefaultCSSet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIDat1Config
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPITransmitData1
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPICSTimerDisable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPICSTimerEnable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPICharLengthSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIConfigClkFormat
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIShiftMsbFirst
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIShiftLsbFirst
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIParityEnable
+                0x00000000       0x24 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIParityDisable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIWdelaySet
+                0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIWaitEnable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIWaitDisable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIIntLevelSet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIIntEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIIntDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIIntStatusClear
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIIntStatus
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIDataReceive
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIInterruptVectorGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_info    0x00000000      0x7fc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_abbrev  0x00000000      0x192 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_loc     0x00000000      0x4b1 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_aranges
+                0x00000000      0x100 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_ranges  0x00000000       0xf0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_line    0x00000000      0x43b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_str     0x00000000      0x399 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_frame   0x00000000      0x204 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .text.SysCfgRegistersLock
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerEmulationModeSet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerEnable
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerDisable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerConfigure
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerWatchdogActivate
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerWatchdogReactivate
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerPeriodSet
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerPeriodGet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerCounterSet
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerCounterGet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerReloadSet
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerReloadGet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerCaptureGet
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerCompareSet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerCompareGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerIntEnable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerIntDisable
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerIntStatusGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerIntStatusClear
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerPreScalarCount34Set
+                0x00000000       0x24 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerPreScalarCount34Get
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerDivDwnRatio34Set
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerDivDwnRatio34Get
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerCaptureConfigure
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerReadResetEnable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerReadResetDisable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerInputGateEnable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerInputGateDisable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerPulseWidthSet
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerClockModeSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerPulseModeSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerOUTStatusGet
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerInvertINEnable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerInvertINDisable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerInvertOUTEnable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text.TimerInvertOUTDisable
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .debug_info    0x00000000      0x8c5 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .debug_abbrev  0x00000000       0xf1 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .debug_loc     0x00000000      0x40a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .debug_aranges
+                0x00000000      0x138 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .debug_ranges  0x00000000      0x128 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .debug_line    0x00000000      0x5f4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .debug_str     0x00000000      0x460 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .debug_frame   0x00000000      0x258 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTConfigSetExpClk
+                0x00000000       0x64 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTConfigGetExpClk
+                0x00000000       0x4c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTFIFOLevelSet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTDMAEnable
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTDMADisable
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTParityModeSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTParityModeGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTEnable
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTDisable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTFIFOEnable
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTFIFODisable
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTSpaceAvail
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTCharsAvail
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTRxErrorGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTCharPutNonBlocking
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTCharGetNonBlocking
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTCharGet
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTCharPut
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTIntEnable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTIntDisable
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTIntEnableStatusGet
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTIntStatus
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTIntPending
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTBreakCtl
+                0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTModemControlSet
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTModemControlClear
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTModemControlGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text.UARTModemStatusGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .debug_info    0x00000000      0x76c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .debug_abbrev  0x00000000      0x133 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .debug_loc     0x00000000      0x645 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .debug_aranges
+                0x00000000       0xf8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .debug_ranges  0x00000000       0xe8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .debug_line    0x00000000      0x4f1 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .debug_str     0x00000000      0x3c3 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .debug_frame   0x00000000      0x1e8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .rodata.USBIndexWrite.str1.1
+                0x00000000       0x3b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIndexWrite
+                0x00000000       0x7c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIndexRead
+                0x00000000       0x70 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostSuspend
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostReset
+                0x00000000       0x44 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostResume
+                0x00000000       0x44 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostSpeedGet
+                0x00000000       0x50 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntStatus
+                0x00000000       0x7c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntDisable
+                0x00000000       0xa8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntEnable
+                0x00000000       0xac C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntDisableControl
+                0x00000000       0x80 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntEnableControl
+                0x00000000       0x84 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntStatusControl
+                0x00000000       0x64 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntDisableEndpoint
+                0x00000000       0x54 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntEnableEndpoint
+                0x00000000       0x5c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntStatusEndpoint
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntRegister
+                0x00000000       0x44 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBIntUnregister
+                0x00000000       0x30 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEndpointStatus
+                0x00000000       0x7c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostEndpointStatusClear
+                0x00000000       0xb4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevEndpointStatusClear
+                0x00000000       0xe0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostEndpointDataToggle
+                0x00000000      0x11c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEndpointDataToggleClear
+                0x00000000       0xac C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevEndpointStall
+                0x00000000       0xd4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevEndpointStallClear
+                0x00000000       0xe0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevConnect
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevDisconnect
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevAddrSet
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevAddrGet
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostEndpointConfig
+                0x00000000      0x190 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevEndpointConfigSet
+                0x00000000      0x120 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevEndpointConfigGet
+                0x00000000      0x148 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBFIFOConfigSet
+                0x00000000       0xfc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBFIFOConfigGet
+                0x00000000       0xf0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEndpointDMAEnable
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEndpointDMADisable
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEndpointDataAvail
+                0x00000000       0xa0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEndpointDataGet
+                0x00000000       0xf0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBDevEndpointDataAck
+                0x00000000       0xac C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostEndpointDataAck
+                0x00000000       0xa4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEndpointDataPut
+                0x00000000       0xd0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEndpointDataSend
+                0x00000000       0xac C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBFIFOFlush
+                0x00000000       0xe0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostRequestIN
+                0x00000000       0x9c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostRequestStatus
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostAddrSet
+                0x00000000       0x84 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostAddrGet
+                0x00000000       0x80 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostHubAddrSet
+                0x00000000       0x84 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostHubAddrGet
+                0x00000000       0x80 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostPwrConfig
+                0x00000000       0x7c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostPwrFaultEnable
+                0x00000000       0x40 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostPwrFaultDisable
+                0x00000000       0x40 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostPwrEnable
+                0x00000000       0x40 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostPwrDisable
+                0x00000000       0x40 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBFrameNumberGet
+                0x00000000       0x34 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBOTGSessionRequest
+                0x00000000       0x48 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBFIFOAddrGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBModeGet
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEndpointDMAChannel
+                0x00000000       0xa0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBHostMode
+                0x00000000       0x3c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBEnableOtgIntr
+                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBReset
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text.USBClearOtgIntr
+                0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .debug_info    0x00000000     0x1f3a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .debug_abbrev  0x00000000      0x1d1 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .debug_loc     0x00000000     0x1b10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .debug_aranges
+                0x00000000      0x208 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .debug_ranges  0x00000000      0x1f8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .debug_line    0x00000000     0x2165 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .debug_str     0x00000000      0x772 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .debug_frame   0x00000000      0x69c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .text.UsbPhyOn
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .text.UsbPhyOff
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .debug_info    0x00000000       0x86 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .debug_abbrev  0x00000000       0x69 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .debug_loc     0x00000000       0x55 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .debug_aranges
+                0x00000000       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .debug_ranges  0x00000000       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .debug_line    0x00000000       0xec C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .debug_str     0x00000000      0x14f C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .debug_frame   0x00000000       0x30 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+ .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerEnable
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerDisable
+                0x00000000       0x38 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerRevisionIDGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerReset
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerEmulationModeConfigure
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerPreScalerClkEnable
+                0x00000000       0x40 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerPreScalerClkDisable
+                0x00000000       0x1c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerCounterSet
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerCounterGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerReloadSet
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerReloadGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerTriggerSet
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerDelaySet
+                0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerDelayGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerIntRawStatusSet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerIntRawStatusGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerIntStatusGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerIntStatusClear
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerIntEnable
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerIntEnableStatusGet
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerIntDisable
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .text.WatchdogTimerWritePostedStatusGet
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .debug_info    0x00000000      0x6bc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .debug_abbrev  0x00000000      0x17d C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .debug_loc     0x00000000      0x3bb C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .debug_aranges
+                0x00000000       0xc8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .debug_ranges  0x00000000       0xb8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .debug_line    0x00000000      0x584 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .debug_str     0x00000000      0x3bc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .debug_frame   0x00000000      0x170 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .ARM.attributes
+                0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_udivsi3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_udivsi3.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_divsi3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_divsi3.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_dvmd_tls.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_dvmd_tls.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o)
+ .text.exit     0x00000000       0x34 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o)
+ .debug_frame   0x00000000       0x28 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o)
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-exit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-impure.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-impure.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-impure.o)
+ .data._impure_ptr
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-impure.o)
+ .data.impure_data
+                0x00000000      0x428 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-impure.o)
+ .rodata._global_impure_ptr
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-impure.o)
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-impure.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ .text.__libc_init_array
+                0x00000000       0x88 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ .debug_frame   0x00000000       0x34 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-init.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-memset.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-memset.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-memset.o)
+ .text.memset   0x00000000      0x11c c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-memset.o)
+ .debug_frame   0x00000000       0x48 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-memset.o)
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-memset.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+ .text.startup.register_fini
+                0x00000000       0x28 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+ .init_array.00000
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+ .text.__call_exitprocs
+                0x00000000      0x138 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+ .data.__atexit_recursive_mutex
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+ .debug_frame   0x00000000       0x68 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__call_atexit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-atexit.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-atexit.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-atexit.o)
+ .text.atexit   0x00000000       0x20 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-atexit.o)
+ .debug_frame   0x00000000       0x2c c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-atexit.o)
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-atexit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-fini.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-fini.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-fini.o)
+ .text.__libc_fini_array
+                0x00000000       0x44 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-fini.o)
+ .debug_frame   0x00000000       0x34 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-fini.o)
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-fini.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_init
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_init_recursive
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_close
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_close_recursive
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_acquire
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_acquire_recursive
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_try_acquire
+                0x00000000        0x8 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_try_acquire_recursive
+                0x00000000        0x8 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_release
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text.__retarget_lock_release_recursive
+                0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss.__lock___arc4random_mutex
+                0x00000000        0x1 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss.__lock___at_quick_exit_mutex
+                0x00000000        0x1 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss.__lock___atexit_recursive_mutex
+                0x00000000        0x1 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss.__lock___dd_hash_mutex
+                0x00000000        0x1 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss.__lock___env_recursive_mutex
+                0x00000000        0x1 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss.__lock___malloc_recursive_mutex
+                0x00000000        0x1 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss.__lock___sfp_recursive_mutex
+                0x00000000        0x1 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss.__lock___sinit_recursive_mutex
+                0x00000000        0x1 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .bss.__lock___tz_mutex
+                0x00000000        0x1 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .debug_frame   0x00000000       0xb0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-lock.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__atexit.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__atexit.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__atexit.o)
+ .text.__register_exitproc
+                0x00000000       0xbc c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__atexit.o)
+ .debug_frame   0x00000000       0x3c c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__atexit.o)
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a(lib_a-__atexit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtend.o
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtend.o
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtend.o
+ .rodata        0x00000000       0x24 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtend.o
+ .eh_frame      0x00000000        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtend.o
+ .ARM.attributes
+                0x00000000       0x2a c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtend.o
+ .text          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtn.o
+ .data          0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtn.o
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtn.o
+ .init          0x00000000        0xc c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtn.o
+ .fini          0x00000000        0xc c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtn.o
+ .ARM.attributes
+                0x00000000       0x1c c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtn.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+OC_RAM           0x80000000         0x00020000         xrw
+ARM_RAM          0xffff0000         0x00002000         xrw
+DDR2_RAM         0xc0000000         0x04000000         rw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crti.o
+LOAD c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtbegin.o
+LOAD c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/crt0.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cpu.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_edma.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_emifa.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_gpio.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_mcasp.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_rtc.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_timer.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_uart.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usb.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_usbphyGS60.c.o
+LOAD C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_watchdog.c.o
+START GROUP
+LOAD c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a
+LOAD c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib\libc.a
+END GROUP
+LOAD c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtend.o
+LOAD c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crtn.o
+
+.text           0x80000000      0x9e0
+ *(.text.start)
+ .text.start    0x80000000       0x68 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+                0x80000000                start
+ *(.text*)
+ .text.delay    0x80000068        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+                0x80000068                delay
+ .text._psc0_init
+                0x80000074      0x124 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+                0x80000074                _psc0_init
+ .text._psc1_init
+                0x80000198      0x138 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+                0x80000198                _psc1_init
+ .text._pll0_init
+                0x800002d0      0x164 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+                0x800002d0                _pll0_init
+ .text._pll1_init
+                0x80000434      0x114 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+                0x80000434                _pll1_init
+ .text.per_ddr_init
+                0x80000548      0x134 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+                0x80000548                per_ddr_init
+ .text.PSCModuleControl
+                0x8000067c       0xe0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+                0x8000067c                PSCModuleControl
+ .text.SysCfgRegistersUnlock
+                0x8000075c       0x24 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+                0x8000075c                SysCfgRegistersUnlock
+ .text          0x80000780      0x114 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_udivsi3.o)
+                0x80000780                __aeabi_uidiv
+                0x80000780                __udivsi3
+                0x80000874                __aeabi_uidivmod
+ .text          0x80000894      0x148 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_divsi3.o)
+                0x80000894                __divsi3
+                0x80000894                __aeabi_idiv
+                0x800009bc                __aeabi_idivmod
+ .text          0x800009dc        0x4 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_dvmd_tls.o)
+                0x800009dc                __aeabi_idiv0
+                0x800009dc                __aeabi_ldiv0
+ *(.rodata*)
+
+.glue_7         0x800009e0        0x0
+ .glue_7        0x800009e0        0x0 linker stubs
+
+.glue_7t        0x800009e0        0x0
+ .glue_7t       0x800009e0        0x0 linker stubs
+
+.vfp11_veneer   0x800009e0        0x0
+ .vfp11_veneer  0x800009e0        0x0 linker stubs
+
+.v4_bx          0x800009e0        0x0
+ .v4_bx         0x800009e0        0x0 linker stubs
+
+.init           0x800009e0        0xc
+ .init          0x800009e0        0xc c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crti.o
+                0x800009e0                _init
+
+.fini           0x800009ec        0xc
+ .fini          0x800009ec        0xc c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crti.o
+                0x800009ec                _fini
+
+.iplt           0x800009f8        0x0
+ .iplt          0x800009f8        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+
+.rel.dyn        0x800009f8        0x0
+ .rel.iplt      0x800009f8        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+
+.data
+ *(.data)
+OUTPUT(C:/dev/System23/freetribe/build/debug_bringup/debug_bringup.elf elf32-littlearm)
+LOAD linker stubs
+
+.igot.plt       0x800009f8        0x0
+ .igot.plt      0x800009f8        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+
+.ARM.attributes
+                0x00000000       0x28
+ .ARM.attributes
+                0x00000000       0x1c c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/crti.o
+ .ARM.attributes
+                0x0000001c       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .ARM.attributes
+                0x00000048       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .ARM.attributes
+                0x00000074       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .ARM.attributes
+                0x000000a0       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .ARM.attributes
+                0x000000cc       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .ARM.attributes
+                0x000000f8       0x1c c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x00000114       0x1c c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_divsi3.o)
+ .ARM.attributes
+                0x00000130       0x1c c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_dvmd_tls.o)
+
+.comment        0x00000000       0x49
+ .comment       0x00000000       0x49 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+                                 0x4a (size before relaxing)
+ .comment       0x00000049       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .comment       0x00000049       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .comment       0x00000049       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .comment       0x00000049       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+
+.debug_info     0x00000000     0x1088
+ .debug_info    0x00000000      0x10b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .debug_info    0x0000010b      0xbd0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_info    0x00000cdb      0x27a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_info    0x00000f55       0xe2 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_info    0x00001037       0x51 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+
+.debug_abbrev   0x00000000      0x491
+ .debug_abbrev  0x00000000       0x6a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .debug_abbrev  0x0000006a      0x261 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_abbrev  0x000002cb      0x105 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_abbrev  0x000003d0       0x88 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_abbrev  0x00000458       0x39 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+
+.debug_aranges  0x00000000       0xe0
+ .debug_aranges
+                0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .debug_aranges
+                0x00000020       0x48 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_aranges
+                0x00000068       0x30 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_aranges
+                0x00000098       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_aranges
+                0x000000b8       0x28 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+
+.debug_ranges   0x00000000       0xd0
+ .debug_ranges  0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .debug_ranges  0x00000010       0x78 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_ranges  0x00000088       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_ranges  0x000000a8       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_ranges  0x000000b8       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+
+.debug_line     0x00000000      0xd2c
+ .debug_line    0x00000000       0xfa C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .debug_line    0x000000fa      0x655 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_line    0x0000074f      0x3b6 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_line    0x00000b05      0x182 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_line    0x00000c87       0xa5 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+
+.debug_str      0x00000000      0x801
+ .debug_str     0x00000000      0x151 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+                                0x157 (size before relaxing)
+ .debug_str     0x00000151      0x502 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+                                0x64f (size before relaxing)
+ .debug_str     0x00000653       0xb3 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+                                0x398 (size before relaxing)
+ .debug_str     0x00000706       0xbd C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+                                0x17f (size before relaxing)
+ .debug_str     0x000007c3       0x3e C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+                                0x155 (size before relaxing)
+
+.debug_frame    0x00000000      0x1b8
+ .debug_frame   0x00000000       0x20 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
+ .debug_frame   0x00000020       0xb0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_frame   0x000000d0       0x4c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_frame   0x0000011c       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_frame   0x00000148       0x30 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .debug_frame   0x00000178       0x20 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_udivsi3.o)
+ .debug_frame   0x00000198       0x20 c:/program files (x86)/gnu arm embedded toolchain/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1\libgcc.a(_divsi3.o)
+
+.debug_loc      0x00000000      0x4e6
+ .debug_loc     0x00000000      0x2b5 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_loc     0x000002b5       0xe1 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_loc     0x00000396      0x150 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o

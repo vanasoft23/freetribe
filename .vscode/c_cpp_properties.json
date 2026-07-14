@@ -1,0 +1,51 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/maxim/code/gcc-am1802-include/c++/12",
+                "/home/maxim/code/gcc-am1802-include/x86_64-linux-gnu/c++/12",
+                "/home/maxim/code/gcc-am1802-include/c++/12/backward",
+                "/home/maxim/code/gcc-am1802-include/x86_64-linux-gnu",
+                "/home/maxim/code/gcc-am1802-include",
+                "/home/maxim/code/blackfin-include"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c89",
+            "intelliSenseMode": "linux-gcc-arm",
+            "defines": [
+                "__STDC_VERSION__=201000LU",
+            ]
+        },
+        {
+            "name": "Windows",
+            "includePath": [
+                "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include",
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/common",
+                "${workspaceFolder}/cpu/src",
+                "${workspaceFolder}/cpu/lib",
+                "${workspaceFolder}/cpu/lib/LEAF/leaf",
+                "${workspaceFolder}/cpu/lib/FatFS",
+                "${workspaceFolder}/cpu/lib/FreeRTOS-Kernel/include",
+                "${workspaceFolder}/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802",
+                "${workspaceFolder}/cpu/lib/am1802-csl",
+                "${workspaceFolder}/cpu/lib/am18x-lib",
+                "${workspaceFolder}/cpu/lib/am18x-lib/inc",
+                "${workspaceFolder}/cpu/lib/tinyprintf"
+            ],
+            "compilerPath": "C:/cygwin64/bin/x86_64-w64-mingw32-gcc.exe",
+            "cStandard": "c11",
+            "intelliSenseMode": "windows-gcc-x64",
+            "defines": [
+                "__STDC_VERSION__=201000LU",
+                "CFG_TUD_ENABLED",
+                "CFG_TUD_MSC",
+                "TUP_USBIP_MUSB",
+                "TUP_USBIP_MUSB_AM1802"
+            ]
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,10 @@
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:221:12:_psc_module_enabled	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:479:13:_copy_vector_table	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:562:13:_boot_abort	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:515:13:_config_cache_mmu	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:205:6:delay	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:230:6:_psc0_init	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:256:6:_psc1_init	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:296:6:_pll0_init	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:410:6:_pll1_init	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/system/startup.c:159:6:start_boot	24	static

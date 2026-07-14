@@ -1,0 +1,15 @@
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:523:13:_flash_transaction_begin	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:586:13:_flash_tx_end.part.0	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:536:13:_flash_address	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:528:13:_flash_command	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:413:16:_read_reg_byte	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:403:13:_flash_busy	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:405:13:_write_enable	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:357:13:_sector_erase	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:344:13:_sector_write	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:140:10:dev_flash_init	40	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:181:6:dev_flash_read	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:200:6:dev_flash_write	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:260:6:dev_flash_verify	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:294:6:dev_flash_erase	24	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_flash.c:340:6:dev_flash_unlock	16	static

@@ -1,0 +1,2 @@
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_syscfg.c:55:6:SysCfgRegistersUnlock	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_syscfg.c:71:6:SysCfgRegistersLock	0	static

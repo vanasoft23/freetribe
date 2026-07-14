@@ -1,0 +1,52 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug bootloader",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "request": "launch",
+            "executable": "${workspaceRoot}/build/bootloader/bootloader.elf",
+
+            "servertype" : "jlink",
+            "serverArgs": [ "-irlen 4", "-speed 0" ],
+            "device": "am1802",
+            "interface": "jtag",
+            
+            "showDevDebugOutput": "none",
+
+            //"runToEntryPoint": "start",
+            //"runToEntryPoint": "main",
+
+            "overrideLaunchCommands": [
+                "monitor semihosting enable 0xFFFF0008",
+                "monitor semihosting IOClient 2",
+                "load ./build/bootloader/bootloader.elf",
+                "file ./build/bootloader/bootloader.elf",
+                "set $pc=0x80000000",
+            ],
+
+        },
+
+        {
+            "name": "Debug kernel",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "request": "launch",
+            "executable": "${workspaceRoot}/build/debug_bringup/debug_bringup.elf",
+
+            "servertype": "jlink",
+            "serverArgs": ["-irlen 4", "-speed 0"],
+            "device": "am1802",
+            "interface": "jtag",
+
+            "showDevDebugOutput": "none",
+
+            "overrideLaunchCommands": [
+                "source ./cpu/gdb/debug-kernel.gdb"
+            ],
+
+            "rtos": "FreeRTOS"
+        }
+    ]
+}

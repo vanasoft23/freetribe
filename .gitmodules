@@ -1,0 +1,22 @@
+[submodule "cpu/lib/UGUI"]
+	path = cpu/lib/UGUI
+	url = https://github.com/bangcorrupt/UGUI
+[submodule "cpu/lib/tinyprintf"]
+	path = cpu/lib/tinyprintf
+	url = https://github.com/cjlano/tinyprintf.git
+[submodule "cpu/lib/tinyusb"]
+	path = cpu/lib/tinyusb
+	url = https://github.com/vanasoft23/tinyusb.git
+	branch = am1802-port
+[submodule "cpu/lib/LEAF"]
+	path = cpu/lib/LEAF
+	url = https://github.com/bangcorrupt/LEAF
+[submodule "cpu/lib/FreeRTOS-Kernel"]
+	path = cpu/lib/FreeRTOS-Kernel
+	url = https://github.com/vanasoft23/FreeRTOS-Kernel
+[submodule "cpu/lib/am1802-csl"]
+	path = cpu/lib/am1802-csl
+	url = https://github.com/bangcorrupt/am1802-csl
+[submodule "dsp/lib/aleph-dsp"]
+	path = dsp/lib/aleph-dsp
+	url = https://github.com/bangcorrupt/aleph-dsp

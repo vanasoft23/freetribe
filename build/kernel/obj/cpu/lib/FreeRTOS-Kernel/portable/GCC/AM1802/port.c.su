@@ -1,0 +1,8 @@
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/port.c:223:13:prvSetupTimerInterrupt	40	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/port.c:201:13:vPortTickISR	8	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/port.c:87:15:pxPortInitialiseStack	0	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/port.c:165:6:vPortStartFirstTask	0	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/port.c:179:12:xPortStartScheduler	8	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/port.c:192:6:vPortEndScheduler	0	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/port.c:248:6:vPortEnterCritical	0	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/port.c:264:6:vPortExitCritical	0	static

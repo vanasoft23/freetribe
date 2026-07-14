@@ -1,0 +1,66 @@
+C:/dev/System23/freetribe/build/kernel/obj/cpu/lib/tinyusb/src/portable/mentor/musb/dcd_musb.c.o: \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/dcd_musb.c \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/tusb_option.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_compiler.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/usb/tusb_config.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_mcu.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/musb_type.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/device/dcd.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_common.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_verify.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_types.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_debug.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal_freertos.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/FreeRTOS.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/system/FreeRTOSConfig.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/projdefs.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/portable.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/deprecated_definitions.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/portmacro.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/mpu_wrappers.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/semphr.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/queue.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/task.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/list.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/queue.h \
+ C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/task.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/musb_am1802.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_interrupt.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_types.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/soc_AM1808.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_usbOtg_AM1808.h \
+ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_usbphyGS60.h
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/tusb_option.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_compiler.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/usb/tusb_config.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_mcu.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/musb_type.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/device/dcd.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_common.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_verify.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_types.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_debug.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal_freertos.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/FreeRTOS.h:
+C:/dev/System23/freetribe/cpu/src/kernel/system/FreeRTOSConfig.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/projdefs.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/portable.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/deprecated_definitions.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/portmacro.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/mpu_wrappers.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/semphr.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/queue.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/task.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/list.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/queue.h:
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/include/task.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/portable/mentor/musb/musb_am1802.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_interrupt.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_types.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/soc_AM1808.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_usbOtg_AM1808.h:
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/hardware/hw_usbphyGS60.h:

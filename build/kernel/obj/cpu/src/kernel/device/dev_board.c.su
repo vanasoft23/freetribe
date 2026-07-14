@@ -1,0 +1,5 @@
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_board.c:177:13:_hardware_terminate	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_board.c:138:13:_hardware_init	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_board.c:86:6:dev_board_init	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_board.c:117:6:dev_board_terminate	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/device/dev_board.c:129:6:dev_board_power_off	8	static

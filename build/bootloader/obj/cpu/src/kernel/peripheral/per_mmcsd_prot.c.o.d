@@ -1,0 +1,82 @@
+C:/dev/System23/freetribe/build/bootloader/obj/cpu/src/kernel/peripheral/per_mmcsd_prot.c.o: \
+ C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd_prot.c \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_lib.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_map.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_type.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/am18x_conf.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_type.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_syscfg.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_psc.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_i2c.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_timer.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_uart.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_aintc.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_pll.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_dclk.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_mpu.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_gpio.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_pru.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_edma.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_mmcsd.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_rtc.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_ddr.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_lcd.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_usb.h \
+ C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_ecap.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd_prot.h \
+ C:/dev/System23/freetribe/common/macros.h \
+ C:/dev/System23/freetribe/cpu/src/api/freetribe.h \
+ C:/dev/System23/freetribe/common/ft_error.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_clock.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_display.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_dsp.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/service/svc_systick.h \
+ C:/dev/System23/freetribe/cpu/lib/midi_fsm.h \
+ C:/dev/System23/freetribe/cpu/src/kernel/knl_main.h \
+ C:/dev/System23/freetribe/cpu/src/user/usr_main.h
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_lib.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_map.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_type.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/am18x_conf.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_type.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_syscfg.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_psc.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_i2c.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_timer.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_uart.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_aintc.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_pll.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_dclk.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_mpu.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_gpio.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_pru.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_edma.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_mmcsd.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_rtc.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_ddr.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_lcd.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_usb.h:
+C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_ecap.h:
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd_prot.h:
+C:/dev/System23/freetribe/common/macros.h:
+C:/dev/System23/freetribe/cpu/src/api/freetribe.h:
+C:/dev/System23/freetribe/common/ft_error.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_clock.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_display.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_dsp.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.h:
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_systick.h:
+C:/dev/System23/freetribe/cpu/lib/midi_fsm.h:
+C:/dev/System23/freetribe/cpu/src/kernel/knl_main.h:
+C:/dev/System23/freetribe/cpu/src/user/usr_main.h:

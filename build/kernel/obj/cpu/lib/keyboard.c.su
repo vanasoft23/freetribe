@@ -1,0 +1,7 @@
+C:/dev/System23/freetribe/cpu/lib/keyboard.c:129:13:_gen_scale_map	4	static
+C:/dev/System23/freetribe/cpu/lib/keyboard.c:63:6:scale_init	0	static
+C:/dev/System23/freetribe/cpu/lib/keyboard.c:74:6:keyboard_init	8	static
+C:/dev/System23/freetribe/cpu/lib/keyboard.c:82:6:keyboard_set_scale	8	static
+C:/dev/System23/freetribe/cpu/lib/keyboard.c:88:6:keyboard_set_octave	0	static
+C:/dev/System23/freetribe/cpu/lib/keyboard.c:93:6:keyboard_set_split	0	static
+C:/dev/System23/freetribe/cpu/lib/keyboard.c:97:9:keyboard_map_note	32	static

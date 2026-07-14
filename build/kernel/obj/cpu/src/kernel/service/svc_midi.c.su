@@ -1,0 +1,11 @@
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:200:13:_midi_rx_notify_from_isr	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:168:17:_midi_init	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:193:13:_midi_out	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:84:6:svc_midi_process	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:72:6:svc_midi_task	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:124:6:svc_midi_send_note_on	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:130:6:svc_midi_send_note_off	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:136:6:svc_midi_send_cc	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:143:6:svc_midi_send_string	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:156:6:sysex_response	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.c:164:6:svc_midi_send_byte	8	static

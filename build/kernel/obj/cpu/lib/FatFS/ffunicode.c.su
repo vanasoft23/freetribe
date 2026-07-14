@@ -1,0 +1,5 @@
+C:/dev/System23/freetribe/cpu/lib/FatFS/ffunicode.c:10447:14:oem2uni_sbcs	0	static
+C:/dev/System23/freetribe/cpu/lib/FatFS/ffunicode.c:10470:14:uni2oem_sbcs	0	static
+C:/dev/System23/freetribe/cpu/lib/FatFS/ffunicode.c:10735:7:ff_uni2oem	8	static
+C:/dev/System23/freetribe/cpu/lib/FatFS/ffunicode.c:10758:7:ff_oem2uni	8	static
+C:/dev/System23/freetribe/cpu/lib/FatFS/ffunicode.c:10780:7:ff_wtoupper	12	static

@@ -1,0 +1,11 @@
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:67:13:reset_state	0	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:434:13:reply_getstatus	16	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:89:19:tud_dfu_detach_cb	0	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:92:19:tud_dfu_abort_cb	0	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:96:23:tud_dfu_upload_cb	0	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:172:6:dfu_moded_reset	0	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:179:6:dfu_moded_init	0	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:183:6:dfu_moded_deinit	0	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:187:10:dfu_moded_open	8	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:228:6:dfu_moded_control_xfer_cb	32	static
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.c:356:6:tud_dfu_finish_flashing	0	static

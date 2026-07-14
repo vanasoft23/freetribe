@@ -1,0 +1,65 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "execute freetribe via MIDI",
+            "type": "shell",
+            "windows": {
+                "command": "\"F:/data/KORG Electribe 2 stuff/hacktribe/scripts/execute_freetribe.py\" \"${workspaceFolder}/build/kernel/kernel.bin\" \"6- UMC404HD 192k MIDI In 0\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\"",
+            },
+            "linux": {
+                "command": "~/venv/bin/python3 ~/code/hacktribe/scripts/execute_freetribe.py \"${workspaceFolder}/build/kernel/kernel.bin\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\"",
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "execute bootloader via MIDI",
+            "type": "shell",
+            "windows": {
+                "command": "\"F:/data/KORG Electribe 2 stuff/hacktribe/scripts/execute_freetribe.py\" \"${workspaceFolder}/build/bootloader/bootloader.bin\" \"6- UMC404HD 192k MIDI In 0\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\"",
+            },
+            "linux": {
+                "command": "~/venv/bin/python3 ~/code/hacktribe/scripts/execute_freetribe.py \"${workspaceFolder}/build/kernel/kernel.bin\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\"",
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "send freetribe executable through USB (dfu-util)",
+            "type": "shell",
+            "command": "dfu-util -d e2fb:1802 --download \"${workspaceFolder}/build/kernel/kernel.bin\"",
+            "group": {
+                "kind": "test"
+            }
+        },
+        {
+            "label": "build bootloader",
+            "type": "shell",
+            "command": "cmake -G \"Ninja\" -B build && cmake --build build --target bootloader",
+            "group": {
+                "kind": "build",
+            },
+        },
+        {
+            "label": "build kernel (monosynth)",
+            "type": "shell",
+            "command": "cmake -G \"Ninja\" -B build -DAPP=monosynth -DMODULE=monosynth && cmake --build build --target kernel",
+            "group": {
+                "kind": "build",
+            },
+        },
+        {
+            "label": "build debug_bringup",
+            "type": "shell",
+            "command": "cmake -G \"Ninja\" -B build && cmake --build build --target debug_bringup",
+            "group": {
+                "kind": "build",
+            },
+        }
+    ]
+}

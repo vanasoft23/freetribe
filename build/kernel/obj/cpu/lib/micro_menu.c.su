@@ -1,0 +1,4 @@
+C:/dev/System23/freetribe/cpu/lib/micro_menu.c:34:14:Menu_GetCurrentMenu	0	static
+C:/dev/System23/freetribe/cpu/lib/micro_menu.c:36:6:Menu_Navigate	8	static
+C:/dev/System23/freetribe/cpu/lib/micro_menu.c:51:6:Menu_SetGenericWriteCallback	8	static
+C:/dev/System23/freetribe/cpu/lib/micro_menu.c:56:6:Menu_EnterCurrentItem	8	static

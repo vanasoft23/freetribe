@@ -1,0 +1,3 @@
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/portISR.c:19:6:vPortISRStartFirstTask	0	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/portISR.c:35:6:vPortYieldProcessor	0	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/portable/GCC/AM1802/portISR.c:61:6:vFreeRTOS_ISR	0	static

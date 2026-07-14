@@ -1,0 +1,5 @@
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/list.c:49:6:vListInitialise	0	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/list.c:89:6:vListInitialiseItem	0	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/list.c:105:6:vListInsertEnd	0	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/list.c:139:6:vListInsert	4	static
+C:/dev/System23/freetribe/cpu/lib/FreeRTOS-Kernel/list.c:217:13:uxListRemove	0	static

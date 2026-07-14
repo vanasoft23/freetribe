@@ -1,0 +1,10 @@
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:529:20:_uart_isr	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:544:13:_uart1_isr	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:542:13:_uart0_isr	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:151:6:per_uart_init	40	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:163:6:per_uart_terminate	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:171:6:per_uart_transmit	4	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:180:6:per_uart_receive	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:189:6:per_uart_transmit_int	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:194:6:per_uart_receive_int	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_uart.c:199:6:per_uart_register_callback	0	static

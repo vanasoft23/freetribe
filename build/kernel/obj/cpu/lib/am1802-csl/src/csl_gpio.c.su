@@ -1,0 +1,13 @@
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:68:6:GPIODirModeSet	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:110:14:GPIODirModeGet	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:155:6:GPIOPinWrite	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:200:5:GPIOPinRead	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:255:6:GPIOIntTypeSet	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:328:14:GPIOIntTypeGet	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:381:14:GPIOPinIntStatus	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:420:6:GPIOPinIntClear	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:455:6:GPIOBankIntEnable	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:471:6:GPIOBankIntDisable	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:498:6:GPIOBankPinsWrite	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:518:6:GPIOBankDirModeSet	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_gpio.c:529:6:GPIOBankOutputDataSet	0	static

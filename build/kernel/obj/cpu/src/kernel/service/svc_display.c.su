@@ -1,0 +1,6 @@
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_display.c:247:17:_display_init	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_display.c:89:6:svc_display_process	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_display.c:80:6:svc_display_task	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_display.c:166:6:svc_display_put_pixel	4	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_display.c:199:8:svc_display_fill_frame	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_display.c:240:6:svc_display_set_contrast	8	static

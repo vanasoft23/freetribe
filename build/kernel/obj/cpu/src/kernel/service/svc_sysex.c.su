@@ -1,0 +1,4 @@
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.c:253:6:_respond_search_device	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.c:278:6:_respond_read_cpu_ram	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.c:162:22:_parse_msg_body	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.c:76:22:sysex_parse	16	static

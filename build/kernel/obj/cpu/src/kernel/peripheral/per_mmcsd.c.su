@@ -1,0 +1,12 @@
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:75:10:mmcsd_set_freq	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:116:10:mmcsd_con_init	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:166:10:mmcsd_send_cmd	4	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:239:10:mmcsd_trigger_data_transfer	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:253:19:mmcsd_cmd_state	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:299:19:mmcsd_busy_state	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:321:19:mmcsd_rd_state	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:371:19:mmcsd_wr_state	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:421:10:mmcsd_get_resp	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:441:10:mmcsd_cntl_misc	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:509:10:mmcsd_read	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c:513:10:mmcsd_write	0	static

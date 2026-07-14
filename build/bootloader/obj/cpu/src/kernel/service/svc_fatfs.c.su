@@ -1,0 +1,6 @@
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:79:9:disk_initialize	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:105:9:disk_status	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:128:9:disk_read	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:156:9:disk_write	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:184:9:disk_ioctl	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:212:7:get_fattime	0	static

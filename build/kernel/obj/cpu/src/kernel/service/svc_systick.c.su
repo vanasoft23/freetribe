@@ -1,0 +1,3 @@
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_systick.c:81:6:svc_systick_task	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_systick.c:110:6:svc_systick_register_callback	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_systick.c:117:10:svc_systick_get	0	static

@@ -1,0 +1,7 @@
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_gpio.c:71:6:per_gpio_init	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_gpio.c:137:6:per_gpio_get_indexed	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_gpio.c:113:6:per_gpio_get	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_gpio.c:142:6:per_gpio_set_indexed	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_gpio.c:121:6:per_gpio_set	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_gpio.c:147:6:per_gpio_toggle_indexed	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_gpio.c:129:6:per_gpio_toggle	0	static

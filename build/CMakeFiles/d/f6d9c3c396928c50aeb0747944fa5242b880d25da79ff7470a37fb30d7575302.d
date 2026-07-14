@@ -1,0 +1,31 @@
+kernel/obj/cpu/src/apps/monosynth/gui_task.c.o: \
+  C:/dev/System23/freetribe/cpu/src/apps/monosynth/gui_task.c \
+  C:/dev/System23/freetribe/cpu/src/api/freetribe.h \
+  C:/dev/System23/freetribe/common/ft_error.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_clock.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_delay.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_display.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_dsp.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_midi.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_panel.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_sysex.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/service/svc_systick.h \
+  C:/dev/System23/freetribe/cpu/lib/midi_fsm.h \
+  C:/dev/System23/freetribe/cpu/src/kernel/knl_main.h \
+  C:/dev/System23/freetribe/cpu/src/user/usr_main.h \
+  C:/dev/System23/freetribe/cpu/src/apps/monosynth/gui_task.h \
+  C:/dev/System23/freetribe/common/ring_buffer.h \
+  C:/dev/System23/freetribe/common/ft_error.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui_config.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui_colors.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui_theme.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui_button.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui_checkbox.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui_fonts.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui_image.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui_progress.h \
+  C:/dev/System23/freetribe/cpu/lib/UGUI/ugui_textbox.h
