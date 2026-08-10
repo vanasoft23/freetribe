@@ -3,6 +3,7 @@ dsp/obj/dsp/src/kernel/main.c.o: \
   C:/dev/System23/freetribe/dsp/src/kernel/system/init.h \
   C:/dev/System23/freetribe/dsp/src/kernel/module.h \
   C:/dev/System23/freetribe/dsp/src/kernel/system/types.h \
+  C:/dev/System23/freetribe/common/ft_types.h \
   C:/dev/System23/freetribe/dsp/src/kernel/peripheral/per_gpio.h \
   C:/dev/System23/freetribe/dsp/src/kernel/peripheral/per_spi.h \
   C:/dev/System23/freetribe/dsp/src/kernel/peripheral/per_sport.h \

@@ -36,18 +36,17 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
+#include "ft_error.h"
+
+#include <midi_fsm.h>
+#include <FreeRTOS.h>
+#include <task.h>
 
 #include "dev_trs.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
-
-#include "ft_error.h"
 #include "svc_midi.h"
 
-#include "midi_fsm.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -64,7 +63,7 @@ static TaskHandle_t g_midi_task_handle = NULL;
 /*----- Static function prototypes -----------------------------------*/
 
 static t_status _midi_init(void);
-static void _midi_out(uint8_t midi_byte);
+static void _midi_out(u8 midi_byte);
 static void _midi_rx_notify_from_isr(void);
 
 /*----- Extern function implementations ------------------------------*/
@@ -85,7 +84,7 @@ void svc_midi_process(void) {
 
     static t_midi_task_state state = STATE_INIT;
 
-    uint8_t midi_byte = 0;
+    u8 midi_byte = 0;
 
     switch (state) {
 
@@ -133,7 +132,7 @@ void svc_midi_send_note_off(char chan, char note, char vel) {
     _midi_out(vel);
 }
 
-void svc_midi_send_cc(uint8_t chan, uint8_t idx, uint8_t val) {
+void svc_midi_send_cc(u8 chan, u8 idx, u8 val) {
 
     _midi_out(0xb0 | chan);
     _midi_out(idx);
@@ -153,7 +152,7 @@ void svc_midi_send_string(char *text) {
 
 /// TODO: Refactor svc_midi_send_sysex.
 //
-void sysex_response(uint8_t msg_id) {
+void sysex_response(u8 msg_id) {
     _midi_out(0xf0);
 
     _midi_out(msg_id);
@@ -161,7 +160,7 @@ void sysex_response(uint8_t msg_id) {
     _midi_out(0xf7);
 }
 
-void svc_midi_send_byte(uint8_t byte) { _midi_out(byte); }
+void svc_midi_send_byte(u8 byte) { _midi_out(byte); }
 
 /*----- Static function implementations ------------------------------*/
 
@@ -182,7 +181,7 @@ static t_status _midi_init(void) {
     return result;
 }
 
-static void _midi_tx_buffer(uint8_t *data, uint32_t length) {
+static void _midi_tx_buffer(u8 *data, u32 length) {
 
     while (length--) {
 
@@ -190,7 +189,7 @@ static void _midi_tx_buffer(uint8_t *data, uint32_t length) {
     }
 }
 
-static void _midi_out(uint8_t midi_byte) {
+static void _midi_out(u8 midi_byte) {
 
     /// TODO: Refactor to use returned error code.
     //

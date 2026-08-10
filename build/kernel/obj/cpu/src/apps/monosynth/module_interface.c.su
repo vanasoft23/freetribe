@@ -1,7 +1,0 @@
-C:/dev/System23/freetribe/cpu/src/apps/monosynth/module_interface.c:395:13:_cv_update	16	static
-C:/dev/System23/freetribe/cpu/src/apps/monosynth/param_scale.h:145:14:cv_to_osc_freq	8	static
-C:/dev/System23/freetribe/cpu/src/apps/monosynth/param_scale.h:155:14:cv_to_filter_freq_oversample	8	static
-C:/dev/System23/freetribe/cpu/src/apps/monosynth/module_interface.c:116:6:module_init	48	static
-C:/dev/System23/freetribe/cpu/src/apps/monosynth/module_interface.c:208:6:module_set_param	16	static
-C:/dev/System23/freetribe/cpu/src/apps/monosynth/module_interface.c:139:6:module_process	16	static
-C:/dev/System23/freetribe/cpu/src/apps/monosynth/module_interface.c:384:6:module_get_param	0	static

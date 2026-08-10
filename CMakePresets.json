@@ -1,0 +1,79 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 24,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "firmware-debug",
+            "displayName": "Firmware (Debug)",
+            "description": "Configure all cross-compiled firmware targets.",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "NO_BOOTSECT_VERIFY": {
+                    "type": "BOOL",
+                    "value": true
+                },
+                "BOOT_DEBUG_DELAY": {
+                    "type": "BOOL",
+                    "value": true
+                },
+                "APP": "",
+                "MODULE": ""
+            }
+        },
+        {
+            "name": "monosynth-debug",
+            "displayName": "Monosynth Firmware (Debug)",
+            "inherits": "firmware-debug",
+            "cacheVariables": {
+                "APP": "monosynth",
+                "MODULE": "monosynth"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "firmware",
+            "displayName": "All Firmware",
+            "configurePreset": "firmware-debug"
+        },
+        {
+            "name": "bootloader",
+            "displayName": "Bootloader",
+            "configurePreset": "firmware-debug",
+            "targets": [
+                "bootloader"
+            ]
+        },
+        {
+            "name": "monosynth-kernel",
+            "displayName": "Monosynth Kernel",
+            "configurePreset": "monosynth-debug",
+            "targets": [
+                "kernel"
+            ]
+        },
+        {
+            "name": "debug-bringup",
+            "displayName": "Debug Bring-up",
+            "configurePreset": "firmware-debug",
+            "targets": [
+                "debug_bringup"
+            ]
+        },
+        {
+            "name": "mmcsd-hw-test",
+            "displayName": "MMC/SD Hardware Test",
+            "configurePreset": "firmware-debug",
+            "targets": [
+                "debug_bringup",
+                "mmcsd_hw_test"
+            ]
+        }
+    ]
+}

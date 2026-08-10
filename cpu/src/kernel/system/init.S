@@ -167,6 +167,8 @@ start:
          MSR   cpsr_c, #MODE_SYS|I_F_BIT       @ change to system mode
          MOV   sp,r0                           @ write the stack pointer
 
+         @ TODO: SHOULDN'T WE RUN IN SVC MODE HERE?
+
 
 @
 @ Clear the BSS section here

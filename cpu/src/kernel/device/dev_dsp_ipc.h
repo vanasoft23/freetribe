@@ -75,9 +75,9 @@ void dev_dsp_ipc_init();
  * @param   callback      Function to call when failed or completed.
  * @param   user_ctx      User provided context for callback.
  */
-t_ipc_status dev_dsp_ipc_transfer(uint32_t dsp_address,
-                                  const uint32_t* buffer,
-                                  uint16_t count,
+t_ipc_status dev_dsp_ipc_transfer(u32 dsp_address,
+                                  const u32* buffer,
+                                  u16 count,
                                   void (*callback)(void *, t_ipc_status),
                                   void *user_ctx);
 
@@ -90,9 +90,9 @@ t_ipc_status dev_dsp_ipc_transfer(uint32_t dsp_address,
  * @param   callback      Function to call when failed or completed.
  * @param   user_ctx      User provided context for callback.
  */
-t_ipc_status dev_dsp_ipc_read(uint32_t dsp_address,
-                              uint32_t *destination,
-                              uint16_t count,
+t_ipc_status dev_dsp_ipc_read(u32 dsp_address,
+                              u32 *destination,
+                              u16 count,
                               void (*callback)(void *, t_ipc_status),
                               void *user_ctx);
 

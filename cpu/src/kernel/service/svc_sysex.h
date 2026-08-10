@@ -43,7 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdint.h>
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -79,23 +79,23 @@ typedef enum {
 } e_msg_id;
 
 // typedef struct {
-//     uint8_t manu_id;
-//     uint8_t global_channel;
-//     uint8_t product_id[3];
-//     uint8_t msg_id;
+//     u8 manu_id;
+//     u8 global_channel;
+//     u8 product_id[3];
+//     u8 msg_id;
 // } t_sysex_header;
 //
 // typedef struct {
 //     t_sysex_header *header;
-//     uint8_t *args;
-//     uint8_t *data;
+//     u8 *args;
+//     u8 *data;
 // } t_sysex_msg;
 
 /*----- Extern variable declarations ---------------------------------*/
 
 /*----- Extern function prototypes -----------------------------------*/
 
-e_sysex_parse_result sysex_parse(uint8_t *msg, uint32_t length);
+e_sysex_parse_result sysex_parse(u8 *msg, u32 length);
 
 #ifdef __cplusplus
 }

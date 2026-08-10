@@ -10,11 +10,17 @@ if(NOT DEFINED SYMBOL)
   set(SYMBOL "binary_data")
 endif()
 
+if(CONST)
+  set(QUALIFIERS "static const ")
+else()
+  set(QUALIFIERS "")
+endif()
+
 file(READ "${INPUT}" hex_data HEX)
 string(LENGTH "${hex_data}" hex_length)
 math(EXPR byte_length "${hex_length} / 2")
 
-set(header "unsigned char ${SYMBOL}[] = {\n")
+set(header "${QUALIFIERS}unsigned char ${SYMBOL}[] = {\n")
 set(line "    ")
 set(index 0)
 
@@ -38,6 +44,6 @@ if(NOT line STREQUAL "    ")
 endif()
 
 string(APPEND header "};\n")
-string(APPEND header "unsigned int ${SYMBOL}_len = ${byte_length};\n")
+string(APPEND header "${QUALIFIERS}unsigned int ${SYMBOL}_len = ${byte_length};\n")
 
 file(WRITE "${OUTPUT}" "${header}")

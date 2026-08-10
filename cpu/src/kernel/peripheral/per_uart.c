@@ -36,14 +36,12 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
-#include "soc_AM1808.h"
-
-#include "csl_interrupt.h"
-#include "hw_types.h"
-#include "hw_uart.h"
+#include <soc_AM1808.h>
+#include <csl_interrupt.h>
+#include <hw_types.h>
+#include <hw_uart.h>
 
 #include "per_uart.h"
 
@@ -82,14 +80,14 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    uint32_t system_int;
-    uint32_t address;
+    u32 system_int;
+    u32 address;
 
-    uint8_t *tx_buffer;
-    uint32_t tx_length;
+    u8 *tx_buffer;
+    u32 tx_length;
 
-    uint8_t *rx_buffer;
-    uint32_t rx_length;
+    u8 *rx_buffer;
+    u32 rx_length;
 
     void (*tx_callback)(void);
     void (*rx_callback)(void);
@@ -99,45 +97,45 @@ typedef struct {
 
 /*----- Static function prototypes -----------------------------------*/
 
-static t_uart *_uart_get(uint8_t instance);
-static void _uart_reset(t_uart *uart, uint8_t instance);
+static t_uart *_uart_get(u8 instance);
+static void _uart_reset(t_uart *uart, u8 instance);
 static void _uart_configure_line(t_uart *uart, const t_uart_config *config);
-static uint32_t _uart_word_length(uint8_t word_length);
+static u32 _uart_word_length(u8 word_length);
 static void _uart_configure_fifo(t_uart *uart, const t_uart_config *config);
 static void _uart_configure_interrupts(t_uart *uart,
                                        const t_uart_config *config);
-static void _uart_configure_baud_line(uint32_t base_addr, uint32_t uart_clk,
-                                      uint32_t baud_rate, uint32_t line_config,
-                                      uint32_t oversample);
-static void _uart_enable(uint32_t base_addr);
-static void _uart_disable(uint32_t base_addr);
-static void _uart_enable_fifo(uint32_t base_addr);
-static void _uart_set_fifo_rx_level(uint32_t base_addr, uint32_t rx_level);
-static void _uart_enable_interrupts(uint32_t base_addr, uint32_t int_flags);
-static void _uart_disable_interrupts(uint32_t base_addr, uint32_t int_flags);
-static uint8_t _uart_get_interrupt_id(uint32_t base_addr);
-static uint32_t _uart_rx_errors(uint32_t base_addr);
-static void _uart_put_char(uint32_t base_addr, uint8_t byte);
-static int _uart_get_char(uint32_t base_addr);
-static int _uart_get_char_nonblocking(uint32_t base_addr);
+static void _uart_configure_baud_line(u32 base_addr, u32 uart_clk,
+                                      u32 baud_rate, u32 line_config,
+                                      u32 oversample);
+static void _uart_enable(u32 base_addr);
+static void _uart_disable(u32 base_addr);
+static void _uart_enable_fifo(u32 base_addr);
+static void _uart_set_fifo_rx_level(u32 base_addr, u32 rx_level);
+static void _uart_enable_interrupts(u32 base_addr, u32 int_flags);
+static void _uart_disable_interrupts(u32 base_addr, u32 int_flags);
+static u8 _uart_get_interrupt_id(u32 base_addr);
+static u32 _uart_rx_errors(u32 base_addr);
+static void _uart_put_char(u32 base_addr, u8 byte);
+static int _uart_get_char(u32 base_addr);
+static int _uart_get_char_nonblocking(u32 base_addr);
 static void _uart_wait_for_empty(t_uart *uart);
-static void _uart_start_tx(t_uart *uart, uint8_t *buffer, uint32_t length);
-static void _uart_start_rx(t_uart *uart, uint8_t *buffer, uint32_t length);
+static void _uart_start_tx(t_uart *uart, u8 *buffer, u32 length);
+static void _uart_start_rx(t_uart *uart, u8 *buffer, u32 length);
 static void _uart_ack_system_interrupt(t_uart *uart);
 static void _uart_handle_tx_empty(t_uart *uart);
 static void _uart_handle_rx_data(t_uart *uart);
 static void _uart_handle_rx_error(t_uart *uart);
-static void _uart_dispatch_interrupt(t_uart *uart, uint8_t int_id);
+static void _uart_dispatch_interrupt(t_uart *uart, u8 int_id);
 static void _uart_isr(t_uart *uart);
 static void _uart0_isr(void);
 static void _uart1_isr(void);
 
 /*----- Static variable definitions ----------------------------------*/
 
-static const uint32_t g_base_address[UART_INSTANCES] = {SOC_UART_0_REGS,
+static const u32 g_base_address[UART_INSTANCES] = {SOC_UART_0_REGS,
                                                         SOC_UART_1_REGS};
 
-static const uint32_t g_system_interrupt[UART_INSTANCES] = {SYS_INT_UARTINT0,
+static const u32 g_system_interrupt[UART_INSTANCES] = {SYS_INT_UARTINT0,
                                                             SYS_INT_UARTINT1};
 
 static const void *g_isr_address[UART_INSTANCES] = {&_uart0_isr, &_uart1_isr};
@@ -160,7 +158,7 @@ void per_uart_init(t_uart_config *config) {
     _uart_enable(uart->address);
 }
 
-void per_uart_terminate(uint8_t instance) {
+void per_uart_terminate(u8 instance) {
 
     t_uart *uart = _uart_get(instance);
 
@@ -168,7 +166,7 @@ void per_uart_terminate(uint8_t instance) {
     _uart_disable(uart->address);
 }
 
-void per_uart_transmit(uint8_t instance, uint8_t *buffer, uint32_t length) {
+void per_uart_transmit(u8 instance, u8 *buffer, u32 length) {
 
     if (buffer != NULL) {
         while (length--) {
@@ -177,7 +175,7 @@ void per_uart_transmit(uint8_t instance, uint8_t *buffer, uint32_t length) {
     }
 }
 
-void per_uart_receive(uint8_t instance, uint8_t *buffer, uint32_t length) {
+void per_uart_receive(u8 instance, u8 *buffer, u32 length) {
 
     if (buffer != NULL) {
         while (length--) {
@@ -186,17 +184,17 @@ void per_uart_receive(uint8_t instance, uint8_t *buffer, uint32_t length) {
     }
 }
 
-void per_uart_transmit_int(uint8_t instance, uint8_t *buffer, uint32_t length) {
+void per_uart_transmit_int(u8 instance, u8 *buffer, u32 length) {
 
     _uart_start_tx(_uart_get(instance), buffer, length);
 }
 
-void per_uart_receive_int(uint8_t instance, uint8_t *buffer, uint32_t length) {
+void per_uart_receive_int(u8 instance, u8 *buffer, u32 length) {
 
     _uart_start_rx(_uart_get(instance), buffer, length);
 }
 
-void per_uart_register_callback(uint8_t instance, t_uart_event event,
+void per_uart_register_callback(u8 instance, t_uart_event event,
                                 void (*callback)(void)) {
 
     switch (event) {
@@ -219,12 +217,12 @@ void per_uart_register_callback(uint8_t instance, t_uart_event event,
 
 /*----- Static function implementations ------------------------------*/
 
-static t_uart *_uart_get(uint8_t instance) {
+static t_uart *_uart_get(u8 instance) {
 
     return &g_uart[instance];
 }
 
-static void _uart_reset(t_uart *uart, uint8_t instance) {
+static void _uart_reset(t_uart *uart, u8 instance) {
 
     uart->address = g_base_address[instance];
     uart->system_int = g_system_interrupt[instance];
@@ -244,7 +242,7 @@ static void _uart_configure_line(t_uart *uart, const t_uart_config *config) {
                               config->oversample);
 }
 
-static uint32_t _uart_word_length(uint8_t word_length) {
+static u32 _uart_word_length(u8 word_length) {
 
     switch (word_length) {
     case 5:
@@ -291,11 +289,11 @@ static void _uart_configure_interrupts(t_uart *uart,
     IntSystemEnable(uart->system_int);
 }
 
-static void _uart_configure_baud_line(uint32_t base_addr, uint32_t uart_clk,
-                                      uint32_t baud_rate, uint32_t line_config,
-                                      uint32_t oversample) {
+static void _uart_configure_baud_line(u32 base_addr, u32 uart_clk,
+                                      u32 baud_rate, u32 line_config,
+                                      u32 oversample) {
 
-    uint32_t divisor;
+    u32 divisor;
 
     if (oversample == OVERSAMPLE_13) {
         divisor = uart_clk / (baud_rate * 13);
@@ -310,55 +308,55 @@ static void _uart_configure_baud_line(uint32_t base_addr, uint32_t uart_clk,
     HWREG(base_addr + UART_LCR) = line_config & UART_LCR_WLS;
 }
 
-static void _uart_enable(uint32_t base_addr) {
+static void _uart_enable(u32 base_addr) {
 
     HWREG(base_addr + UART_PWREMU_MGMT) =
         UART_PWREMU_MGMT_URRST | UART_PWREMU_MGMT_UTRST;
 }
 
-static void _uart_disable(uint32_t base_addr) {
+static void _uart_disable(u32 base_addr) {
 
     HWREG(base_addr + UART_PWREMU_MGMT) &=
         ~(UART_PWREMU_MGMT_FREE | UART_PWREMU_MGMT_URRST |
           UART_PWREMU_MGMT_UTRST);
 }
 
-static void _uart_enable_fifo(uint32_t base_addr) {
+static void _uart_enable_fifo(u32 base_addr) {
 
     HWREG(base_addr + UART_FCR) = UART_FIFO_MODE | UART_RX_CLEAR | UART_TX_CLEAR;
 }
 
-static void _uart_set_fifo_rx_level(uint32_t base_addr, uint32_t rx_level) {
+static void _uart_set_fifo_rx_level(u32 base_addr, u32 rx_level) {
 
     HWREG(base_addr + UART_FCR) = (rx_level & UART_FCR_RXFIFTL) | UART_FIFO_MODE;
 }
 
-static void _uart_enable_interrupts(uint32_t base_addr, uint32_t int_flags) {
+static void _uart_enable_interrupts(u32 base_addr, u32 int_flags) {
 
     HWREG(base_addr + UART_IER) |= int_flags & UART_INT_MASK;
 }
 
-static void _uart_disable_interrupts(uint32_t base_addr, uint32_t int_flags) {
+static void _uart_disable_interrupts(u32 base_addr, u32 int_flags) {
 
     HWREG(base_addr + UART_IER) &= ~(int_flags & UART_INT_MASK);
 }
 
-static uint8_t _uart_get_interrupt_id(uint32_t base_addr) {
+static u8 _uart_get_interrupt_id(u32 base_addr) {
 
     return (HWREG(base_addr + UART_IIR) & UART_IIR_INTID) >>
            UART_IIR_INTID_SHIFT;
 }
 
-static uint32_t _uart_rx_errors(uint32_t base_addr) {
+static u32 _uart_rx_errors(u32 base_addr) {
 
     return HWREG(base_addr + UART_LSR) &
            (UART_OVERRUN_ERROR | UART_PARITY_ERROR | UART_FRAME_ERROR |
             UART_BREAK_IND);
 }
 
-static void _uart_put_char(uint32_t base_addr, uint8_t byte) {
+static void _uart_put_char(u32 base_addr, u8 byte) {
 
-    const uint32_t tx_empty = UART_THR_TSR_EMPTY | UART_THR_EMPTY;
+    const u32 tx_empty = UART_THR_TSR_EMPTY | UART_THR_EMPTY;
 
     while (tx_empty != (HWREG(base_addr + UART_LSR) & tx_empty))
         ;
@@ -366,7 +364,7 @@ static void _uart_put_char(uint32_t base_addr, uint8_t byte) {
     HWREG(base_addr + UART_THR) = byte;
 }
 
-static int _uart_get_char(uint32_t base_addr) {
+static int _uart_get_char(u32 base_addr) {
 
     while ((HWREG(base_addr + UART_LSR) & UART_DATA_READY) == 0)
         ;
@@ -374,7 +372,7 @@ static int _uart_get_char(uint32_t base_addr) {
     return (int)HWREG(base_addr + UART_RBR);
 }
 
-static int _uart_get_char_nonblocking(uint32_t base_addr) {
+static int _uart_get_char_nonblocking(u32 base_addr) {
 
     if (HWREG(base_addr + UART_LSR) & UART_DATA_READY) {
         return (int)HWREG(base_addr + UART_RBR);
@@ -391,7 +389,7 @@ static void _uart_wait_for_empty(t_uart *uart) {
         ;
 }
 
-static void _uart_start_tx(t_uart *uart, uint8_t *buffer, uint32_t length) {
+static void _uart_start_tx(t_uart *uart, u8 *buffer, u32 length) {
 
     if ((buffer == NULL) || (length == 0)) {
         return;
@@ -403,7 +401,7 @@ static void _uart_start_tx(t_uart *uart, uint8_t *buffer, uint32_t length) {
     _uart_enable_interrupts(uart->address, UART_INT_TX_EMPTY);
 }
 
-static void _uart_start_rx(t_uart *uart, uint8_t *buffer, uint32_t length) {
+static void _uart_start_rx(t_uart *uart, u8 *buffer, u32 length) {
 
     if ((buffer == NULL) || (length == 0)) {
         return;
@@ -427,7 +425,7 @@ static void _uart_ack_system_interrupt(t_uart *uart) {
 
 static void _uart_handle_tx_empty(t_uart *uart) {
 
-    uint8_t tx_fifo_level = 0;
+    u8 tx_fifo_level = 0;
 
     while ((uart->tx_length > 0) && (tx_fifo_level < UART_TX_FIFO_LENGTH)) {
         _uart_put_char(uart->address, *uart->tx_buffer++);
@@ -487,7 +485,7 @@ static void _uart_handle_rx_error(t_uart *uart) {
     }
 }
 
-static void _uart_dispatch_interrupt(t_uart *uart, uint8_t int_id) {
+static void _uart_dispatch_interrupt(t_uart *uart, u8 int_id) {
 
     switch (int_id) {
     case UART_INTID_TX_EMPTY:
@@ -531,7 +529,7 @@ static inline void _uart_isr(t_uart *uart) {
     _uart_ack_system_interrupt(uart);
 
     // Clear all pending interrupts.
-    uint8_t int_id;
+    u8 int_id;
     while ((int_id = _uart_get_interrupt_id(uart->address))) {
         _uart_dispatch_interrupt(uart, int_id);
     }

@@ -10,22 +10,20 @@ project(freetribe LANGUAGES NONE)
 # -DLIB_GCC="C:\Program Files (x86)\GNU Arm Embedded Toolchain\10 2021.10\lib\gcc\arm-none-eabi\10.3.1"
 # -DBFIN_INC="C:\apps\dev\bfin\elf\bfin-elf\include"
 
-# set(CMAKE_MAKE_PROGRAM "" CACHE PATH "Make program")
 if(NOT LIB_C)
   set(LIB_C "" CACHE PATH "CPU C library root")
 endif()
 if(NOT LIB_GCC)
   set(LIB_GCC "" CACHE PATH "GCC support library root")
 endif()
-if (NOT BFIN_INC)
-  set(BFIN_INC "" CACHE PATH "Blackfin support library include path")
-endif()
+
 
 set(APP "" CACHE STRING "CPU app directory under cpu/src/apps to link into the kernel")
 set(MODULE "" CACHE STRING "DSP module directory under dsp/src/modules to embed in the kernel")
+
+option(BOOT_DEBUG_DELAY "Enable the early boot debug delay" OFF)
 option(KERNEL_DDR_CACHEABLE "Deprecated: default for KERNEL_DDR_TEXT_CACHEABLE" ON)
 option(KERNEL_DDR_TEXT_CACHEABLE "Map kernel text/rodata DDR section as cacheable when D-cache is enabled" ${KERNEL_DDR_CACHEABLE})
-
 option(GENERATE_ASM "Generate per-source assembly listings (.S files)" OFF)
 
 
@@ -98,6 +96,12 @@ collect_sources(cpu_kernel_src_sources TRUE
   "${CPU_SRC_ROOT}/resources"
   "${CPU_SRC_ROOT}/user"
 )
+
+# The replacement MMC/SD peripheral is developed and exercised only by the
+# dedicated hardware-test target until it is ready for production integration.
+set(mmcsd_ft_source "${CPU_SRC_ROOT}/kernel/peripheral/per_mmcsd_ft.c")
+list(REMOVE_ITEM cpu_kernel_src_sources "${mmcsd_ft_source}")
+
 collect_sources(cpu_bootloader_sources TRUE "${CPU_SRC_ROOT}/bootloader")
 collect_sources(cpu_lib_root_sources FALSE "${CPU_LIB_ROOT}")
 collect_sources(cpu_lib_leaf_sources TRUE "${CPU_LIB_ROOT}/LEAF/leaf")
@@ -176,6 +180,18 @@ set(debug_bringup_sources
 )
 list(REMOVE_DUPLICATES debug_bringup_sources)
 
+set(mmcsd_hw_test_root "${CMAKE_CURRENT_SOURCE_DIR}/cpu/tests/hardware/mmcsd")
+set(mmcsd_hw_test_sources
+  "${CPU_SRC_ROOT}/kernel/system/init.S"
+  "${CPU_SRC_ROOT}/kernel/peripheral/per_gpio.c"
+  "${CPU_SRC_ROOT}/kernel/peripheral/per_pinmux.c"
+  "${CPU_LIB_ROOT}/am1802-csl/src/csl_gpio.c"
+  "${CPU_LIB_ROOT}/tinyprintf/tinyprintf.c"
+  "${mmcsd_ft_source}"
+  "${mmcsd_hw_test_root}/hw_test.c"
+  "${mmcsd_hw_test_root}/main.c"
+)
+
 # DSP sources
 collect_sources(dsp_common_sources FALSE "${COMMON_ROOT}")
 collect_sources(dsp_src_sources TRUE "${DSP_SRC_ROOT}")
@@ -193,11 +209,59 @@ list(FILTER dsp_sources EXCLUDE REGEX ".*/dsp/src/modules(/.*)?$")
 list(APPEND dsp_sources ${dsp_module_sources})
 list(REMOVE_DUPLICATES dsp_sources)
 
-set(kernel_extra_deps "")
-set(cpu_generated_resource_dirs "")
+# ---------------------------------------------------------------------------
+# Extra source dependencies
+# ---------------------------------------------------------------------------
+
+set(cpu_generated_resource_dir "${CMAKE_CURRENT_BINARY_DIR}/generated/resources")
+set(cpu_generated_resource_dirs "${cpu_generated_resource_dir}")
+set(bin2c_script "${CMAKE_CURRENT_SOURCE_DIR}/cmake/bin2c.cmake")
+
+set(gdb_target_xml "${CPU_SRC_ROOT}/bootloader/usb/gdbstub/target.xml")
+set(gdb_target_xml_header "${cpu_generated_resource_dir}/gdb_target_xml.h")
+set(mascot_bmp "${CPU_SRC_ROOT}/resources/mascot.bmp")
+set(mascot_bmp_header "${cpu_generated_resource_dir}/mascot_bmp.h")
+
+add_custom_command(
+  OUTPUT "${mascot_bmp_header}"
+  COMMAND "${CMAKE_COMMAND}" -E make_directory "${cpu_generated_resource_dir}"
+  COMMAND "${CMAKE_COMMAND}"
+          "-DINPUT=${mascot_bmp}"
+          "-DOUTPUT=${mascot_bmp_header}"
+          "-DSYMBOL=mascot_bmp"
+          -DCONST=ON
+          -P "${bin2c_script}"
+  DEPENDS "${mascot_bmp}" "${bin2c_script}"
+  VERBATIM
+)
+
+add_custom_command(
+  OUTPUT "${gdb_target_xml_header}"
+  COMMAND "${CMAKE_COMMAND}" -E make_directory "${cpu_generated_resource_dir}"
+  COMMAND "${CMAKE_COMMAND}"
+          "-DINPUT=${gdb_target_xml}"
+          "-DOUTPUT=${gdb_target_xml_header}"
+          "-DSYMBOL=gdb_target_xml"
+          -DCONST=ON
+          -P "${bin2c_script}"
+  DEPENDS "${gdb_target_xml}" "${bin2c_script}"
+  VERBATIM
+)
+
+
+set(bootloader_source_deps
+  "${CPU_SRC_ROOT}/bootloader/usb/gdbstub/gdb_server.c|${gdb_target_xml_header}"
+  "${CPU_SRC_ROOT}/bootloader/ui/render.c|${mascot_bmp_header}"
+)
+
+set(kernel_source_deps "")
+if(MODULE)
+  list(APPEND kernel_source_deps
+    "${CPU_SRC_ROOT}/kernel/service/svc_dsp.c|${dsp_ldr_header}"
+  )
+endif()
 
 if(MODULE)
-  set(cpu_generated_resource_dir "${CMAKE_CURRENT_BINARY_DIR}/generated/resources")
   set(dsp_ldr_header "${cpu_generated_resource_dir}/bfin_ldr.h")
 
   add_custom_command(
@@ -205,15 +269,12 @@ if(MODULE)
     COMMAND "${CMAKE_COMMAND}" -E make_directory "${cpu_generated_resource_dir}"
     COMMAND "${CMAKE_COMMAND}"
             "-DINPUT=${CMAKE_CURRENT_BINARY_DIR}/dsp/boot.ldr"
-            "-DOUTPUT=${dsp_ldr_header}"
-            "-DSYMBOL=bfin_ldr"
-            -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/bin2c.cmake"
-    DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/dsp/boot.ldr"
+             "-DOUTPUT=${dsp_ldr_header}"
+             "-DSYMBOL=bfin_ldr"
+             -P "${bin2c_script}"
+    DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/dsp/boot.ldr" "${bin2c_script}"
     VERBATIM
   )
-
-  set(kernel_extra_deps "${dsp_ldr_header}")
-  set(cpu_generated_resource_dirs "${cpu_generated_resource_dir}")
 endif()
 
 # ---------------------------------------------------------------------------
@@ -276,10 +337,6 @@ set(dsp_include_dirs
   ${dsp_libfixmath_dirs}
 )
 
-if(BFIN_INC AND IS_DIRECTORY "${BFIN_INC}")
-  list(APPEND dsp_include_dirs "${BFIN_INC}")
-endif()
-
 list(FILTER dsp_include_dirs EXCLUDE REGEX ".*/dsp/src/modules(/.*)?$")
 list(APPEND dsp_include_dirs ${dsp_module_common_dirs} ${dsp_module_dirs})
 list(REMOVE_DUPLICATES dsp_include_dirs)
@@ -303,7 +360,6 @@ set(kernel_c_flags
   -DNESTED_INTERRUPTS=0
   -DDEBUG
   -DFREETRIBE_FREERTOS
-  -DFREETRIBE_TINYUSB
   "-DCFG_TUSB_CONFIG_FILE=\"kernel/service/usb/tusb_config.h\""
   -DKERNEL_DDR_TEXT_CACHEABLE=$<IF:$<BOOL:${KERNEL_DDR_TEXT_CACHEABLE}>,1,0>
   # -DDEBUG_SDDRIVER
@@ -313,8 +369,8 @@ set(kernel_c_flags
 
 set(bootloader_c_flags
   -mcpu=arm926ej-s
-  -Os
   -ggdb
+  -Os
   -fdata-sections
   -ffunction-sections
   #-fomit-frame-pointer
@@ -323,10 +379,8 @@ set(bootloader_c_flags
   -Wall
   -Wno-unused
   -Wno-strict-aliasing
-  -DNESTED_INTERRUPTS=0
   -DDEBUG
   # -DDEBUG_BOOTLOADER_INSTALL
-  -DFREETRIBE_TINYUSB
   -DFREETRIBE_FATFS_READONLY=0
   $<$<BOOL:${NO_BOOTSECT_VERIFY}>:-DNO_BOOTSECT_VERIFY>
   "-DCFG_TUSB_CONFIG_FILE=\"bootloader/usb/tusb_config.h\""
@@ -336,8 +390,28 @@ set(bootloader_c_flags
   -MP
 )
 
+set(bootloader_asm_flags "")
+if(BOOT_DEBUG_DELAY)
+  list(APPEND bootloader_asm_flags -DBOOT_DEBUG_DELAY)
+endif()
+
 set(debug_bringup_c_flags
   ${bootloader_c_flags}
+)
+
+set(mmcsd_hw_test_c_flags
+  -mcpu=arm926ej-s
+  -Og
+  -ggdb
+  -fdata-sections
+  -ffunction-sections
+  -Wall
+  -Wextra
+)
+
+set(mmcsd_hw_test_asm_flags
+  -mcpu=arm926ej-s
+  -ggdb
 )
 
 set(dsp_c_flags
@@ -374,6 +448,13 @@ set(bootloader_link_options
   -Wl,-u,start
   -Wl,-u,__aeabi_uidiv
   -Wl,-u,__aeabi_idiv
+  -Wl,--gc-sections
+  -Wl,--print-memory-usage
+)
+
+set(mmcsd_hw_test_link_options
+  -Wl,-e,start
+  -Wl,-u,start
   -Wl,--gc-sections
   -Wl,--print-memory-usage
 )
@@ -433,7 +514,7 @@ add_firmware_target(
   LINK_OPTIONS ${cpu_link_options}
   LINK_DIRS ${LIB_GCC} "${LIB_C}/lib"
   LINK_LIBS ${cpu_link_libraries}
-  EXTRA_DEPS ${kernel_extra_deps}
+  SOURCE_DEPS ${kernel_source_deps}
 )
 
 add_firmware_target(
@@ -445,8 +526,10 @@ add_firmware_target(
   SOURCES ${bootloader_sources}
   INCLUDE_DIRS ${cpu_include_dirs}
   C_FLAGS ${bootloader_c_flags}
+  ASM_FLAGS ${bootloader_asm_flags}
   LINK_OPTIONS ${bootloader_link_options}
   LINK_DIRS ${LIB_GCC} "${LIB_C}/lib"
+  SOURCE_DEPS ${bootloader_source_deps}
 )
 
 add_firmware_target(
@@ -458,6 +541,19 @@ add_firmware_target(
   C_FLAGS ${debug_bringup_c_flags}
   LINK_OPTIONS ${bootloader_link_options}
   LINK_DIRS ${LIB_GCC} "${LIB_C}/lib"
+)
+
+add_firmware_target(
+  NAME mmcsd_hw_test
+  COMPILER "${ARM_GCC}"
+  LINKER_SCRIPT "${mmcsd_hw_test_root}/mmcsd_hw_test.lds"
+  SOURCES ${mmcsd_hw_test_sources}
+  INCLUDE_DIRS ${cpu_include_dirs} "${mmcsd_hw_test_root}"
+  C_FLAGS ${mmcsd_hw_test_c_flags}
+  ASM_FLAGS ${mmcsd_hw_test_asm_flags}
+  LINK_OPTIONS ${mmcsd_hw_test_link_options}
+  LINK_DIRS ${LIB_GCC} "${LIB_C}/lib"
+  LINK_LIBS ${cpu_link_libraries}
 )
 
 add_firmware_target(
@@ -473,3 +569,16 @@ add_firmware_target(
   LDR_TOOL "${BFIN_LDR}"
   LDR_FLAGS ${dsp_ldr_flags}
 )
+
+# Make a bare `cmake --build build` behave like Ctrl+Shift+B.
+add_custom_target(build_all ALL
+  DEPENDS bootloader
+  DEPENDS kernel
+  DEPENDS debug_bringup
+  DEPENDS dsp
+)
+
+# The firmware targets use custom compiler commands, so firmware.cmake emits
+# their compilation database explicitly instead of relying on CMake's native
+# CMAKE_EXPORT_COMPILE_COMMANDS support.
+write_firmware_compile_commands("${CMAKE_BINARY_DIR}/compile_commands.json")

@@ -57,8 +57,8 @@ static bool g_toggle_led = false;
 
 /*----- Static function prototypes -----------------------------------*/
 
-void _knob_callback(uint8_t index, uint8_t value);
-void _button_callback(uint8_t index, bool state);
+void _knob_callback(u8 index, u8 value);
+void _button_callback(u8 index, bool state);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -113,7 +113,7 @@ void app_run(void) {
  * @param[in]   index   Index of knob.
  * @param[in]   value   Values of knob.
  */
-void _knob_callback(uint8_t index, uint8_t value) {
+void _knob_callback(u8 index, u8 value) {
 
     ft_send_cc(0, index, value >> 1);
 }
@@ -131,7 +131,7 @@ void _knob_callback(uint8_t index, uint8_t value) {
  * @param[in]   index   Index of button.
  * @param[in]   state   State of button.
  */
-void _button_callback(uint8_t index, bool state) {
+void _button_callback(u8 index, bool state) {
 
     switch (index) {
 

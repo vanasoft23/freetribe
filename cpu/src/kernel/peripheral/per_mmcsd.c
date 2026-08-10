@@ -33,7 +33,8 @@ Original work by turmary@126.com, modified by vanasoft23 for freetribe.
 
 /*----- Includes -----------------------------------------------------*/
 
-#include "am18x_map.h"
+#include "ft.h"
+#include "ft_error.h"
 
 // @TODO: remove these 3
 #include <soc_AM1808.h>
@@ -41,8 +42,7 @@ Original work by turmary@126.com, modified by vanasoft23 for freetribe.
 #include <hw_mmcsd.h>
 #include <csl_interrupt.h>
 
-#include "macros.h"
-#include "ft_error.h"
+#include "am18x_map.h"
 
 #include "per_mmcsd.h"
 
@@ -60,8 +60,8 @@ Original work by turmary@126.com, modified by vanasoft23 for freetribe.
 
 /*----- Extern function implementations ------------------------------*/
 
-// static uint32_t mmcsd_get_freq(const MMCSD_con_t* mcon) {
-// 	uint32_t reg, f;
+// static u32 mmcsd_get_freq(const MMCSD_con_t* mcon) {
+// 	u32 reg, f;
 
 // 	reg = mcon->MMCCLK;
 // 	f = dev_get_freq(DCLK_ID_MMC_SDS);
@@ -72,30 +72,8 @@ Original work by turmary@126.com, modified by vanasoft23 for freetribe.
 // 	return f;
 // }
 
-t_status mmcsd_set_freq(MMCSD_con_t* mcon, uint32_t freq) {
-	// uint32_t reg, msk, v;
-
-	// if (freq == 0x0UL) {
-	// 	return mmcsd_get_freq(mcon);
-	// }
-
-	// reg = mcon->MMCCLK;
-	// msk = MMCCLK_CLKRT_MASK;
-	// v = dev_get_freq(DCLK_ID_MMC_SDS) / (freq * 2);
-	// if (FIELD_GET(reg, MMCCLK_DIV4_MASK) == MMCCLK_DIV4_div4) {
-	// 	v /= 2;
-	// }
-	// if (v == 0) v = 1;
-	// mcon->MMCCLK = FIELD_SET(reg, msk, MMCCLK_CLKRT_VAL(v));
-
-	// if (mmcsd_get_freq(mcon) > freq) {
-	// 	v++;
-	// 	mcon->MMCCLK = FIELD_SET(reg, msk, MMCCLK_CLKRT_VAL(v));
-	// }
-
-	// return mmcsd_get_freq(mcon);
-
-
+t_status mmcsd_set_freq(MMCSD_con_t* mcon, u32 freq)
+{
     // note: MMCSD controller gets driven by PLL0_SYSCLK2 which is PLL0
     //       divided by 2.
 
@@ -106,7 +84,7 @@ t_status mmcsd_set_freq(MMCSD_con_t* mcon, uint32_t freq) {
     // FCLK_FREQ/(2*(CLKRT+1))
     // (150000000/(2*(187+1)))/1000 = 398.94 khz
     // CLKRT = ((FCLK_FREQ/freq)/2)-1
-    uint8_t clkrt = (uint8_t)(((FCLK_FREQ + freq) / (2 * freq)) - 1);
+    u8 clkrt = (u8)(((FCLK_FREQ + freq) / (2 * freq)) - 1);
     mcon->MMCCLK = FIELD_SET(mcon->MMCCLK, MMCCLK_CLKRT_MASK, clkrt); // no shift
 	DEBUG_LOG_SD("Clock      clkrt: %u   freq: %u", (unsigned int)clkrt,  freq);
 
@@ -114,7 +92,7 @@ t_status mmcsd_set_freq(MMCSD_con_t* mcon, uint32_t freq) {
 }
 
 t_status mmcsd_con_init(MMCSD_con_t* mcon, const mmcsd_conf_t* conf) {
-	uint32_t reg, msk, v;
+	u32 reg, msk, v;
 
 	// 1. Place the MMC/SD controller in its reset state
 	msk = MMCCTL_CMDRST_MASK | MMCCTL_DATRST_MASK;
@@ -164,8 +142,8 @@ t_status mmcsd_con_init(MMCSD_con_t* mcon, const mmcsd_conf_t* conf) {
 }
 
 t_status mmcsd_send_cmd(MMCSD_con_t* mcon, const t_mmcsd_cmd* cmd) {
-	uint32_t reg, msk, v;
-	uint32_t idx;
+	u32 reg, msk, v;
+	u32 idx;
 
 	assert(mcon);
 	assert(cmd);
@@ -252,7 +230,7 @@ t_status mmcsd_trigger_data_transfer(MMCSD_con_t* mcon) {
 #define TRACK_SAVES    0x400
 t_mmcsd_cmd_state mmcsd_cmd_state(const MMCSD_con_t* mcon, am18x_bool need_crc) {
 #if 1
-	uint32_t reg;
+	u32 reg;
 
 	reg = mcon->MMCST0;
 	if (FIELD_GET(reg, MMCST0_RSPDNE_MASK) == MMCST0_RSPDNE_done) {
@@ -266,7 +244,7 @@ t_mmcsd_cmd_state mmcsd_cmd_state(const MMCSD_con_t* mcon, am18x_bool need_crc) 
 	}
 #else
 	{
-	uint32_t reg_tracks[TRACK_SAVES];
+	static u32 reg_tracks[TRACK_SAVES];
 	int i, n = 0;
 
 	reg_tracks[n++] = mcon->MMCST0;
@@ -297,7 +275,7 @@ t_mmcsd_cmd_state mmcsd_cmd_state(const MMCSD_con_t* mcon, am18x_bool need_crc) 
 }
 
 t_mmcsd_dat_state mmcsd_busy_state(const MMCSD_con_t* mcon) {
-	uint32_t reg;
+	u32 reg;
 
 	reg = mcon->MMCST0;
 	if (FIELD_GET(reg, MMCST0_CRCRS_MASK) == MMCST0_CRCRS_detected) {
@@ -320,7 +298,7 @@ t_mmcsd_dat_state mmcsd_busy_state(const MMCSD_con_t* mcon) {
 
 t_mmcsd_dat_state mmcsd_rd_state(const MMCSD_con_t* mcon) {
 #if 1
-	uint32_t reg;
+	u32 reg;
 
 	reg = mcon->MMCST0;
 	if (FIELD_GET(reg, MMCST0_CRCRD_MASK) == MMCST0_CRCRD_detected) {
@@ -336,7 +314,7 @@ t_mmcsd_dat_state mmcsd_rd_state(const MMCSD_con_t* mcon) {
 		return MMCSD_SD_OK;
 	}
 #else
-	uint32_t reg_tracks[TRACK_SAVES];
+	static u32 reg_tracks[TRACK_SAVES];
 	int i, n = 0;
 
 	reg_tracks[n++] = mcon->MMCST0;
@@ -370,7 +348,7 @@ t_mmcsd_dat_state mmcsd_rd_state(const MMCSD_con_t* mcon) {
 
 t_mmcsd_dat_state mmcsd_wr_state(const MMCSD_con_t* mcon) {
 #if 1
-	uint32_t reg;
+	u32 reg;
 
 	reg = mcon->MMCST0;
 	if (FIELD_GET(reg, MMCST0_CRCRS_MASK) == MMCST0_CRCRS_detected) {
@@ -389,7 +367,7 @@ t_mmcsd_dat_state mmcsd_wr_state(const MMCSD_con_t* mcon) {
 		return MMCSD_SD_SENT;
 	}
 #else
-	uint32_t reg_tracks[TRACK_SAVES];
+	u32 reg_tracks[TRACK_SAVES];
 	int i, n = 0;
 
 	reg_tracks[n++] = mcon->MMCST0;
@@ -439,7 +417,7 @@ t_status mmcsd_get_resp(const MMCSD_con_t* mcon, t_mmcsd_resp_type type, t_mmcsd
 }
 
 t_status mmcsd_cntl_misc(MMCSD_con_t* mcon, const t_mmcsd_misc* misc) {
-	uint32_t reg, msk, v;
+	u32 reg, msk, v;
 
 	if (misc->mflags & MMCSD_MISC_F_BUS4BIT) {
 		// Initialize the MMC Control Register
@@ -506,11 +484,11 @@ t_status mmcsd_cntl_misc(MMCSD_con_t* mcon, const t_mmcsd_misc* misc) {
 	return SUCCESS;
 }
 
-uint32_t mmcsd_read(const MMCSD_con_t* mcon) {
+u32 mmcsd_read(const MMCSD_con_t* mcon) {
 	return mcon->MMCDRR;
 }
 
-t_status mmcsd_write(MMCSD_con_t* mcon, uint32_t data) {
+t_status mmcsd_write(MMCSD_con_t* mcon, u32 data) {
 	mcon->MMCDXR = data;
 	return SUCCESS;
 }

@@ -43,7 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdint.h>
+#include "ft.h"
 
 #include "svc_sysex.h"
 
@@ -59,9 +59,9 @@ void svc_midi_task(void *param);
 void svc_midi_process(void);
 void svc_midi_send_note_on(char, char, char);
 void svc_midi_send_note_off(char, char, char);
-void svc_midi_send_cc(uint8_t chan, uint8_t idx, uint8_t val);
+void svc_midi_send_cc(u8 chan, u8 idx, u8 val);
 void svc_midi_send_string(char *text);
-void svc_midi_send_byte(uint8_t byte);
+void svc_midi_send_byte(u8 byte);
 
 #ifdef __cplusplus
 }

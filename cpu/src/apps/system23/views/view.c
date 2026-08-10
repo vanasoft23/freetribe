@@ -25,11 +25,11 @@ bool      g_selected_ifx;
 
 /*----- Static function prototypes -----------------------------------*/
 
-static void handle_knob(uint8_t index, uint8_t value);
-static void handle_button(uint8_t index, bool state);
-static void handle_xy_pad(uint8_t x_val, uint8_t y_val);
-static void handle_trigger(uint8_t pad, uint8_t vel, bool state);
-static void handle_encoder(uint8_t index, uint8_t value);
+static void handle_knob(u8 index, u8 value);
+static void handle_button(u8 index, bool state);
+static void handle_xy_pad(u8 x_val, u8 y_val);
+static void handle_trigger(u8 pad, u8 vel, bool state);
+static void handle_encoder(u8 index, u8 value);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -51,11 +51,11 @@ void view_draw() {
 }
 
 
-void handle_knob(uint8_t index, uint8_t value) {
+void handle_knob(u8 index, u8 value) {
     g_active_view->handle_knob(g_active_view, index, value);
 }
 
-void handle_button(uint8_t index, bool state) {
+void handle_button(u8 index, bool state) {
     switch (index) {
 
         case BUTTON_PART_PREV: {
@@ -74,15 +74,15 @@ void handle_button(uint8_t index, bool state) {
     g_active_view->handle_button(g_active_view, index, state);
 }
 
-void handle_xy_pad(uint8_t x_val, uint8_t y_val) {
+void handle_xy_pad(u8 x_val, u8 y_val) {
     g_active_view->handle_xy_pad(g_active_view, x_val, y_val);
 }
 
-void handle_trigger(uint8_t pad, uint8_t vel, bool state) {
+void handle_trigger(u8 pad, u8 vel, bool state) {
     g_active_view->handle_trigger(g_active_view, pad, vel, state);
 }
 
-void handle_encoder(uint8_t index, uint8_t value) {
+void handle_encoder(u8 index, u8 value) {
     g_active_view->handle_encoder(g_active_view, index, value);
 }
 

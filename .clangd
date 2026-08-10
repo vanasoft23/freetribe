@@ -1,0 +1,14 @@
+CompileFlags:
+  # GCC's static analyzer is still used by firmware builds, but clang does not
+  # understand this driver-only option while parsing files for the editor.
+  Remove: [-fanalyzer]
+
+Diagnostics:
+  UnusedIncludes: None
+
+---
+
+If:
+  PathMatch: .*debug_bringup\.c$
+Diagnostics:
+  Suppress: [err_non_asm_stmt_in_naked_function]

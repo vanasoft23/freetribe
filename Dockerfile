@@ -8,7 +8,10 @@ RUN apt-get update && \
     gdb-arm-none-eabi \
     binutils-arm-none-eabi \
     libnewlib-arm-none-eabi \
+    cmake \
+    ninja-build \
     openocd \
+#    dfu-util \ # <-- do we include this?
     python3 \
     python3-pip \
     git \
@@ -23,11 +26,10 @@ RUN apt-get update && \
 #     apt-get update && \
 #     apt-get install -y libc6:amd64
 
-RUN wget --progress=dot:giga --no-check-certificate --content-disposition -c \
-    https://sourceforge.net/projects/adi-toolchain/files/2014R1/2014R1-RC2/x86_64/blackfin-toolchain-elf-gcc-4.3-2014R1-RC2.x86_64.tar.bz2
-
-RUN tar -xjvf blackfin-toolchain-elf-gcc-4.3-2014R1-RC2.x86_64.tar.bz2?viasf=1 -C / && \
-    rm /blackfin-toolchain-elf-gcc-4.3-2014R1-RC2.x86_64.tar.bz2?viasf=1
+RUN wget --progress=dot:giga --no-check-certificate -O /tmp/blackfin-toolchain.tar.bz2 \
+    https://sourceforge.net/projects/adi-toolchain/files/2014R1/2014R1-RC2/x86_64/blackfin-toolchain-elf-gcc-4.3-2014R1-RC2.x86_64.tar.bz2/download && \
+    tar -xjvf /tmp/blackfin-toolchain.tar.bz2 -C / && \
+    rm /tmp/blackfin-toolchain.tar.bz2
 
 # Add openocd-bfin
 

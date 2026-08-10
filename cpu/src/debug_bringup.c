@@ -29,7 +29,7 @@ under the terms of the GNU Affero General Public License as published by
 ----------------------------------------------------------------------*/
 
 /**
- * @file    debug_bringup.c.
+ * @file    debug_bringup.c
  *
  * @brief   Pre-boot initialization of DDR. Required when loading the
  *          Freetribe binary into DDR through GDB from cold start.

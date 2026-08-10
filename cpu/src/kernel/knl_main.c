@@ -84,18 +84,18 @@ under the terms of the GNU Affero General Public License as published by
 typedef struct {
     TaskFunction_t entry;
     const char *name;
-    uint16_t stack_words;
+    u16 stack_words;
     UBaseType_t priority;
 } t_knl_task_config;
 
 typedef struct {
     t_knl_user_event_handler handler;
-    uint8_t payload[USER_EVENT_PAYLOAD_SIZE];
+    u8 payload[USER_EVENT_PAYLOAD_SIZE];
 } t_knl_user_event;
 
 /*----- Static variable definitions ----------------------------------*/
 
-static uint32_t g_user_tick_div;
+static u32 g_user_tick_div;
 
 static void (*p_user_tick_callback)(void) = NULL;
 
@@ -109,10 +109,10 @@ static void _create_user_event_queue(void);
 static void _init_services(void);
 static void _register_service_callbacks(void);
 static void _create_service_tasks(void);
-static void _panel_ack_callback(uint32_t version);
-static void _held_buttons_callback(uint32_t *held_buttons);
+static void _panel_ack_callback(u32 version);
+static void _held_buttons_callback(u32 *held_buttons);
 static void _print_callback(char *text);
-static void _systick_callback(uint32_t systick);
+static void _systick_callback(u32 systick);
 static bool _post_user_tick_event(void);
 static void _user_tick_event(const void *payload);
 static bool _take_user_tick_pending(void);
@@ -148,7 +148,7 @@ void knl_register_user_task(void) {
 }
 
 bool knl_post_user_event(t_knl_user_event_handler handler,
-        const void *payload, uint32_t payload_size) {
+        const void *payload, u32 payload_size) {
     t_knl_user_event event = {0};
 
     if ((g_user_event_queue == NULL) ||
@@ -174,7 +174,7 @@ bool knl_post_user_event(t_knl_user_event_handler handler,
 
 void knl_user_event_process(void) {
     t_knl_user_event event;
-    uint32_t events_processed = 0;
+    u32 events_processed = 0;
 
     if (g_user_event_queue == NULL) {
         return;
@@ -189,7 +189,7 @@ void knl_user_event_process(void) {
     }
 }
 
-void knl_register_user_tick_callback(uint32_t divisor, void (*callback)(void)) {
+void knl_register_user_tick_callback(u32 divisor, void (*callback)(void)) {
 
     if (callback != NULL) {
         p_user_tick_callback = callback;
@@ -233,12 +233,12 @@ static void _register_service_callbacks(void) {
 
 static void _create_service_tasks(void) {
 
-    for (uint32_t i = 0; i < KNL_ARRAY_SIZE(g_service_tasks); i++) {
+    for (u32 i = 0; i < KNL_ARRAY_SIZE(g_service_tasks); i++) {
         _create_task(&g_service_tasks[i]);
     }
 }
 
-static void _panel_ack_callback(uint32_t version) {
+static void _panel_ack_callback(u32 version) {
 
     /// TODO: Store version with get method exposed to user.
 
@@ -246,7 +246,7 @@ static void _panel_ack_callback(uint32_t version) {
     svc_panel_register_callback(PANEL_ACK_EVENT, NULL);
 }
 
-static void _held_buttons_callback(uint32_t *held_buttons) {
+static void _held_buttons_callback(u32 *held_buttons) {
 
     /// TODO: Store buttons with get method exposed to user.
 
@@ -256,10 +256,10 @@ static void _held_buttons_callback(uint32_t *held_buttons) {
 
 static void _print_callback(char *text) { svc_midi_send_string(text); }
 
-static void _systick_callback(uint32_t systick) {
+static void _systick_callback(u32 systick) {
     (void)systick;
 
-    static uint32_t user_tick = 0;
+    static u32 user_tick = 0;
 
     if (p_user_tick_callback == NULL) {
         return;

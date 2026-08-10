@@ -65,7 +65,7 @@ static UG_DEVICE g_device;
 
 static bool g_toggle_led = false;
 
-static uint8_t g_level_knob;
+static u8 g_level_knob;
 static bool g_level_knob_changed;
 
 /*----- Extern variable definitions ----------------------------------*/
@@ -75,7 +75,7 @@ static bool g_level_knob_changed;
 static void _register_callbacks(void);
 
 static void _tick_callback(void);
-static void _knob_callback(uint8_t index, uint8_t value);
+static void _knob_callback(u8 index, u8 value);
 static void _note_on_callback(char, char, char);
 static void _note_off_callback(char, char, char);
 
@@ -83,8 +83,8 @@ static void _ui_init(void);
 static void _put_pixel(UG_S16 x, UG_S16 y, UG_COLOR c);
 static void _ui_print(char *text);
 
-static char *_build_string(uint8_t value);
-static char *_int_to_string(uint8_t value);
+static char *_build_string(u8 value);
+static char *_int_to_string(u8 value);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -205,7 +205,7 @@ static void _ui_init(void) {
  */
 static void _tick_callback(void) {
 
-    static uint16_t led_count;
+    static u16 led_count;
 
     if (led_count >= LED_TICK_DIV) {
 
@@ -260,7 +260,7 @@ static void _note_off_callback(char chan, char note, char vel) {
  * @param[in]   index   Index of knob.
  * @param[in]   value   Values of knob.
  */
-void _knob_callback(uint8_t index, uint8_t value) {
+void _knob_callback(u8 index, u8 value) {
 
     ft_send_cc(0, index, value >> 1);
 
@@ -311,7 +311,7 @@ static void _ui_print(char *text) {
  * @return      value_string    Value as string.
  */
 
-static char *_int_to_string(uint8_t value) {
+static char *_int_to_string(u8 value) {
 
     static char value_string[5];
 

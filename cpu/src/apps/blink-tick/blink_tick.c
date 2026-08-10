@@ -112,7 +112,7 @@ void app_run(void) {
  */
 static void _tick_callback(void) {
 
-    static uint16_t led_count;
+    static u16 led_count;
 
     if (led_count++ >= LED_TICK_DIV) {
 

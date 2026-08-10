@@ -38,9 +38,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-
-#include "macros.h"
+#include "ft.h"
 #include "ring_buffer.h"
 
 #include "per_emifa.h"
@@ -53,7 +51,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Typedefs -----------------------------------------------------*/
 
-typedef uint16_t t_ipc_op;
+typedef u16 t_ipc_op;
 enum {
     IPC_OP_TRANSFER = 0, // standalone data transfer
     IPC_OP_REQUEST  = 1, // part of a read request (initiator)
@@ -61,9 +59,9 @@ enum {
 };
 
 typedef struct {
-    uint32_t          dsp_address;
-    const uint32_t   *buffer;
-    uint16_t          count;
+    u32          dsp_address;
+    const u32   *buffer;
+    u16          count;
     void            (*callback)(void *, t_ipc_status);
     void             *user_ctx;
     t_emifa_metadata  metadata;
@@ -72,9 +70,9 @@ typedef struct {
 // (Bidirectional) metadata for data read request
 typedef struct {
     t_ipc_op          op_type;
-    uint16_t          count;
-    uint32_t          src;
-    uint32_t         *dest;
+    u16          count;
+    u32          src;
+    u32         *dest;
     void            (*callback)(void *, t_ipc_status);
     void             *user_ctx;
 } t_meta_read;
@@ -82,9 +80,9 @@ typedef struct {
 // (Bidirectional) metadata for standalone transfer
 typedef struct {
     t_ipc_op          op_type;
-    uint16_t          _meta0_hi;
-    uint32_t          _meta1;
-    uint32_t          _meta2;
+    u16          _meta0_hi;
+    u32          _meta1;
+    u32          _meta2;
     void            (*callback)(void *, t_ipc_status);
     void             *user_ctx;
 } t_meta_tx;
@@ -107,9 +105,9 @@ static bool         g_tx_in_progress;
 
 /*----- Static function prototypes -----------------------------------*/
 
-static t_ipc_status _transfer(uint32_t         dsp_address,
-                              const uint32_t  *buffer,
-                              uint16_t         count,
+static t_ipc_status _transfer(u32         dsp_address,
+                              const u32  *buffer,
+                              u16         count,
                               void           (*callback)(void *, t_ipc_status),
                               void            *user_ctx,
                               t_emifa_metadata metadata);
@@ -161,9 +159,9 @@ void dev_dsp_ipc_init() {
  * @param   callback      Function to call when failed or completed.
  * @param   user_ctx      User provided context for callback.
  */
-t_ipc_status dev_dsp_ipc_transfer(uint32_t dsp_address,
-                                  const uint32_t *buffer,
-                                  uint16_t count,
+t_ipc_status dev_dsp_ipc_transfer(u32 dsp_address,
+                                  const u32 *buffer,
+                                  u16 count,
                                   void (*callback)(void *, t_ipc_status),
                                   void *user_ctx) {
 
@@ -190,9 +188,9 @@ t_ipc_status dev_dsp_ipc_transfer(uint32_t dsp_address,
  * @param   callback      Function to call when failed or completed.
  * @param   user_ctx      User provided context for callback.
  */
-t_ipc_status dev_dsp_ipc_read(uint32_t dsp_address,
-                              uint32_t *destination,
-                              uint16_t count,
+t_ipc_status dev_dsp_ipc_read(u32 dsp_address,
+                              u32 *destination,
+                              u16 count,
                               void (*callback)(void *, t_ipc_status),
                               void *user_ctx) {
 
@@ -229,9 +227,9 @@ t_ipc_status dev_dsp_ipc_read(uint32_t dsp_address,
  * @param   user_ctx      User provided context for callback.
  * @param   metadata      Gets packed into the header.
  */
-static t_ipc_status _transfer(uint32_t         dsp_address,
-                              const uint32_t  *buffer,
-                              uint16_t         count,
+static t_ipc_status _transfer(u32         dsp_address,
+                              const u32  *buffer,
+                              u16         count,
                               void           (*callback)(void *, t_ipc_status),
                               void            *user_ctx,
                               t_emifa_metadata metadata) {
@@ -272,10 +270,10 @@ static bool _try_immediate_send(const t_transfer *tx) {
     g_tx_in_progress  = true;
     g_active_tx = *tx;
 
-    const uint16_t words16 = 2 * tx->count; // HostDMA expects 16-bit words
+    const u16 words16 = 2 * tx->count; // HostDMA expects 16-bit words
 
     t_emifa_status st = per_emifa_transfer(tx->dsp_address,
-                                           (const uint16_t*)tx->buffer,
+                                           (const u16*)tx->buffer,
                                            words16,
                                            tx->metadata);
     
@@ -386,8 +384,8 @@ static void _on_hostrd_done(t_emifa_metadata meta) {
     if (read_meta->op_type == IPC_OP_REQUEST) {
 
         read_meta->op_type = IPC_OP_RESPONSE;
-        _transfer((uint32_t)       read_meta->dest,
-                  (const uint32_t*)read_meta->src,
+        _transfer((u32)       read_meta->dest,
+                  (const u32*)read_meta->src,
                                    read_meta->count,
                   NULL,
                   NULL,

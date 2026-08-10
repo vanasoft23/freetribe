@@ -39,8 +39,8 @@ under the terms of the GNU Affero General Public License as published by
 /// TODO: This should be at device layer.
 ///         Prefix function names.
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
+
 #include <stdlib.h>
 
 #include "per_timer.h"
@@ -95,13 +95,13 @@ void delay_init(void) {
 
 bool delay_ready(void) { return g_delay_ready; }
 
-void delay_block_us(uint32_t time) {
+void delay_block_us(u32 time) {
 
-    uint32_t start_count = 0;
-    uint32_t current_count = 0;
-    uint32_t delta = 0;
-    uint32_t elapsed_cycles = 0;
-    uint32_t elapsed_us = 0;
+    u32 start_count = 0;
+    u32 current_count = 0;
+    u32 delta = 0;
+    u32 elapsed_cycles = 0;
+    u32 elapsed_us = 0;
 
     start_count = delay_get_current_count();
 
@@ -141,8 +141,8 @@ void delay_block_us(uint32_t time) {
 //
 bool delay_us(t_delay_state *state) {
 
-    uint32_t current_count = 0;
-    uint32_t delta = 0;
+    u32 current_count = 0;
+    u32 delta = 0;
 
     if (!state->expired) {
 
@@ -178,7 +178,7 @@ bool delay_us(t_delay_state *state) {
     return state->expired;
 }
 
-void delay_start(t_delay_state *state, uint32_t time) {
+void delay_start(t_delay_state *state, u32 time) {
 
     state->start_time = delay_get_current_count();
     state->delay_time = time;
@@ -187,13 +187,13 @@ void delay_start(t_delay_state *state, uint32_t time) {
     state->expired = false;
 }
 
-void delay_block_ms(uint32_t time) { delay_block_us(time * 1000); }
+void delay_block_ms(u32 time) { delay_block_us(time * 1000); }
 
-uint32_t delay_get_current_count(void) { return timer_count_get(DELAY_TIMER); }
+u32 delay_get_current_count(void) { return timer_count_get(DELAY_TIMER); }
 
 /// TODO: Get elapsed time.
 
-void delay_cycles(uint32_t count) {
+void delay_cycles(u32 count) {
     while (count--)
         ;
 }

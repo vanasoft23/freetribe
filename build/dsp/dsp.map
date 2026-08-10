@@ -118,6 +118,8 @@ Discarded input sections
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/common/utils.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/common/utils.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/common/utils.c.o
+ .text.copy_string
+                0x00000000       0x20 C:/dev/System23/freetribe/build/dsp/obj/common/utils.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_codec.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_codec.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_codec.c.o
@@ -156,17 +158,7 @@ Discarded input sections
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
- .text.module_init
-                0x00000000        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
- .text.module_process
-                0x00000000        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
- .text.module_set_param
-                0x00000000        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
- .text.module_get_param
-                0x00000000        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
  .text.module_get_param_count
-                0x00000000        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
- .text.module_get_param_name
                 0x00000000        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_gpio.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_gpio.c.o
@@ -244,13 +236,21 @@ Discarded input sections
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
  .text.Aleph_get_samplerate
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
+ .text.Aleph_default_error_callback
+                0x00000000        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
+ .text.Aleph_internal_error_callback
+                0x00000000       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
  .text.Aleph_set_error_callback
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
  .text.Aleph_get_mempool
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
+ .text.Aleph_init
+                0x00000000       0x44 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
+ .text.aleph_pool_init
+                0x00000000       0x38 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
  .text.aleph_pool_get_size
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
  .text.aleph_pool_get_used
@@ -273,6 +273,8 @@ Discarded input sections
                 0x00000000       0xe8 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
  .text.aleph_calloc
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
+ .text.mpool_alloc
+                0x00000000       0xec C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
  .text.aleph_alloc
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
  .text.Mempool_init_to_pool
@@ -341,6 +343,8 @@ Discarded input sections
                 0x00000000       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
  .text.Aleph_HPF_dc_block2
                 0x00000000       0x44 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
+ .text.Aleph_HPF_dc_block
+                0x00000000       0x44 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
  .text.Aleph_LPF_next_dynamic_precise
                 0x00000000       0x88 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
  .text.Aleph_LPF_next_dynamic
@@ -375,6 +379,8 @@ Discarded input sections
                 0x00000000       0x30 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
  .text.Aleph_LPF_init
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
+ .text.Aleph_HPF_init_to_pool
+                0x00000000       0x2c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
  .text.Aleph_HPF_init
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
  .text.Aleph_BPF_init_to_pool
@@ -384,6 +390,8 @@ Discarded input sections
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
+ .text.Aleph_FilterSVF_set_coeff
+                0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_set_low
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_set_high
@@ -404,6 +412,8 @@ Discarded input sections
                 0x00000000       0x1c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_sc_asym_notch_next
                 0x00000000       0x24 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
+ .text._softclip_calc_frame
+                0x00000000       0xac C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_sc_hpf_next
                 0x00000000       0x1c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_sc_bpf_next
@@ -420,14 +430,20 @@ Discarded input sections
                 0x00000000       0x84 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_lpf_next
                 0x00000000       0x84 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
+ .text.Aleph_FilterSVF_sc_os_hpf_next
+                0x00000000       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_os_hpf_next
                 0x00000000       0xe8 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
+ .text.Aleph_FilterSVF_sc_os_bpf_next
+                0x00000000       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_os_bpf_next
                 0x00000000       0xec C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_sc_os_lpf_next_block_smooth
                 0x00000000       0x54 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_sc_os_lpf_next_block
                 0x00000000       0x50 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
+ .text.Aleph_FilterSVF_sc_os_lpf_next
+                0x00000000       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_os_lpf_next
                 0x00000000       0xec C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_mix_outputs
@@ -436,8 +452,12 @@ Discarded input sections
                 0x00000000      0x234 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_next
                 0x00000000      0x11c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
+ .text.Aleph_FilterSVF_set_rq
+                0x00000000       0x20 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_free
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
+ .text.Aleph_FilterSVF_init_to_pool
+                0x00000000       0x38 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .text.Aleph_FilterSVF_init
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
  .rodata.Aleph_FilterSVF_func
@@ -505,6 +525,10 @@ Discarded input sections
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
+ .text.Aleph_LPFOnePole_set_target
+                0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
+ .text.Aleph_LPFOnePole_set_output
+                0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
  .text.Aleph_LPFOnePole_set_coeff
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
  .text.Aleph_LPFOnePole_sync
@@ -513,8 +537,12 @@ Discarded input sections
                 0x00000000       0x48 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
  .text.Aleph_LPFOnePole_next_block
                 0x00000000       0x4c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
+ .text.Aleph_LPFOnePole_next
+                0x00000000       0x38 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
  .text.Aleph_LPFOnePole_free
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
+ .text.Aleph_LPFOnePole_init_to_pool
+                0x00000000       0x34 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
  .text.Aleph_LPFOnePole_init
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_mix_pan.c.o
@@ -600,31 +628,63 @@ Discarded input sections
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_set_freq_offset
+                0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_set_filter_type
+                0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
  .text.Aleph_MonoVoice_set_cutoff_slew
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
  .text.Aleph_MonoVoice_set_freq_slew
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
  .text.Aleph_MonoVoice_set_amp_slew
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_set_res
+                0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_set_cutoff
+                0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_set_freq
+                0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_set_amp
+                0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_set_phase
+                0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_set_shape
+                0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
  .text.Aleph_MonoVoice_next_block
                 0x00000000       0xe0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_next
+                0x00000000       0xd8 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
  .text.Aleph_MonoVoice_free
                 0x00000000       0x40 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_init_to_pool
+                0x00000000       0x84 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
+ .text.Aleph_MonoVoice_init
+                0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
  .text.triangle_polyblep_block
                 0x00000000       0x7c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
+ .text.triangle_polyblep
+                0x00000000       0x5c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
  .text.sine_polyblep_block
                 0x00000000       0x78 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
+ .text.sine_polyblep
+                0x00000000       0x58 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
+ .text._polyblep
+                0x00000000       0xd8 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
  .text.saw_polyblep_block_smooth
                 0x00000000       0x34 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
  .text.saw_polyblep_block
                 0x00000000       0x34 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
+ .text.saw_polyblep
+                0x00000000       0x20 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
  .text.square_polyblep_block_smooth
                 0x00000000       0x54 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
  .text.square_polyblep_block
                 0x00000000       0x58 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
+ .text.square_polyblep
+                0x00000000       0x40 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_oscillator.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_oscillator.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_oscillator.c.o
@@ -661,10 +721,16 @@ Discarded input sections
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
+ .text.Aleph_Phasor_next
+                0x00000000       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
  .text.Aleph_Phasor_next_block
                 0x00000000       0x24 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
  .text.Aleph_Phasor_next_block_smooth
                 0x00000000       0x2c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
+ .text.Aleph_Phasor_set_freq
+                0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
+ .text.Aleph_Phasor_set_phase
+                0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
  .text.Aleph_Phasor_next_dynamic
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
  .text.Aleph_Phasor_read
@@ -699,6 +765,8 @@ Discarded input sections
                 0x00000000       0x34 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
  .text.Aleph_Quasor_init
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
+ .text.Aleph_Phasor_init_to_pool
+                0x00000000       0x2c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
  .text.Aleph_Phasor_init
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_pitch_detector.c.o
@@ -719,6 +787,8 @@ Discarded input sections
                 0x00000000      0x168 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_soft_clip.c.o
  .text.soft_clip_asym
                 0x00000000      0x16c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_soft_clip.c.o
+ .text.soft_clip
+                0x00000000      0x120 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_soft_clip.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_tracking_envelope.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_tracking_envelope.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_tracking_envelope.c.o
@@ -735,6 +805,8 @@ Discarded input sections
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_Waveform_set_shape
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
+ .text.Aleph_WaveformDual_set_shape
+                0x00000000       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_WaveformDual_set_shape_a
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_WaveformDual_set_shape_b
@@ -743,7 +815,13 @@ Discarded input sections
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_WaveformDual_set_phase_a
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
+ .text.Aleph_WaveformDual_set_phase
+                0x00000000       0x24 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_Waveform_set_phase
+                0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
+ .text.Aleph_WaveformDual_set_freq_b
+                0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
+ .text.Aleph_WaveformDual_set_freq_a
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_WaveformDual_set_freq
                 0x00000000       0x24 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
@@ -753,12 +831,16 @@ Discarded input sections
                 0x00000000      0x110 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_WaveformDual_next_block
                 0x00000000      0x110 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
+ .text.Aleph_WaveformDual_next
+                0x00000000       0xbc C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_Waveform_next
                 0x00000000       0x64 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_WaveformDual_free
                 0x00000000       0x28 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_Waveform_free
                 0x00000000       0x20 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
+ .text.Aleph_WaveformDual_init_to_pool
+                0x00000000       0x64 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_WaveformDual_init
                 0x00000000       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
  .text.Aleph_Waveform_init_to_pool
@@ -785,12 +867,12 @@ Discarded input sections
                 0x00000000      0x120 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
  .rodata.places
                 0x00000000       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
- .bss.p.1565    0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
- .bss.p.1520    0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
- .bss.p.1493    0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
+ .bss.p.1570    0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
+ .bss.p.1525    0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
+ .bss.p.1498    0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
  .data.bufHi    0x00000000        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
  .data.bufLo    0x00000000        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
- .bss.p.1462    0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
+ .bss.p.1469    0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
  .bss.a         0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
  .bss.u         0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
  .bss.sign      0x00000000        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix.c.o
@@ -915,11 +997,6 @@ Discarded input sections
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/uint32.c.o
  .text.uint32_log2
                 0x00000000       0x4c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/uint32.c.o
- .text          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
- .data          0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
- .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
- .text.module_get_param_count
-                0x00000000        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
  .text          0x00000000       0xd0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libm.a(lib_a-s_cos.o)
  .data          0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libm.a(lib_a-s_cos.o)
  .bss           0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libm.a(lib_a-s_cos.o)
@@ -1017,6 +1094,7 @@ Discarded input sections
  .bss           0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libbffastfp.a(subfl64.o)
  .note.GNU-stack
                 0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libbffastfp.a(subfl64.o)
+ .text          0x00000000       0xa8 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_divsi3.o)
  .data          0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_divsi3.o)
  .bss           0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_divsi3.o)
  .text          0x00000000       0x9c c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_udivsi3.o)
@@ -1060,6 +1138,7 @@ Discarded input sections
  .bss           0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-memset.o)
  .data          0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-strlen.o)
  .bss           0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-strlen.o)
+ .text          0x00000000       0x8c c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-strncat.o)
  .data          0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-strncat.o)
  .bss           0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-strncat.o)
  .data          0x00000000        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-__atexit.o)
@@ -1139,7 +1218,6 @@ LOAD C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/li
 LOAD C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix32.c.o
 LOAD C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fract32.c.o
 LOAD C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/uint32.c.o
-LOAD C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
 LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libm.a
 LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libbfdsp.a
 LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libbffastfp.a
@@ -1281,7 +1359,7 @@ LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
 .l2
  *(.l2 .l2.*)
 
-.text           0xffa00000     0x30ec
+.text           0xffa00000     0x22fc
  *(.text .stub .text.* .gnu.linkonce.t.* .l1.text .l1.text.*)
  .text          0xffa00000       0xe4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib/basiccrt.o
                 0xffa00000                _start
@@ -1301,354 +1379,210 @@ LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
  .text.ring_buffer_put
                 0xffa00368       0x60 C:/dev/System23/freetribe/build/dsp/obj/common/ring_buffer.c.o
                 0xffa00368                ring_buffer_put
- .text.copy_string
-                0xffa003c8       0x20 C:/dev/System23/freetribe/build/dsp/obj/common/utils.c.o
-                0xffa003c8                copy_string
  .text._on_host_read_done
-                0xffa003e8       0x34 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xffa003c8       0x34 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .text._try_immediate_send
-                0xffa0041c       0xa0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xffa003fc       0xa0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .text._transfer
-                0xffa004bc       0x94 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xffa0049c       0x94 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .text._on_error
-                0xffa00550       0xa0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xffa00530       0xa0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .text._on_host_write_done
-                0xffa005f0       0xa8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xffa005d0       0xa8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .text.dev_cpu_ipc_init
-                0xffa00698       0x6c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
-                0xffa00698                dev_cpu_ipc_init
+                0xffa00678       0x6c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xffa00678                dev_cpu_ipc_init
  .text.dev_cpu_spi_rx_dequeue
-                0xffa00704       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
-                0xffa00704                dev_cpu_spi_rx_dequeue
+                0xffa006e4       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+                0xffa006e4                dev_cpu_spi_rx_dequeue
  .text.dev_cpu_spi_tx_enqueue
-                0xffa0071c       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
-                0xffa0071c                dev_cpu_spi_tx_enqueue
+                0xffa006fc       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+                0xffa006fc                dev_cpu_spi_tx_enqueue
  .text.dev_cpu_spi_init
-                0xffa00734       0x7c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
-                0xffa00734                dev_cpu_spi_init
+                0xffa00714       0x7c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+                0xffa00714                dev_cpu_spi_init
  .text._cpu_spi_trx_callback
-                0xffa007b0       0x58 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+                0xffa00790       0x58 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
  .text.knl_profile_stats
-                0xffa00808       0x28 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/knl_profile.c.o
-                0xffa00808                knl_profile_stats
- .text.main     0xffa00830       0xb0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/main.c.o
-                0xffa00830                main
- .text.per_gpio_get_port
-                0xffa008e0       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_gpio.c.o
-                0xffa008e0                per_gpio_get_port
- .text.per_gpio_init
-                0xffa0091c       0x60 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_gpio.c.o
-                0xffa0091c                per_gpio_init
- .text.per_hostdma_transfer
-                0xffa0097c       0xac C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
-                0xffa0097c                per_hostdma_transfer
- .text.per_hostdma_init
-                0xffa00a28      0x104 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
-                0xffa00a28                per_hostdma_init
- .text._hostdp_dma1_isr
-                0xffa00b2c      0x330 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
- .text._host_read_done_isr
-                0xffa00e5c      0x238 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
- .text._hostdp_status_isr
-                0xffa01094       0x6c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
- .text.per_spi_register_callback
-                0xffa01100       0x2c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
-                0xffa01100                per_spi_register_callback
- .text.per_spi_trx_int
-                0xffa0112c       0x30 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
-                0xffa0112c                per_spi_trx_int
- .text.per_spi_init
-                0xffa0115c       0x88 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
-                0xffa0115c                per_spi_init
- .text._spi_isr
-                0xffa011e4       0xe0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
- .text.sport0_get_rx_buffer
-                0xffa012c4       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
-                0xffa012c4                sport0_get_rx_buffer
- .text.sport0_get_tx_buffer
-                0xffa012d8       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
-                0xffa012d8                sport0_get_tx_buffer
- .text.sport0_frame_received
-                0xffa012ec       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
-                0xffa012ec                sport0_frame_received
- .text.sport0_frame_processed
-                0xffa01300       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
-                0xffa01300                sport0_frame_processed
- .text.sport0_period
-                0xffa01318       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
-                0xffa01318                sport0_period
- .text.sport0_init
-                0xffa01330      0x104 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
-                0xffa01330                sport0_init
- .text._sport0_isr
-                0xffa01434       0xb4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
- .text._transmit_message
-                0xffa014e8       0x68 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
- .text._respond_module_param_name
-                0xffa01550       0x70 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
- .text._handle_message
-                0xffa015c0      0x170 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
- .text.svc_cpu_task
-                0xffa01730      0x168 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
-                0xffa01730                svc_cpu_task
- .text.tlsf_create
-                0xffa01898       0x50 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
-                0xffa01898                tlsf_create
- .text.mapping_insert
-                0xffa018e8       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
- .text.block_remove
-                0xffa01924       0x6c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
- .text.block_merge_next
-                0xffa01990       0x48 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
- .text.block_insert
-                0xffa019d8       0x58 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
- .text.tlsf_free
-                0xffa01a30       0x70 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
-                0xffa01a30                tlsf_free
- .text.free     0xffa01aa0       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
-                0xffa01aa0                free
- .text.block_prepare_used
-                0xffa01ab8       0x9c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
- .text.tlsf_add_pool
-                0xffa01b54       0x54 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
-                0xffa01b54                tlsf_add_pool
- .text.tlsf_create_with_pool
-                0xffa01ba8       0x28 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
-                0xffa01ba8                tlsf_create_with_pool
- .text.heap_init
-                0xffa01bd0       0x24 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
-                0xffa01bd0                heap_init
- .text.block_locate_free
-                0xffa01bf4       0xe8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
- .text.tlsf_malloc
-                0xffa01cdc       0x40 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
-                0xffa01cdc                tlsf_malloc
- .text.malloc   0xffa01d1c       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
-                0xffa01d1c                malloc
- .text._dma_error_isr
-                0xffa01d34       0x2c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/init.c.o
- .text.dma_init
-                0xffa01d60       0x48 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/init.c.o
-                0xffa01d60                dma_init
- .text.ebiu_init
-                0xffa01da8       0x38 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/init.c.o
-                0xffa01da8                ebiu_init
- .text.pll_init
-                0xffa01de0       0x30 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/init.c.o
-                0xffa01de0                pll_init
- .text.Aleph_default_error_callback
-                0xffa01e10        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
-                0xffa01e10                Aleph_default_error_callback
- .text.Aleph_internal_error_callback
-                0xffa01e1c       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
-                0xffa01e1c                Aleph_internal_error_callback
- .text.Aleph_init
-                0xffa01e34       0x44 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph.c.o
-                0xffa01e34                Aleph_init
- .text.aleph_pool_init
-                0xffa01e78       0x38 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
-                0xffa01e78                aleph_pool_init
- .text.mpool_alloc
-                0xffa01eb0       0xec C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/core/aleph_mempool.c.o
-                0xffa01eb0                mpool_alloc
- .text.Aleph_HPF_dc_block
-                0xffa01f9c       0x44 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
-                0xffa01f9c                Aleph_HPF_dc_block
- .text.Aleph_HPF_init_to_pool
-                0xffa01fe0       0x2c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter.c.o
-                0xffa01fe0                Aleph_HPF_init_to_pool
- .text.Aleph_FilterSVF_set_coeff
-                0xffa0200c       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
-                0xffa0200c                Aleph_FilterSVF_set_coeff
- .text._softclip_calc_frame
-                0xffa0201c       0xac C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
- .text.Aleph_FilterSVF_sc_os_hpf_next
-                0xffa020c8       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
-                0xffa020c8                Aleph_FilterSVF_sc_os_hpf_next
- .text.Aleph_FilterSVF_sc_os_bpf_next
-                0xffa02104       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
-                0xffa02104                Aleph_FilterSVF_sc_os_bpf_next
- .text.Aleph_FilterSVF_sc_os_lpf_next
-                0xffa02140       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
-                0xffa02140                Aleph_FilterSVF_sc_os_lpf_next
- .text.Aleph_FilterSVF_set_rq
-                0xffa0217c       0x20 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
-                0xffa0217c                Aleph_FilterSVF_set_rq
- .text.Aleph_FilterSVF_init_to_pool
-                0xffa0219c       0x38 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_filter_svf.c.o
-                0xffa0219c                Aleph_FilterSVF_init_to_pool
- .text.Aleph_LPFOnePole_set_target
-                0xffa021d4       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
-                0xffa021d4                Aleph_LPFOnePole_set_target
- .text.Aleph_LPFOnePole_set_output
-                0xffa021e4       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
-                0xffa021e4                Aleph_LPFOnePole_set_output
- .text.Aleph_LPFOnePole_next
-                0xffa021f4       0x38 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
-                0xffa021f4                Aleph_LPFOnePole_next
- .text.Aleph_LPFOnePole_init_to_pool
-                0xffa0222c       0x34 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_lpf_one_pole.c.o
-                0xffa0222c                Aleph_LPFOnePole_init_to_pool
- .text.Aleph_MonoVoice_set_freq_offset
-                0xffa02260       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa02260                Aleph_MonoVoice_set_freq_offset
- .text.Aleph_MonoVoice_set_filter_type
-                0xffa02270       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa02270                Aleph_MonoVoice_set_filter_type
- .text.Aleph_MonoVoice_set_res
-                0xffa02280       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa02280                Aleph_MonoVoice_set_res
- .text.Aleph_MonoVoice_set_cutoff
-                0xffa02294       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa02294                Aleph_MonoVoice_set_cutoff
- .text.Aleph_MonoVoice_set_freq
-                0xffa022a8       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa022a8                Aleph_MonoVoice_set_freq
- .text.Aleph_MonoVoice_set_amp
-                0xffa022bc       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa022bc                Aleph_MonoVoice_set_amp
- .text.Aleph_MonoVoice_set_phase
-                0xffa022d0       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa022d0                Aleph_MonoVoice_set_phase
- .text.Aleph_MonoVoice_set_shape
-                0xffa022e4       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa022e4                Aleph_MonoVoice_set_shape
- .text.Aleph_MonoVoice_next
-                0xffa022f8       0xd8 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa022f8                Aleph_MonoVoice_next
- .text.Aleph_MonoVoice_init_to_pool
-                0xffa023d0       0x84 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa023d0                Aleph_MonoVoice_init_to_pool
- .text.Aleph_MonoVoice_init
-                0xffa02454       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_monovoice.c.o
-                0xffa02454                Aleph_MonoVoice_init
- .text.triangle_polyblep
-                0xffa02464       0x5c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
-                0xffa02464                triangle_polyblep
- .text.sine_polyblep
-                0xffa024c0       0x58 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
-                0xffa024c0                sine_polyblep
- .text._polyblep
-                0xffa02518       0xd8 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
- .text.saw_polyblep
-                0xffa025f0       0x20 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
-                0xffa025f0                saw_polyblep
- .text.square_polyblep
-                0xffa02610       0x40 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_osc_polyblep.c.o
-                0xffa02610                square_polyblep
- .text.Aleph_Phasor_next
-                0xffa02650       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
-                0xffa02650                Aleph_Phasor_next
- .text.Aleph_Phasor_set_freq
-                0xffa02668       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
-                0xffa02668                Aleph_Phasor_set_freq
- .text.Aleph_Phasor_set_phase
-                0xffa02678       0x10 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
-                0xffa02678                Aleph_Phasor_set_phase
- .text.Aleph_Phasor_init_to_pool
-                0xffa02688       0x2c C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_phasor.c.o
-                0xffa02688                Aleph_Phasor_init_to_pool
- .text.soft_clip
-                0xffa026b4      0x120 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_soft_clip.c.o
-                0xffa026b4                soft_clip
- .text.Aleph_WaveformDual_set_shape
-                0xffa027d4       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
-                0xffa027d4                Aleph_WaveformDual_set_shape
- .text.Aleph_WaveformDual_set_phase
-                0xffa027ec       0x24 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
-                0xffa027ec                Aleph_WaveformDual_set_phase
- .text.Aleph_WaveformDual_set_freq_b
-                0xffa02810       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
-                0xffa02810                Aleph_WaveformDual_set_freq_b
- .text.Aleph_WaveformDual_set_freq_a
-                0xffa02824       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
-                0xffa02824                Aleph_WaveformDual_set_freq_a
- .text.Aleph_WaveformDual_next
-                0xffa02838       0xbc C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
-                0xffa02838                Aleph_WaveformDual_next
- .text.Aleph_WaveformDual_init_to_pool
-                0xffa028f4       0x64 C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/src/ugens/aleph_waveform.c.o
-                0xffa028f4                Aleph_WaveformDual_init_to_pool
- .text.module_get_param
-                0xffa02958        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
-                0xffa02958                module_get_param
- .text.module_get_param_name
-                0xffa02964       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
-                0xffa02964                module_get_param_name
- .text.module_set_param
-                0xffa0297c       0xb0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
-                0xffa0297c                module_set_param
- .text.module_process
-                0xffa02a2c       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
-                0xffa02a2c                module_process
+                0xffa007e8       0x28 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/knl_profile.c.o
+                0xffa007e8                knl_profile_stats
+ .text.main     0xffa00810       0xb0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/main.c.o
+                0xffa00810                main
  .text.module_init
-                0xffa02a68       0x80 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
-                0xffa02a68                module_init
- .text          0xffa02ae8       0xa8 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_divsi3.o)
-                0xffa02ae8                __divsi3
- .text          0xffa02b90       0x5c c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_ffssi2.o)
-                0xffa02b90                __ffssi2
- .text          0xffa02bec       0x50 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_clzsi2.o)
-                0xffa02bec                __clzsi2
- .text          0xffa02c3c       0x18 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-atexit.o)
-                0xffa02c3c                atexit
- .text          0xffa02c54       0x2c c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-exit.o)
-                0xffa02c54                exit
- .text          0xffa02c80       0xa4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-memcpy.o)
-                0xffa02c80                memcpy
- .text          0xffa02d24       0xb8 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-memset.o)
-                0xffa02d24                memset
- .text          0xffa02ddc       0x88 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-strlen.o)
-                0xffa02ddc                strlen
- .text          0xffa02e64       0x8c c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-strncat.o)
-                0xffa02e64                strncat
- .text          0xffa02ef0       0xbc c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-__atexit.o)
-                0xffa02ef0                __register_exitproc
- .text          0xffa02fac      0x100 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-__call_atexit.o)
-                0xffa02fac                __call_exitprocs
- .text          0xffa030ac        0x8 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libbfinbsp.a(_exit.o)
-                0xffa030ac                _exit
- .text          0xffa030b4       0x38 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
+                0xffa008c0        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
+                0xffa008c0                module_init
+ .text.module_process
+                0xffa008cc        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
+                0xffa008cc                module_process
+ .text.module_set_param
+                0xffa008d8        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
+                0xffa008d8                module_set_param
+ .text.module_get_param
+                0xffa008e4        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
+                0xffa008e4                module_get_param
+ .text.module_get_param_name
+                0xffa008f0        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/module.c.o
+                0xffa008f0                module_get_param_name
+ .text.per_gpio_get_port
+                0xffa008fc       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_gpio.c.o
+                0xffa008fc                per_gpio_get_port
+ .text.per_gpio_init
+                0xffa00938       0x60 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_gpio.c.o
+                0xffa00938                per_gpio_init
+ .text.per_hostdma_transfer
+                0xffa00998       0xac C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+                0xffa00998                per_hostdma_transfer
+ .text.per_hostdma_init
+                0xffa00a44      0x104 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+                0xffa00a44                per_hostdma_init
+ .text._hostdp_dma1_isr
+                0xffa00b48      0x330 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+ .text._host_read_done_isr
+                0xffa00e78      0x238 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+ .text._hostdp_status_isr
+                0xffa010b0       0x6c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+ .text.per_spi_register_callback
+                0xffa0111c       0x2c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
+                0xffa0111c                per_spi_register_callback
+ .text.per_spi_trx_int
+                0xffa01148       0x30 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
+                0xffa01148                per_spi_trx_int
+ .text.per_spi_init
+                0xffa01178       0x88 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
+                0xffa01178                per_spi_init
+ .text._spi_isr
+                0xffa01200       0xe0 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
+ .text.sport0_get_rx_buffer
+                0xffa012e0       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xffa012e0                sport0_get_rx_buffer
+ .text.sport0_get_tx_buffer
+                0xffa012f4       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xffa012f4                sport0_get_tx_buffer
+ .text.sport0_frame_received
+                0xffa01308       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xffa01308                sport0_frame_received
+ .text.sport0_frame_processed
+                0xffa0131c       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xffa0131c                sport0_frame_processed
+ .text.sport0_period
+                0xffa01334       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xffa01334                sport0_period
+ .text.sport0_init
+                0xffa0134c      0x104 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xffa0134c                sport0_init
+ .text._sport0_isr
+                0xffa01450       0xb4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+ .text._transmit_message
+                0xffa01504       0x68 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+ .text._respond_module_param_name
+                0xffa0156c       0x70 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+ .text._handle_message
+                0xffa015dc      0x170 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+ .text.svc_cpu_task
+                0xffa0174c      0x168 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+                0xffa0174c                svc_cpu_task
+ .text.tlsf_create
+                0xffa018b4       0x50 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+                0xffa018b4                tlsf_create
+ .text.mapping_insert
+                0xffa01904       0x3c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+ .text.block_remove
+                0xffa01940       0x6c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+ .text.block_merge_next
+                0xffa019ac       0x48 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+ .text.block_insert
+                0xffa019f4       0x58 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+ .text.tlsf_free
+                0xffa01a4c       0x70 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+                0xffa01a4c                tlsf_free
+ .text.free     0xffa01abc       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+                0xffa01abc                free
+ .text.block_prepare_used
+                0xffa01ad4       0x9c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+ .text.tlsf_add_pool
+                0xffa01b70       0x54 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+                0xffa01b70                tlsf_add_pool
+ .text.tlsf_create_with_pool
+                0xffa01bc4       0x28 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+                0xffa01bc4                tlsf_create_with_pool
+ .text.heap_init
+                0xffa01bec       0x24 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+                0xffa01bec                heap_init
+ .text.block_locate_free
+                0xffa01c10       0xe8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+ .text.tlsf_malloc
+                0xffa01cf8       0x40 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+                0xffa01cf8                tlsf_malloc
+ .text.malloc   0xffa01d38       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+                0xffa01d38                malloc
+ .text._dma_error_isr
+                0xffa01d50       0x2c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/init.c.o
+ .text.dma_init
+                0xffa01d7c       0x48 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/init.c.o
+                0xffa01d7c                dma_init
+ .text.ebiu_init
+                0xffa01dc4       0x38 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/init.c.o
+                0xffa01dc4                ebiu_init
+ .text.pll_init
+                0xffa01dfc       0x30 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/init.c.o
+                0xffa01dfc                pll_init
+ .text          0xffa01e2c       0x5c c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_ffssi2.o)
+                0xffa01e2c                __ffssi2
+ .text          0xffa01e88       0x50 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_clzsi2.o)
+                0xffa01e88                __clzsi2
+ .text          0xffa01ed8       0x18 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-atexit.o)
+                0xffa01ed8                atexit
+ .text          0xffa01ef0       0x2c c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-exit.o)
+                0xffa01ef0                exit
+ .text          0xffa01f1c       0xa4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-memcpy.o)
+                0xffa01f1c                memcpy
+ .text          0xffa01fc0       0xb8 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-memset.o)
+                0xffa01fc0                memset
+ .text          0xffa02078       0x88 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-strlen.o)
+                0xffa02078                strlen
+ .text          0xffa02100       0xbc c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-__atexit.o)
+                0xffa02100                __register_exitproc
+ .text          0xffa021bc      0x100 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-__call_atexit.o)
+                0xffa021bc                __call_exitprocs
+ .text          0xffa022bc        0x8 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libbfinbsp.a(_exit.o)
+                0xffa022bc                _exit
+ .text          0xffa022c4       0x38 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
  *(.text.*personality*)
  *(.gnu.warning)
 
-.init           0xffa030ec       0x12
+.init           0xffa022fc       0x12
  *(.init)
- .init          0xffa030ec        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crti.o
-                0xffa030ec                _init
- .init          0xffa030f0        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
- .init          0xffa030f4        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
- .init          0xffa030f8        0x6 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
+ .init          0xffa022fc        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crti.o
+                0xffa022fc                _init
+ .init          0xffa02300        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
+ .init          0xffa02304        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
+ .init          0xffa02308        0x6 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
 
 .plt
  *(.plt)
 
-.fini           0xffa030fe        0xe
+.fini           0xffa0230e        0xe
  *(.fini)
- .fini          0xffa030fe        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crti.o
-                0xffa030fe                _fini
- .fini          0xffa03102        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
- .fini          0xffa03106        0x6 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
-                0xffa0310c                PROVIDE (__etext, .)
-                0xffa0310c                PROVIDE (_etext, .)
-                0xffa0310c                PROVIDE (etext, .)
+ .fini          0xffa0230e        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crti.o
+                0xffa0230e                _fini
+ .fini          0xffa02312        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
+ .fini          0xffa02316        0x6 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
+                0xffa0231c                PROVIDE (__etext, .)
+                0xffa0231c                PROVIDE (_etext, .)
+                0xffa0231c                PROVIDE (etext, .)
 
-.rodata         0xff800000      0x1b8
+.rodata         0xff800000      0x144
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.error_check
                 0xff800000       0x28 C:/dev/System23/freetribe/build/dsp/obj/common/ft_error.c.o
  .rodata.svc_cpu_task
                 0xff800028       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+ .rodata        0xff80003c      0x100 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_clz.o)
+                0xff80003c                __clz_tab
+ .rodata        0xff80013c        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-impure.o)
+                0xff80013c                _global_impure_ptr
  .rodata.str1.4
-                0xff80003c        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
- .rodata.module_set_param
-                0xff800044       0x6c C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
- .rodata        0xff8000b0      0x100 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5\libgcc.a(_clz.o)
-                0xff8000b0                __clz_tab
- .rodata        0xff8001b0        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-impure.o)
-                0xff8001b0                _global_impure_ptr
- .rodata.str1.4
-                0xff8001b4        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-impure.o)
+                0xff800140        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-impure.o)
 
 .rodata1
  *(.rodata1)
@@ -1662,14 +1596,14 @@ LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
 .eh_frame_hdr
  *(.eh_frame_hdr)
 
-.eh_frame       0xff8001b8        0x4
+.eh_frame       0xff800144        0x4
  *(.eh_frame)
- .eh_frame      0xff8001b8        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
- .eh_frame      0xff8001b8        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
+ .eh_frame      0xff800144        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
+ .eh_frame      0xff800144        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
 
 .gcc_except_table
  *(.gcc_except_table .gcc_except_table.*)
-                0xff8011bc                . = (ALIGN (0x1000) + (. & 0xfff))
+                0xff801148                . = (ALIGN (0x1000) + (. & 0xfff))
 
 .eh_frame
  *(.eh_frame)
@@ -1684,44 +1618,44 @@ LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
  *(.tbss .tbss.* .gnu.linkonce.tb.*)
  *(.tcommon)
 
-.preinit_array  0xff8001bc        0x0
-                0xff8001bc                PROVIDE (___preinit_array_start, .)
+.preinit_array  0xff800148        0x0
+                0xff800148                PROVIDE (___preinit_array_start, .)
  *(.preinit_array)
-                0xff8001bc                PROVIDE (___preinit_array_end, .)
+                0xff800148                PROVIDE (___preinit_array_end, .)
 
-.init_array     0xff8001bc        0x0
-                0xff8001bc                PROVIDE (___init_array_start, .)
+.init_array     0xff800148        0x0
+                0xff800148                PROVIDE (___init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array)
-                0xff8001bc                PROVIDE (___init_array_end, .)
+                0xff800148                PROVIDE (___init_array_end, .)
 
-.fini_array     0xff8001bc        0x0
-                0xff8001bc                PROVIDE (___fini_array_start, .)
+.fini_array     0xff800148        0x0
+                0xff800148                PROVIDE (___fini_array_start, .)
  *(.fini_array)
  *(SORT(.fini_array.*))
-                0xff8001bc                PROVIDE (___fini_array_end, .)
+                0xff800148                PROVIDE (___fini_array_end, .)
 
-.ctors          0xff8001bc        0x8
+.ctors          0xff800148        0x8
  *crtbegin*.o(.ctors)
- .ctors         0xff8001bc        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
+ .ctors         0xff800148        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
  *(EXCLUDE_FILE(*crtend*.o) .ctors)
  *(SORT(.ctors.*))
  *(.ctors)
- .ctors         0xff8001c0        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
+ .ctors         0xff80014c        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
 
-.dtors          0xff8001c4        0x8
+.dtors          0xff800150        0x8
  *crtbegin*.o(.dtors)
- .dtors         0xff8001c4        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
+ .dtors         0xff800150        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
  *(EXCLUDE_FILE(*crtend*.o) .dtors)
  *(SORT(.dtors.*))
  *(.dtors)
- .dtors         0xff8001c8        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
-                0xff8001c8                __DTOR_END__
+ .dtors         0xff800154        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
+                0xff800154                __DTOR_END__
 
-.jcr            0xff8001cc        0x4
+.jcr            0xff800158        0x4
  *(.jcr)
- .jcr           0xff8001cc        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
- .jcr           0xff8001cc        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
+ .jcr           0xff800158        0x0 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
+ .jcr           0xff800158        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtend.o
 
 .data.rel.ro
  *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*)
@@ -1730,14 +1664,12 @@ LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
 .dynamic
  *(.dynamic)
 
-.data           0xff8001e0     0x2448
+.data           0xff80015c      0x42c
  *(.data .data.* .gnu.linkonce.d.* .l1.data .l1.data.a .l1.data.A)
- .data.result.1257
-                0xff8001e0        0x4 C:/dev/System23/freetribe/build/dsp/obj/common/ft_error.c.o
- *fill*         0xff8001e4       0x1c 00
- .l1.data.a     0xff800200     0x2000 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
- .data          0xff802200      0x428 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-impure.o)
-                0xff802200                _impure_ptr
+ .data.result.1627
+                0xff80015c        0x4 C:/dev/System23/freetribe/build/dsp/obj/common/ft_error.c.o
+ .data          0xff800160      0x428 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libc.a(lib_a-impure.o)
+                0xff800160                _impure_ptr
  *(.gnu.linkonce.d.*personality*)
 
 .data1
@@ -1749,121 +1681,119 @@ LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
 
 .sdata
  *(.sdata .sdata.* .gnu.linkonce.s.*)
-                0xff802628                __edata = .
-                0xff802628                PROVIDE (_edata, .)
+                0xff800588                __edata = .
+                0xff800588                PROVIDE (_edata, .)
 
-.sbss           0xff802628        0x0
-                0xff802628                __bss_start = .
+.sbss           0xff800588        0x0
+                0xff800588                __bss_start = .
  *(.dynsbss)
  *(.sbss .sbss.* .gnu.linkonce.sb.*)
  *(.scommon)
 
-.bss            0xff802628     0x16f8
+.bss            0xff800588     0x16a4
  *(.dynbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0xff802628        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib/basiccrt.o
- .bss           0xff80262c       0x20 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
- .bss.idx.2370  0xff80264c        0x4 C:/dev/System23/freetribe/build/dsp/obj/common/ring_buffer.c.o
- .bss._rb       0xff802650      0x500 C:/dev/System23/freetribe/build/dsp/obj/common/ring_buffer.c.o
- .bss.g_rbd     0xff802b50        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
- .bss.g_queue   0xff802b54      0x500 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+ .bss           0xff800588        0x4 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib/basiccrt.o
+ .bss           0xff80058c       0x20 c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtbegin.o
+ .bss.idx.2370  0xff8005ac        0x4 C:/dev/System23/freetribe/build/dsp/obj/common/ring_buffer.c.o
+ .bss._rb       0xff8005b0      0x500 C:/dev/System23/freetribe/build/dsp/obj/common/ring_buffer.c.o
+ .bss.g_rbd     0xff800ab0        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+ .bss.g_queue   0xff800ab4      0x500 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .bss.g_active_tx
-                0xff803054       0x28 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xff800fb4       0x28 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .bss.g_inflight_rbd
-                0xff80307c        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xff800fdc        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .bss.g_inflight_reads
-                0xff803080      0x500 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xff800fe0      0x500 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .bss.g_tx_in_progress
-                0xff803580        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+                0xff8014e0        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
  .bss.g_lock_driver
-                0xff803581        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
- *fill*         0xff803582        0x2 00
+                0xff8014e1        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_ipc.c.o
+ *fill*         0xff8014e2        0x2 00
  .bss.g_spi_rx_rbd
-                0xff803584        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+                0xff8014e4        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
  .bss.g_spi_rx_rbmem
-                0xff803588      0x200 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+                0xff8014e8      0x200 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
  .bss.g_spi_tx_rbd
-                0xff803788        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+                0xff8016e8        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
  .bss.g_spi_tx_rbmem
-                0xff80378c      0x200 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+                0xff8016ec      0x200 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
  .bss.g_cpu_spi_rx_byte
-                0xff80398c        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+                0xff8018ec        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
  .bss.g_cpu_spi_tx_byte
-                0xff80398d        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
- *fill*         0xff80398e        0x2 00
+                0xff8018ed        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/device/dev_cpu_spi.c.o
+ *fill*         0xff8018ee        0x2 00
  .bss.g_module_cycles
-                0xff803990        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/knl_profile.c.o
-                0xff803990                g_module_cycles
+                0xff8018f0        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/knl_profile.c.o
+                0xff8018f0                g_module_cycles
  .bss.stats.1308
-                0xff803998        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/knl_profile.c.o
+                0xff8018f8        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/knl_profile.c.o
  .bss.g_event_head
-                0xff8039a0        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
-                0xff8039a0                g_event_head
+                0xff801900        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+                0xff801900                g_event_head
  .bss.g_event_tail
-                0xff8039a4        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
-                0xff8039a4                g_event_tail
+                0xff801904        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+                0xff801904                g_event_tail
  .bss.g_tx_callback
-                0xff8039a8        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+                0xff801908        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
  .bss.g_rx_callback
-                0xff8039ac        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+                0xff80190c        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
  .bss.g_error_callback
-                0xff8039b0        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
- .bss.g_state   0xff8039b4        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+                0xff801910        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+ .bss.g_state   0xff801914        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
  .bss.g_rx_state
-                0xff8039b8       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+                0xff801918       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
  .bss.g_tx_state
-                0xff8039d0       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
- .bss.g_spi     0xff8039e8       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
+                0xff801930       0x18 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+ .bss.g_spi     0xff801948       0x14 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_spi.c.o
  .bss.g_sport0_frame_received
-                0xff8039fc        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
- *fill*         0xff8039fd        0x3 00
+                0xff80195c        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+ *fill*         0xff80195d        0x3 00
  .bss.g_codec_tx_buffer
-                0xff803a00        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xff801960        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
  .bss.g_codec_rx_buffer
-                0xff803a08        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xff801968        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
  .bss.g_codec_in
-                0xff803a10        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xff801970        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
  .bss.g_codec_out
-                0xff803a18        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
- .bss.g_start   0xff803a20        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
- .bss.g_stop    0xff803a28        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xff801978        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+ .bss.g_start   0xff801980        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+ .bss.g_stop    0xff801988        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
  .bss.g_elapsed
-                0xff803a30        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
+                0xff801990        0x8 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_sport.c.o
  .bss.cpu_byte.1791
-                0xff803a38        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
- *fill*         0xff803a39        0x3 00
+                0xff801998        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+ *fill*         0xff801999        0x3 00
  .bss.state.1790
-                0xff803a3c        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+                0xff80199c        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
  .bss.count.1830
-                0xff803a40        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+                0xff8019a0        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
  .bss.payload.1829
-                0xff803a41       0xff C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+                0xff8019a1       0xff C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
  .bss.length.1828
-                0xff803b40        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+                0xff801aa0        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
  .bss.msg_id.1827
-                0xff803b41        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+                0xff801aa1        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
  .bss.msg_type.1826
-                0xff803b42        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
- *fill*         0xff803b43        0x1 00
+                0xff801aa2        0x1 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
+ *fill*         0xff801aa3        0x1 00
  .bss.state.1825
-                0xff803b44        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
- .bss.g_aleph   0xff803b48       0x48 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
- .bss.g_module  0xff803b90        0xc C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
+                0xff801aa4        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/service/svc_cpu.c.o
  *(COMMON)
- COMMON         0xff803b9c      0x180 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
-                0xff803b9c                g_event_queue
- COMMON         0xff803d1c        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
-                0xff803d1c                g_heap
-                0xff803d20                . = ALIGN ((. != 0x0)?0x4:0x1)
-                0xff803d20                __bss_end = .
+ COMMON         0xff801aa8      0x180 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/peripheral/per_hostdma.c.o
+                0xff801aa8                g_event_queue
+ COMMON         0xff801c28        0x4 C:/dev/System23/freetribe/build/dsp/obj/dsp/src/kernel/system/heap.c.o
+                0xff801c28                g_heap
+                0xff801c2c                . = ALIGN ((. != 0x0)?0x4:0x1)
+                0xff801c2c                __bss_end = .
 
 .l1.data.b
  *(.l1.data.b .l1.data.B)
  *(.*personality*)
-                0xff803d20                . = ALIGN (0x4)
-                0xff803d20                . = ALIGN (0x4)
-                0xff803d20                __end = .
-                0xff803d20                PROVIDE (_end, .)
+                0xff801c2c                . = ALIGN (0x4)
+                0xff801c2c                . = ALIGN (0x4)
+                0xff801c2c                __end = .
+                0xff801c2c                PROVIDE (_end, .)
 
 .stab
  *(.stab)
@@ -1938,7 +1868,6 @@ LOAD c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/crtn.o
  .comment       0x00000000       0x1d C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fix32.c.o
  .comment       0x00000000       0x1d C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/fract32.c.o
  .comment       0x00000000       0x1d C:/dev/System23/freetribe/build/dsp/obj/dsp/lib/aleph-dsp/lib/libfixmath/libfixmath/uint32.c.o
- .comment       0x00000000       0x1d C:/dev/System23/freetribe/build/dsp/obj/dsp/src/modules/monosynth/monosynth.c.o
  .comment       0x00000000       0x1d c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libm.a(lib_a-s_cos.o)
  .comment       0x00000000       0x1d c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libm.a(lib_a-s_sin.o)
  .comment       0x00000000       0x1d c:/apps/dev/bfin/elf/bin/../lib/gcc/bfin-elf/4.3.5/../../../../bfin-elf/lib\libm.a(lib_a-e_rem_pio2.o)

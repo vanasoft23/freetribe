@@ -54,11 +54,11 @@ extern "C" {
 
 /*----- Extern function prototypes -----------------------------------*/
 
-void zoia_encoder(int32_t clicks);
+void zoia_encoder(s32 clicks);
 void zoia_enter(void);
 void zoia_back(void);
 void zoia_home(void);
-void zoia_patch_set(uint8_t patch_index);
+void zoia_patch_set(u8 patch_index);
 
 #ifdef __cplusplus
 }

@@ -28,7 +28,8 @@ C:/dev/System23/freetribe/build/kernel/obj/cpu/lib/tinyusb/src/class/cdc/cdc_dev
  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.h \
  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_private.h \
  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_device.h \
- C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc.h
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_device_pvt.h
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/tusb_option.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_compiler.h:
 C:/dev/System23/freetribe/cpu/src/kernel/service/usb/tusb_config.h:
@@ -58,3 +59,4 @@ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_private.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_device.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_device_pvt.h:

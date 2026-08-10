@@ -34,6 +34,8 @@ under the terms of the GNU Affero General Public License as published by
  * @brief   Exports API for error.c.
  */
 
+/// TODO: should there be a unified error code header?
+
 #ifndef ERROR_H
 #define ERROR_H
 
@@ -47,6 +49,7 @@ extern "C" {
 
 /*----- Typedefs -----------------------------------------------------*/
 
+/// @TODO: REMOVE THIS THING BECAUSE ERRORS SHOULDN'T BE GLOBAL
 typedef enum {
     SUCCESS,
     ERROR,
@@ -66,6 +69,8 @@ typedef enum {
 /*----- Extern function prototypes -----------------------------------*/
 
 t_status error_check(t_status error);
+
+
 
 #ifdef __cplusplus
 }

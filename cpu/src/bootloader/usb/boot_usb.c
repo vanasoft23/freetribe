@@ -28,23 +28,38 @@ under the terms of the GNU Affero General Public License as published by
 
 ----------------------------------------------------------------------*/
 
+/**
+ * @file    boot_usb.c
+ *
+ * @brief   Wrapper around TinyUSB.
+ *
+ * @author  vanasoft23 (mvandijk303@gmail.com)
+ */
+
 /*----- Includes -----------------------------------------------------*/
+
+#include "ft.h"
 
 #include <hw_types.h>
 #include <hw_aintc.h>
 #include <hw_usbOtg_AM1808.h>
 #include <soc_AM1808.h>
 #include <csl_interrupt.h>
+#include <tusb.h>
+#include <musb_am1802.h>
 
-#include "macros.h"
-#include "tusb.h"
+#include "tud_cdc.h"
+#include "devices/tud_msc_disk.h"
 #include "boot_usb.h"
 
 /*----- Macros -------------------------------------------------------*/
 
 #define BOOT_USB_INT_CHANNEL 2
 
-#define AM1802_USB_RHPORT 0 // root hub port number
+#define AM1802_USB_RHPORT 0 /* root hub port number */
+
+#define MUSB_AM1802_INTR_MASK 0x01ff1e1fu /* TODO: usb0 bridge clear should */
+                                          /* be callable as tusb api        */
 
 /*----- Static function prototypes -----------------------------------*/
 
@@ -52,9 +67,15 @@ static void _register_usb0_intr(void);
 static void _usb0_bridge_clear(void);
 static void _usb0_isr(void);
 
+/*----- Extern function declarations ---------------------------------*/
+
+extern void dfu_preinit(void);
+
 /*----- Extern function implementations ------------------------------*/
 
 void boot_usb_init(void) {
+
+    dfu_preinit();
 
     _register_usb0_intr();
 
@@ -62,7 +83,7 @@ void boot_usb_init(void) {
         .role = TUSB_ROLE_DEVICE,
         .speed = TUSB_SPEED_AUTO
     };
-    // The AM1802 TinyUSB DCD configures CFGCHIP2 and waits for PHYCLKGD.
+    // AM1802 TinyUSB DCD configures CFGCHIP2 and waits for PHYCLKGD.
     tusb_init(AM1802_USB_RHPORT, &dev_init);
 
 }
@@ -75,23 +96,41 @@ void boot_usb_task(void) {
 
 void boot_usb_terminate(void) {
 
-    IntSystemDisable(SYS_INT_USB0);
+    tusb_deinit(AM1802_USB_RHPORT);
     IntSystemStatusClear(SYS_INT_USB0);
     _usb0_bridge_clear();
 
 }
 
 
+/**
+ * @brief   Invoked after the host configures the TinyUSB device.
+ */
+void tud_mount_cb(void) {
+
+    boot_msc_mount_cb();
+
+}
+
+/**
+ * @brief   Invoked after the active TinyUSB configuration is removed.
+ */
+void tud_umount_cb(void) {
+
+    cdc_umount_cb();
+    boot_msc_umount_cb();
+
+}
+
+
+
 /*----- Static function implementations ------------------------------*/
 
 static void _register_usb0_intr() {
 
-    IntSystemDisable(SYS_INT_USB0);
     _usb0_bridge_clear();
-
     IntChannelSet(SYS_INT_USB0, BOOT_USB_INT_CHANNEL);
     IntRegister(SYS_INT_USB0, _usb0_isr);
-    IntSystemStatusClear(SYS_INT_USB0);
 
 }
 
@@ -101,9 +140,11 @@ static void _usb0_isr(void) {
 
 static void _usb0_bridge_clear(void) {
 
-    HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_MASK_CLEAR) = 0xffffffffu;
-    HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_SRC_CLEAR) = 0xffffffffu;
-    HWREG(SOC_USB_0_OTG_BASE + USB_0_END_OF_INTR) = 0u;
+    musb_dcd_int_disable(AM1802_USB_RHPORT);
+    musb_dcd_int_clear(AM1802_USB_RHPORT);
+    // HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_MASK_CLEAR) = MUSB_AM1802_INTR_MASK;
+    // HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_SRC_CLEAR) = MUSB_AM1802_INTR_MASK;
+    // HWREG(SOC_USB_0_OTG_BASE + USB_0_END_OF_INTR) = 0u;
 
 }
 

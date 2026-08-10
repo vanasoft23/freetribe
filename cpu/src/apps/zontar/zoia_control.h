@@ -66,10 +66,10 @@ extern "C" {
 
 /*----- Extern function prototypes -----------------------------------*/
 
-void zoia_bypass(uint8_t value);
-void zoia_press(uint8_t value);
-void zoia_release(uint8_t value);
-void zoia_turn(uint8_t value);
+void zoia_bypass(u8 value);
+void zoia_press(u8 value);
+void zoia_release(u8 value);
+void zoia_turn(u8 value);
 
 #ifdef __cplusplus
 }

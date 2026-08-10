@@ -43,8 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -59,9 +58,10 @@ void dev_lcd_init(void);
 // True sets reset pin low.
 void dev_lcd_reset(bool state);
 
-void dev_lcd_set_frame(uint8_t *frame_buffer);
-void dev_lcd_set_page(uint8_t page_index, uint8_t *page_buffer);
-void dev_lcd_set_contrast(uint8_t contrast);
+void dev_lcd_set_frame(u8 *frame_buffer);
+bool dev_lcd_try_set_frame(const u8 *frame_buffer);
+void dev_lcd_set_page(u8 page_index, u8 *page_buffer);
+void dev_lcd_set_contrast(u8 contrast);
 void dev_lcd_set_backlight(bool red, bool green, bool blue);
 
 #ifdef __cplusplus

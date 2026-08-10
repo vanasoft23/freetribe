@@ -68,6 +68,8 @@ Discarded input sections
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .data          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .bss           0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .text.CP15WriteBufferDrain
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .text.CP15ICacheDisable
                 0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .text.CP15DCacheDisable
@@ -101,19 +103,19 @@ Discarded input sections
  .text.CP15DomainAccessClient
                 0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .text.CP15DomainAccessManager
-                0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+                0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .text.CP15InvalidateTLB
                 0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
- .debug_info    0x00000000      0x1ff C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_info    0x00000000      0x212 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .debug_abbrev  0x00000000       0xb9 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .debug_loc     0x00000000       0x74 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .debug_aranges
-                0x00000000       0xa8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
- .debug_ranges  0x00000000       0x98 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
- .debug_line    0x00000000      0x24b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
- .debug_str     0x00000000      0x27b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+                0x00000000       0xb0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_ranges  0x00000000       0xa0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_line    0x00000000      0x264 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_str     0x00000000      0x290 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
- .debug_frame   0x00000000      0x130 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
+ .debug_frame   0x00000000      0x140 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .ARM.attributes
                 0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cp15.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_cppi41dma.c.o
@@ -468,7 +470,7 @@ Discarded input sections
  .text.IntFIQDisable
                 0x00000000       0x14 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .text.IntAINTCInit
-                0x00000000       0x6c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+                0x00000000       0x4c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .text.IntMasterIRQEnable
                 0x00000000        0x4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .text.IntMasterIRQDisable
@@ -489,11 +491,11 @@ Discarded input sections
                 0x00000000      0x194 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .debug_info    0x00000000      0x582 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .debug_abbrev  0x00000000      0x240 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
- .debug_loc     0x00000000      0x41d C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_loc     0x00000000      0x3e6 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .debug_aranges
                 0x00000000       0xe0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .debug_ranges  0x00000000       0xe8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
- .debug_line    0x00000000      0x485 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
+ .debug_line    0x00000000      0x445 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .debug_str     0x00000000      0x363 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
  .debug_frame   0x00000000      0x1a8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_interrupt.c.o
@@ -873,16 +875,18 @@ Discarded input sections
                 0x00000000       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
  .text.SPIInterruptVectorGet
                 0x00000000        0xc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
- .debug_info    0x00000000      0x7fc C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .text.SPIBufRead
+                0x00000000        0x8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_info    0x00000000      0x82d C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
  .debug_abbrev  0x00000000      0x192 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
- .debug_loc     0x00000000      0x4b1 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_loc     0x00000000      0x4d6 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
  .debug_aranges
-                0x00000000      0x100 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
- .debug_ranges  0x00000000       0xf0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
- .debug_line    0x00000000      0x43b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
- .debug_str     0x00000000      0x399 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+                0x00000000      0x108 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_ranges  0x00000000       0xf8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_line    0x00000000      0x457 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_str     0x00000000      0x3a4 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
  .comment       0x00000000       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
- .debug_frame   0x00000000      0x204 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
+ .debug_frame   0x00000000      0x214 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
  .ARM.attributes
                 0x00000000       0x2c C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_spi.c.o
  .text          0x00000000        0x0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
@@ -1546,19 +1550,19 @@ LOAD linker stubs
  .comment       0x00000049       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
  .comment       0x00000049       0x4a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
 
-.debug_info     0x00000000     0x1088
+.debug_info     0x00000000     0x10f0
  .debug_info    0x00000000      0x10b C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
- .debug_info    0x0000010b      0xbd0 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
- .debug_info    0x00000cdb      0x27a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
- .debug_info    0x00000f55       0xe2 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
- .debug_info    0x00001037       0x51 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .debug_info    0x0000010b      0xc0a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_info    0x00000d15      0x2a8 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_info    0x00000fbd       0xe2 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_info    0x0000109f       0x51 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
 
-.debug_abbrev   0x00000000      0x491
+.debug_abbrev   0x00000000      0x4af
  .debug_abbrev  0x00000000       0x6a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
- .debug_abbrev  0x0000006a      0x261 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
- .debug_abbrev  0x000002cb      0x105 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
- .debug_abbrev  0x000003d0       0x88 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
- .debug_abbrev  0x00000458       0x39 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .debug_abbrev  0x0000006a      0x270 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_abbrev  0x000002da      0x114 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_abbrev  0x000003ee       0x88 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_abbrev  0x00000476       0x39 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
 
 .debug_aranges  0x00000000       0xe0
  .debug_aranges
@@ -1579,23 +1583,23 @@ LOAD linker stubs
  .debug_ranges  0x000000a8       0x10 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
  .debug_ranges  0x000000b8       0x18 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
 
-.debug_line     0x00000000      0xd2c
+.debug_line     0x00000000      0xd92
  .debug_line    0x00000000       0xfa C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
- .debug_line    0x000000fa      0x655 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
- .debug_line    0x0000074f      0x3b6 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
- .debug_line    0x00000b05      0x182 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
- .debug_line    0x00000c87       0xa5 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .debug_line    0x000000fa      0x684 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+ .debug_line    0x0000077e      0x3ed C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+ .debug_line    0x00000b6b      0x182 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_line    0x00000ced       0xa5 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
 
-.debug_str      0x00000000      0x801
+.debug_str      0x00000000      0x819
  .debug_str     0x00000000      0x151 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/debug_bringup.c.o
                                 0x157 (size before relaxing)
- .debug_str     0x00000151      0x502 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
-                                0x64f (size before relaxing)
- .debug_str     0x00000653       0xb3 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
-                                0x398 (size before relaxing)
- .debug_str     0x00000706       0xbd C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
+ .debug_str     0x00000151      0x51a C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/system/startup.c.o
+                                0x673 (size before relaxing)
+ .debug_str     0x0000066b       0xb3 C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/src/kernel/peripheral/per_ddr.c.o
+                                0x3bc (size before relaxing)
+ .debug_str     0x0000071e       0xbd C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_psc.c.o
                                 0x17f (size before relaxing)
- .debug_str     0x000007c3       0x3e C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
+ .debug_str     0x000007db       0x3e C:/dev/System23/freetribe/build/debug_bringup/obj/cpu/lib/am1802-csl/src/csl_syscfg.c.o
                                 0x155 (size before relaxing)
 
 .debug_frame    0x00000000      0x1b8

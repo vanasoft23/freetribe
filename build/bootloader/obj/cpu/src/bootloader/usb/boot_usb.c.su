@@ -1,4 +1,7 @@
-C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:98:13:_usb0_isr	0	static
-C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:57:6:boot_usb_init	16	static
-C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:70:6:boot_usb_task	0	static
-C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:76:6:boot_usb_terminate	8	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:137:13:_usb0_isr	0	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:141:13:_usb0_bridge_clear	16	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:76:6:boot_usb_init	16	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:91:6:boot_usb_task	0	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:97:6:boot_usb_terminate	8	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:109:6:tud_mount_cb	0	static
+C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c:118:6:tud_umount_cb	8	static

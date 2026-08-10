@@ -1,4 +1,4 @@
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.c:64:6:svc_system_init	8	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.c:86:6:svc_system_print	8	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.c:93:6:svc_system_register_print_callback	0	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.c:100:6:svc_system_shutdown	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.c:63:6:svc_system_init	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.c:85:6:svc_system_print	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.c:92:6:svc_system_register_print_callback	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_system.c:99:6:svc_system_shutdown	8	static

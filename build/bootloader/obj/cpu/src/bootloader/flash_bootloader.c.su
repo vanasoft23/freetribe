@@ -1,2 +1,0 @@
-C:/dev/System23/freetribe/cpu/src/bootloader/flash_bootloader.c:114:6:create_bootloader_ddr_mirror	0	static
-C:/dev/System23/freetribe/cpu/src/bootloader/flash_bootloader.c:127:16:install_bootloader_to_flash	16	static

@@ -73,7 +73,7 @@ static bool g_test_confirmed;
 
 static t_status _init(void);
 
-static void _button_callback(uint8_t button, bool state);
+static void _button_callback(u8 button, bool state);
 
 static t_status _test_print(void);
 static t_status _test_shutdown(void);
@@ -165,7 +165,7 @@ static t_status _init(void) {
     return result;
 }
 
-static void _button_callback(uint8_t button, bool state) {
+static void _button_callback(u8 button, bool state) {
 
     switch (button) {
 

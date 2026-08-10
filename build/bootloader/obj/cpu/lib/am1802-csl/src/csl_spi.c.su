@@ -28,3 +28,4 @@ C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_spi.c:585:6:SPIIntStatusCle
 C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_spi.c:610:14:SPIIntStatus	0	static
 C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_spi.c:625:14:SPIDataReceive	0	static
 C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_spi.c:637:14:SPIInterruptVectorGet	0	static
+C:/dev/System23/freetribe/cpu/lib/am1802-csl/src/csl_spi.c:644:14:SPIBufRead	0	static

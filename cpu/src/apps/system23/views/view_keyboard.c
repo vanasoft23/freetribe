@@ -8,11 +8,11 @@
 
 // static void select(t_keyboard *kb);
 // static void draw(t_keyboard *kb);
-// static void handle_knob(t_keyboard *kb, uint8_t index, uint8_t value);
-// static void handle_button(t_keyboard *kb, uint8_t index, bool state);
-// static void handle_xy_pad(t_keyboard *kb, uint32_t x_val, uint32_t y_val);
-// static void handle_trigger(t_keyboard *kb, uint8_t pad, uint8_t vel, bool state);
-// static void handle_encoder(t_keyboard *kb, uint8_t index, uint8_t value);
+// static void handle_knob(t_keyboard *kb, u8 index, u8 value);
+// static void handle_button(t_keyboard *kb, u8 index, bool state);
+// static void handle_xy_pad(t_keyboard *kb, u32 x_val, u32 y_val);
+// static void handle_trigger(t_keyboard *kb, u8 pad, u8 vel, bool state);
+// static void handle_encoder(t_keyboard *kb, u8 index, u8 value);
 
 // t_keyboard g_keyboard = {
 //     .base.draw           = (fn_draw)draw,
@@ -41,7 +41,7 @@
 
 
 
-// static void handle_knob(t_keyboard *kb, uint8_t index, uint8_t value) {
+// static void handle_knob(t_keyboard *kb, u8 index, u8 value) {
 
 //     switch (index) {
         
@@ -50,17 +50,17 @@
 //         } break;
 
 //         case KNOB_IFX_EDIT: {
-//             uint16_t param_index = g_selected_ifx
+//             u16 param_index = g_selected_ifx
 //                 ? (g_shift ? PARAM_IFX1_PARAM1 : PARAM_IFX1_PARAM0)
 //                 : (g_shift ? PARAM_IFX0_PARAM1 : PARAM_IFX0_PARAM0);
 //             DEBUG_LOG("knob %i", (int)param_index);
-//             ft_set_module_param(0, param_index, uint8_to_q31(value));
+//             ft_set_module_param(0, param_index, u8o_q31(value));
 //         }
 
 //     }
 // }
 
-// static void handle_button(t_keyboard *kb, uint8_t index, bool state) {
+// static void handle_button(t_keyboard *kb, u8 index, bool state) {
     
 //     switch (index) {
 //         case BUTTON_EXIT: ft_shutdown(); break;
@@ -78,15 +78,15 @@
 
 // }
 
-// static void handle_xy_pad(t_keyboard *kb, uint32_t x_val, uint32_t y_val) {
+// static void handle_xy_pad(t_keyboard *kb, u32 x_val, u32 y_val) {
 
 // }
 
-// static void handle_trigger(t_keyboard *kb, uint8_t pad, uint8_t vel, bool state) {
+// static void handle_trigger(t_keyboard *kb, u8 pad, u8 vel, bool state) {
 
 //     // DEBUG_LOG("trigger callback: %02X %u %u", pad, vel, state);
 
-//     uint8_t step_index = pad + (g_selected_bar * 16);
+//     u8 step_index = pad + (g_selected_bar * 16);
 //     if (g_keyboard_steps[step_index].gate > 0) {
 //         g_keyboard_steps[step_index].gate = 0; // note is off
 //     } else {
@@ -95,11 +95,11 @@
 
 // }
 
-// static void handle_encoder(t_keyboard *kb, uint8_t index, uint8_t value) {
+// static void handle_encoder(t_keyboard *kb, u8 index, u8 value) {
 
 //     // DEBUG_LOG("encoder callback: %02X %f", cutoff, note_to_cv(cutoff));
 
-//     static uint8_t cutoff = 0x7f;
+//     static u8 cutoff = 0x7f;
 
 //     switch (index) {
 

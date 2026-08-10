@@ -60,7 +60,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Static variable definitions ----------------------------------*/
 
-volatile static uint32_t g_clock;
+volatile static u32 g_clock;
 
 static void (*p_clock_callback)(void) = NULL;
 
@@ -91,7 +91,7 @@ void clock_register_callback(void (*callback)(void)) {
     }
 }
 
-uint32_t clock_get(void) { return g_clock; }
+u32 clock_get(void) { return g_clock; }
 
 /*----- Static function implementations ------------------------------*/
 

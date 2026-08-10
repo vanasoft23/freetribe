@@ -65,11 +65,11 @@ typedef enum {
 } t_emifa_status;
 
 typedef struct {
-    uint32_t meta0;
-    uint32_t meta1;
-    uint32_t meta2;
-    uint32_t meta3;
-    uint32_t meta4;
+    u32 meta0;
+    u32 meta1;
+    u32 meta2;
+    u32 meta3;
+    u32 meta4;
 } t_emifa_metadata;
 
 typedef void (*t_emifa_idle_callback)(void);
@@ -107,9 +107,9 @@ void per_emifa_task(void);
  * @param   word_count    Number of 16-bit words to write. Cannot be 1.
  * @param   metadata      Gets sent along through the header.
  */
-t_emifa_status per_emifa_transfer(uint32_t dsp_address,
-                                  const uint16_t *words,
-                                  uint16_t word_count,
+t_emifa_status per_emifa_transfer(u32 dsp_address,
+                                  const u16 *words,
+                                  u16 word_count,
                                   t_emifa_metadata metadata);
 
 #ifdef __cplusplus

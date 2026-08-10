@@ -2,19 +2,44 @@
 
                      This file is part of Freetribe
 
+                https://github.com/bangcorrupt/freetribe
+
+                                License
+
+                   GNU AFFERO GENERAL PUBLIC LICENSE
+                      Version 3, 19 November 2007
+
+                           AGPL-3.0-or-later
+
+ Freetribe is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+                  (at your option) any later version.
+
+     Freetribe is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+          See the GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+                       Copyright bangcorrupt 2023
+
 ----------------------------------------------------------------------*/
 
 /**
- * @file svc_usb.h
+ * @file    svc_usb.h
  *
- * @brief USB service task.
+ * @brief   USB service task.
+ *
+ * @author  vanasoft23 (mvandijk303@gmail.com)
  */
 
 #ifndef SVC_USB_H
 #define SVC_USB_H
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,15 +60,6 @@ void svc_usb_task(void *param);
 bool svc_usb_ready(void);
 bool svc_usb_init_failed(void);
 bool svc_usb_mounted(void);
-bool svc_usb_cdc_connected(void);
-uint32_t svc_usb_cdc_available(void);
-uint32_t svc_usb_cdc_read(void *buffer, uint32_t length);
-uint32_t svc_usb_cdc_write(const void *buffer, uint32_t length);
-uint32_t svc_usb_vendor_write(const void *buffer, uint32_t length);
-bool svc_usb_msc_export_sdcard_readonly(void);
-void svc_usb_msc_disable(void);
-bool svc_usb_msc_exported(void);
-t_svc_usb_msc_export_status svc_usb_msc_export_status(void);
 
 #ifdef __cplusplus
 }

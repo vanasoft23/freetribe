@@ -4,7 +4,7 @@
 #include "pattern.h"
 #include "shared_mem.h"
 
-extern uint32_t g_next_seq;
+extern u32 g_next_seq;
 
 /*----- Functions ----------------------------------------------------*/
 

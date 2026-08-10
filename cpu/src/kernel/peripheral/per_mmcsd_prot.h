@@ -133,32 +133,32 @@ typedef enum {
 } sdp_cur_stat_t;
 
 typedef struct {
-    uint8_t RES_TEST_MODE       :2;
-    uint8_t RES_APP_CMD         :1;
-    uint8_t AKE_SEQ_ERROR       :1;
-    uint8_t RES_SDIO_CARD       :1;
-    uint8_t APP_CMD             :1;
-    uint8_t RES1                :2;
-    uint8_t READY_FOR_DATA      :1;
-    uint8_t CURRENT_STATE       :4;
-    uint8_t ERASE_RESET         :1;
-    uint8_t CARD_ECC_DISABLED   :1;
-    uint8_t WP_ERASE_SKIP       :1;
-    uint8_t CSD_OVERWRITE       :1;
-    uint8_t RES2                :2;
-    uint8_t ERROR               :1;
-    uint8_t CC_ERROR            :1;
-    uint8_t CARD_ECC_FAILED     :1;
-    uint8_t ILLEGAL_COMMAND     :1;
-    uint8_t COM_CRC_ERROR       :1;
-    uint8_t CARD_UNLOCK_FAILED  :1;
-    uint8_t CARD_IS_LOCKED      :1;
-    uint8_t WP_VIOLATION        :1;
-    uint8_t ERASE_PARAM         :1;
-    uint8_t ERASE_SEQ_ERROR     :1;
-    uint8_t BLOCK_LEN_ERROR     :1;
-    uint8_t ADDRESS_ERROR       :1;
-    uint8_t OUT_OF_RANGE        :1;
+    u8 RES_TEST_MODE       :2;
+    u8 RES_APP_CMD         :1;
+    u8 AKE_SEQ_ERROR       :1;
+    u8 RES_SDIO_CARD       :1;
+    u8 APP_CMD             :1;
+    u8 RES1                :2;
+    u8 READY_FOR_DATA      :1;
+    u8 CURRENT_STATE       :4;
+    u8 ERASE_RESET         :1;
+    u8 CARD_ECC_DISABLED   :1;
+    u8 WP_ERASE_SKIP       :1;
+    u8 CSD_OVERWRITE       :1;
+    u8 RES2                :2;
+    u8 ERROR               :1;
+    u8 CC_ERROR            :1;
+    u8 CARD_ECC_FAILED     :1;
+    u8 ILLEGAL_COMMAND     :1;
+    u8 COM_CRC_ERROR       :1;
+    u8 CARD_UNLOCK_FAILED  :1;
+    u8 CARD_IS_LOCKED      :1;
+    u8 WP_VIOLATION        :1;
+    u8 ERASE_PARAM         :1;
+    u8 ERASE_SEQ_ERROR     :1;
+    u8 BLOCK_LEN_ERROR     :1;
+    u8 ADDRESS_ERROR       :1;
+    u8 OUT_OF_RANGE        :1;
 } sdp_r1_stat_t;
 
 
@@ -207,46 +207,46 @@ typedef struct {
 
 // 5.2 CID register
 typedef struct {        // width, offset
-    uint8_t     MID;    // 8,  120
-    uint16_t    OID;    // 16, 104
-    uint8_t     PNM[6]; // 40, 64
-    uint8_t     PRV;    // 8,  56
-    uint32_t    PSN;    // 32, 24
-    uint16_t    MDT;    // 12, 8
-    uint8_t     CRC;    // 7,  1
+    u8     MID;    // 8,  120
+    u16    OID;    // 16, 104
+    u8     PNM[6]; // 40, 64
+    u8     PRV;    // 8,  56
+    u32    PSN;    // 32, 24
+    u16    MDT;    // 12, 8
+    u8     CRC;    // 7,  1
 } CID_t;
 
 // 5.3.2 CSD Register
 typedef struct {
-    uint8_t     CSD_STRUCTURE;
-    uint8_t     TAAC;
-    uint8_t     NSAC;
-    uint8_t     TRANS_SPEED;
-    uint16_t    CCC;
-    uint8_t     READ_BL_LEN;
-    uint8_t     READ_BL_PARTIAL;
-    uint8_t     WRITE_BLK_MISALIGN;
-    uint8_t     READ_BLK_MISALIGN;
-    uint8_t     DSR_IMP;
-    uint16_t    C_SIZE;
-    uint8_t     VDD_R_CURR_MIN;
-    uint8_t     VDD_R_CURR_MAX;
-    uint8_t     VDD_W_CURR_MIN;
-    uint8_t     VDD_W_CURR_MAX;
-    uint8_t     C_SIZE_MULT;
-    uint8_t     ERASE_BLK_LEN;
-    uint8_t     SECTOR_SIZE;
-    uint8_t     WP_GRP_SIZE;
-    uint8_t     WP_GRP_ENABLE;
-    uint8_t     R2W_FACTOR;
-    uint8_t     WRITE_BL_LEN;
-    uint8_t     WRITE_BL_PARTIAL;
-    uint8_t     FILE_FORMAT_GRP;
-    uint8_t     COPY;
-    uint8_t     PERM_WRITE_PROTECT;
-    uint8_t     TMP_WRITE_PROTECT;
-    uint8_t     FILE_FORMAT;
-    uint8_t     CRC;
+    u8     CSD_STRUCTURE;
+    u8     TAAC;
+    u8     NSAC;
+    u8     TRANS_SPEED;
+    u16    CCC;
+    u8     READ_BL_LEN;
+    u8     READ_BL_PARTIAL;
+    u8     WRITE_BLK_MISALIGN;
+    u8     READ_BLK_MISALIGN;
+    u8     DSR_IMP;
+    u32    C_SIZE;
+    u8     VDD_R_CURR_MIN;
+    u8     VDD_R_CURR_MAX;
+    u8     VDD_W_CURR_MIN;
+    u8     VDD_W_CURR_MAX;
+    u8     C_SIZE_MULT;
+    u8     ERASE_BLK_LEN;
+    u8     SECTOR_SIZE;
+    u8     WP_GRP_SIZE;
+    u8     WP_GRP_ENABLE;
+    u8     R2W_FACTOR;
+    u8     WRITE_BL_LEN;
+    u8     WRITE_BL_PARTIAL;
+    u8     FILE_FORMAT_GRP;
+    u8     COPY;
+    u8     PERM_WRITE_PROTECT;
+    u8     TMP_WRITE_PROTECT;
+    u8     FILE_FORMAT;
+    u8     CRC;
 } CSD_t;
 
 typedef enum {
@@ -261,13 +261,14 @@ sdcard_response_t sdprot_resp_type(int cmd_nr);
 int               sdprot_resp_crc(int cmd_nr);
 sdprot_datadir_t  sdprot_need_data(int cmd_nr);
 int               sdprot_need_busy(int cmd_nr);
-int               sdprot_get_cid(CID_t* cid, const uint32_t* resp);
+int               sdprot_get_cid(CID_t* cid, const u32* resp);
 int               sdprot_print_cid(const CID_t* cid);
-int               sdprot_get_csd(CSD_t* csd, const uint32_t* resp);
+int               sdprot_get_csd(CSD_t* csd, const u32* resp);
 int               sdprot_print_csd(const CSD_t* csd);
-uint32_t          sdprot_trans_speed(const CSD_t* csd);
-uint32_t          sdprot_device_size(const CSD_t* csd);
-sdp_cur_stat_t    sdprot_next_stat(int cmd_nr, uint8_t cur_stat);
+u32               sdprot_trans_speed(const CSD_t* csd);
+u32               sdprot_device_size(const CSD_t* csd);
+u32               sdprot_sector_count(const CSD_t* csd);
+sdp_cur_stat_t    sdprot_next_stat(int cmd_nr, u8 cur_stat);
 const char*       sdprot_stat_name(int stat);
 int               sdprot_print_r1_stat(const sdp_r1_stat_t* r1_stat);
 

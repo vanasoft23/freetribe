@@ -1,9 +1,8 @@
 /*----- Includes -----------------------------------------------------*/
 
-#include <string.h>
 #include <csl_cp15.h>
 
-#include "macros.h"
+#include "ft.h"
 #include "pattern.h"
 #include "shared_mem.h"
 
@@ -38,11 +37,11 @@ static t_step s_initial_part0_steps[64] = {
 
 /*----- Extern variable declarations ---------------------------------*/
 
-uint32_t g_next_seq     = 1;
+u32 g_next_seq     = 1;
 
 /*----- Static variable declarations ---------------------------------*/
 
-static uint32_t s_last_ack_seq = 0;
+static u32 s_last_ack_seq = 0;
 
 /*----- Local function declarations ----------------------------------*/
 
@@ -97,11 +96,11 @@ static bool _upload_pattern() {
     int             idx = g_next_seq & 1;
     t_pattern      *ptn = (t_pattern*)(void*)&g_shared->ptn_ipc.ptns[idx];
 
-    uint32_t        dst = DSP_MEM + (uint32_t)ptn - CPU_MEM;
-    const uint32_t *src = (const uint32_t*)ptn;
+    u32        dst = DSP_MEM + (u32)ptn - CPU_MEM;
+    const u32 *src = (const u32*)ptn;
     int      word_count = sizeof(t_pattern);
 
-    CP15DCacheCleanBuff((uint32_t)src, sizeof(t_pattern));
+    CP15DCacheCleanBuff((u32)src, sizeof(t_pattern));
 
     t_ipc_status st = dev_dsp_ipc_transfer(
         dst,

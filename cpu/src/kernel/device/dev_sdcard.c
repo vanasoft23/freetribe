@@ -29,19 +29,23 @@ under the terms of the GNU Affero General Public License as published by
 ----------------------------------------------------------------------*/
 
 /**
- * @file    per_mmcsd.c.
+ * @file    dev_sdcard.c.
  *
  * @brief   Configuration and handling of MMC/SD controller peripheral.
+ *
+ * @author  vanasoft23 (mvandijk303@gmail.com)
+            Original driver ported from am18x-lib by turmary
  */
 
 /*----- Includes -----------------------------------------------------*/
 
-#include "macros.h"
+#include "ft.h"
 
-#include "dev_sdcard.h"
 #include "per_gpio.h"
 #include "per_mmcsd.h"
 #include "per_mmcsd_prot.h"
+
+#include "dev_sdcard.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -62,10 +66,6 @@ under the terms of the GNU Affero General Public License as published by
 #define MMCSD_WP          10,24,2
 #define MMCSD_INS         10,28,2
 
-#define MMCSD_INS_GPIO_BANK 4
-#define MMCSD_INS_GPIO_PIN  0
-#define MMCSD_INS_ACTIVE_LOW 1
-
 #define BUS_POWER_VOLTAGE    3300 //mV
 
 #define LOW_CLK            400000 //Hz
@@ -75,7 +75,7 @@ under the terms of the GNU Affero General Public License as published by
 #define SDMMC_REG_RETRY    100000
 #define SDMMC_CMD_RETRY        20
 #define SDMMC_ARG_NULL          0
-#define SDMMC_FIFO_CHUNK_WORDS (32u / sizeof(uint32_t))
+#define SDMMC_FIFO_CHUNK_WORDS (32u / sizeof(u32))
 #define SDMMC_READ_STATE_RETRY  5000000u
 #define SDMMC_WRITE_STATE_RETRY 5000000u
 #define SDMMC_BUSY_STATE_RETRY  5000000u
@@ -83,10 +83,10 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    uint16_t        rca;
-    uint8_t         is_mmc:1;
-    uint8_t         is_hc:1;
-    uint8_t         is_bus4bit:1;
+    u16             rca;
+    u8              is_mmc:1;
+    u8              is_hc:1;
+    u8              is_bus4bit:1;
     sdp_cur_stat_t  ci_stat;
     sdp_r1_stat_t   r1_stat;
     CID_t           cid;
@@ -117,39 +117,39 @@ sdmmc_estr_t sdmmc_estr[] = {
 /*----- Static function prototypes -----------------------------------*/
 
 static int                    _sdmmc_inf_init(void);
-static inline uint32_t        _sdmmc_resp(void);
+static inline u32             _sdmmc_resp(void);
 static t_sdcard_status        _sdmmc_print_r1(void);
 static t_sdcard_status        _sdmmc_get_cid(void);
-static uint32_t               _sdmmc_cmd_stat(int nr);
-static t_sdcard_status        _sdmmc_cmd(int nr, uint32_t arg);
-static t_sdcard_status        _sdmmc_acmd(int nr, uint32_t arg);
+static u32                    _sdmmc_cmd_stat(int nr);
+static t_sdcard_status        _sdmmc_cmd(int nr, u32 arg);
+static t_sdcard_status        _sdmmc_acmd(int nr, u32 arg);
 static inline t_sdcard_status _sdmmc_cmd_noarg(int nr);
 static t_mmcsd_dat_state      _sdmmc_rd_done_state(void);
 static t_sdcard_status        _sdmmc_read_fail(
-    const char* tag,
-    uint32_t blk_nr,
-    uint32_t blk_cnt,
-    uint32_t words_done,
-    uint32_t total_words,
+    const char       *tag,
+    u32               blk_nr,
+    u32               blk_cnt,
+    u32               words_done,
+    u32               total_words,
     t_mmcsd_dat_state ds,
-    t_sdcard_status status
+    t_sdcard_status   status
 );
 static t_sdcard_status        _ACMD41(void);
 static t_sdcard_status        _CMD1(void);
 static void                   _sdmmc_log_read_state(
-    const char* tag,
-    uint32_t blk_nr,
-    uint32_t blk_cnt,
-    uint32_t words_done,
-    uint32_t total_words,
+    const char       *tag,
+    u32               blk_nr,
+    u32               blk_cnt,
+    u32               words_done,
+    u32               total_words,
     t_mmcsd_dat_state ds
 );
 static void                   _sdmmc_log_write_state(
-    const char* tag,
-    uint32_t blk_nr,
-    uint32_t blk_cnt,
-    uint32_t words_done,
-    uint32_t total_words,
+    const char       *tag,
+    u32               blk_nr,
+    u32               blk_cnt,
+    u32               words_done,
+    u32               total_words,
     t_mmcsd_dat_state ds
 );
 
@@ -168,20 +168,20 @@ const char* dev_sdcard_err_string(int rt) {
     return sdmmc_estr[-rt].estr;
 }
 
-t_sdcard_status dev_sdcard_read(uint32_t blk_nr, uint32_t blk_cnt, uint32_t* buf) {
+t_sdcard_status dev_sdcard_read(u32 blk_nr, u32 blk_cnt, u32* buf) {
     t_mmcsd_dat_state ds;
     t_mmcsd_misc misc;
     t_sdcard_status r;
-    uint32_t i;
-    uint32_t ii;
-    uint32_t wait_count;
-    uint32_t total_words;
+    u32 i;
+    u32 ii;
+    u32 wait_count;
+    u32 total_words;
 
     if (!buf || blk_cnt == 0) {
         return SDCARD_ERROR;
     }
 
-    total_words = (blk_cnt * MMCSD_BLOCK_SIZE) / sizeof(uint32_t);
+    total_words = (blk_cnt * MMCSD_BLOCK_SIZE) / sizeof(u32);
 
     misc.blkcnt = blk_cnt;
     misc.mflags = MMCSD_MISC_F_READ | MMCSD_MISC_F_FIFO_RST | MMCSD_MISC_F_FIFO_32B;
@@ -190,7 +190,7 @@ t_sdcard_status dev_sdcard_read(uint32_t blk_nr, uint32_t blk_cnt, uint32_t* buf
     int cmd_nr = CMD17R1_READ_SINGLE_BLOCK;
     if (blk_cnt > 1) cmd_nr = CMD18R1_READ_MULTIPLE_BLOCK;
 
-    uint32_t arg = (sd_sm->is_hc) ? (blk_nr) : (blk_nr << MASK_OFFSET(MMCSD_BLOCK_SIZE));
+    u32 arg = (sd_sm->is_hc) ? (blk_nr) : (blk_nr << MASK_OFFSET(MMCSD_BLOCK_SIZE));
     r = _sdmmc_cmd(cmd_nr, arg);
     if (r != SDCARD_OK) {
         return _sdmmc_read_fail(
@@ -204,9 +204,9 @@ t_sdcard_status dev_sdcard_read(uint32_t blk_nr, uint32_t blk_cnt, uint32_t* buf
         );
     }
 
-    // dirty timing-dependancy fix
-    #define SDMMC_READ_SETTLE_US 1000
-    delay_block_us(SDMMC_READ_SETTLE_US);
+    // // dirty timing-dependancy fix
+    // #define SDMMC_READ_SETTLE_US 1000
+    // delay_block_us(SDMMC_READ_SETTLE_US);
 
     i = 0;
     wait_count = 0;
@@ -279,7 +279,7 @@ t_sdcard_status dev_sdcard_read(uint32_t blk_nr, uint32_t blk_cnt, uint32_t* buf
         }
     }
 
-    DEBUG_LOG_SD("SDMMC READ %u bytes\n", (unsigned)(i * sizeof(uint32_t)));
+    DEBUG_LOG_SD("SDMMC READ %u bytes\n", (unsigned)(i * sizeof(u32)));
 
     if (blk_cnt > 1) {
         r = _sdmmc_cmd_noarg(CMD12R1b_STOP_TRANSMISSION);
@@ -328,21 +328,21 @@ t_sdcard_status dev_sdcard_read(uint32_t blk_nr, uint32_t blk_cnt, uint32_t* buf
     return SDCARD_OK;
 }
 
-t_sdcard_status dev_sdcard_write(uint32_t blk_nr, uint32_t blk_cnt, const uint32_t* buf) {
+t_sdcard_status dev_sdcard_write(u32 blk_nr, u32 blk_cnt, const u32* buf) {
     t_mmcsd_dat_state ds;
     t_mmcsd_misc misc;
     t_sdcard_status r;
-    uint32_t i;
-    uint32_t ii;
-    uint32_t wait_count;
-    uint32_t total_words;
+    u32 i;
+    u32 ii;
+    u32 wait_count;
+    u32 total_words;
     bool feed_initial_fifo;
 
     if (!buf || blk_cnt == 0) {
         return SDCARD_ERROR;
     }
 
-    total_words = (blk_cnt * MMCSD_BLOCK_SIZE) / sizeof(uint32_t);
+    total_words = (blk_cnt * MMCSD_BLOCK_SIZE) / sizeof(u32);
 
     misc.blkcnt = blk_cnt;
     misc.mflags = MMCSD_MISC_F_WRITE | MMCSD_MISC_F_FIFO_RST | MMCSD_MISC_F_FIFO_32B;
@@ -355,7 +355,7 @@ t_sdcard_status dev_sdcard_write(uint32_t blk_nr, uint32_t blk_cnt, const uint32
         mmcsd_write(MMCSDCON, buf[i++]);
     }
 
-    uint32_t arg = (sd_sm->is_hc) ? (blk_nr) : (blk_nr << MASK_OFFSET(MMCSD_BLOCK_SIZE));
+    u32 arg = (sd_sm->is_hc) ? (blk_nr) : (blk_nr << MASK_OFFSET(MMCSD_BLOCK_SIZE));
     r = _sdmmc_cmd(cmd_nr, arg);
     if (r != SDCARD_OK) return r;
 
@@ -396,7 +396,7 @@ t_sdcard_status dev_sdcard_write(uint32_t blk_nr, uint32_t blk_cnt, const uint32
         }
     }
 
-    DEBUG_LOG_SD("SDMMC WRITE %u bytes\n", (unsigned)(i * sizeof(uint32_t)));
+    DEBUG_LOG_SD("SDMMC WRITE %u bytes\n", (unsigned)(i * sizeof(u32)));
 
     if (blk_cnt <= 1) {
         goto done;
@@ -469,25 +469,19 @@ t_sdcard_status dev_sdcard_init(void) {
 
 bool dev_sdcard_present(void) {
 
-    bool inserted = per_gpio_get(MMCSD_INS_GPIO_BANK, MMCSD_INS_GPIO_PIN);
-
-#if MMCSD_INS_ACTIVE_LOW
-    inserted = !inserted;
-#endif
-
+    bool inserted = !per_gpio_get_indexed(PIN_EMA_A_16__MMCSD0_DAT5);
     return inserted;
-
 }
 
-uint32_t dev_sdcard_get_sector_count(void) {
+u32 dev_sdcard_get_sector_count(void) {
 
-    return sdprot_device_size(&sd_sm->csd) / MMCSD_BLOCK_SIZE;
+    return sdprot_sector_count(&sd_sm->csd);
 }
 
 t_sdcard_status dev_sdcard_terminate(void) {
 
     t_sdcard_status r = SDCARD_OK;
-    uint32_t reg, msk, v;
+    u32 reg, msk, v;
 
     // // Stop any in-flight transfers
     // r = _sdmmc_cmd_noarg(CMD12R1b_STOP_TRANSMISSION);
@@ -525,7 +519,7 @@ t_sdcard_status dev_sdcard_terminate(void) {
 
 static int _sdmmc_inf_init(void) {
     mmcsd_conf_t conf[1];
-    uint32_t freq;
+    u32 freq;
 
     conf->freq = LOW_CLK;
     conf->timeout_rsp = TIMEOUT_RSP_MAX;
@@ -537,7 +531,7 @@ static int _sdmmc_inf_init(void) {
     return 0;
 }
 
-static inline uint32_t _sdmmc_resp(void) {
+static inline u32 _sdmmc_resp(void) {
     t_mmcsd_resp resp;
 
     mmcsd_get_resp(MMCSDCON, MMCSD_RESP_SHORT, &resp);
@@ -546,7 +540,7 @@ static inline uint32_t _sdmmc_resp(void) {
 
 static t_sdcard_status _sdmmc_print_r1(void) {
     union {
-        uint32_t i;
+        u32 i;
         sdp_r1_stat_t r1_stat;
     }u;
 
@@ -568,8 +562,8 @@ static t_sdcard_status _sdmmc_get_cid(void) {
     return SDCARD_OK;
 }
 
-static uint32_t _sdmmc_cmd_stat(int nr) {
-    uint32_t stat;
+static u32 _sdmmc_cmd_stat(int nr) {
+    u32 stat;
 
     if (sdprot_resp_crc(nr) == 0) {
         stat = mmcsd_cmd_state(MMCSDCON, AM18X_FALSE);
@@ -579,10 +573,10 @@ static uint32_t _sdmmc_cmd_stat(int nr) {
     return stat;
 }
 
-static t_sdcard_status _sdmmc_cmd(int nr, uint32_t arg) {
+static t_sdcard_status _sdmmc_cmd(int nr, u32 arg) {
     sdcard_response_t srt;
     t_mmcsd_cmd cmd;
-    uint32_t stat;
+    u32 stat;
     t_sdcard_status r;
     int i;
 
@@ -678,7 +672,7 @@ done:
     return r;
 }
 
-static t_sdcard_status _sdmmc_acmd(int nr, uint32_t arg) {
+static t_sdcard_status _sdmmc_acmd(int nr, u32 arg) {
     t_sdcard_status r;
 
     r = _sdmmc_cmd(CMD55R1_APP_CMD, sd_sm->rca << 16);
@@ -697,7 +691,7 @@ static inline t_sdcard_status _sdmmc_cmd_noarg(int nr) {
 }
 
 static t_mmcsd_dat_state _sdmmc_rd_done_state(void) {
-    uint32_t reg;
+    u32 reg;
 
     reg = MMCSDCON->MMCST0;
     if (FIELD_GET(reg, MMCST0_CRCRD_MASK) == MMCST0_CRCRD_detected) {
@@ -715,15 +709,15 @@ static t_mmcsd_dat_state _sdmmc_rd_done_state(void) {
 
 static t_sdcard_status _sdmmc_read_fail(
     const char* tag,
-    uint32_t blk_nr,
-    uint32_t blk_cnt,
-    uint32_t words_done,
-    uint32_t total_words,
+    u32 blk_nr,
+    u32 blk_cnt,
+    u32 words_done,
+    u32 total_words,
     t_mmcsd_dat_state ds,
     t_sdcard_status status
 ) {
     t_sdcard_status stop_status;
-    uint32_t wait_count;
+    u32 wait_count;
 
     _sdmmc_log_read_state(tag, blk_nr, blk_cnt, words_done, total_words, ds);
 
@@ -762,10 +756,10 @@ static t_sdcard_status _sdmmc_read_fail(
 
 static void _sdmmc_log_read_state(
     const char* tag,
-    uint32_t blk_nr,
-    uint32_t blk_cnt,
-    uint32_t words_done,
-    uint32_t total_words,
+    u32 blk_nr,
+    u32 blk_cnt,
+    u32 words_done,
+    u32 total_words,
     t_mmcsd_dat_state ds
 ) {
     DEBUG_LOG(
@@ -796,10 +790,10 @@ static void _sdmmc_log_read_state(
 
 static void _sdmmc_log_write_state(
     const char* tag,
-    uint32_t blk_nr,
-    uint32_t blk_cnt,
-    uint32_t words_done,
-    uint32_t total_words,
+    u32 blk_nr,
+    u32 blk_cnt,
+    u32 words_done,
+    u32 total_words,
     t_mmcsd_dat_state ds
 ) {
     DEBUG_LOG(
@@ -830,7 +824,7 @@ static void _sdmmc_log_write_state(
 
 static t_sdcard_status _ACMD41(void) {
     t_sdcard_status r;
-    uint32_t ocr;
+    u32 ocr;
 
     ocr = OCR_VOLTAGE_WINDOW(BUS_POWER_VOLTAGE);
     do {
@@ -866,7 +860,7 @@ static t_sdcard_status _ACMD41(void) {
 
 static t_sdcard_status _CMD1(void) {
     t_sdcard_status r;
-    uint32_t ocr, msk;
+    u32 ocr, msk;
 
     ocr = OCR_VOLTAGE_WINDOW(BUS_POWER_VOLTAGE);
     msk = OCR_PowerUpEnd;
@@ -959,7 +953,7 @@ static t_sdcard_status _sdmmc_card_init(void) {
     // sdprot_print_cid(&sd_sm->cid);
 
     for (i = 0; i < SDMMC_CMD_RETRY; i++) {
-        uint32_t arg = 0;
+        u32 arg = 0;
 
         if (sd_sm->is_mmc) {
             arg = sd_sm->rca << 16;
@@ -1005,7 +999,7 @@ static t_sdcard_status _sdmmc_get_csd(void) {
 }
 
 static t_sdcard_status _sdmmc_speed_up(void) {
-    uint32_t speed;
+    u32 speed;
 
     speed = sdprot_trans_speed(&sd_sm->csd);
     mmcsd_set_freq(MMCSDCON, speed);
@@ -1014,7 +1008,7 @@ static t_sdcard_status _sdmmc_speed_up(void) {
 }
 
 static t_sdcard_status _sdmmc_get_classes(void) {
-    uint32_t ccc;
+    u32 ccc;
     int i;
 
     ccc = sd_sm->csd.CCC;
@@ -1033,7 +1027,7 @@ static t_sdcard_status _sdmmc_get_classes(void) {
 }
 
 static t_sdcard_status _sdmmc_sel_card(bool sel) {
-    uint32_t arg;
+    u32 arg;
     t_sdcard_status r;
 
     arg = sel? (sd_sm->rca << 16): 0;

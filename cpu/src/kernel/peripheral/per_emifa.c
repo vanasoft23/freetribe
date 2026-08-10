@@ -34,22 +34,21 @@ under the terms of the GNU Affero General Public License as published by
  * @brief   Configuration and handling of EMIFA peripheral.
  *          EMIFA communicates with the DSP's HostDMA engine and has the
  *          highest bandwidth for transmitting data between CPU and DSP.
+ * 
+ * @author  vanasoft23 (mvandijk303@gmail.com)
  */
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
-#include "soc_AM1808.h"
-#include "csl_interrupt.h"
-#include "csl_gpio.h"
-#include "csl_emifa.h"
-#include "hw_emifa2.h"
-#include "hw_types.h"
-#include "hw_syscfg0_AM1808.h"
-
-#include "macros.h"
+#include <soc_AM1808.h>
+#include <csl_interrupt.h>
+#include <csl_gpio.h>
+#include <csl_emifa.h>
+#include <hw_emifa2.h>
+#include <hw_types.h>
+#include <hw_syscfg0_AM1808.h>
 
 #include "per_emifa.h"
 #include "per_aintc.h"
@@ -60,8 +59,8 @@ under the terms of the GNU Affero General Public License as published by
 #define HOST_ACK_PIN 98
 #define HOST_ACK_GPIO_INT_CHANNEL 9
 
-#define HDMA_DATA_PORT ((volatile uint16_t*)(SOC_EMIFA_CS2_ADDR + 0x00))
-#define HDMA_CONFIG_PORT ((volatile uint16_t*)(SOC_EMIFA_CS2_ADDR + 0x02))
+#define HDMA_DATA_PORT ((volatile u16*)(SOC_EMIFA_CS2_ADDR + 0x00))
+#define HDMA_CONFIG_PORT ((volatile u16*)(SOC_EMIFA_CS2_ADDR + 0x02))
 
 #define HOST_STATUS_DMA_RDY (1 << 0)
 #define HOST_STATUS_FIFOFULL (1 << 1)
@@ -96,21 +95,21 @@ typedef enum {
 } t_emifa_state;
 
 typedef struct {
-    uint16_t words_total;
-    uint16_t words_remaining;
-    uint16_t block_count;
-    uint16_t block_length;
-    uint32_t current_dsp_address;
-    const uint16_t *input_ptr;
+    u16 words_total;
+    u16 words_remaining;
+    u16 block_count;
+    u16 block_length;
+    u32 current_dsp_address;
+    const u16 *input_ptr;
     t_emifa_metadata metadata;
 } t_host_write_state;
 
 typedef struct {
-    uint16_t words_total;
-    uint16_t words_remaining;
-    uint16_t block_length;
-    uint16_t *host_address;
-    uint32_t dsp_address;
+    u16 words_total;
+    u16 words_remaining;
+    u16 block_length;
+    u16 *host_address;
+    u32 dsp_address;
     t_emifa_metadata metadata;
 } t_host_read_state;
 
@@ -137,7 +136,7 @@ static void _host_ack_isr(void);
 // HostDMA control functions
 static void _request_hostdp_status_interrupt(void);
 static void _issue_dma_finish_command(void);
-static void _hostdma_config(uint32_t dsp_address, uint16_t word_count, uint16_t extra_flags);
+static void _hostdma_config(u32 dsp_address, u16 word_count, u16 extra_flags);
 static void _catch_dma_errors(void);
 
 // Bit helpers
@@ -245,9 +244,9 @@ void per_emifa_init(t_emifa_idle_callback idle_callback,
  * @param   word_count    Number of 16-bit words to write. Cannot be uneven!
  * @param   metadata      Gets sent along through the header.
  */
-t_emifa_status per_emifa_transfer(uint32_t dsp_address,
-                                  const uint16_t *words,
-                                  uint16_t word_count,
+t_emifa_status per_emifa_transfer(u32 dsp_address,
+                                  const u16 *words,
+                                  u16 word_count,
                                   t_emifa_metadata metadata) {
 
     if (EMIFA_OFF == g_state) {
@@ -446,7 +445,7 @@ static inline void _isr_host_write_transfer(void) {
     }
 
     g_tx_state.words_remaining -= g_tx_state.block_length;
-    g_tx_state.current_dsp_address += g_tx_state.block_length * sizeof(uint16_t);
+    g_tx_state.current_dsp_address += g_tx_state.block_length * sizeof(u16);
 
     bool last_block = (0 == g_tx_state.words_remaining);
     g_state = last_block ? EMIFA_HOST_WRITE_DONE
@@ -457,28 +456,28 @@ static inline void _isr_host_write_transfer(void) {
 
 static inline void _isr_host_read_header(void) {
 
-    uint16_t _discard;
+    u16 _discard;
 
-    uint16_t word_count      = *HDMA_DATA_PORT;
+    u16 word_count      = *HDMA_DATA_PORT;
     _discard                 = *HDMA_DATA_PORT;
-    uint16_t host_address_lo = *HDMA_DATA_PORT;
-    uint16_t host_address_hi = *HDMA_DATA_PORT;
-    uint16_t dsp_address_lo  = *HDMA_DATA_PORT;
-    uint16_t dsp_address_hi  = *HDMA_DATA_PORT;
-    uint16_t meta0_lo        = *HDMA_DATA_PORT;
-    uint16_t meta0_hi        = *HDMA_DATA_PORT;
+    u16 host_address_lo = *HDMA_DATA_PORT;
+    u16 host_address_hi = *HDMA_DATA_PORT;
+    u16 dsp_address_lo  = *HDMA_DATA_PORT;
+    u16 dsp_address_hi  = *HDMA_DATA_PORT;
+    u16 meta0_lo        = *HDMA_DATA_PORT;
+    u16 meta0_hi        = *HDMA_DATA_PORT;
 
-    uint16_t meta1_lo        = *HDMA_DATA_PORT;
-    uint16_t meta1_hi        = *HDMA_DATA_PORT;
-    uint16_t meta2_lo        = *HDMA_DATA_PORT;
-    uint16_t meta2_hi        = *HDMA_DATA_PORT;
-    uint16_t meta3_lo        = *HDMA_DATA_PORT;
-    uint16_t meta3_hi        = *HDMA_DATA_PORT;
-    uint16_t meta4_lo        = *HDMA_DATA_PORT;
-    uint16_t meta4_hi        = *HDMA_DATA_PORT;
+    u16 meta1_lo        = *HDMA_DATA_PORT;
+    u16 meta1_hi        = *HDMA_DATA_PORT;
+    u16 meta2_lo        = *HDMA_DATA_PORT;
+    u16 meta2_hi        = *HDMA_DATA_PORT;
+    u16 meta3_lo        = *HDMA_DATA_PORT;
+    u16 meta3_hi        = *HDMA_DATA_PORT;
+    u16 meta4_lo        = *HDMA_DATA_PORT;
+    u16 meta4_hi        = *HDMA_DATA_PORT;
 
-    g_rx_state.host_address    = (uint16_t*)COMBINE16(host_address_hi, host_address_lo);
-    g_rx_state.dsp_address     = (uint32_t) COMBINE16(dsp_address_hi , dsp_address_lo );
+    g_rx_state.host_address    = (u16*)COMBINE16(host_address_hi, host_address_lo);
+    g_rx_state.dsp_address     = (u32) COMBINE16(dsp_address_hi , dsp_address_lo );
     g_rx_state.words_total     = word_count;
     g_rx_state.words_remaining = word_count;
 
@@ -499,7 +498,7 @@ static inline void _isr_host_read_transfer(void) {
     }
 
     g_rx_state.words_remaining -= g_rx_state.block_length;
-    g_rx_state.dsp_address += g_rx_state.block_length * sizeof(uint16_t);
+    g_rx_state.dsp_address += g_rx_state.block_length * sizeof(u16);
 
     if (0 == g_rx_state.words_remaining) {
         g_state = EMIFA_HOST_READ_DONE;
@@ -547,7 +546,7 @@ static void _host_ack_isr(void) {
  *                        With burst mode, value must be power of 2 and above 2.
  * @param   extra_flags   HOST_CONFIG flags. use HOST_CONFIG_WNR for host write mode.
  */
-static void _hostdma_config(uint32_t dsp_address, uint16_t word_count, uint16_t extra_flags) {
+static void _hostdma_config(u32 dsp_address, u16 word_count, u16 extra_flags) {
 
     *HDMA_CONFIG_PORT = 0x00A9 | extra_flags;
     *HDMA_CONFIG_PORT = LO16(dsp_address);
@@ -564,7 +563,7 @@ static void _hostdma_config(uint32_t dsp_address, uint16_t word_count, uint16_t 
  *          port is waiting for configuration.
  */
 static void _request_hostdp_status_interrupt(void) {
-    *(volatile uint16_t*)HDMA_CONFIG_PORT = 0x1C; // HOST IRQ
+    *(volatile u16*)HDMA_CONFIG_PORT = 0x1C; // HOST IRQ
 }
 
 /**
@@ -575,7 +574,7 @@ static void _request_hostdp_status_interrupt(void) {
  *          the DAB state machine has moved to a particular idle state.
  */
 static void _issue_dma_finish_command(void) {
-    *(volatile uint16_t*)HDMA_CONFIG_PORT = 0x2C; // DMA FINISH
+    *(volatile u16*)HDMA_CONFIG_PORT = 0x2C; // DMA FINISH
 }
 
 /**
@@ -610,10 +609,10 @@ static inline bool _bus_timeout_enabled(void) { return (*HDMA_CONFIG_PORT & HOST
  *          Ofcourse this is an invalid state and from this we can deduce that
  *          the HostDMA peripheral has yet to be initialized by the DSP.
  * 
- * @returns True if HostDMA peripheral has been initialized by the DSP.
+ * @returns true if HostDMA peripheral has been initialized by the DSP.
  */
 static inline bool _was_hostdma_initialized(void) {
-    uint16_t status = *HDMA_CONFIG_PORT;
+    u16 status = *HDMA_CONFIG_PORT;
     return !((status & HOST_STATUS_FIFOFULL) && (status & HOST_STATUS_FIFOEMPTY))
          &&  (status & HOST_STATUS_ALLOW_CNFG) // a previous error was handled
          && !(status & HOST_STATUS_BTE);       // ... ditto ...
@@ -630,7 +629,7 @@ static inline bool _was_hostdma_initialized(void) {
  * @brief   Fills DDR2 ram buffer with dummy data.
  */
 static void _gen_dummy_data(void) {
-    uint16_t *ptr = (uint16_t*)0xC0000000;
+    u16 *ptr = (u16*)0xC0000000;
     for (int i = 0; i < 64; i++) {
         *ptr++ = i;
     }

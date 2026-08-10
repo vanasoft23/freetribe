@@ -93,29 +93,29 @@ static inline float clamp_value(float value) {
     return fmaxf(fminf(value, FRACT32_MAX_FLOAT), FRACT32_MIN_FLOAT);
 }
 
-static inline int32_t float_to_fract32(float value) {
+static inline s32 float_to_fract32(float value) {
 
-    int32_t result;
+    s32 result;
 
     if (value == 0) {
         result = 0;
 
     } else {
-        result = (int32_t)roundf(scalbnf(clamp_value(value), 31));
+        result = (s32)roundf(scalbnf(clamp_value(value), 31));
     }
 
     return result;
 }
 
-static inline int32_t float_to_fix16(float value) {
+static inline s32 float_to_fix16(float value) {
 
-    int32_t result;
+    s32 result;
 
     if (value == 0) {
         result = 0;
 
     } else {
-        result = (int32_t)(value * FIX16_ONE);
+        result = (s32)(value * FIX16_ONE);
     }
 
     return result;

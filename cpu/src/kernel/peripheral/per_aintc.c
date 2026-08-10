@@ -36,11 +36,13 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include "soc_AM1808.h"
-#include "csl_interrupt.h"
-#include "csl_gpio.h"
-#include "hw_aintc.h"
-#include "hw_types.h"
+#include "ft.h"
+
+#include <soc_AM1808.h>
+#include <csl_interrupt.h>
+#include <csl_gpio.h>
+#include <hw_aintc.h>
+#include <hw_types.h>
 
 #include "per_aintc.h"
 #include "per_gpio.h"
@@ -79,13 +81,13 @@ void per_aintc_init(void) {
     IntIRQEnable();
 }
 
-void per_aintc_register_gpio_interrupt(uint8_t channel,
-                                       uint8_t pin,
-                                       uint8_t int_type,
+void per_aintc_register_gpio_interrupt(u8 channel,
+                                       u8 pin,
+                                       u8 int_type,
                                        void (*isr)(void)) {
 
-    uint8_t bank = per_gpio_bank_from_pin(pin);
-    uint8_t system_int = SYS_INT_GPIOB0 + bank;
+    u8 bank = per_gpio_bank_from_pin(pin);
+    u8 system_int = SYS_INT_GPIOB0 + bank;
     
     GPIODirModeSet(SOC_GPIO_0_REGS, pin, GPIO_DIR_INPUT);
     GPIOIntTypeSet(SOC_GPIO_0_REGS, pin, int_type);
@@ -97,7 +99,7 @@ void per_aintc_register_gpio_interrupt(uint8_t channel,
 
 }
 
-void per_aintc_clear_status_gpio(uint8_t pin) {
+void per_aintc_clear_status_gpio(u8 pin) {
 #if NESTED_INTERRUPTS
     // System interrupt already cleared in IRQHandler.
 #else
@@ -107,12 +109,12 @@ void per_aintc_clear_status_gpio(uint8_t pin) {
     GPIOPinIntClear(SOC_GPIO_0_REGS, pin);
 }
 
-void per_aintc_change_gpio_int_type(uint8_t pin, uint8_t int_type) {
+void per_aintc_change_gpio_int_type(u8 pin, u8 int_type) {
     GPIOIntTypeSet(SOC_GPIO_0_REGS, pin, int_type);
 }
 
 void _pic_IrqHandler(void) {
-    uint32_t system_int =
+    u32 system_int =
         HWREG(SOC_AINTC_0_REGS + AINTC_HIPIR(1)) & AINTC_HIPIR_PRI_INDX;
 
     if (system_int < NUM_INTERRUPTS && fnRAMVectors[system_int] != NULL)

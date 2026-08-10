@@ -43,8 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -56,12 +55,12 @@ extern "C" {
 
 void svc_display_task(void *param);
 void svc_display_process(void);
-void svc_display_put_pixel(uint16_t pos_x, uint16_t pos_y, bool state);
+void svc_display_put_pixel(u16 pos_x, u16 pos_y, bool state);
 
-int8_t svc_display_fill_frame(uint16_t x_start, uint16_t y_start,
-                              uint16_t x_end, uint16_t y_end, bool state);
+s8 svc_display_fill_frame(u16 x_start, u16 y_start,
+                              u16 x_end, u16 y_end, bool state);
 
-void svc_display_set_contrast(uint8_t contrast);
+void svc_display_set_contrast(u8 contrast);
 
 #ifdef __cplusplus
 }

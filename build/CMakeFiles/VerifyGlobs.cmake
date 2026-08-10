@@ -8,9 +8,11 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES true "C:/dev/System23/freetribe/common/*")
 set(OLD_GLOB
   "C:/dev/System23/freetribe/common/apps"
   "C:/dev/System23/freetribe/common/dsp_protocol.h"
+  "C:/dev/System23/freetribe/common/ft.h"
   "C:/dev/System23/freetribe/common/ft_error.c"
   "C:/dev/System23/freetribe/common/ft_error.h"
-  "C:/dev/System23/freetribe/common/macros.h"
+  "C:/dev/System23/freetribe/common/ft_macros.h"
+  "C:/dev/System23/freetribe/common/ft_types.h"
   "C:/dev/System23/freetribe/common/os_compat.h"
   "C:/dev/System23/freetribe/common/ring_buffer.c"
   "C:/dev/System23/freetribe/common/ring_buffer.h"
@@ -115,6 +117,7 @@ endif()
 # found at cmake/firmware.cmake:37 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "C:/dev/System23/freetribe/cpu/lib/FatFS/*")
 set(OLD_GLOB
+  "C:/dev/System23/freetribe/cpu/lib/FatFS/README.md"
   "C:/dev/System23/freetribe/cpu/lib/FatFS/diskio.h"
   "C:/dev/System23/freetribe/cpu/lib/FatFS/ff.c"
   "C:/dev/System23/freetribe/cpu/lib/FatFS/ff.h"
@@ -540,41 +543,11 @@ if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
 endif()
 
 # found at cmake/firmware.cmake:5 (file)
-file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/dev/System23/freetribe/cpu/src/apps/monosynth/*.S")
-set(OLD_GLOB
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "C:/dev/System23/freetribe/build/CMakeFiles/cmake.verify_globs")
-endif()
-
-# found at cmake/firmware.cmake:5 (file)
-file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/dev/System23/freetribe/cpu/src/apps/monosynth/*.c")
-set(OLD_GLOB
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/gui_task.c"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/module_interface.c"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/monosynth.c"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/param_scale.c"
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "C:/dev/System23/freetribe/build/CMakeFiles/cmake.verify_globs")
-endif()
-
-# found at cmake/firmware.cmake:5 (file)
-file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/dev/System23/freetribe/cpu/src/apps/monosynth/*.cpp")
-set(OLD_GLOB
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "C:/dev/System23/freetribe/build/CMakeFiles/cmake.verify_globs")
-endif()
-
-# found at cmake/firmware.cmake:5 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/dev/System23/freetribe/cpu/src/bootloader/*.S")
 set(OLD_GLOB
-  "C:/dev/System23/freetribe/cpu/src/bootloader/exceptionhandler.S"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/init.S"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/startup/exceptionhandler.S"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/startup/init.S"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/fatal_error.S"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -584,18 +557,30 @@ endif()
 # found at cmake/firmware.cmake:5 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/dev/System23/freetribe/cpu/src/bootloader/*.c")
 set(OLD_GLOB
-  "C:/dev/System23/freetribe/cpu/src/bootloader/boot_image.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/debug.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/file_browser.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/flash_bootloader.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/gui.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/handoff.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/flash_io.c"
   "C:/dev/System23/freetribe/cpu/src/bootloader/main.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/startup.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_dfu.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_msc_disk.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/boot_image.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/boot_section.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/firmware.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/handoff.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/startup/startup.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/file_browser.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/render.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/ui_controller.c"
   "C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/usb_descriptors.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/tud_cdc.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/tud_dfu.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/tud_msc_disk.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/usb_descriptors.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/arm_instruction.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_monitor.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_semihosting.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_server.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_stub.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/rsp_session.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/debug.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/pathstr.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/str_misc.c"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -641,6 +626,7 @@ set(OLD_GLOB
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_emifa.c"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_gpio.c"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c"
+  "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd_ft.c"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd_prot.c"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mpu.c"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_pinmux.c"
@@ -828,34 +814,6 @@ endif()
 
 # found at cmake/firmware.cmake:5 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/dev/System23/freetribe/dsp/src/*.cpp")
-set(OLD_GLOB
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "C:/dev/System23/freetribe/build/CMakeFiles/cmake.verify_globs")
-endif()
-
-# found at cmake/firmware.cmake:5 (file)
-file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/dev/System23/freetribe/dsp/src/modules/monosynth/*.S")
-set(OLD_GLOB
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "C:/dev/System23/freetribe/build/CMakeFiles/cmake.verify_globs")
-endif()
-
-# found at cmake/firmware.cmake:5 (file)
-file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/dev/System23/freetribe/dsp/src/modules/monosynth/*.c")
-set(OLD_GLOB
-  "C:/dev/System23/freetribe/dsp/src/modules/monosynth/monosynth.c"
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "C:/dev/System23/freetribe/build/CMakeFiles/cmake.verify_globs")
-endif()
-
-# found at cmake/firmware.cmake:5 (file)
-file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/dev/System23/freetribe/dsp/src/modules/monosynth/*.cpp")
 set(OLD_GLOB
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
@@ -1095,6 +1053,7 @@ endif()
 # found at cmake/firmware.cmake:33 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES true "C:/dev/System23/freetribe/cpu/lib/am18x-lib/*")
 set(OLD_GLOB
+  "C:/dev/System23/freetribe/cpu/lib/am18x-lib/IMPORTANT.txt"
   "C:/dev/System23/freetribe/cpu/lib/am18x-lib/am18x_conf.h"
   "C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc"
   "C:/dev/System23/freetribe/cpu/lib/am18x-lib/inc/am18x_aintc.h"
@@ -1230,6 +1189,7 @@ set(OLD_GLOB
   "C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc.h"
   "C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_device.c"
   "C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_device.h"
+  "C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_device_pvt.h"
   "C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_host.c"
   "C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_host.h"
   "C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_rndis.h"
@@ -1429,31 +1389,68 @@ set(OLD_GLOB
   "C:/dev/System23/freetribe/cpu/src/apps/zontar/zoia_task.h"
   "C:/dev/System23/freetribe/cpu/src/apps/zontar/zontar.c"
   "C:/dev/System23/freetribe/cpu/src/bootloader"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/boot_image.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/boot_image.h"
   "C:/dev/System23/freetribe/cpu/src/bootloader/bootloader.h"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/debug.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/exceptionhandler.S"
   "C:/dev/System23/freetribe/cpu/src/bootloader/ffconf.h"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/file_browser.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/file_browser.h"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/flash_bootloader.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/flash_bootloader.h"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/gui.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/gui.h"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/handoff.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/handoff.h"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/init.S"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/flash_io.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/flash_io.h"
   "C:/dev/System23/freetribe/cpu/src/bootloader/main.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/startup.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/startup.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/boot_image.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/boot_image.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/boot_section.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/boot_section.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/firmware.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/firmware.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/handoff.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/handoff.c.bak.txt"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/service/handoff.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/startup"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/startup/exceptionhandler.S"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/startup/init.S"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/startup/startup.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/startup/startup.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/file_browser.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/file_browser.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/modal.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/render.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/render.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/ui_controller.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/ui/ui_controller.h"
   "C:/dev/System23/freetribe/cpu/src/bootloader/usb"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_dfu.c"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_msc_disk.c"
   "C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.c"
   "C:/dev/System23/freetribe/cpu/src/bootloader/usb/boot_usb.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/tud_cdc.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/tud_cdc.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/tud_dfu.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/tud_msc_disk.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/tud_msc_disk.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/devices/usb_descriptors.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/arm_frame.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/arm_instruction.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/arm_instruction.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_monitor.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_monitor.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_monitor_layout.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_semihosting.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_semihosting.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_server.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_server.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_stub.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/gdb_stub.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/rsp_session.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/rsp_session.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/gdbstub/target.xml"
   "C:/dev/System23/freetribe/cpu/src/bootloader/usb/tusb_config.h"
-  "C:/dev/System23/freetribe/cpu/src/bootloader/usb/usb_descriptors.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/debug.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/fatal_error.S"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/pathstr.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/pathstr.h"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/str_misc.c"
+  "C:/dev/System23/freetribe/cpu/src/bootloader/util/str_misc.h"
   "C:/dev/System23/freetribe/cpu/src/debug_bringup.c"
   "C:/dev/System23/freetribe/cpu/src/kernel"
   "C:/dev/System23/freetribe/cpu/src/kernel/device"
@@ -1490,6 +1487,7 @@ set(OLD_GLOB
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_gpio_pinmap.h"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.c"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd.h"
+  "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd_ft.c"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd_prot.c"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mmcsd_prot.h"
   "C:/dev/System23/freetribe/cpu/src/kernel/peripheral/per_mpu.c"
@@ -1544,26 +1542,10 @@ set(OLD_GLOB
   "C:/dev/System23/freetribe/cpu/src/resources"
   "C:/dev/System23/freetribe/cpu/src/resources/.empty"
   "C:/dev/System23/freetribe/cpu/src/resources/bfin_ldr.h"
+  "C:/dev/System23/freetribe/cpu/src/resources/mascot.bmp"
   "C:/dev/System23/freetribe/cpu/src/user"
   "C:/dev/System23/freetribe/cpu/src/user/usr_main.c"
   "C:/dev/System23/freetribe/cpu/src/user/usr_main.h"
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "C:/dev/System23/freetribe/build/CMakeFiles/cmake.verify_globs")
-endif()
-
-# found at cmake/firmware.cmake:33 (file)
-file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES true "C:/dev/System23/freetribe/cpu/src/apps/monosynth/*")
-set(OLD_GLOB
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/gui_task.c"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/gui_task.h"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/lookup_tables.h"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/module_interface.c"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/module_interface.h"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/monosynth.c"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/param_scale.c"
-  "C:/dev/System23/freetribe/cpu/src/apps/monosynth/param_scale.h"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -1686,16 +1668,6 @@ set(OLD_GLOB
   "C:/dev/System23/freetribe/dsp/src/modules/system23/pattern_cache.c"
   "C:/dev/System23/freetribe/dsp/src/modules/system23/pattern_cache.h"
   "C:/dev/System23/freetribe/dsp/src/modules/system23/system23.c"
-  )
-if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
-  message("-- GLOB mismatch!")
-  file(TOUCH_NOCREATE "C:/dev/System23/freetribe/build/CMakeFiles/cmake.verify_globs")
-endif()
-
-# found at cmake/firmware.cmake:33 (file)
-file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES true "C:/dev/System23/freetribe/dsp/src/modules/monosynth/*")
-set(OLD_GLOB
-  "C:/dev/System23/freetribe/dsp/src/modules/monosynth/monosynth.c"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

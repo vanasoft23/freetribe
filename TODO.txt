@@ -1,46 +1,129 @@
 [AI AGENTS, PLEASE IGNORE THIS TODO FILE!]
 
+
+*** GDBSTUB ***
+
+M   Add GDBstub monitor boot kernel command
+
+M   Implement GDBstub USB semihosting over File I/O commands
+
+
 *** BOOTLOADER ***
 
-------------OBJDUMP MUST MATCH CALCULATION
-----CHECK LINKER ASSERTION SRAM SIZEOF VS ACTUAL BIN SIZE
+M   FIX BLUE BOOT DSP/oscillators bad loading from flash when sampler is installed
 
-M   Add check to see whether a factory firmware is installed when booting flash...
-
-M   FIX VSB HEADER RECOGNITION E2 SYNTH
+M   Add dfu-util flash firmware, and flash bootloader endpoint, rename old endpoint to debug
 
 M   dev_flash.c int_enable PUT BACK  // @FIXME: enable in freetribe kernel!
+
+M   Graceful shutdown
+    - Wait for Flash ops to finish
+    - Wait for SDcard ops to finish
+
+M   check if can still boot factory with broken flash (bad checksum etc)
+
+---
+
+S   Detect broken factory firmware in flash
+
+S   Allow read/write SDcard via MSC
+    Dump to SDcard reveals MSC -> extend this to whole SDcard USB support maybe
+    CAVEAT: Disallow 
+    CAVEAT: Disallow GDB CDC attach during read/write operation!
+
+S   Install default firmware to flash option
+
+S   Verification are you sure check:
+      #ifndef NO_BOOTSECT_VERIFY
+         bootsect_res_t res = verify_bootsection();
+         if (BOOTSECT_VERIFY_CHECKSUM_OK != res) {
+            return res;
+         }
+      #endif
 
 S   Already installed check
 
 S   !!! ONLY ALLOW FLASHING BOOTLOADER WHEN BATTERIES ARE INSERTED AND ABOVE 10% !!!
 
-S   Exit button shuts down the electribe
+---
 
-C   Bootloader config ini (options: NO_BOOTSECT_VERIFY, autorun)
+S   Detect GDB/jtag, and pipe GDB semihosting to USB (can dfu-util also receive and print strings?)
 
-C   Probably should replace chunked flashing to allow for using factory CRC16.
-    Instead of chunking, it'd be a single 128 KiB backup flash read stored in DDR.
-    We'd verify the CRC16 at the end, and generate our own for future updates.
+C   Bootloader config ini (options: NO_BOOTSECT_VERIFY, autorun after x seconds)
 
-C   French, Czech and Italian language localizations
+W   French, Czech and Italian language localizations
 
 
-*** KERNEL ***
+
+
+***************************************************************************
+***
+*** KERNEL / DRIVERS
+***
+***************************************************************************
+
+Roadmap:
+- Fix bootloader booting synth & sampler
+- Implementeer USB GDB in kernel
+- Refactor & uitbreiding error handling/debug framework:
+  - Scheid ft_error
+  - USB GDB semihosting printing
+  - (optioneel) TRS MIDI UART print backend (kernel only)
+  - Deferred debug printing (handig voor DSP debug bridge)
+  - Creëer DSP serial debug bridge
+  - Verbeter CPU hardware test suite
+- Krijg FreeRTOS werkend:
+  - Fix huidige kernel met monosynth app
+  - Implementeer mutexes waar nodig:
+    - Tussen flash en DSP SPI
+- Syscall API
+- CPU Newlib stubs
+- CPU MPU driver
+- Power/battery service
+- CPU DMA:
+  - Implementeer CPU DMA driver
+  - Laat SPI werken met DMA
+  - Laat EMIFA werken met DMA
+  - Laat USB werken met DMA
+- DSP native test suite
+- Implementeer DSP DMA:
+  - DMA in HostDMA
+- C++ app code support
+- (optioneel) Implementeer LUA
+
+
+##
+## MMCSD driver
+##
+
+M  Test without -DDEBUG and check whether timeout is gone
+   (it can retry successfully silently we dont want this!)
+
+- merge AM180x-lib into AM1802-csl? ask AI what to do, possible scenarios:
+  1. keep both; maybe this is still the best option
+  2. keep only am180x-lib; then the MMCSD driver doesn't need any changes,
+     but the entire rest of the code base will need major changes.
+  3. keep only am1802-csl; then the MMCSD driver will need major changes,
+     potentially breaking, and probably makes the code way uglier.
 
 ##
 ## Flash driver
 ##
-- Test and verify flash write
-- Test and verify flash read
-- Check whether reads&writes of length 1 are possible
-- Check whether address is sector index or actual address in flash
-- Check whether address can be odd
+
+M   FIX SMALL UNALIGNED WRITES!!!!!
+S   Hardware fuzzing test:
+    - Test and verify flash write
+    - Test and verify flash read
+    - Check whether reads&writes of length 1 are possible
+    - Check whether address is sector index or actual address in flash
+    - Check whether address can be odd
+
 
 ##
 ## SPI driver ont-kankeren
 ##
 
+M  Hardware fuzzing test
 -   TEST of flash_write en flash_read 1 byte kunnen lezen/schrijven!
 
 -  SPI & FLASH DRIVER REFACTOR
@@ -50,13 +133,12 @@ C   French, Czech and Italian language localizations
 -  Bitbang CS assert moet per_spi_chip_format gebruiken
    MAAR WEL DE PINMUX SETTINGS TERUGZETTEN SVP!!!
 
-
-
-
-
 ##
 ## UART/MCU/PANEL driver
 ##
+
+M   Hardware fuzzing
+
 BUG PROBLEEM:
  UART FIFO is 16 bytes, maar messages zijn 5 bytes. de vierde unhandled msg
  houdt maar 1 byte over wegens overflow -> ring buffer shift met 1 byte!
@@ -64,34 +146,40 @@ FIX:
  gebeurtenis: UART FIFO overflow error IRQ
  vervolgstap: device layer error callback cancelt RX interrupt verwachting
               (ring buffer hoeft niet geleegd te worden)
-          
-
 
 - ontkoppel van bootloader zodat er geen FREETRIBE_FREERTOS #ifdefs meer nodig zijn
 latency issue fix:
+
 - implement port_YIELD_FROM_ISR ??
 error/edge case handling:
-- <<GA NA OF DIT UBERHAUBT MOGELIJK IS>> handle overflow bytes in device layer ringbuffer -> discard to reset shift
 
-##################################################################################
-
-
-- reprioritise interrupt channels (interrupts can share channels!)
-
-- CPU Serial console interface supporting semihosting
-- CPU serial console interface supporting UART MIDI
+- <<GA NA OF DIT UBERHAUBT MOGELIJK IS>>
+  handle overflow bytes in device layer
+  ringbuffer -> discard to reset shift
 
 
+***************************************************************************
+***
+*** DOCUMENTATION
+***
+***************************************************************************
 
-- move apps gui_task into kernel or something (away from app)
-- decouple panel task from FreeRTOS so bootloader can remain non-realtime
+- Put soldering guide in freetribe-docs
+- E2 Flash contents explanation chapter
+- Write debugging & development guide for freetribe-docs:
+   - Tool recommendation/requirement list:
+      - Docker
+      - CMake
+      - GDB
+      - (optional) VSCode (Cortex-Debug en andere extensies)
+  - Explain there are 3 ways to boot programs:
+     1. JTAG+GDB (best)
+     2. via USB from bootloader, utilizing dfu-util
+     3. through MIDI SysEx from Hacktribe, with Python script execute_freetribe.py
+     - Explain what debug_bringup can be used for.
 
-Features:
-- DSP serial console interface!
+- Overal doxygen comments
 
-
-** Reverse engineering Factory Firmware **
-- Figure out what GPIO GP7[9] and GP8[11] do and why they have rise/fall triggers
 
 
 ***************************************************************************
@@ -109,6 +197,7 @@ zo ja?
 
 - VRAAG: mag een peripheral module ooit een andere peripheral aanroepen?
          zoals per_uart en per_spi die interrupts registreren.
+  ANTWOORD: Eigenlijk niet, maar het gebeurt nu toch met de interrupts enzo
 
 - VRAAG: Where does the centralized interrupt priority
 
@@ -116,8 +205,6 @@ zo ja?
   en niet teveel werk uit handen nemen van device layer. Is het correct dat
   per_emifa een state machine is bijvoorbeeld? de naam per_emifa_task suggereert
   scheduler/OS abstractie!
-
-- VRAAG: Waar moet de CPU stdlib komen?
 
 - per_pinmux.c migrate initializations to their respective drivers,
   come up with clever solution like masks to make setting it up tidy.
@@ -127,18 +214,28 @@ zo ja?
 - refactor SPI driver: it should have 1 blocking, and 1 interrupt tx&rx.
   factory boot incompatibility should be solved at device flash/lcd layer.
 
-- merge AM180x-lib into AM1802-csl? ask AI what to do, possible scenarios:
-  1. keep both; maybe this is still the best option
-  2. keep only am180x-lib; then the MMCSD driver doesn't need any changes,
-     but the entire rest of the code base will need major changes.
-  3. keep only am1802-csl; then the MMCSD driver will need major changes,
-     potentially breaking, and probably makes the code way uglier.
 
 - VRAAG: Wat hoort wel en niet thuis in common
          - os_compat.h kan mss weg? for this I need to make separate bootloader panel code maybe ?
          - ft_error is in common, alleenmaar voor de ring buffer? eigenlijk is dat nutteloos,
            zelfs als het exposed is aan userspace onder het mom van "freetribe api"
 
-- documentations
+- vind unnecessary includes
 
-- unnecessary includes
+
+
+##################################################################################
+
+
+- reprioritise interrupt channels (interrupts can share channels!)
+
+
+
+
+- move apps gui_task into kernel or something (away from app)
+- decouple panel task from FreeRTOS so bootloader can remain non-realtime
+
+
+
+** Reverse engineering Factory Firmware **
+- Figure out what GPIO GP7[9] and GP8[11] do and why they have rise/fall triggers

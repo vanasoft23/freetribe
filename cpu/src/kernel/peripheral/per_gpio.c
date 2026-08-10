@@ -107,48 +107,19 @@ void per_gpio_init(void) {
     GPIOBankDirModeSet(SOC_GPIO_0_REGS, 4, 0x0000fffd);
 }
 
-/// TODO: Refactor to always use indexed access.
-//          Allows #define PIN_NAME and avoids multiple conversions.
-
-bool per_gpio_get(uint8_t bank, uint8_t pin) {
-
-    // Pins indexed from 1 to 0x90.
-    uint8_t pin_index = (bank << 4) + pin + 1;
-
-    return per_gpio_get_indexed(pin_index);
-}
-
-void per_gpio_set(uint8_t bank, uint8_t pin, bool state) {
-
-    // Pins indexed from 1 to 0x90.
-    uint8_t pin_index = (bank << 4) + pin + 1;
-
-    per_gpio_set_indexed(pin_index, state);
-}
-
-void per_gpio_toggle(uint8_t bank, uint8_t pin) {
-
-    // Pins indexed from 1 to 0x90.
-    uint8_t pin_index = (bank << 4) + pin + 1;
-
-    per_gpio_toggle_indexed(pin_index);
-}
-
-bool per_gpio_get_indexed(uint8_t pin_index) {
+bool per_gpio_get_indexed(u8 pin_index) {
 
     return GPIOPinRead(SOC_GPIO_0_REGS, pin_index);
 }
 
-void per_gpio_set_indexed(uint8_t pin_index, bool state) {
+void per_gpio_set_indexed(u8 pin_index, bool state) {
 
     GPIOPinWrite(SOC_GPIO_0_REGS, pin_index, state);
 }
 
-void per_gpio_toggle_indexed(uint8_t pin_index) {
+void per_gpio_toggle_indexed(u8 pin_index) {
 
-    bool state;
-
-    state = GPIOPinRead(SOC_GPIO_0_REGS, pin_index);
+    bool state = GPIOPinRead(SOC_GPIO_0_REGS, pin_index);
     GPIOPinWrite(SOC_GPIO_0_REGS, pin_index, !state);
 }
 

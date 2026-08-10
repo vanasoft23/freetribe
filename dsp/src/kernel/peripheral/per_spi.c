@@ -37,8 +37,8 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
+
 #include <stdio.h>
 
 #include <blackfin.h>

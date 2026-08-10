@@ -205,7 +205,7 @@ void module_process(void) {
  * @param[in]   value           Value of parameter.
  *
  */
-void module_set_param(uint16_t param_index, float value) {
+void module_set_param(u16 param_index, float value) {
 
     switch (param_index) {
 
@@ -381,7 +381,7 @@ void module_set_param(uint16_t param_index, float value) {
     }
 }
 
-void module_get_param(uint16_t param_index) {
+void module_get_param(u16 param_index) {
 
     switch (param_index) {
 

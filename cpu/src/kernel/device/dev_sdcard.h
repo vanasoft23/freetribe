@@ -63,9 +63,9 @@ typedef enum {
 t_sdcard_status dev_sdcard_init(void);
 t_sdcard_status dev_sdcard_terminate(void);
 bool dev_sdcard_present(void);
-uint32_t dev_sdcard_get_sector_count(void);
-t_sdcard_status dev_sdcard_read(uint32_t blk_nr, uint32_t blk_cnt, uint32_t* buf);
-t_sdcard_status dev_sdcard_write(uint32_t blk_nr, uint32_t blk_cnt, const uint32_t* buf);
+u32 dev_sdcard_get_sector_count(void);
+t_sdcard_status dev_sdcard_read(u32 blk_nr, u32 blk_cnt, u32* buf);
+t_sdcard_status dev_sdcard_write(u32 blk_nr, u32 blk_cnt, const u32* buf);
 const char* dev_sdcard_err_string(int rt);
 
 #ifdef __cplusplus

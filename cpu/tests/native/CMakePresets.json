@@ -1,0 +1,46 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 24,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "native-tests-debug",
+            "displayName": "Native Tests (Debug)",
+            "description": "Configure host-side Unity tests with Clang.",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/../../../build/native-tests",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "clang"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "native-tests",
+            "displayName": "All Native Tests",
+            "configurePreset": "native-tests-debug"
+        },
+        {
+            "name": "rsp-tests",
+            "displayName": "RSP Tests",
+            "configurePreset": "native-tests-debug",
+            "targets": [
+                "rsp_tests"
+            ]
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "native-tests",
+            "displayName": "All Native Tests",
+            "configurePreset": "native-tests-debug",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ]
+}

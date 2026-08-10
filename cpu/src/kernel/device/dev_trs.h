@@ -55,8 +55,8 @@ extern "C" {
 /*----- Extern function prototypes -----------------------------------*/
 
 void dev_trs_init(void);
-void dev_trs_tx_enqueue(uint8_t *byte);
-int dev_trs_rx_dequeue(uint8_t *byte);
+void dev_trs_tx_enqueue(u8 *byte);
+int dev_trs_rx_dequeue(u8 *byte);
 void dev_trs_register_rx_callback(void (*callback)(void));
 
 #ifdef __cplusplus

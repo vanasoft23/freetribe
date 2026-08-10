@@ -52,7 +52,7 @@ static bool g_shutdown = false;
 
 /*----- Static function prototypes -----------------------------------*/
 
-void _button_callback(uint8_t index, bool state);
+void _button_callback(u8 index, bool state);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -95,7 +95,7 @@ void app_run(void) {
  * @param[in]   index   Index of button.
  * @param[in]   state   State of button.
  */
-void _button_callback(uint8_t index, bool state) {
+void _button_callback(u8 index, bool state) {
 
     switch (index) {
 

@@ -36,23 +36,19 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
+#include "ft_error.h"
+#include "ring_buffer.h"
+
+#include <FreeRTOS.h>
+#include <task.h>
 
 #include "dev_dsp.h"
-
-#include "FreeRTOS.h"
-#include "task.h"
-
-#include "ft_error.h"
-
-#include "knl_main.h"
 
 #include "svc_delay.h"
 #include "svc_dsp.h"
 
-#include "ring_buffer.h"
-
+#include "knl_main.h"
 #include "bfin_ldr.h"
 
 /*----- Macros -------------------------------------------------------*/
@@ -82,36 +78,36 @@ typedef enum {
 
 /*----- Static variable definitions ----------------------------------*/
 
-static uint32_t g_pending_response;
+static u32 g_pending_response;
 
 static volatile bool g_dsp_ready = false;
 
 static TaskHandle_t g_dsp_ready_wait_task = NULL;
 
-typedef void (*t_module_param_value_callback)(uint16_t module_id,
-                                              uint16_t param_index,
-                                              int32_t param_value);
+typedef void (*t_module_param_value_callback)(u16 module_id,
+                                              u16 param_index,
+                                              s32 param_value);
 
-typedef void (*t_system_port_state_callback)(uint16_t port_f, uint16_t port_g,
-                                             uint16_t port_h);
+typedef void (*t_system_port_state_callback)(u16 port_f, u16 port_g,
+                                             u16 port_h);
 
-typedef void (*t_system_profile_callback)(uint32_t period, uint32_t cycles);
+typedef void (*t_system_profile_callback)(u32 period, u32 cycles);
 
 typedef struct {
-    uint16_t module_id;
-    uint16_t param_index;
-    int32_t param_value;
+    u16 module_id;
+    u16 param_index;
+    s32 param_value;
 } t_dsp_module_param_event;
 
 typedef struct {
-    uint16_t port_f;
-    uint16_t port_g;
-    uint16_t port_h;
+    u16 port_f;
+    u16 port_g;
+    u16 port_h;
 } t_dsp_port_state_event;
 
 typedef struct {
-    uint32_t period;
-    uint32_t cycles;
+    u32 period;
+    u32 cycles;
 } t_dsp_profile_event;
 
 static t_module_param_value_callback p_module_param_value_callback;
@@ -124,36 +120,36 @@ static t_system_profile_callback p_system_profile_callback;
 
 static t_status _dsp_init(void);
 static void _dsp_boot(void);
-static void _dsp_receive(uint8_t byte);
+static void _dsp_receive(u8 byte);
 static void _dsp_check_ready(void);
 
 static void _dsp_response_required(void);
 static void _dsp_response_received(void);
 static void _dsp_signal_ready(void);
 
-static void _transmit_message(uint8_t msg_type, uint8_t msg_id,
-                              uint8_t *payload, uint8_t length);
+static void _transmit_message(u8 msg_type, u8 msg_id,
+                              u8 *payload, u8 length);
 
-static void _handle_message(uint8_t msg_type, uint8_t msg_id, uint8_t *payload,
-                            uint8_t length);
+static void _handle_message(u8 msg_type, u8 msg_id, u8 *payload,
+                            u8 length);
 
-static t_status _handle_module_message(uint8_t msg_id, uint8_t *payload,
-                                       uint8_t length);
+static t_status _handle_module_message(u8 msg_id, u8 *payload,
+                                       u8 length);
 
-static t_status _handle_system_message(uint8_t msg_id, uint8_t *payload,
-                                       uint8_t length);
+static t_status _handle_system_message(u8 msg_id, u8 *payload,
+                                       u8 length);
 
-static t_status _handle_module_param_value(uint8_t *payload, uint8_t length);
-static t_status _handle_system_port_state(uint8_t *payload, uint8_t length);
+static t_status _handle_module_param_value(u8 *payload, u8 length);
+static t_status _handle_system_port_state(u8 *payload, u8 length);
 static t_status _handle_system_ready(void);
 
-static t_status _handle_system_profile(uint8_t *payload, uint8_t length);
+static t_status _handle_system_profile(u8 *payload, u8 length);
 static void _dispatch_module_param_value(const void *payload);
 static void _dispatch_system_port_state(const void *payload);
 static void _dispatch_system_profile(const void *payload);
 
-void _register_module_callback(uint8_t msg_id, void *callback);
-void _register_system_callback(uint8_t msg_id, void *callback);
+void _register_module_callback(u8 msg_id, void *callback);
+void _register_system_callback(u8 msg_id, void *callback);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -173,7 +169,7 @@ void svc_dsp_process(void) {
 
     static t_delay_state reset_delay;
 
-    static uint8_t dsp_byte;
+    static u8 dsp_byte;
 
     switch (state) {
 
@@ -246,7 +242,7 @@ void svc_dsp_process(void) {
     }
 }
 
-void svc_dsp_register_callback(uint8_t msg_type, uint8_t msg_id,
+void svc_dsp_register_callback(u8 msg_type, u8 msg_id,
                                void *callback) {
 
     switch (msg_type) {
@@ -266,14 +262,14 @@ void svc_dsp_register_callback(uint8_t msg_type, uint8_t msg_id,
 }
 
 /// TODO: Move to separate module.
-void svc_dsp_set_module_param(uint16_t module_id, uint16_t param_index,
-                              int32_t param_value) {
+void svc_dsp_set_module_param(u16 module_id, u16 param_index,
+                              s32 param_value) {
 
-    const uint8_t msg_type = MSG_TYPE_MODULE;
-    const uint8_t msg_id = MODULE_SET_PARAM_VALUE;
+    const u8 msg_type = MSG_TYPE_MODULE;
+    const u8 msg_id = MODULE_SET_PARAM_VALUE;
 
     /// TODO: Union struct / static allocation?
-    uint8_t payload[] = {
+    u8 payload[] = {
         (module_id & 0xff),         (module_id >> 8) & 0xff,
         (param_index & 0xff),       (param_index >> 8) & 0xff,
         (param_value & 0xff),       (param_value >> 8) & 0xff,
@@ -282,12 +278,12 @@ void svc_dsp_set_module_param(uint16_t module_id, uint16_t param_index,
     _transmit_message(msg_type, msg_id, payload, sizeof(payload));
 }
 
-void svc_dsp_get_module_param(uint16_t module_id, uint16_t param_index) {
+void svc_dsp_get_module_param(u16 module_id, u16 param_index) {
 
-    const uint8_t msg_type = MSG_TYPE_MODULE;
-    const uint8_t msg_id = MODULE_GET_PARAM_VALUE;
+    const u8 msg_type = MSG_TYPE_MODULE;
+    const u8 msg_id = MODULE_GET_PARAM_VALUE;
 
-    uint8_t payload[] = {(module_id & 0xff), (module_id >> 8) & 0xff,
+    u8 payload[] = {(module_id & 0xff), (module_id >> 8) & 0xff,
                          (param_index & 0xff), (param_index >> 8) & 0xff};
 
     _dsp_response_required();
@@ -301,8 +297,8 @@ void svc_dsp_get_module_param(uint16_t module_id, uint16_t param_index) {
 // Request state of Port F, Port G, Port H GPIO.
 void svc_dsp_get_port_state(void) {
 
-    const uint8_t msg_type = MSG_TYPE_SYSTEM;
-    const uint8_t msg_id = SYSTEM_GET_PORT_STATE;
+    const u8 msg_type = MSG_TYPE_SYSTEM;
+    const u8 msg_id = SYSTEM_GET_PORT_STATE;
 
     _dsp_response_required();
 
@@ -311,8 +307,8 @@ void svc_dsp_get_port_state(void) {
 
 void svc_dsp_get_profile(void) {
 
-    const uint8_t msg_type = MSG_TYPE_SYSTEM;
-    const uint8_t msg_id = SYSTEM_GET_PROFILE;
+    const u8 msg_type = MSG_TYPE_SYSTEM;
+    const u8 msg_id = SYSTEM_GET_PROFILE;
 
     _dsp_response_required();
 
@@ -337,15 +333,15 @@ void svc_dsp_wait_ready(void) {
 
 void _dsp_check_ready(void) {
 
-    const uint8_t msg_type = MSG_TYPE_SYSTEM;
-    const uint8_t msg_id = SYSTEM_CHECK_READY;
+    const u8 msg_type = MSG_TYPE_SYSTEM;
+    const u8 msg_id = SYSTEM_CHECK_READY;
 
     _dsp_response_required();
 
     _transmit_message(msg_type, msg_id, NULL, 0);
 }
 
-void _register_module_callback(uint8_t msg_id, void *callback) {
+void _register_module_callback(u8 msg_id, void *callback) {
 
     switch (msg_id) {
 
@@ -358,7 +354,7 @@ void _register_module_callback(uint8_t msg_id, void *callback) {
     }
 }
 
-void _register_system_callback(uint8_t msg_id, void *callback) {
+void _register_system_callback(u8 msg_id, void *callback) {
 
     switch (msg_id) {
 
@@ -376,10 +372,10 @@ void _register_system_callback(uint8_t msg_id, void *callback) {
 }
 
 /// TODO: Return status.
-static void _transmit_message(uint8_t msg_type, uint8_t msg_id,
-                              uint8_t *payload, uint8_t length) {
+static void _transmit_message(u8 msg_type, u8 msg_id,
+                              u8 *payload, u8 length) {
     //
-    uint8_t msg_start = MSG_START;
+    u8 msg_start = MSG_START;
 
     dev_dsp_spi_tx_enqueue(&msg_start);
     dev_dsp_spi_tx_enqueue(&msg_type);
@@ -416,15 +412,15 @@ static void _dsp_boot(void) {
 /// TODO: Move to protocol separate module.
 ///          Maybe this should be userspace?
 //
-static void _dsp_receive(uint8_t byte) {
+static void _dsp_receive(u8 byte) {
 
     static t_msg_parse_state state = PARSE_START;
 
-    static uint8_t msg_type;
-    static uint8_t msg_id;
-    static uint8_t length;
-    static uint8_t payload[0xff];
-    static uint8_t count;
+    static u8 msg_type;
+    static u8 msg_id;
+    static u8 length;
+    static u8 payload[0xff];
+    static u8 count;
 
     switch (state) {
 
@@ -472,8 +468,8 @@ static void _dsp_receive(uint8_t byte) {
     }
 }
 
-static void _handle_message(uint8_t msg_type, uint8_t msg_id, uint8_t *payload,
-                            uint8_t length) {
+static void _handle_message(u8 msg_type, u8 msg_id, u8 *payload,
+                            u8 length) {
 
     switch (msg_type) {
 
@@ -490,8 +486,8 @@ static void _handle_message(uint8_t msg_type, uint8_t msg_id, uint8_t *payload,
     }
 }
 
-static t_status _handle_module_message(uint8_t msg_id, uint8_t *payload,
-                                       uint8_t length) {
+static t_status _handle_module_message(u8 msg_id, u8 *payload,
+                                       u8 length) {
 
     t_status result = ERROR;
 
@@ -513,8 +509,8 @@ static t_status _handle_module_message(uint8_t msg_id, uint8_t *payload,
     return result;
 }
 
-static t_status _handle_system_message(uint8_t msg_id, uint8_t *payload,
-                                       uint8_t length) {
+static t_status _handle_system_message(u8 msg_id, u8 *payload,
+                                       u8 length) {
 
     t_status result = ERROR;
 
@@ -545,7 +541,7 @@ static t_status _handle_system_message(uint8_t msg_id, uint8_t *payload,
 }
 
 /// TODO: Test payload length.
-static t_status _handle_module_param_value(uint8_t *payload, uint8_t length) {
+static t_status _handle_module_param_value(u8 *payload, u8 length) {
 
     t_dsp_module_param_event event;
 
@@ -559,7 +555,7 @@ static t_status _handle_module_param_value(uint8_t *payload, uint8_t length) {
 
     event.param_index = (payload[3] << 8) | payload[2];
 
-    event.param_value = (int32_t)((payload[7] << 24) | (payload[6] << 16) |
+    event.param_value = (s32)((payload[7] << 24) | (payload[6] << 16) |
                                   (payload[5] << 8) | payload[4]);
 
     if (p_module_param_value_callback != NULL) {
@@ -577,7 +573,7 @@ static t_status _handle_system_ready(void) {
     return SUCCESS;
 }
 
-static t_status _handle_system_port_state(uint8_t *payload, uint8_t length) {
+static t_status _handle_system_port_state(u8 *payload, u8 length) {
     t_dsp_port_state_event event;
 
     if (length < 6) {
@@ -596,7 +592,7 @@ static t_status _handle_system_port_state(uint8_t *payload, uint8_t length) {
     return SUCCESS;
 }
 
-static t_status _handle_system_profile(uint8_t *payload, uint8_t length) {
+static t_status _handle_system_profile(u8 *payload, u8 length) {
     t_dsp_profile_event event;
 
     if (length < 8) {

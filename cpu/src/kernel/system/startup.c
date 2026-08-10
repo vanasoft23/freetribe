@@ -126,8 +126,8 @@ __attribute__((aligned(16 * 1024)))
 
 /*----- Extern variable definitions ----------------------------------*/
 
-extern uint8_t _kernel_cacheable_start[];
-extern uint8_t _kernel_cacheable_end[];
+extern u8 _kernel_cacheable_start[];
+extern u8 _kernel_cacheable_end[];
 
 /*----- Extern function prototypes -----------------------------------*/
 
@@ -136,7 +136,7 @@ int main(void);
 /*----- Static function prototypes -----------------------------------*/
 
 static void _copy_vector_table(void);
-static int _psc_module_enabled(uint32_t base_addr, uint32_t module_id);
+static int _psc_module_enabled(u32 base_addr, u32 module_id);
 static void _config_cache_mmu(void);
 static void _ddr_memtest(void);
 static void _boot_abort(void);
@@ -218,8 +218,8 @@ void delay(unsigned int count) {
 /**
  * @brief  Returns true if already enabled
  */
-static int _psc_module_enabled(uint32_t base_addr, uint32_t module_id) {
-    uint32_t state = HWREG(base_addr + (module_id + PSC_PDSTAT0) * 4) & 0x3f;
+static int _psc_module_enabled(u32 base_addr, u32 module_id) {
+    u32 state = HWREG(base_addr + (module_id + PSC_PDSTAT0) * 4) & 0x3f;
     return (3 == state);
 }
 
@@ -515,11 +515,11 @@ static void _copy_vector_table(void) {
 static void _config_cache_mmu(void) {
     int i;
 #if KERNEL_DDR_TEXT_CACHEABLE
-    uint32_t cacheable_start;
-    uint32_t cacheable_end;
+    u32 cacheable_start;
+    u32 cacheable_end;
 #endif
-    const uint32_t FLAGS_DEFAULT = 0x00000c12; // Read+Write, no cache or buffer
-    const uint32_t FLAGS_CACHE   = 0x00000c1e; // Read+Write, cache   and buffer
+    const u32 FLAGS_DEFAULT = 0x00000c12; // Read+Write, no cache or buffer
+    const u32 FLAGS_CACHE   = 0x00000c1e; // Read+Write, cache   and buffer
 
     // Default to identity mapping everything without caching
     // Covers 0x0000–0x0FFF (4096 entries total page table)
@@ -528,8 +528,8 @@ static void _config_cache_mmu(void) {
 
     // Only kernel text/rodata is cacheable. Mutable DDR remains uncached.
 #if KERNEL_DDR_TEXT_CACHEABLE
-    cacheable_start = ((uint32_t)_kernel_cacheable_start) >> 20;
-    cacheable_end = (((uint32_t)_kernel_cacheable_end + MMU_SECTION_MASK) >> 20);
+    cacheable_start = ((u32)_kernel_cacheable_start) >> 20;
+    cacheable_end = (((u32)_kernel_cacheable_end + MMU_SECTION_MASK) >> 20);
 
     for (i = (int)cacheable_start; i < (int)cacheable_end; i++)
         page_table[i] = (i << 20) | FLAGS_CACHE;

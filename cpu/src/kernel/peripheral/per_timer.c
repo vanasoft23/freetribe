@@ -36,11 +36,11 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdint.h>
+#include "ft.h"
 
-#include "csl_interrupt.h"
-#include "csl_timer.h"
-#include "soc_AM1808.h"
+#include <csl_interrupt.h>
+#include <csl_timer.h>
+#include <soc_AM1808.h>
 
 #include "per_timer.h"
 
@@ -54,7 +54,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Static function prototypes -----------------------------------*/
 
-static uint32_t _timer_system_interrupt(uint32_t base_addr, uint32_t int_flags);
+static u32 _timer_system_interrupt(u32 base_addr, u32 int_flags);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -80,7 +80,7 @@ void timer_init(t_timer_config config) {
 
     // Configure interrupt in AINTC.
     if (config.p_isr) {
-        uint32_t system_int =
+        u32 system_int =
             _timer_system_interrupt(config.base_addr, config.int_flags);
 
         // Register interrupt service routine.
@@ -103,7 +103,7 @@ void timer_init(t_timer_config config) {
                                           TMR_INTSTAT34_TIMER_CAPT);
 }
 
-// void timer_unregister_interrupt(uint32_t base_addr) {
+// void timer_unregister_interrupt(u32 base_addr) {
 
 //     IntSystemDisable(SYS_INT_TINT12_0);
 //     IntUnRegister(SYS_INT_TINT12_0);
@@ -122,14 +122,14 @@ void timer_init(t_timer_config config) {
     
 // }
 
-uint32_t timer_count_get(uint32_t base_addr) {
+u32 timer_count_get(u32 base_addr) {
 
     return TimerCounterGet(base_addr, TMR_TIMER12);
 }
 
 /*----- Static function implementations ------------------------------*/
 
-static uint32_t _timer_system_interrupt(uint32_t base_addr, uint32_t int_flags) {
+static u32 _timer_system_interrupt(u32 base_addr, u32 int_flags) {
     if (base_addr == SOC_TMR_1_REGS) {
         if (int_flags & TMR_INT_TMR34_NON_CAPT_MODE)
             return SYS_INT_TINT34_1;

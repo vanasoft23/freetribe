@@ -43,8 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -55,10 +54,10 @@ extern "C" {
 /*----- Extern function prototypes -----------------------------------*/
 
 void dev_dsp_init(void);
-void dev_dsp_spi_tx_enqueue(uint8_t *dsp_spi_msg);
-int dev_dsp_spi_rx_dequeue(uint8_t *dsp_spi_msg);
+void dev_dsp_spi_tx_enqueue(u8 *dsp_spi_msg);
+int dev_dsp_spi_rx_dequeue(u8 *dsp_spi_msg);
 void dev_dsp_spi_poll(void);
-void dev_dsp_spi_tx_boot(uint8_t *buffer, uint32_t length);
+void dev_dsp_spi_tx_boot(u8 *buffer, u32 length);
 void dev_dsp_reset(bool state);
 void dev_dsp_spi_transfer(void);
 

@@ -36,16 +36,15 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stddef.h>
-
-#include "svc_delay.h"
-#include "svc_system.h"
+#include "ft.h"
+#include "ft_error.h"
 
 #include "dev_board.h"
 #include "dev_flash.h"
 #include "dev_dsp_ipc.h"
 
-#include "ft_error.h"
+#include "svc_delay.h"
+#include "svc_system.h"
 
 /*----- Macros -------------------------------------------------------*/
 

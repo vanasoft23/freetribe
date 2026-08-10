@@ -13,14 +13,13 @@
 #ifndef PER_USB_H
 #define PER_USB_H
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-bool per_usb_init_device(uint8_t int_channel);
+bool per_usb_init_device(u8 int_channel);
 void per_usb_terminate(void);
 
 #ifdef __cplusplus

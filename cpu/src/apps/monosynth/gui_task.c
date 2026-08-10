@@ -71,10 +71,10 @@ typedef enum {
 
 typedef struct {
     e_gui_event type;
-    uint8_t x_start;
-    uint8_t y_start;
-    uint8_t x_end;
-    uint8_t y_end;
+    u8 x_start;
+    u8 y_start;
+    u8 x_end;
+    u8 y_end;
     bool colour;
     char text[GUI_MAX_STRING_LEN + 1];
 } t_gui_event;
@@ -151,7 +151,7 @@ void gui_post(char *text) {
  *
  * @param[in]   text    String to print.
  */
-void gui_print(uint8_t x_start, uint8_t y_start, char *text) {
+void gui_print(u8 x_start, u8 y_start, char *text) {
 
     t_gui_event event;
 
@@ -161,14 +161,14 @@ void gui_print(uint8_t x_start, uint8_t y_start, char *text) {
 
     /// TODO: This is jank.
     //
-    uint32_t length = (uint32_t)fmin(GUI_MAX_STRING_LEN, strlen(text)) + 1;
+    u32 length = (u32)fmin(GUI_MAX_STRING_LEN, strlen(text)) + 1;
 
     strncpy(event.text, text, length);
 
     ring_buffer_put_force(g_gui_rbd, &event);
 }
 
-void gui_print_int(uint8_t x_start, uint8_t y_start, uint8_t value) {
+void gui_print_int(u8 x_start, u8 y_start, u8 value) {
 
     static char text[4];
     itoa(value, text, 10);
@@ -188,7 +188,7 @@ void gui_print_int(uint8_t x_start, uint8_t y_start, uint8_t value) {
     gui_print(x_start, y_start, text);
 }
 
-void gui_post_param(char *label, uint8_t value) {
+void gui_post_param(char *label, u8 value) {
 
     /// TODO: Eww.  Sort out string ops.
 
@@ -205,8 +205,8 @@ void gui_post_param(char *label, uint8_t value) {
     gui_post(cat_string);
 }
 
-void gui_draw_line(uint8_t x_start, uint8_t y_start, uint8_t x_end,
-                   uint8_t y_end, bool colour) {
+void gui_draw_line(u8 x_start, u8 y_start, u8 x_end,
+                   u8 y_end, bool colour) {
 
     t_gui_event event;
 

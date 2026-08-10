@@ -32,15 +32,17 @@ under the terms of the GNU Affero General Public License as published by
  * @file    main.c
  *
  * @brief   Main function for Freetribe CPU firmware.
+ * 
+ * @author  vanasoft23 (mvandijk303@gmail.com)
  */
 
 /*----- Includes -----------------------------------------------------*/
 
+#include "ft.h"
+
 #include <hw_types.h>
 #include <hw_syscfg0_AM1808.h>
 #include <soc_AM1808.h>
-
-#include "macros.h"
 
 #include "per_pinmux.h"
 #include "per_aintc.h"
@@ -49,10 +51,11 @@ under the terms of the GNU Affero General Public License as published by
 #include "dev_flash.h"
 #include "svc_delay.h"
 
-#include "gui.h"
-#include "file_browser.h"
+#include "ui/ui_controller.h"
 #include "usb/boot_usb.h"
-#include "flash_bootloader.h"
+#include "gdbstub/gdb_stub.h"
+#include "service/boot_section.h"
+#include "service/handoff.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -64,28 +67,58 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Static function prototypes -----------------------------------*/
 
-static void _init_hardware();
-// static void _setup_pinmux();
-static void _start_lcd();
+static void _init_hardware(void);
+// static void _setup_pinmux(void);
+static void _start_lcd(void);
 
-static void _test_flash() {
+// #define SCAN_GPIO
+#ifdef SCAN_GPIO
 
-    // const uint32_t src_addr = 0x00F00000;
-    // uint8_t a[4], b[4];
+#define BAT_PIN PIN_GP7_9
 
-    // dev_flash_read(src_addr, a, 4);
 
-    // uint8_t buf[] = { 0xAC, 0x1D, 0xBA, 0xBE };
-    // dev_flash_write(src_addr, buf, sizeof(buf));
-
-    // dev_flash_read(src_addr, b, 4);
+// GPIO scanning for battery power interface
+static u8 s_pin_checklist[] = {
     
-    // dev_flash_write(src_addr, (uint8_t*)"TIPA", 4);
+    // 97,98,99,100,101,102,103,104,105,106,107,108,109,110,
 
-    // DEBUG_LOG("before: %02x %02x %02x %02x", (unsigned int)a[0], (unsigned int)a[1], (unsigned int)a[2], (unsigned int)a[3]);
-    // DEBUG_LOG(" after: %02x %02x %02x %02x", (unsigned int)b[0], (unsigned int)b[1], (unsigned int)b[2], (unsigned int)b[3]);
+    PIN_GP7_8,
+    PIN_GP7_9, //risfal
+    PIN_GP7_11,
+    PIN_GP7_12,
+    PIN_SHUTDOWN,
 
+    // PIN_GP8_8, PIN_GP8_9, PIN_GP8_10, PIN_GP8_11, PIN_GP8_12, PIN_GP8_13, PIN_GP8_14, PIN_GP8_15
+};
+
+static volatile u32 s_gpio_irqs = 0;
+static bool s_pinstates[256];
+
+static void _scan_gpio(void) {
+    for (int i = 0; i < sizeof(s_pin_checklist)/sizeof(u8); i++) {
+
+        u8 pin_index = s_pin_checklist[i];
+
+        bool    new_state = per_gpio_get_indexed(pin_index);
+        bool *p_old_state = &s_pinstates[pin_index];
+
+        if (new_state != *p_old_state) {
+            DEBUG_LOG("Pin %u became %u", (unsigned int)pin_index, (unsigned int)new_state);
+        }
+
+        *p_old_state = new_state;
+
+    }
+
+    DEBUG_LOG("GPIO ISR %i", s_gpio_irqs);
 }
+
+
+static void _gpio_isr(void) {
+    per_aintc_clear_status_gpio(BAT_PIN);
+    s_gpio_irqs++;
+}
+#endif
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -95,18 +128,29 @@ static void _test_flash() {
  */
 int main(void) {
 
-    create_bootloader_ddr_mirror(); // if we want to install to flash we need a clean copy
+#ifdef SCAN_GPIO
+    per_aintc_register_gpio_interrupt(9, BAT_PIN, 3, _gpio_isr);
+#endif
+
+    create_sbl_ddr_snapshot();
 
     _init_hardware();
-    file_browser_init();
-    gui_init();
+    ui_controller_init();
     boot_usb_init();
-    _test_flash();
     
     do {
         boot_usb_task();
-        file_browser_tick();
-        gui_tick();
+
+        if (gdb_stub_take_handoff_request()) {
+            handoff_factory_firmware();
+        }
+
+        ui_controller_tick();
+
+#ifdef SCAN_GPIO
+        _scan_gpio();
+#endif
+
     } while(true);
 
     return 0;
@@ -114,31 +158,33 @@ int main(void) {
 
 /*----- Static function implementations ------------------------------*/
 
-static void _init_hardware() {
+static void _init_hardware(void) {
 
     delay_init();
     per_gpio_init();
     per_pinmux_init(); // _setup_pinmux();
     per_aintc_init();
 
-    per_gpio_set(6, 8, true);
-    per_gpio_set(6, 6, true);
-    per_gpio_set(7, 13, true);
+    per_gpio_set_indexed(PIN_BOARD_MCU_RESET, true);
+    per_gpio_set_indexed(PIN_GP6_6, true);
+    per_gpio_set_indexed(PIN_POWER_CTL, true); // power control pin; only red lights if not set
 
     delay_block_us(60);
 
-    per_gpio_set(6, 2, false);
-    per_gpio_set(7, 10, true);
+    per_gpio_set_indexed(PIN_BOARD_ADC_RESET, false);
+    per_gpio_set_indexed(PIN_BOARD_ADC_MCLK, true);
 
     _start_lcd();
 
-    while (!per_gpio_get(8, 15)) // what is this for?
+    while (!per_gpio_get_indexed(PIN_GP8_15)) // what is this for?
         ;
 
-    // // @TODO: disable during handoff
+    // /////////////// This was not in factory SBL
     // delay_block_us(10);
-    // per_gpio_set_indexed(124, 1); // Set GP7P11
-    // per_gpio_set(6, 11, 1); // Set GP6P11
+    // per_gpio_set_indexed(PIN_GP7_11, 1);
+    
+    // per_gpio_set_indexed(PIN_GP6_11, 1);
+    // per_gpio_set_indexed(PIN_GP6_12, 1);
     // ///////////////
     
     delay_block_us(50000); // TODO: how long is enough for MCU and panel UART to be ready?
@@ -147,7 +193,7 @@ static void _init_hardware() {
 
 }
 
-// static void _setup_pinmux() {
+// static void _setup_pinmux(void) {
 //     // McASP0 Clock, GPIO0 8-9.
 //     HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_PINMUX(0)) = 0x88111111;
 
@@ -212,7 +258,7 @@ static void _init_hardware() {
 //     HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_PINMUX(19)) = 0x18888888;
 // }
 
-static void _start_lcd() {
+static void _start_lcd(void) {
 
     dev_lcd_set_backlight(true, true, true);
 

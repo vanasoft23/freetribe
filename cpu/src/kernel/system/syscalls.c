@@ -53,11 +53,11 @@ under the terms of the GNU Affero General Public License as published by
 
 // void *_sbrk(int incr) {
 
-//     extern uint8_t _heap_end; /* Defined by the linker */
+//     extern u8 _heap_end; /* Defined by the linker */
 
-//     static uint8_t *heap_end;
+//     static u8 *heap_end;
 
-//     uint8_t *prev_heap_end;
+//     u8 *prev_heap_end;
 
 //     if (heap_end == 0) {
 //         heap_end = &_heap_end;

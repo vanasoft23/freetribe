@@ -20,7 +20,7 @@ C:/dev/System23/freetribe/cpu/src/api/freetribe.c:107:6:ft_register_tick_callbac
 C:/dev/System23/freetribe/cpu/src/api/freetribe.c:124:6:ft_start_delay	8	static
 C:/dev/System23/freetribe/cpu/src/api/freetribe.c:139:6:ft_delay	8	static
 C:/dev/System23/freetribe/cpu/src/api/freetribe.c:144:6:ft_put_pixel	8	static
-C:/dev/System23/freetribe/cpu/src/api/freetribe.c:149:8:ft_fill_frame	16	static
+C:/dev/System23/freetribe/cpu/src/api/freetribe.c:149:4:ft_fill_frame	16	static
 C:/dev/System23/freetribe/cpu/src/api/freetribe.c:158:6:ft_register_print_callback	8	static
 C:/dev/System23/freetribe/cpu/src/api/freetribe.c:172:6:ft_print	8	static
 C:/dev/System23/freetribe/cpu/src/api/freetribe.c:177:6:ft_printf	16	static

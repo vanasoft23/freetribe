@@ -38,10 +38,8 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
-#include "macros.h"
 #include "startup.h"
 
 #include "csl_interrupt.h"
@@ -57,17 +55,17 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    uint32_t address;
-    uint32_t system_int;
+    u32 address;
+    u32 system_int;
     void (*isr)(void);
 
-    uint8_t *tx_buffer;
-    uint32_t tx_length;
+    u8 *tx_buffer;
+    u32 tx_length;
 
-    uint8_t *rx_buffer;
-    uint32_t rx_length;
+    u8 *rx_buffer;
+    u32 rx_length;
 
-    uint32_t dat1_control;
+    u32 dat1_control;
 
     void (*tx_callback)(void);
     void (*rx_callback)(void);
@@ -80,29 +78,30 @@ typedef struct {
 
 static void _spi0_isr(void);
 static void _spi1_isr(void);
-static unsigned int _has_rx_data(uint32_t base_addr);
+static unsigned int _has_rx_data(u32 base_addr);
 
 /*----- Static helper prototypes -------------------------------------*/
 
-static void _spi_set_format_register(uint32_t base_addr, uint32_t data_format,
-                                     uint32_t module_clock,
-                                     uint32_t spi_clock, uint32_t flags,
-                                     uint32_t char_length);
-// static void _spi_disable(uint32_t base_addr);
-static void _spi_set_dat1_control(t_spi *spi, uint32_t flags,
-                                  uint8_t chip_select);
-static uint32_t _spi_dat1_control(uint32_t base_addr);
-static void _spi_transmit_data1(uint32_t base_addr, uint32_t data);
-static void _spi_wait_transmit_ready(uint32_t base_addr);
-static void _spi_wait_transmit_buffer_ready(uint32_t base_addr);
-static void _spi_wait_receive_ready(uint32_t base_addr);
-static void _spi_drain_receive_data(uint32_t base_addr);
+static void _spi_set_format_register(u32 base_addr, u32 data_format,
+                                     u32 module_clock,
+                                     u32 spi_clock, u32 flags,
+                                     u32 char_length);
+// static void _spi_disable(u32 base_addr);
+static void _spi_set_dat1_control(t_spi *spi, u32 flags,
+                                  u8 chip_select);
+static u32 _spi_dat1_control(u32 base_addr);
+static void _spi_transmit_data1(u32 base_addr, u32 data);
+static void _spi_wait_transmit_ready(u32 base_addr);
+static bool _spi_wait_transmit_ready_bounded(u32 base_addr, u32 poll_limit);
+static void _spi_wait_transmit_buffer_ready(u32 base_addr);
+static void _spi_wait_receive_ready(u32 base_addr);
+static void _spi_drain_receive_data(u32 base_addr);
 
 /*----- Static variable definitions ----------------------------------*/
 
-static const uint32_t g_base_address[SPI_INSTANCES] = {SPI0_BASE, SPI1_BASE};
+static const u32 g_base_address[SPI_INSTANCES] = {SPI0_BASE, SPI1_BASE};
 
-static const uint32_t g_system_interrupt[SPI_INSTANCES] = {SYS_INT_SPIINT0,
+static const u32 g_system_interrupt[SPI_INSTANCES] = {SYS_INT_SPIINT0,
                                                            SYS_INT_SPIINT1};
 
 static const void *g_isr_address[SPI_INSTANCES] = {&_spi0_isr, &_spi1_isr};
@@ -152,7 +151,7 @@ void per_spi_init(t_spi_config *config) {
     spi->initialised = true;
 }
 
-void per_spi_unregister_interrupts(uint8_t instance) {
+void per_spi_unregister_interrupts(u8 instance) {
 
     t_spi *spi = &g_spi[instance];
 
@@ -171,7 +170,7 @@ void per_spi_unregister_interrupts(uint8_t instance) {
 
 void per_spi_set_data_format(t_spi_format *format) {
 
-    uint32_t base_addr = g_base_address[format->instance];
+    u32 base_addr = g_base_address[format->instance];
     // bool disable_for_reconfigure =
     //     (HWREG(base_addr + SPI_SPIGCR1) & SPI_SPIGCR1_ENABLE) != 0;
 
@@ -188,17 +187,17 @@ void per_spi_set_data_format(t_spi_format *format) {
     /// TODO: Investigate SPI timings using logic analyser.
 }
 
-bool per_spi_initialised(uint8_t instance) {
+bool per_spi_initialised(u8 instance) {
 
     return g_spi[instance].initialised;
 }
 
 // Select data format, set chip select value and hold.
-void per_spi_chip_format(uint8_t instance, uint8_t data_format,
-                         uint8_t chip_select, bool cshold) {
+void per_spi_chip_format(u8 instance, u8 data_format,
+                         u8 chip_select, bool cshold) {
 
     t_spi *spi = &g_spi[instance];
-    uint32_t flags = data_format;
+    u32 flags = data_format;
 
     if (cshold) {
         flags |= SPI_CSHOLD;
@@ -208,7 +207,7 @@ void per_spi_chip_format(uint8_t instance, uint8_t data_format,
 
 }
 
-void per_spi_write_isr(uint8_t instance, uint8_t *buffer, uint32_t length) {
+void per_spi_write_isr(u8 instance, u8 *buffer, u32 length) {
 
     g_spi[instance].tx_buffer = buffer;
     g_spi[instance].tx_length = length;
@@ -217,15 +216,15 @@ void per_spi_write_isr(uint8_t instance, uint8_t *buffer, uint32_t length) {
     SPIIntEnable(g_spi[instance].address, SPI_TRANSMIT_INT);
 }
 
-void per_spi_write_blocking(uint8_t instance, uint8_t *buffer, uint32_t length) {
+void per_spi_write_blocking(u8 instance, u8 *buffer, u32 length) {
 
     if (!buffer) {
         return;
     }
 
-    uint32_t base_addr = g_spi[instance].address;
+    u32 base_addr = g_spi[instance].address;
 
-    for (uint32_t i = 0; i < length; i++) {
+    for (u32 i = 0; i < length; i++) {
 
         _spi_wait_transmit_ready(base_addr);
 
@@ -236,8 +235,29 @@ void per_spi_write_blocking(uint8_t instance, uint8_t *buffer, uint32_t length) 
     _spi_wait_transmit_ready(base_addr);
 }
 
-void per_spi_transfer_isr(uint8_t instance, uint8_t *tx_buffer,
-                          uint8_t *rx_buffer, uint32_t length) {
+bool per_spi_write_blocking_bounded(u8 instance, const u8 *buffer,
+                                    u32 length, u32 poll_limit) {
+
+    if ((instance >= SPI_INSTANCES) || !buffer || (0 == poll_limit) ||
+        !g_spi[instance].initialised) {
+        return false;
+    }
+
+    u32 base_addr = g_spi[instance].address;
+
+    for (u32 i = 0; i < length; i++) {
+        if (!_spi_wait_transmit_ready_bounded(base_addr, poll_limit)) {
+            return false;
+        }
+
+        _spi_transmit_data1(base_addr, buffer[i]);
+    }
+
+    return _spi_wait_transmit_ready_bounded(base_addr, poll_limit);
+}
+
+void per_spi_transfer_isr(u8 instance, u8 *tx_buffer,
+                          u8 *rx_buffer, u32 length) {
 
     if (tx_buffer != NULL && rx_buffer != NULL && length != 0) {
         g_spi[instance].tx_buffer = tx_buffer;
@@ -255,41 +275,41 @@ void per_spi_transfer_isr(uint8_t instance, uint8_t *tx_buffer,
     }
 }
 
-static unsigned int _has_rx_data(uint32_t base_addr) {
+static unsigned int _has_rx_data(u32 base_addr) {
     return !(HWREG(base_addr + SPI_SPIBUF) & SPI_SPIBUF_RXEMPTY);
 }
 
-void per_spi_transfer_blocking(uint8_t instance, uint8_t *tx_buffer,
-                               uint8_t *rx_buffer, uint32_t length) {
+void per_spi_transfer_blocking(u8 instance, u8 *tx_buffer,
+                               u8 *rx_buffer, u32 length) {
 
     if ((!tx_buffer && !rx_buffer) || length == 0) {
         DEBUG_LOG("per_spi_transfer_blocking ERROR invalid params");
         return;
     }
 
-    uint32_t base_addr = g_spi[instance].address;
+    u32 base_addr = g_spi[instance].address;
 
     _spi_drain_receive_data(base_addr);
 
-    for (uint32_t i = 0; i < length; i++) {
-        uint32_t tx_data = tx_buffer ? tx_buffer[i] : 0;
+    for (u32 i = 0; i < length; i++) {
+        u32 tx_data = tx_buffer ? tx_buffer[i] : 0;
 
         _spi_wait_transmit_buffer_ready(base_addr);
         _spi_transmit_data1(base_addr, tx_data);
 
         _spi_wait_receive_ready(base_addr);
-        uint32_t rx_data = SPIDataReceive(base_addr);
+        u32 rx_data = SPIDataReceive(base_addr);
 
         if (rx_buffer) {
-            rx_buffer[i] = (uint8_t)rx_data;
+            rx_buffer[i] = (u8)rx_data;
         }
     }
 }
 
-void per_spi_transfer_blocking_end(uint8_t instance, uint8_t *tx_buffer,
-                                   uint8_t *rx_buffer, uint32_t length,
-                                   uint8_t data_format,
-                                   uint8_t chip_select) {
+void per_spi_transfer_blocking_end(u8 instance, u8 *tx_buffer,
+                                   u8 *rx_buffer, u32 length,
+                                   u8 data_format,
+                                   u8 chip_select) {
 
     if ((!tx_buffer && !rx_buffer) || length == 0) {
         return;
@@ -305,7 +325,7 @@ void per_spi_transfer_blocking_end(uint8_t instance, uint8_t *tx_buffer,
                               rx_buffer ? &rx_buffer[length - 1] : NULL, 1);
 }
 
-void per_spi_register_callback(uint8_t instance, t_spi_event event,
+void per_spi_register_callback(u8 instance, t_spi_event event,
                                void (*callback)()) {
 
     switch (event) {
@@ -330,7 +350,7 @@ void per_spi_register_callback(uint8_t instance, t_spi_event event,
 static inline void _spi_isr(t_spi *spi) {
 
     // Cause of SPI interrupt.
-    uint8_t int_id = 0;
+    u8 int_id = 0;
 
 #if NESTED_INTERRUPTS
     // System interrupt already cleared in IRQHandler.
@@ -406,13 +426,13 @@ static void _spi1_isr(void) { _spi_isr(&g_spi[1]); }
 
 /*----- Static helper implementations --------------------------------*/
 
-static void _spi_set_format_register(uint32_t base_addr, uint32_t data_format,
-                                     uint32_t module_clock,
-                                     uint32_t spi_clock, uint32_t flags,
-                                     uint32_t char_length) {
+static void _spi_set_format_register(u32 base_addr, u32 data_format,
+                                     u32 module_clock,
+                                     u32 spi_clock, u32 flags,
+                                     u32 char_length) {
 
-    uint32_t prescale = (module_clock / spi_clock) - 1;
-    uint32_t value =
+    u32 prescale = (module_clock / spi_clock) - 1;
+    u32 value =
         (SPI_SPIFMT_PRESCALE & (prescale << SPI_SPIFMT_PRESCALE_SHIFT)) |
         (flags & ~(SPI_SPIFMT_PRESCALE | SPI_SPIFMT_CHARLEN)) |
         (char_length & SPI_SPIFMT_CHARLEN);
@@ -420,32 +440,32 @@ static void _spi_set_format_register(uint32_t base_addr, uint32_t data_format,
     HWREG(base_addr + SPI_SPIFMT(data_format)) = value;
 }
 
-// static void _spi_disable(uint32_t base_addr) {
+// static void _spi_disable(u32 base_addr) {
 
 //     HWREG(base_addr + SPI_SPIGCR1) &= ~SPI_SPIGCR1_ENABLE;
 // }
 
-static void _spi_set_dat1_control(t_spi *spi, uint32_t flags,
-                                  uint8_t chip_select) {
+static void _spi_set_dat1_control(t_spi *spi, u32 flags,
+                                  u8 chip_select) {
 
-    uint32_t base_addr = spi->address;
-    uint32_t default_cs = HWREG(base_addr + SPI_SPIDEF) & SPI_SPIDEF_CSDEF;
-    uint32_t active_cs =
-        ((uint32_t)(chip_select ^ default_cs) << SPI_SPIDAT1_CSNR_SHIFT) &
+    u32 base_addr = spi->address;
+    u32 default_cs = HWREG(base_addr + SPI_SPIDEF) & SPI_SPIDEF_CSDEF;
+    u32 active_cs =
+        ((u32)(chip_select ^ default_cs) << SPI_SPIDAT1_CSNR_SHIFT) &
         SPI_SPIDAT1_CSNR;
-    uint32_t data_format =
+    u32 data_format =
         (flags & (SPI_SPIDAT1_DFSEL >> SPI_SPIDAT1_DFSEL_SHIFT)) <<
         SPI_SPIDAT1_DFSEL_SHIFT;
-    uint32_t control_flags =
+    u32 control_flags =
         flags & (SPI_SPIDAT1_CSHOLD | SPI_SPIDAT1_WDEL);
 
     // Apply DAT1 control with the next real transfer, not as a standalone write.
     spi->dat1_control = control_flags | data_format | active_cs;
 }
 
-static uint32_t _spi_dat1_control(uint32_t base_addr) {
+static u32 _spi_dat1_control(u32 base_addr) {
 
-    for (uint32_t i = 0; i < SPI_INSTANCES; i++) {
+    for (u32 i = 0; i < SPI_INSTANCES; i++) {
         if (g_spi[i].address == base_addr) {
             return g_spi[i].dat1_control;
         }
@@ -454,32 +474,43 @@ static uint32_t _spi_dat1_control(uint32_t base_addr) {
     return SPI_SPIDAT1_CSNR;
 }
 
-static void _spi_transmit_data1(uint32_t base_addr, uint32_t data) {
+static void _spi_transmit_data1(u32 base_addr, u32 data) {
 
     HWREG(base_addr + SPI_SPIDAT1) =
         _spi_dat1_control(base_addr) | (data & SPI_SPIDAT1_TXDATA);
 
 }
 
-static void _spi_wait_transmit_ready(uint32_t base_addr) {
+static void _spi_wait_transmit_ready(u32 base_addr) {
 
     while (!SPIIntStatus(base_addr, SPI_TRANSMIT_FLAG))
         ;
 }
 
-static void _spi_wait_transmit_buffer_ready(uint32_t base_addr) {
+static bool _spi_wait_transmit_ready_bounded(u32 base_addr, u32 poll_limit) {
+
+    while (poll_limit--) {
+        if (SPIIntStatus(base_addr, SPI_TRANSMIT_FLAG)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static void _spi_wait_transmit_buffer_ready(u32 base_addr) {
 
     while (HWREG(base_addr + SPI_SPIBUF) & SPI_SPIBUF_TXFULL)
         ;
 }
 
-static void _spi_wait_receive_ready(uint32_t base_addr) {
+static void _spi_wait_receive_ready(u32 base_addr) {
 
     while (!_has_rx_data(base_addr))
         ;
 }
 
-static void _spi_drain_receive_data(uint32_t base_addr) {
+static void _spi_drain_receive_data(u32 base_addr) {
 
     while (_has_rx_data(base_addr)) {
         SPIDataReceive(base_addr);

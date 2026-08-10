@@ -37,8 +37,7 @@ under the terms of the GNU Affero General Public License as published by
 #ifndef DEV_USB_H
 #define DEV_USB_H
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,15 +51,15 @@ typedef enum {
     DEV_USB_MSC_EXPORT_NO_BLOCKS,
 } t_dev_usb_msc_export_status;
 
-bool dev_usb_init_device(uint8_t int_channel);
+bool dev_usb_init_device(u8 int_channel);
 void dev_usb_task(void);
 bool dev_usb_ready(void);
 bool dev_usb_mounted(void);
 bool dev_usb_cdc_connected(void);
-uint32_t dev_usb_cdc_available(void);
-uint32_t dev_usb_cdc_read(void *buffer, uint32_t length);
-uint32_t dev_usb_cdc_write(const void *buffer, uint32_t length);
-uint32_t dev_usb_vendor_write(const void *buffer, uint32_t length);
+u32 dev_usb_cdc_available(void);
+u32 dev_usb_cdc_read(void *buffer, u32 length);
+u32 dev_usb_cdc_write(const void *buffer, u32 length);
+u32 dev_usb_vendor_write(const void *buffer, u32 length);
 bool dev_usb_msc_export_sdcard_readonly(void);
 void dev_usb_msc_disable(void);
 bool dev_usb_msc_exported(void);

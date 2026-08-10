@@ -66,9 +66,9 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Static variable definitions ----------------------------------*/
 
-volatile static uint32_t g_systick;
+volatile static u32 g_systick;
 
-static void (*p_systick_callback)(uint32_t systick) = NULL;
+static void (*p_systick_callback)(u32 systick) = NULL;
 
 /*----- Extern variable definitions ----------------------------------*/
 
@@ -107,14 +107,14 @@ void svc_systick_task(void *param) {
 //     timer_init(systick_cfg);
 // }
 
-void svc_systick_register_callback(void (*callback)(uint32_t)) {
+void svc_systick_register_callback(void (*callback)(u32)) {
 
     if (callback != NULL) {
         p_systick_callback = callback;
     }
 }
 
-uint32_t svc_systick_get(void) { return g_systick; }
+u32 svc_systick_get(void) { return g_systick; }
 
 /*----- Static function implementations ------------------------------*/
 

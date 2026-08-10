@@ -1,10 +1,8 @@
 #ifndef SHARED_MEM_H
 #define SHARED_MEM_H
 
-#include <stdint.h>
-#include <stdbool.h>
+#include "ft.h"
 #include "pattern.h"
-#include "macros.h"
 
 /*----- Macros -------------------------------------------------------*/
 

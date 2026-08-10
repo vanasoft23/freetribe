@@ -61,13 +61,13 @@ extern "C" {
 typedef enum { UART_TX_COMPLETE, UART_RX_COMPLETE, UART_RX_ERROR } t_uart_event;
 
 typedef struct {
-    uint8_t instance;
-    uint32_t baud;
-    uint8_t word_length;
+    u8 instance;
+    u32 baud;
+    u8 word_length;
     bool int_enable;
-    uint8_t int_channel;
+    u8 int_channel;
     bool fifo_enable;
-    uint32_t oversample;
+    u32 oversample;
 } t_uart_config;
 
 /*----- Extern variable declarations ---------------------------------*/
@@ -76,16 +76,16 @@ typedef struct {
 
 void per_uart_init(t_uart_config *config);
 
-void per_uart_register_callback(uint8_t instance, t_uart_event event,
+void per_uart_register_callback(u8 instance, t_uart_event event,
                                 void (*callback)());
 
-void per_uart_transmit(uint8_t instance, uint8_t *buffer, uint32_t length);
-void per_uart_transmit_int(uint8_t instance, uint8_t *buffer, uint32_t length);
+void per_uart_transmit(u8 instance, u8 *buffer, u32 length);
+void per_uart_transmit_int(u8 instance, u8 *buffer, u32 length);
 
-void per_uart_receive(uint8_t instance, uint8_t *buffer, uint32_t length);
-void per_uart_receive_int(uint8_t instance, uint8_t *buffer, uint32_t length);
+void per_uart_receive(u8 instance, u8 *buffer, u32 length);
+void per_uart_receive_int(u8 instance, u8 *buffer, u32 length);
 
-void per_uart_terminate(uint8_t instance);
+void per_uart_terminate(u8 instance);
 
 #ifdef __cplusplus
 }

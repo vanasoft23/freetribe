@@ -38,8 +38,7 @@ under the terms of the GNU Affero General Public License as published by
 
 #include "dev_usb.h"
 
-#include <stddef.h>
-#include <string.h>
+#include "ft.h"
 
 #if CFG_TUD_MSC
 
@@ -55,15 +54,15 @@ static bool g_usb_ready = false;
 static bool g_msc_sdcard_exported = false;
 static volatile t_dev_usb_msc_export_status g_msc_export_status =
     DEV_USB_MSC_EXPORT_DISABLED;
-static uint32_t g_msc_sdcard_block_count = 0;
-static uint32_t g_msc_read_block[USB_MSC_BLOCK_SIZE / sizeof(uint32_t)];
+static u32 g_msc_sdcard_block_count = 0;
+static u32 g_msc_read_block[USB_MSC_BLOCK_SIZE / sizeof(u32)];
 
-static bool _msc_valid_lun(uint8_t lun);
-static int32_t _msc_fail_not_ready(uint8_t lun);
-static bool _msc_read10_to_buffer(uint32_t lba, uint32_t offset,
-                                  void *buffer, uint32_t bufsize);
+static bool _msc_valid_lun(u8 lun);
+static s32 _msc_fail_not_ready(u8 lun);
+static bool _msc_read10_to_buffer(u32 lba, u32 offset,
+                                  void *buffer, u32 bufsize);
 
-bool dev_usb_init_device(uint8_t int_channel) {
+bool dev_usb_init_device(u8 int_channel) {
 
     if (g_usb_ready) {
         return true;
@@ -102,7 +101,7 @@ bool dev_usb_cdc_connected(void) {
     return g_usb_ready && tud_cdc_connected();
 }
 
-uint32_t dev_usb_cdc_available(void) {
+u32 dev_usb_cdc_available(void) {
 
     if (!g_usb_ready) {
         return 0;
@@ -111,7 +110,7 @@ uint32_t dev_usb_cdc_available(void) {
     return tud_cdc_available();
 }
 
-uint32_t dev_usb_cdc_read(void *buffer, uint32_t length) {
+u32 dev_usb_cdc_read(void *buffer, u32 length) {
 
     if ((buffer == NULL) || (length == 0) || !g_usb_ready) {
         return 0;
@@ -120,9 +119,9 @@ uint32_t dev_usb_cdc_read(void *buffer, uint32_t length) {
     return tud_cdc_read(buffer, length);
 }
 
-uint32_t dev_usb_cdc_write(const void *buffer, uint32_t length) {
+u32 dev_usb_cdc_write(const void *buffer, u32 length) {
 
-    uint32_t written = 0;
+    u32 written = 0;
 
     if ((buffer == NULL) || (length == 0) || !g_usb_ready ||
         !tud_cdc_connected()) {
@@ -135,7 +134,7 @@ uint32_t dev_usb_cdc_write(const void *buffer, uint32_t length) {
     return written;
 }
 
-uint32_t dev_usb_vendor_write(const void *buffer, uint32_t length) {
+u32 dev_usb_vendor_write(const void *buffer, u32 length) {
 
 #if CFG_TUD_VENDOR
     if ((buffer == NULL) || (length == 0) || !g_usb_ready ||
@@ -191,10 +190,10 @@ t_dev_usb_msc_export_status dev_usb_msc_export_status(void) {
     return g_msc_export_status;
 }
 
-uint8_t tud_msc_get_maxlun_cb(void) { return 1; }
+u8 tud_msc_get_maxlun_cb(void) { return 1; }
 
-void tud_msc_inquiry_cb(uint8_t lun, uint8_t vendor_id[8],
-                        uint8_t product_id[16], uint8_t product_rev[4]) {
+void tud_msc_inquiry_cb(u8 lun, u8 vendor_id[8],
+                        u8 product_id[16], u8 product_rev[4]) {
 
     (void)lun;
 
@@ -203,7 +202,7 @@ void tud_msc_inquiry_cb(uint8_t lun, uint8_t vendor_id[8],
     memcpy(product_rev, "0001", 4);
 }
 
-bool tud_msc_test_unit_ready_cb(uint8_t lun) {
+bool tud_msc_test_unit_ready_cb(u8 lun) {
 
     if (!_msc_valid_lun(lun) || !g_msc_sdcard_exported ||
         !dev_sdcard_present()) {
@@ -214,8 +213,8 @@ bool tud_msc_test_unit_ready_cb(uint8_t lun) {
     return true;
 }
 
-void tud_msc_capacity_cb(uint8_t lun, uint32_t *block_count,
-                         uint16_t *block_size) {
+void tud_msc_capacity_cb(u8 lun, u32 *block_count,
+                         u16 *block_size) {
 
     if ((block_count == NULL) || (block_size == NULL)) {
         return;
@@ -232,15 +231,15 @@ void tud_msc_capacity_cb(uint8_t lun, uint32_t *block_count,
     *block_size = USB_MSC_BLOCK_SIZE;
 }
 
-bool tud_msc_is_writable_cb(uint8_t lun) {
+bool tud_msc_is_writable_cb(u8 lun) {
 
     (void)lun;
 
     return false;
 }
 
-int32_t tud_msc_read10_cb(uint8_t lun, uint32_t lba, uint32_t offset,
-                          void *buffer, uint32_t bufsize) {
+s32 tud_msc_read10_cb(u8 lun, u32 lba, u32 offset,
+                          void *buffer, u32 bufsize) {
 
     if (!_msc_valid_lun(lun) || !g_msc_sdcard_exported ||
         (buffer == NULL) || (bufsize == 0) ||
@@ -248,14 +247,14 @@ int32_t tud_msc_read10_cb(uint8_t lun, uint32_t lba, uint32_t offset,
         return _msc_fail_not_ready(lun);
     }
 
-    uint32_t read_span = offset + bufsize;
+    u32 read_span = offset + bufsize;
 
     if (read_span < offset) {
         tud_msc_set_sense(lun, SCSI_SENSE_ILLEGAL_REQUEST, 0x21, 0x00);
         return TUD_MSC_RET_ERROR;
     }
 
-    uint32_t block_count =
+    u32 block_count =
         (read_span + USB_MSC_BLOCK_SIZE - 1u) / USB_MSC_BLOCK_SIZE;
 
     if ((block_count == 0) || (block_count > g_msc_sdcard_block_count) ||
@@ -268,11 +267,11 @@ int32_t tud_msc_read10_cb(uint8_t lun, uint32_t lba, uint32_t offset,
         return _msc_fail_not_ready(lun);
     }
 
-    return (int32_t)bufsize;
+    return (s32)bufsize;
 }
 
-int32_t tud_msc_write10_cb(uint8_t lun, uint32_t lba, uint32_t offset,
-                           uint8_t *buffer, uint32_t bufsize) {
+s32 tud_msc_write10_cb(u8 lun, u32 lba, u32 offset,
+                           u8 *buffer, u32 bufsize) {
 
     (void)lba;
     (void)offset;
@@ -283,8 +282,8 @@ int32_t tud_msc_write10_cb(uint8_t lun, uint32_t lba, uint32_t offset,
     return TUD_MSC_RET_ERROR;
 }
 
-int32_t tud_msc_scsi_cb(uint8_t lun, uint8_t const scsi_cmd[16],
-                        void *buffer, uint16_t bufsize) {
+s32 tud_msc_scsi_cb(u8 lun, u8 const scsi_cmd[16],
+                        void *buffer, u16 bufsize) {
 
     (void)buffer;
     (void)bufsize;
@@ -294,36 +293,36 @@ int32_t tud_msc_scsi_cb(uint8_t lun, uint8_t const scsi_cmd[16],
     return TUD_MSC_RET_ERROR;
 }
 
-static bool _msc_valid_lun(uint8_t lun) { return lun == 0; }
+static bool _msc_valid_lun(u8 lun) { return lun == 0; }
 
-static int32_t _msc_fail_not_ready(uint8_t lun) {
+static s32 _msc_fail_not_ready(u8 lun) {
 
     tud_msc_set_sense(lun, SCSI_SENSE_NOT_READY, 0x3A, 0x00);
 
     return TUD_MSC_RET_ERROR;
 }
 
-static bool _msc_read10_to_buffer(uint32_t lba, uint32_t offset,
-                                  void *buffer, uint32_t bufsize) {
+static bool _msc_read10_to_buffer(u32 lba, u32 offset,
+                                  void *buffer, u32 bufsize) {
 
     if ((offset == 0) && ((bufsize % USB_MSC_BLOCK_SIZE) == 0) &&
-        ((((uintptr_t)buffer) & (sizeof(uint32_t) - 1u)) == 0u)) {
+        ((((uintptr_t)buffer) & (sizeof(u32) - 1u)) == 0u)) {
         return SDCARD_OK == dev_sdcard_read(
                                 lba, bufsize / USB_MSC_BLOCK_SIZE,
-                                (uint32_t *)buffer);
+                                (u32 *)buffer);
     }
 
-    uint8_t *dest = (uint8_t *)buffer;
-    uint32_t remaining = bufsize;
-    uint32_t current_lba = lba;
-    uint32_t current_offset = offset;
+    u8 *dest = (u8 *)buffer;
+    u32 remaining = bufsize;
+    u32 current_lba = lba;
+    u32 current_offset = offset;
 
     while (remaining > 0) {
         if (SDCARD_OK != dev_sdcard_read(current_lba, 1, g_msc_read_block)) {
             return false;
         }
 
-        uint32_t bytes_this_block =
+        u32 bytes_this_block =
             USB_MSC_BLOCK_SIZE - current_offset;
 
         if (bytes_this_block > remaining) {
@@ -331,7 +330,7 @@ static bool _msc_read10_to_buffer(uint32_t lba, uint32_t offset,
         }
 
         memcpy(dest,
-               ((const uint8_t *)g_msc_read_block) + current_offset,
+               ((const u8 *)g_msc_read_block) + current_offset,
                bytes_this_block);
 
         dest += bytes_this_block;
@@ -345,7 +344,7 @@ static bool _msc_read10_to_buffer(uint32_t lba, uint32_t offset,
 
 #else
 
-bool dev_usb_init_device(uint8_t int_channel) {
+bool dev_usb_init_device(u8 int_channel) {
 
     (void)int_channel;
 
@@ -360,17 +359,9 @@ bool dev_usb_mounted(void) { return false; }
 
 bool dev_usb_cdc_connected(void) { return false; }
 
-uint32_t dev_usb_cdc_available(void) { return 0; }
+u32 dev_usb_cdc_available(void) { return 0; }
 
-uint32_t dev_usb_cdc_read(void *buffer, uint32_t length) {
-
-    (void)buffer;
-    (void)length;
-
-    return 0;
-}
-
-uint32_t dev_usb_cdc_write(const void *buffer, uint32_t length) {
+u32 dev_usb_cdc_read(void *buffer, u32 length) {
 
     (void)buffer;
     (void)length;
@@ -378,7 +369,15 @@ uint32_t dev_usb_cdc_write(const void *buffer, uint32_t length) {
     return 0;
 }
 
-uint32_t dev_usb_vendor_write(const void *buffer, uint32_t length) {
+u32 dev_usb_cdc_write(const void *buffer, u32 length) {
+
+    (void)buffer;
+    (void)length;
+
+    return 0;
+}
+
+u32 dev_usb_vendor_write(const void *buffer, u32 length) {
 
     (void)buffer;
     (void)length;

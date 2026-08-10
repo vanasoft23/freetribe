@@ -1,7 +1,8 @@
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:224:16:_disk_not_ready_status	0	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:79:9:disk_initialize	8	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:105:9:disk_status	8	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:128:9:disk_read	32	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:156:9:disk_write	32	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:184:9:disk_ioctl	8	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:212:7:get_fattime	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:284:16:_disk_not_ready_status	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:288:13:_is_word_aligned	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:77:9:disk_initialize	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:103:9:disk_status	8	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:126:9:disk_read	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:174:9:disk_write	32	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:223:9:disk_ioctl	16	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_fatfs.c:272:7:get_fattime	0	static

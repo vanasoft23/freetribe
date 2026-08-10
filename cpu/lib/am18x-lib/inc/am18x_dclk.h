@@ -129,6 +129,6 @@ am18x_rt clk_node_tree(void);
 am18x_rt clk_node_recalc(void);
 uint32_t clk_node_get_freq(uint32_t id);
 am18x_rt clk_node_set_parent(uint32_t id, uint32_t parent);
-uint32_t dev_get_freq(uint32_t dclk_id);
+uint32_t clk_node_get_freq(uint32_t dclk_id);
 
 #endif//__AM18X_DCLK_H__

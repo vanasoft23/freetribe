@@ -116,18 +116,18 @@ static float g_filter_res_lut[256];
 /*----- Static function prototypes -----------------------------------*/
 
 static void _tick_callback(void);
-static void _knob_callback(uint8_t index, uint8_t value);
-static void _encoder_callback(uint8_t index, uint8_t value);
-static void _button_callback(uint8_t index, bool state);
-static void _trigger_callback(uint8_t pad, uint8_t vel, bool state);
+static void _knob_callback(u8 index, u8 value);
+static void _encoder_callback(u8 index, u8 value);
+static void _button_callback(u8 index, bool state);
+static void _trigger_callback(u8 pad, u8 vel, bool state);
 
-static void _set_filter_type(uint8_t filter_type);
-static void _set_mod_depth(uint32_t mod_depth);
-static void _set_mod_speed(uint32_t mod_speed);
+static void _set_filter_type(u8 filter_type);
+static void _set_mod_depth(u32 mod_depth);
+static void _set_mod_speed(u32 mod_speed);
 
 static void _lut_init(void);
 
-static void _profile_callback(uint32_t period, uint32_t cycles);
+static void _profile_callback(u32 period, u32 cycles);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -182,7 +182,7 @@ void app_run(void) { gui_task(); }
 
 static void _tick_callback(void) {
 
-    static uint32_t tick_count;
+    static u32 tick_count;
 
     module_process();
 
@@ -194,9 +194,9 @@ static void _tick_callback(void) {
     }
 }
 
-static void _profile_callback(uint32_t period, uint32_t cycles) {
+static void _profile_callback(u32 period, u32 cycles) {
 
-    uint32_t percent;
+    u32 percent;
 
     char buf[4] = {0};
 
@@ -204,7 +204,7 @@ static void _profile_callback(uint32_t period, uint32_t cycles) {
     memset(buf, 0x20, sizeof(buf) - 1);
     gui_print(1, 55, buf);
 
-    percent = (uint32_t)(((float)cycles / (float)period) * 100.0);
+    percent = (u32)(((float)cycles / (float)period) * 100.0);
 
     if (percent < 1000) {
 
@@ -223,7 +223,7 @@ static void _profile_callback(uint32_t period, uint32_t cycles) {
  * @param[in]   index   Index of knob.
  * @param[in]   value   Value of knob.
  */
-static void _knob_callback(uint8_t index, uint8_t value) {
+static void _knob_callback(u8 index, u8 value) {
 
     switch (index) {
 
@@ -318,11 +318,11 @@ static void _knob_callback(uint8_t index, uint8_t value) {
  * @param[in]   index   Index of encoder.
  * @param[in]   value   Value of encoder.
  */
-static void _encoder_callback(uint8_t index, uint8_t value) {
+static void _encoder_callback(u8 index, u8 value) {
 
-    static uint8_t cutoff = DEFAULT_CUTOFF;
-    static int8_t osc_type = DEFAULT_OSC_TYPE;
-    static int8_t mod_type;
+    static u8 cutoff = DEFAULT_CUTOFF;
+    static s8 osc_type = DEFAULT_OSC_TYPE;
+    static s8 mod_type;
 
     switch (index) {
 
@@ -386,14 +386,14 @@ static void _encoder_callback(uint8_t index, uint8_t value) {
     }
 }
 
-static void _trigger_callback(uint8_t pad, uint8_t vel, bool state) {
+static void _trigger_callback(u8 pad, u8 vel, bool state) {
 
     /// TODO: Use MIDI note stack from LEAF.
 
-    static uint8_t note_count;
+    static u8 note_count;
     static bool reset_phase_next_gate;
 
-    uint8_t note;
+    u8 note;
 
     note = keyboard_map_note(&g_kbd, pad);
 
@@ -425,7 +425,7 @@ static void _trigger_callback(uint8_t pad, uint8_t vel, bool state) {
  * @param[in]   index   Index of button.
  * @param[in]   state   State of button.
  */
-static void _button_callback(uint8_t index, bool state) {
+static void _button_callback(u8 index, bool state) {
 
     switch (index) {
 
@@ -476,7 +476,7 @@ static void _button_callback(uint8_t index, bool state) {
     }
 }
 
-static void _set_filter_type(uint8_t filter_type) {
+static void _set_filter_type(u8 filter_type) {
 
     switch (filter_type) {
 
@@ -513,7 +513,7 @@ static void _set_filter_type(uint8_t filter_type) {
     gui_post_param("Fil Type: ", filter_type);
 }
 
-static void _set_mod_depth(uint32_t mod_depth) {
+static void _set_mod_depth(u32 mod_depth) {
 
     switch (g_mod_type) {
 
@@ -537,7 +537,7 @@ static void _set_mod_depth(uint32_t mod_depth) {
     }
 }
 
-static void _set_mod_speed(uint32_t mod_speed) {
+static void _set_mod_speed(u32 mod_speed) {
 
     switch (g_mod_type) {
 
@@ -598,12 +598,12 @@ static void _lut_init(void) {
 
         // // Convert to fix16,
         // tune *= (1 << 16);
-        // g_octave_tune_lut[i] = (int32_t)tune;
+        // g_octave_tune_lut[i] = (s32)tune;
 
         g_octave_tune_lut[i] = tune;
     }
 
-    int32_t res;
+    s32 res;
     for (i = 0; i <= 255; i++) {
 
         res = 0x7fffffff - (i * (1 << 23));

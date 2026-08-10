@@ -57,12 +57,12 @@ static t_zoia_event g_event;
 
 /*----- Static function prototypes -----------------------------------*/
 
-static void _encoder_inc(uint32_t clicks);
-static void _encoder_dec(uint32_t clicks);
+static void _encoder_inc(u32 clicks);
+static void _encoder_dec(u32 clicks);
 
 /*----- Extern function implementations ------------------------------*/
 
-void zoia_encoder(int32_t clicks) {
+void zoia_encoder(s32 clicks) {
 
     if (clicks > 0) {
         _encoder_inc(clicks);
@@ -108,7 +108,7 @@ void zoia_back(void) {
 
 /// TODO: Use Program Change instead.
 //
-void zoia_patch_set(uint8_t patch_index) {
+void zoia_patch_set(u8 patch_index) {
 
     patch_index = patch_index > 63 ? 63 : patch_index;
 
@@ -123,7 +123,7 @@ void zoia_patch_set(uint8_t patch_index) {
 
 /*----- Static function implementations ------------------------------*/
 
-static void _encoder_inc(uint32_t clicks) {
+static void _encoder_inc(u32 clicks) {
 
     g_event.type = ZOIA_EVENT_TURN;
     g_event.value = 127;
@@ -140,7 +140,7 @@ static void _encoder_inc(uint32_t clicks) {
     zoia_enqueue(&g_event);
 }
 
-static void _encoder_dec(uint32_t clicks) {
+static void _encoder_dec(u32 clicks) {
 
     g_event.type = ZOIA_EVENT_TURN;
     g_event.value = 0;

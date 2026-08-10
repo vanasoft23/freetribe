@@ -36,12 +36,10 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
+#include "ft.h"
+
 #include <ff.h>
 #include <diskio.h>
-#include <stdint.h>
-#include <string.h>
-
-#include "macros.h"
 
 #include "dev_sdcard.h"
 #include "svc_fatfs.h"
@@ -69,7 +67,7 @@ static bool    _is_word_aligned(const void *ptr);
 /*----- Static variable definitions ----------------------------------*/
 
 static bool s_disk_initialized = false;
-static uint32_t s_sector_bounce[SVC_FATFS_SECTOR_SIZE / sizeof(uint32_t)];
+static u32 s_sector_bounce[SVC_FATFS_SECTOR_SIZE / sizeof(u32)];
 
 /**
  * @brief   Initialize Disk Drive.
@@ -129,17 +127,37 @@ DRESULT disk_read(BYTE pdrv, BYTE *buff, LBA_t sector, UINT count) {
 	
     DEBUG_LOG("disk_read(%i, %p, %i, %i)", (int)pdrv, (void*)buff, (int)sector, (int)count);
 
-    if ((0 != pdrv) || !s_disk_initialized || !dev_sdcard_present()) {
+    if ((0 != pdrv) || (NULL == buff) || (0 == count)) {
+        return RES_PARERR;
+    }
+
+    if (!s_disk_initialized || !dev_sdcard_present()) {
         s_disk_initialized = false;
         return RES_NOTRDY;
     }
 
-    uint32_t *buf_u32 = (uint32_t*)buff; // be aware of this
-    t_sdcard_status st = dev_sdcard_read(sector, count, buf_u32);
+    if (_is_word_aligned(buff)) {
+        t_sdcard_status st = dev_sdcard_read(sector, count, (u32 *)buff);
 
-    if (SDCARD_OK != st) {
-        DEBUG_LOG("disk_read->dev_sdcard_read error: %i", (int)st);
-        return RES_ERROR;
+        if (SDCARD_OK != st) {
+            DEBUG_LOG("disk_read->dev_sdcard_read error: %i", (int)st);
+            return RES_ERROR;
+        }
+
+        return RES_OK;
+    }
+
+    for (UINT i = 0; i < count; i++) {
+        t_sdcard_status st = dev_sdcard_read(sector + i, 1,
+                                             s_sector_bounce);
+
+        if (SDCARD_OK != st) {
+            DEBUG_LOG("disk_read->dev_sdcard_read error: %i", (int)st);
+            return RES_ERROR;
+        }
+
+        memcpy(buff + (i * SVC_FATFS_SECTOR_SIZE), s_sector_bounce,
+               SVC_FATFS_SECTOR_SIZE);
     }
 
 	return RES_OK;
@@ -157,17 +175,38 @@ DRESULT disk_write(BYTE pdrv, const BYTE *buff, LBA_t sector, UINT count) {
 
     DEBUG_LOG("disk_write(%i, %p, %i, %i)", (int)pdrv, (void*)buff, (int)sector, (int)count);
 
-    if ((0 != pdrv) || !s_disk_initialized || !dev_sdcard_present()) {
+    if ((0 != pdrv) || (NULL == buff) || (0 == count)) {
+        return RES_PARERR;
+    }
+
+    if (!s_disk_initialized || !dev_sdcard_present()) {
         s_disk_initialized = false;
         return RES_NOTRDY;
     }
 
-    const uint32_t *buf_u32 = (const uint32_t*)buff; // be aware of this
-    t_sdcard_status st = dev_sdcard_write(sector, count, buf_u32);
+    if (_is_word_aligned(buff)) {
+        t_sdcard_status st = dev_sdcard_write(sector, count,
+                                              (const u32 *)buff);
 
-    if (SDCARD_OK != st) {
-        DEBUG_LOG("disk_write->dev_sdcard_write error: %i", (int)st);
-        return RES_ERROR;
+        if (SDCARD_OK != st) {
+            DEBUG_LOG("disk_write->dev_sdcard_write error: %i", (int)st);
+            return RES_ERROR;
+        }
+
+        return RES_OK;
+    }
+
+    for (UINT i = 0; i < count; i++) {
+        memcpy(s_sector_bounce, buff + (i * SVC_FATFS_SECTOR_SIZE),
+               SVC_FATFS_SECTOR_SIZE);
+
+        t_sdcard_status st = dev_sdcard_write(sector + i, 1,
+                                              s_sector_bounce);
+
+        if (SDCARD_OK != st) {
+            DEBUG_LOG("disk_write->dev_sdcard_write error: %i", (int)st);
+            return RES_ERROR;
+        }
     }
 
     return RES_OK;
@@ -195,6 +234,27 @@ DRESULT disk_ioctl(BYTE pdrv, BYTE cmd, void *buff) {
     switch (cmd) {
 
     case CTRL_SYNC:
+        return RES_OK;
+
+    case GET_SECTOR_COUNT:
+        if (NULL == buff) {
+            return RES_PARERR;
+        }
+        *(LBA_t *)buff = (LBA_t)dev_sdcard_get_sector_count();
+        return (*(LBA_t *)buff > 0) ? RES_OK : RES_NOTRDY;
+
+    case GET_SECTOR_SIZE:
+        if (NULL == buff) {
+            return RES_PARERR;
+        }
+        *(WORD *)buff = SVC_FATFS_SECTOR_SIZE;
+        return RES_OK;
+
+    case GET_BLOCK_SIZE:
+        if (NULL == buff) {
+            return RES_PARERR;
+        }
+        *(DWORD *)buff = 1;
         return RES_OK;
 
     default:
@@ -226,7 +286,7 @@ static DSTATUS _disk_not_ready_status(void) {
 }
 
 static bool _is_word_aligned(const void *ptr) {
-    return 0 == (((uintptr_t)ptr) & (sizeof(uint32_t) - 1u));
+    return 0 == (((uintptr_t)ptr) & (sizeof(u32) - 1u));
 }
 
 /*----- End of file --------------------------------------------------*/

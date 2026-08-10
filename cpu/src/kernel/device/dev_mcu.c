@@ -39,13 +39,12 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdint.h>
+#include "ft.h"
+#include "ring_buffer.h"
 
 #include "per_uart.h"
 
 #include "dev_mcu.h"
-
-#include "ring_buffer.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -65,13 +64,13 @@ under the terms of the GNU Affero General Public License as published by
 
 // MCU RX ring buffer.
 static rbd_t mcu_rx_rbd;
-static uint8_t mcu_rx_rbmem[MCU_RX_BUF_LEN][MCU_MSG_LEN];
+static u8 mcu_rx_rbmem[MCU_RX_BUF_LEN][MCU_MSG_LEN];
 
 // MCU TX ring buffer.
 static rbd_t mcu_tx_rbd;
-static uint8_t mcu_tx_rbmem[MCU_TX_BUF_LEN][MCU_MSG_LEN];
+static u8 mcu_tx_rbmem[MCU_TX_BUF_LEN][MCU_MSG_LEN];
 
-static uint8_t g_mcu_rx_msg[MCU_MSG_LEN];
+static u8 g_mcu_rx_msg[MCU_MSG_LEN];
 
 static bool g_mcu_tx_complete = true;
 
@@ -81,10 +80,10 @@ static void (*p_mcu_rx_callback)(void) = NULL;
 
 /*----- Static function prototypes -----------------------------------*/
 
-static int _mcu_tx_dequeue(uint8_t *mcu_msg);
-static void _mcu_rx_enqueue(uint8_t *mcu_msg);
+static int _mcu_tx_dequeue(u8 *mcu_msg);
+static void _mcu_rx_enqueue(u8 *mcu_msg);
 
-static void _mcu_tx_msg(uint8_t *mcu_msg);
+static void _mcu_tx_msg(u8 *mcu_msg);
 static void _mcu_rx_msg(void);
 
 static void _mcu_tx_callback(void);
@@ -135,7 +134,7 @@ void dev_mcu_init(void) {
     }
 }
 
-void dev_mcu_tx_enqueue(uint8_t *mcu_msg) {
+void dev_mcu_tx_enqueue(u8 *mcu_msg) {
 
     // Overwrite on overflow.
     ring_buffer_put_force(mcu_tx_rbd, mcu_msg);
@@ -147,7 +146,7 @@ void dev_mcu_tx_enqueue(uint8_t *mcu_msg) {
     }
 }
 
-int dev_mcu_rx_dequeue(uint8_t *mcu_msg) {
+int dev_mcu_rx_dequeue(u8 *mcu_msg) {
 
     return ring_buffer_get(mcu_rx_rbd, mcu_msg);
 }
@@ -159,12 +158,12 @@ void dev_mcu_register_rx_callback(void (*callback)(void)) {
 
 /*----- Static function implementations ------------------------------*/
 
-static int _mcu_tx_dequeue(uint8_t *mcu_msg) {
+static int _mcu_tx_dequeue(u8 *mcu_msg) {
 
     return ring_buffer_get(mcu_tx_rbd, mcu_msg);
 }
 
-static void _mcu_rx_enqueue(uint8_t *mcu_msg) {
+static void _mcu_rx_enqueue(u8 *mcu_msg) {
 
     // Overwrite on overflow.
     ring_buffer_put_force(mcu_rx_rbd, mcu_msg);
@@ -174,7 +173,7 @@ static void _mcu_rx_enqueue(uint8_t *mcu_msg) {
     }
 }
 
-static void _mcu_tx_msg(uint8_t *mcu_msg) {
+static void _mcu_tx_msg(u8 *mcu_msg) {
 
     g_mcu_tx_complete = false;
     per_uart_transmit_int(MCU_UART, mcu_msg, MCU_MSG_LEN);
@@ -187,7 +186,7 @@ static void _mcu_rx_msg(void) {
 
 static void _mcu_tx_callback(void) {
     //
-    static uint8_t mcu_msg[MCU_MSG_LEN];
+    static u8 mcu_msg[MCU_MSG_LEN];
 
     // Send next queued message.
     if (_mcu_tx_dequeue(mcu_msg) == 0) {

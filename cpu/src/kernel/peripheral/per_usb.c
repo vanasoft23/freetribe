@@ -55,7 +55,7 @@ static void _usb0_bridge_clear(void);
 
 /*----- Extern function implementations ------------------------------*/
 
-bool per_usb_init_device(uint8_t int_channel) {
+bool per_usb_init_device(u8 int_channel) {
 
     IntSystemDisable(SYS_INT_USB0);
     _usb0_bridge_clear();

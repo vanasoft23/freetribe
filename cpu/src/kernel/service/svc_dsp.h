@@ -43,8 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 #include "ft_error.h"
 
@@ -81,13 +80,13 @@ enum e_system_msg_id {
 void svc_dsp_task(void *param);
 void svc_dsp_process(void);
 
-void svc_dsp_register_callback(uint8_t msg_type, uint8_t msg_id,
+void svc_dsp_register_callback(u8 msg_type, u8 msg_id,
                                void *callback);
 
-void svc_dsp_set_module_param(uint16_t module_id, uint16_t param_index,
-                              int32_t param_value);
+void svc_dsp_set_module_param(u16 module_id, u16 param_index,
+                              s32 param_value);
 
-void svc_dsp_get_module_param(uint16_t module_id, uint16_t param_index);
+void svc_dsp_get_module_param(u16 module_id, u16 param_index);
 
 void svc_dsp_get_port_state(void);
 void svc_dsp_wait_ready(void);

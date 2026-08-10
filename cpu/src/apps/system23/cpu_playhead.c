@@ -1,15 +1,15 @@
+#include "ft.h"
+
 #include "cpu_playhead.h"
 #include "shared_mem.h"
-#include <string.h>
-#include "macros.h"
 
 #define SAMPLERATE 48000
 
 static t_cpu_playhead s_playhead;
-static uint32_t s_step_idx;
+static u32 s_step_idx;
 
 /** @brief Convert frame position to milliseconds.  */
-inline uint32_t frames_to_ms(uint32_t frame_pos) {
+inline u32 frames_to_ms(u32 frame_pos) {
     return (frame_pos * 1000) / SAMPLERATE;
 }
 
@@ -31,6 +31,6 @@ t_cpu_playhead *cpu_playhead_fetch() {
 }
 
 
-// uint32_t cpu_playhead_get_step() {
+// u32 cpu_playhead_get_step() {
 //     return s_step_idx;
 // }

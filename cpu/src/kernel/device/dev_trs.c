@@ -39,13 +39,13 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdint.h>
+#include "ft.h"
+#include "ring_buffer.h"
 
 #include "per_uart.h"
 
 #include "dev_trs.h"
 
-#include "ring_buffer.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -69,7 +69,7 @@ static char trs_rx_rbmem[TRS_RX_BUF_LEN];
 static rbd_t trs_tx_rbd;
 static char trs_tx_rbmem[TRS_TX_BUF_LEN];
 
-static uint8_t g_trs_rx_byte;
+static u8 g_trs_rx_byte;
 
 static bool g_trs_tx_complete = false;
 
@@ -79,10 +79,10 @@ static void (*p_trs_rx_callback)(void) = NULL;
 
 /*----- Static function prototypes -----------------------------------*/
 
-static int _trs_tx_dequeue(uint8_t *byte);
-static void _trs_rx_enqueue(uint8_t *byte);
+static int _trs_tx_dequeue(u8 *byte);
+static void _trs_rx_enqueue(u8 *byte);
 
-static void _trs_tx_byte(uint8_t *byte);
+static void _trs_tx_byte(u8 *byte);
 static void _trs_rx_byte(void);
 
 static void _trs_tx_callback(void);
@@ -131,7 +131,7 @@ void dev_trs_init(void) {
     }
 }
 
-void dev_trs_tx_enqueue(uint8_t *byte) {
+void dev_trs_tx_enqueue(u8 *byte) {
 
     ring_buffer_put_force(trs_tx_rbd, byte);
 
@@ -142,7 +142,7 @@ void dev_trs_tx_enqueue(uint8_t *byte) {
     }
 }
 
-int dev_trs_rx_dequeue(uint8_t *byte) {
+int dev_trs_rx_dequeue(u8 *byte) {
 
     return ring_buffer_get(trs_rx_rbd, byte);
 }
@@ -154,12 +154,12 @@ void dev_trs_register_rx_callback(void (*callback)(void)) {
 
 /*----- Static function implementations ------------------------------*/
 
-static int _trs_tx_dequeue(uint8_t *byte) {
+static int _trs_tx_dequeue(u8 *byte) {
 
     return ring_buffer_get(trs_tx_rbd, byte);
 }
 
-static void _trs_rx_enqueue(uint8_t *byte) {
+static void _trs_rx_enqueue(u8 *byte) {
 
     // Overwrite on overflow.
     ring_buffer_put_force(trs_rx_rbd, byte);
@@ -169,7 +169,7 @@ static void _trs_rx_enqueue(uint8_t *byte) {
     }
 }
 
-static void _trs_tx_byte(uint8_t *byte) {
+static void _trs_tx_byte(u8 *byte) {
 
     g_trs_tx_complete = false;
     per_uart_transmit_int(TRS_UART, byte, 1);
@@ -182,7 +182,7 @@ static void _trs_rx_byte(void) {
 
 static void _trs_tx_callback(void) {
     //
-    static uint8_t byte;
+    static u8 byte;
 
     // Send next queued byte.
     if (_trs_tx_dequeue(&byte) == 0) {

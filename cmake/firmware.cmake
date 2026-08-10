@@ -70,11 +70,54 @@ function(make_link_dir_flags out_var)
   set(${out_var} "${result}" PARENT_SCOPE)
 endfunction()
 
+# CMake's built-in CMAKE_EXPORT_COMPILE_COMMANDS only records sources compiled
+# by CMake language targets. Firmware sources in this project are compiled by
+# add_custom_command(), so record the equivalent invocations ourselves for
+# clangd and other tooling.
+function(json_quote out_var value)
+  string(REPLACE "\\" "\\\\" result "${value}")
+  string(REPLACE "\"" "\\\"" result "${result}")
+  string(REPLACE "\n" "\\n" result "${result}")
+  string(REPLACE "\r" "\\r" result "${result}")
+  string(REPLACE "\t" "\\t" result "${result}")
+  set(${out_var} "\"${result}\"" PARENT_SCOPE)
+endfunction()
+
+function(record_firmware_compile_command compiler source output)
+  set(args "${compiler}" ${ARGN} -c "${source}" -o "${output}")
+  set(json_args "")
+  foreach(arg IN LISTS args)
+    json_quote(quoted_arg "${arg}")
+    list(APPEND json_args "${quoted_arg}")
+  endforeach()
+  string(JOIN ", " json_args_text ${json_args})
+
+  json_quote(json_directory "${CMAKE_CURRENT_SOURCE_DIR}")
+  json_quote(json_source "${source}")
+  json_quote(json_output "${output}")
+  set(entry
+    "  {\n"
+    "    \"directory\": ${json_directory},\n"
+    "    \"file\": ${json_source},\n"
+    "    \"output\": ${json_output},\n"
+    "    \"arguments\": [${json_args_text}]\n"
+    "  }"
+  )
+  string(JOIN "" entry ${entry})
+  set_property(GLOBAL APPEND PROPERTY FREETRIBE_COMPILE_COMMANDS "${entry}")
+endfunction()
+
+function(write_firmware_compile_commands output_file)
+  get_property(entries GLOBAL PROPERTY FREETRIBE_COMPILE_COMMANDS)
+  string(JOIN ",\n" content ${entries})
+  file(GENERATE OUTPUT "${output_file}" CONTENT "[\n${content}\n]\n")
+endfunction()
+
 function(add_firmware_target)
   cmake_parse_arguments(FW
     "BIN_CHECKSUM_TRAILER"
     "NAME;COMPILER;LINKER_SCRIPT;OBJCOPY_TOOL;LDR_TOOL"
-    "SOURCES;INCLUDE_DIRS;C_FLAGS;ASM_FLAGS;LINK_OPTIONS;LINK_DIRS;LINK_LIBS;LDR_FLAGS;OBJCOPY_OPTIONS;EXTRA_DEPS"
+    "SOURCES;INCLUDE_DIRS;C_FLAGS;ASM_FLAGS;LINK_OPTIONS;LINK_DIRS;LINK_LIBS;LDR_FLAGS;OBJCOPY_OPTIONS;SOURCE_DEPS"
     ${ARGN}
   )
 
@@ -110,6 +153,29 @@ function(add_firmware_target)
       set(source_flags ${FW_C_FLAGS})
     endif()
 
+    record_firmware_compile_command(
+      "${FW_COMPILER}"
+      "${src}"
+      "${obj_file}"
+      ${include_flags}
+      ${source_flags}
+    )
+
+    #
+    # Include any extra dependencies for this source
+    #
+    set(src_deps "")
+    foreach(source_dep IN LISTS FW_SOURCE_DEPS)
+      string(REPLACE "|" ";" source_dep_parts "${source_dep}")
+      list(GET source_dep_parts 0 dep_source)
+      list(GET source_dep_parts 1 dep_file)
+
+      if(src STREQUAL dep_source)
+        list(APPEND src_deps "${dep_file}")
+      endif()
+    endforeach()
+
+
     add_custom_command(
       OUTPUT "${obj_file}"
       COMMAND "${CMAKE_COMMAND}" -E make_directory "${obj_dir}"
@@ -120,7 +186,7 @@ function(add_firmware_target)
               -c "${src}"
               -o "${obj_file}"
       DEPENDS "${src}"
-              ${FW_EXTRA_DEPS}
+              ${src_deps}
       DEPFILE "${obj_dep}"
       WORKING_DIRECTORY "${obj_dir}"
       VERBATIM
@@ -166,7 +232,6 @@ function(add_firmware_target)
             ${FW_LINK_LIBS}
             -o "${elf_file}"
     DEPENDS ${object_files} "${FW_LINKER_SCRIPT}"
-            ${FW_EXTRA_DEPS}
     WORKING_DIRECTORY "${firmware_root}"
     VERBATIM
     COMMAND_EXPAND_LISTS
@@ -174,7 +239,6 @@ function(add_firmware_target)
 
   set(all_deps "${elf_file}" "${map_file}")
   list(APPEND all_deps ${object_files} ${debug_asm_files})
-  list(APPEND all_deps ${FW_EXTRA_DEPS})
 
   if(FW_OBJCOPY_TOOL)
     set(bin_file "${firmware_root}/${FW_NAME}.bin")

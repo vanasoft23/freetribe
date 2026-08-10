@@ -66,8 +66,8 @@ typedef enum {
 
 /*----- Static variable definitions ----------------------------------*/
 
-static uint8_t g_frame_buffer_a[FRAME_BUF_LEN];
-static uint8_t g_frame_buffer_b[FRAME_BUF_LEN];
+static u8 g_frame_buffer_a[FRAME_BUF_LEN];
+static u8 g_frame_buffer_b[FRAME_BUF_LEN];
 
 /*----- Extern variable definitions ----------------------------------*/
 
@@ -92,10 +92,10 @@ void svc_display_process(void) {
 
     static t_delay_state reset_delay;
 
-    static uint8_t page_index;
+    static u8 page_index;
 
-    uint8_t *page_buffer_a;
-    uint8_t *page_buffer_b;
+    u8 *page_buffer_a;
+    u8 *page_buffer_b;
 
     switch (state) {
 
@@ -163,18 +163,18 @@ void svc_display_process(void) {
     }
 }
 
-void svc_display_put_pixel(uint16_t pos_x, uint16_t pos_y, bool state) {
+void svc_display_put_pixel(u16 pos_x, u16 pos_y, bool state) {
 
     // Calculate pixel location in buffer.
-    // uint16_t column_index = pos_x;
-    // uint16_t page_index = pos_y >> 3;
-    // uint16_t byte_index = column_index + (128 * page_index);
+    // u16 column_index = pos_x;
+    // u16 page_index = pos_y >> 3;
+    // u16 byte_index = column_index + (128 * page_index);
 
-    uint16_t byte_index = pos_x + ((pos_y >> 3) << 7);
-    uint16_t bit_index = pos_y & 7;
+    u16 byte_index = pos_x + ((pos_y >> 3) << 7);
+    u16 bit_index = pos_y & 7;
 
     // Get current byte from frame buffer.
-    uint8_t byte = g_frame_buffer_a[byte_index];
+    u8 byte = g_frame_buffer_a[byte_index];
 
     // Set pixel bit and write to frame buffer.
     g_frame_buffer_a[byte_index] =
@@ -187,7 +187,7 @@ void svc_display_put_pixel(uint16_t pos_x, uint16_t pos_y, bool state) {
     ///             (Probably not, if cache enabled.)
     //
     // Get current byte from frame buffer.
-    // uint8_t *byte = &g_frame_buffer[byte_index];
+    // u8 *byte = &g_frame_buffer[byte_index];
     //
     // if ((*byte & ~(1UL << bit_index)) != (state << bit_index)) {
     //     // Set pixel bit and write to frame buffer.
@@ -196,19 +196,19 @@ void svc_display_put_pixel(uint16_t pos_x, uint16_t pos_y, bool state) {
     // }
 }
 
-int8_t svc_display_fill_frame(uint16_t x_start, uint16_t y_start,
-                              uint16_t x_end, uint16_t y_end, bool state) {
+s8 svc_display_fill_frame(u16 x_start, u16 y_start,
+                              u16 x_end, u16 y_end, bool state) {
 
     /// TODO: Handle partial bytes.
 
-    uint8_t fill;
-    uint16_t length;
+    u8 fill;
+    u16 length;
 
-    // uint8_t partial_start = y_start & 7;
-    // uint8_t partial_end = y_end & 7;
+    // u8 partial_start = y_start & 7;
+    // u8 partial_end = y_end & 7;
 
-    uint16_t byte_start = x_start + ((y_start >> 3) << 7);
-    uint16_t byte_end = x_end + ((y_end >> 3) << 7);
+    u16 byte_start = x_start + ((y_start >> 3) << 7);
+    u16 byte_end = x_end + ((y_end >> 3) << 7);
 
     if (state) {
         fill = 0;
@@ -237,7 +237,7 @@ int8_t svc_display_fill_frame(uint16_t x_start, uint16_t y_start,
     return 0;
 }
 
-void svc_display_set_contrast(uint8_t contrast) {
+void svc_display_set_contrast(u8 contrast) {
 
     dev_lcd_set_contrast(contrast);
 }
@@ -246,8 +246,8 @@ void svc_display_set_contrast(uint8_t contrast) {
 
 static t_status _display_init(void) {
 
-    uint8_t *page_buffer;
-    uint8_t page_index;
+    u8 *page_buffer;
+    u8 page_index;
 
     dev_lcd_init();
 

@@ -83,11 +83,11 @@ static bool g_shift_held;
 /*----- Static function prototypes -----------------------------------*/
 
 static void _tick_callback(void);
-static void _knob_callback(uint8_t index, uint8_t value);
-static void _encoder_callback(uint8_t index, uint8_t value);
-static void _button_callback(uint8_t index, bool state);
-static void _trigger_callback(uint8_t pad, uint8_t vel, bool state);
-static void _xy_pad_callback(uint32_t x_val, uint32_t y_val);
+static void _knob_callback(u8 index, u8 value);
+static void _encoder_callback(u8 index, u8 value);
+static void _button_callback(u8 index, bool state);
+static void _trigger_callback(u8 pad, u8 vel, bool state);
+static void _xy_pad_callback(u32 x_val, u32 y_val);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -145,7 +145,7 @@ static void _tick_callback(void) {
  * @param[in]   index   Index of knob.
  * @param[in]   value   Value of knob.
  */
-static void _knob_callback(uint8_t index, uint8_t value) {
+static void _knob_callback(u8 index, u8 value) {
 
     switch (index) {
 
@@ -184,7 +184,7 @@ static void _knob_callback(uint8_t index, uint8_t value) {
  * @param[in]   index   Index of encoder.
  * @param[in]   value   Value of encoder.
  */
-static void _encoder_callback(uint8_t index, uint8_t value) {
+static void _encoder_callback(u8 index, u8 value) {
 
     switch (index) {
 
@@ -231,7 +231,7 @@ static void _encoder_callback(uint8_t index, uint8_t value) {
     }
 }
 
-static void _trigger_callback(uint8_t pad, uint8_t vel, bool state) {
+static void _trigger_callback(u8 pad, u8 vel, bool state) {
 
     if (state) {
         //
@@ -246,7 +246,7 @@ static void _trigger_callback(uint8_t pad, uint8_t vel, bool state) {
  * @param[in]   index   Index of button.
  * @param[in]   state   State of button.
  */
-static void _button_callback(uint8_t index, bool state) {
+static void _button_callback(u8 index, bool state) {
 
     switch (index) {
 
@@ -301,7 +301,7 @@ static void _button_callback(uint8_t index, bool state) {
     }
 }
 
-static void _xy_pad_callback(uint32_t x_val, uint32_t y_val) {
+static void _xy_pad_callback(u32 x_val, u32 y_val) {
 
     //
 }

@@ -38,9 +38,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-
-#include "macros.h"
+#include "ft.h"
 #include "ring_buffer.h"
 
 #include "per_hostdma.h"

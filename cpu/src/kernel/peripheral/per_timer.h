@@ -43,7 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdint.h>
+#include "ft.h"
 
 #include "csl_timer.h"
 
@@ -52,11 +52,11 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    uint32_t base_addr;
-    uint32_t mode;
-    uint32_t period;
-    uint32_t int_flags; // See hal_timer.h.
-    uint32_t int_chan;
+    u32 base_addr;
+    u32 mode;
+    u32 period;
+    u32 int_flags; // See hal_timer.h.
+    u32 int_chan;
     void (*p_isr)(void);
 } t_timer_config;
 
@@ -65,9 +65,9 @@ typedef struct {
 /*----- Extern function prototypes -----------------------------------*/
 
 void timer_init(t_timer_config config);
-void timer_unregister_interrupt(uint32_t base_addr);
+void timer_unregister_interrupt(u32 base_addr);
 
-uint32_t timer_count_get(uint32_t base_addr);
+u32 timer_count_get(u32 base_addr);
 
 #ifdef __cplusplus
 }

@@ -1,4 +1,4 @@
 C:/dev/System23/freetribe/cpu/src/kernel/service/svc_clock.c:100:6:_clock_isr	8	static
 C:/dev/System23/freetribe/cpu/src/kernel/service/svc_clock.c:75:6:clock_init	40	static
 C:/dev/System23/freetribe/cpu/src/kernel/service/svc_clock.c:87:6:clock_register_callback	0	static
-C:/dev/System23/freetribe/cpu/src/kernel/service/svc_clock.c:94:10:clock_get	0	static
+C:/dev/System23/freetribe/cpu/src/kernel/service/svc_clock.c:94:5:clock_get	0	static

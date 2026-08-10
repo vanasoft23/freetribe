@@ -31,6 +31,18 @@ under the terms of the GNU Affero General Public License as published by
 #ifndef BOOT_USB_H
 #define BOOT_USB_H
 
+// TinyUSB token-pastes this value in TUD_DFU_DESCRIPTOR, so it must be
+// a numeric preprocessor macro rather than an enum constant. D'oh!
+#define DFU_ALT_COUNT 5
+
+enum {
+    ALT_FLASH_BOOTLOADER   = 0,
+    ALT_FLASH_FIRMWARE     = 1,
+    ALT_DEBUG_BOOTLOADER   = 2,
+    ALT_DEBUG_FIRMWARE     = 3,
+    ALT_REFLASH            = DFU_ALT_COUNT - 1,
+};
+
 void boot_usb_init(void);
 void boot_usb_task(void);
 void boot_usb_terminate(void);

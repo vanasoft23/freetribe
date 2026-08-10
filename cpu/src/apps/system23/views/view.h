@@ -19,11 +19,11 @@ typedef struct t_view t_view;
 
 typedef void (*fn_select)(t_view *);
 typedef void (*fn_draw)(t_view *);
-typedef void (*fn_handle_knob)(t_view *, uint8_t index, uint8_t value);
-typedef void (*fn_handle_button)(t_view *, uint8_t index, bool state);
-typedef void (*fn_handle_xy_pad)(t_view *, uint8_t index, bool state);
-typedef void (*fn_handle_trigger)(t_view *, uint8_t pad, uint8_t vel, bool state);
-typedef void (*fn_handle_encoder)(t_view *, uint8_t index, uint8_t value);
+typedef void (*fn_handle_knob)(t_view *, u8 index, u8 value);
+typedef void (*fn_handle_button)(t_view *, u8 index, bool state);
+typedef void (*fn_handle_xy_pad)(t_view *, u8 index, bool state);
+typedef void (*fn_handle_trigger)(t_view *, u8 pad, u8 vel, bool state);
+typedef void (*fn_handle_encoder)(t_view *, u8 index, u8 value);
 
 struct t_view {
     fn_draw               draw;

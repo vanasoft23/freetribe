@@ -93,35 +93,35 @@ static inline float clamp_value(float value) {
     return fmaxf(fminf(value, FRACT32_MAX_FLOAT), FRACT32_MIN_FLOAT);
 }
 
-static inline int32_t uint8_to_q31(uint8_t x) {
+static inline s32 u8o_q31(u8 x) {
     // Multiply by 0x01010101 to replicate byte -> full 32-bit range
-    uint32_t u32 = x * 0x01010101u;
-    return (int32_t)(u32 - 0x80000000u);
+    u32 u32 = x * 0x01010101u;
+    return (s32)(u32 - 0x80000000u);
 }
 
-static inline int32_t float_to_fract32(float value) {
+static inline s32 float_to_fract32(float value) {
 
-    int32_t result;
+    s32 result;
 
     if (value == 0) {
         result = 0;
 
     } else {
-        result = (int32_t)roundf(scalbnf(clamp_value(value), 31));
+        result = (s32)roundf(scalbnf(clamp_value(value), 31));
     }
 
     return result;
 }
 
-static inline int32_t float_to_fix16(float value) {
+static inline s32 float_to_fix16(float value) {
 
-    int32_t result;
+    s32 result;
 
     if (value == 0) {
         result = 0;
 
     } else {
-        result = (int32_t)(value * FIX16_ONE);
+        result = (s32)(value * FIX16_ONE);
     }
 
     return result;
@@ -165,7 +165,7 @@ static float cv_to_filter_freq_oversample(float cv) {
 
 
 
-static inline int32_t note_to_fract32(uint8_t note) {
+static inline s32 note_to_fract32(u8 note) {
     return freq_12tet_lut[note];
 }
 

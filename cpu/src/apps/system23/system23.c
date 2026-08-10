@@ -1,7 +1,7 @@
 /*----- Includes -----------------------------------------------------*/
 
+#include "ft.h"
 #include "freetribe.h"
-#include "macros.h"
 
 #include "view.h"
 #include "playback.h"
@@ -46,31 +46,31 @@ void app_run(void) {
     //     if (IPC_QUEUE_FULL == dev_dsp_ipc_read(0x00000060, test_terug, 64, _test, (void*)0x23AC1D23)) {
     //         ft_printf("IPC_QUEUE_FULL");
     //     }
-    //     // if (IPC_QUEUE_FULL == dev_dsp_ipc_transfer(0x00000060, (const uint32_t*)0xC0004000, 71, _test, (void*)0x23AC1D23)) {
+    //     // if (IPC_QUEUE_FULL == dev_dsp_ipc_transfer(0x00000060, (const u32*)0xC0004000, 71, _test, (void*)0x23AC1D23)) {
     //     //     ft_printf("IPC_QUEUE_FULL");
     //     // }
     // }
 
 }
 
-// static uint32_t test_terug[64];
+// static u32 test_terug[64];
 // static void _test(void *ctx, t_ipc_status status) {
 //     if (IPC_FAILED == status) {
 //         ft_printf("IPC_FAILED callback");
 //         return;
 //     }
 
-//     ft_printf("terug gekregen: %08X", (uint32_t)ctx);
-//     for (int32_t p = 0; p < 64; p += 8) {
+//     ft_printf("terug gekregen: %08X", (u32)ctx);
+//     for (s32 p = 0; p < 64; p += 8) {
 //         ft_printf("%04X %04X %04X %04X %04X %04X %04X %04X",
-//             *(volatile uint16_t*)(test_terug+p+0),
-//             *(volatile uint16_t*)(test_terug+p+1),
-//             *(volatile uint16_t*)(test_terug+p+2),
-//             *(volatile uint16_t*)(test_terug+p+3),
-//             *(volatile uint16_t*)(test_terug+p+4),
-//             *(volatile uint16_t*)(test_terug+p+5),
-//             *(volatile uint16_t*)(test_terug+p+6),
-//             *(volatile uint16_t*)(test_terug+p+7)
+//             *(volatile u16*)(test_terug+p+0),
+//             *(volatile u16*)(test_terug+p+1),
+//             *(volatile u16*)(test_terug+p+2),
+//             *(volatile u16*)(test_terug+p+3),
+//             *(volatile u16*)(test_terug+p+4),
+//             *(volatile u16*)(test_terug+p+5),
+//             *(volatile u16*)(test_terug+p+6),
+//             *(volatile u16*)(test_terug+p+7)
 //         );
 //     }
 // }

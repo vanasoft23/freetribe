@@ -46,13 +46,13 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Static variable definitions ----------------------------------*/
 
-static uint8_t g_pad_pressure;
+static u8 g_pad_pressure;
 
 /*----- Extern variable definitions ----------------------------------*/
 
 /*----- Static function prototypes -----------------------------------*/
 
-static void _trigger_callback(uint8_t pad, uint8_t vel, bool state);
+static void _trigger_callback(u8 pad, u8 vel, bool state);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -81,9 +81,9 @@ t_status app_init(void) {
 void app_run(void) {
 
     bool pixel_state = 0;
-    uint8_t y_coord = 32;
+    u8 y_coord = 32;
 
-    uint8_t i;
+    u8 i;
 
     for (i = 0; i < 128; i++) {
 
@@ -99,7 +99,7 @@ void app_run(void) {
 
 /*----- Static function implementations ------------------------------*/
 
-static void _trigger_callback(uint8_t pad, uint8_t vel, bool state) {
+static void _trigger_callback(u8 pad, u8 vel, bool state) {
 
     switch (pad) {
 

@@ -51,17 +51,6 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Macros -------------------------------------------------------*/
 
-#define BOARD_MCU_RESET_PIN       105u // GP6P8
-#define BOARD_UNKNOWN_GP6P6_PIN   103u // GP6P6
-#define BOARD_POWER_CONTROL_PIN   126u // GP7P13
-#define BOARD_ADC_RESET_PIN        99u // GP6P2
-#define BOARD_ADC_MCLK_PIN        123u // GP7P10
-#define BOARD_READY_PIN           144u // GP8P15
-#define BOARD_UNKNOWN_GP7P11_PIN  124u // GP7P11
-
-#define BOARD_ACTIVITY_BANK 6u
-#define BOARD_ACTIVITY_PIN  11u
-
 /*----- Typedefs -----------------------------------------------------*/
 
 /*----- Static variable definitions ----------------------------------*/
@@ -126,7 +115,7 @@ void dev_board_terminate(void) {
     _hardware_terminate();
 }
 
-void dev_board_power_off(void) { per_gpio_set(7, 14, 0); }
+void dev_board_power_off(void) { per_gpio_set_indexed(PIN_SHUTDOWN, 0); }
 
 /*
  * @brief   Set GPIO to initialise board hardware?
@@ -139,51 +128,49 @@ static void _hardware_init(void) {
 
     /// TODO: What does each pin represent?
 
-    // MCU out of reset.
-    per_gpio_set_indexed(BOARD_MCU_RESET_PIN, 1);
+    per_gpio_set_indexed(PIN_BOARD_MCU_RESET, 1);
 
-    per_gpio_set_indexed(BOARD_UNKNOWN_GP6P6_PIN, 1);
+    per_gpio_set_indexed(PIN_GP6_6, 1);
 
     // Only red lights if not set.
     // Something with power controller,
-    per_gpio_set_indexed(BOARD_POWER_CONTROL_PIN, 1);
+    per_gpio_set_indexed(PIN_POWER_CTL, 1);
 
     delay_block_us(60);
 
     // ADC Reset.
-    per_gpio_set_indexed(BOARD_ADC_RESET_PIN, 0);
+    per_gpio_set_indexed(PIN_BOARD_ADC_RESET, 0);
 
     // ADC MCLK on ??
-    per_gpio_set_indexed(BOARD_ADC_MCLK_PIN, 1);
+    per_gpio_set_indexed(PIN_BOARD_ADC_MCLK, 1);
 
     /// TODO: Timeout error.
     //
     // Wait until B8P15 is high.
-    while (!per_gpio_get_indexed(BOARD_READY_PIN))
+    while (!per_gpio_get_indexed(PIN_GP8_15))
         ;
 
     delay_block_us(10);
 
-    per_gpio_set_indexed(BOARD_UNKNOWN_GP7P11_PIN, 1);
+    per_gpio_set_indexed(PIN_GP7_11, 1);
 
     /// TODO: What are these for?
     //
     // This is set during boot, then toggles continuously while app running.
-    per_gpio_set(BOARD_ACTIVITY_BANK, BOARD_ACTIVITY_PIN, 1);
-    //
-    // per_gpio_set(6, 12, 1); // Set GP6P12
+    per_gpio_set_indexed(PIN_GP6_11, 1);
+    per_gpio_set_indexed(PIN_GP6_12, 1);
 }
 
 static void _hardware_terminate(void) {
 
-    per_gpio_set_indexed(BOARD_MCU_RESET_PIN, 0);
-    per_gpio_set_indexed(BOARD_UNKNOWN_GP6P6_PIN, 0);
-    per_gpio_set_indexed(BOARD_POWER_CONTROL_PIN, 0);
+    per_gpio_set_indexed(PIN_BOARD_MCU_RESET, 0);
+    per_gpio_set_indexed(PIN_GP6_6, 0);
+    per_gpio_set_indexed(PIN_POWER_CTL, 0);
 
     delay_block_us(60);
 
-    per_gpio_set_indexed(BOARD_ADC_RESET_PIN, 0);
-    per_gpio_set_indexed(BOARD_ADC_MCLK_PIN, 0);
+    per_gpio_set_indexed(PIN_BOARD_ADC_RESET, 0);
+    per_gpio_set_indexed(PIN_BOARD_ADC_MCLK, 0);
 
     delay_block_us(10);
 }

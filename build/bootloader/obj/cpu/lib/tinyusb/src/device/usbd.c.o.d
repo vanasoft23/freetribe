@@ -17,6 +17,10 @@ C:/dev/System23/freetribe/build/bootloader/obj/cpu/lib/tinyusb/src/device/usbd.c
  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal.h \
  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.h \
  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/device/usbd.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_device.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/msc/msc_device.h \
+ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/msc/msc.h \
  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.h \
  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu.h \
  C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_private.h \
@@ -39,6 +43,10 @@ C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_common.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/osal/osal.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_fifo.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/device/usbd.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc_device.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/cdc/cdc.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/msc/msc_device.h:
+C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/msc/msc.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu_device.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/class/dfu/dfu.h:
 C:/dev/System23/freetribe/cpu/lib/tinyusb/src/common/tusb_private.h:

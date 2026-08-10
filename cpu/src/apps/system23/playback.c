@@ -12,12 +12,12 @@
 
 /*----- Variables ----------------------------------------------------*/
 
-static uint8_t  s_bar      = 0;
-static uint8_t  s_step     = 0;
+static u8  s_bar      = 0;
+static u8  s_step     = 0;
 
-static uint32_t s_ticks_per_step;
-static uint32_t s_ticks;
-static uint32_t s_old_ticks;
+static u32 s_ticks_per_step;
+static u32 s_ticks;
+static u32 s_old_ticks;
 
 /*----- Static function declarations ---------------------------------*/
 
@@ -54,12 +54,12 @@ static void _tick_callback() {
         
     //     // Play note
     //     t_pattern *ptn = ptn_ptr();
-    //     uint8_t ptn_step = 16 * s_bar + s_step;
+    //     u8 ptn_step = 16 * s_bar + s_step;
     //     if (pattern_has_note(ptn, g_part_idx, ptn_step)) {
     //         // ft_set_module_param(0, PARAM_NOTE_FREQ, NOTE_FREQS[g_sequencer_steps[ptn_step].note]);
     //         // ft_set_module_param(0, PARAM_GATE_TICKS, g_sequencer_steps[ptn_step].gate);
-    //         // uint8_t next_step = (ptn_step+1)%(sizeof(g_sequencer_steps)/sizeof(t_step));
-    //         // int32_t ticks_til_next_gate = GATE_4TH - g_sequencer_steps[ptn_step].gate;
+    //         // u8 next_step = (ptn_step+1)%(sizeof(g_sequencer_steps)/sizeof(t_step));
+    //         // s32 ticks_til_next_gate = GATE_4TH - g_sequencer_steps[ptn_step].gate;
     //         // ft_set_module_param(0, PARAM_TICKS_TIL_NEXT, ticks_til_next_gate);
     //         // ft_set_module_param(0, PARAM_NEXT_NOTE_FREQ, NOTE_FREQS[g_sequencer_steps[next_step].note]);
     //     }

@@ -36,9 +36,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
+#include "ft.h"
 
 #include "per_gpio.h"
 #include "per_spi.h"
@@ -63,6 +61,7 @@ under the terms of the GNU Affero General Public License as published by
 #define LCD_COLUMNS 0x80
 #define LCD_PAGES 0x8
 #define LCD_PAGE_LINES 0x8
+#define LCD_FATAL_SPI_POLL_LIMIT 100000u
 
 #define LCD_BACKLIGHT_RED_PIN   100u // GP6P3
 #define LCD_BACKLIGHT_GREEN_PIN 101u // GP6P4
@@ -80,17 +79,23 @@ typedef enum { COMMAND, DATA } t_lcd_mode;
 
 /*----- Static variable definitions ----------------------------------*/
 
+static bool s_initialised;
+
 /*----- Extern variable definitions ----------------------------------*/
 
 /*----- Static function prototypes -----------------------------------*/
 
-static void _lcd_command(uint8_t command);
+static void _lcd_command(u8 command);
 static void _lcd_mode(t_lcd_mode mode);
-static void _lcd_tx(uint8_t *buffer, uint32_t length);
+static void _lcd_tx(u8 *buffer, u32 length);
+static bool _lcd_tx_bounded(const u8 *buffer, u32 length);
+static bool _lcd_try_set_page(u8 page_index, const u8 *page_buffer);
 
 /*----- Extern function implementations ------------------------------*/
 
 void dev_lcd_init(void) {
+
+    s_initialised = false;
 
     t_spi_config config = {
         .instance = LCD_SPI,
@@ -130,21 +135,28 @@ void dev_lcd_init(void) {
     // _lcd_command(0xa6); // 0xa6: Display Normal/Reverse = Normal
     // _lcd_command(0xaf); // 0xaf: Display on
 
-    uint8_t lcd_init_cmd[] = {
+    u8 lcd_init_cmd[] = {
         0xa2, 0xa0, 0xc8, 0x40, 0x2f, 0xf8, 0x00,
         0x25, 0x81, 0x22, 0xa4, 0xa6, 0xaf
     };
 
     _lcd_tx(lcd_init_cmd, sizeof((lcd_init_cmd)));
+    s_initialised = true;
 }
 
 // True sets reset pin low.
-void dev_lcd_reset(bool state) { per_gpio_set(6, 9, !state); }
+void dev_lcd_reset(bool state) {
 
-void dev_lcd_set_frame(uint8_t *frame_buffer) {
+    if (state) {
+        s_initialised = false;
+    }
+    per_gpio_set_indexed(PIN_GP6_9, !state);
+}
 
-    uint8_t page_index;
-    uint8_t *page_buffer;
+void dev_lcd_set_frame(u8 *frame_buffer) {
+
+    u8 page_index;
+    u8 *page_buffer;
 
     for (page_index = 0; page_index < LCD_PAGES; page_index++) {
 
@@ -157,7 +169,24 @@ void dev_lcd_set_frame(uint8_t *frame_buffer) {
     }
 }
 
-void dev_lcd_set_page(uint8_t page_index, uint8_t *page_buffer) {
+bool dev_lcd_try_set_frame(const u8 *frame_buffer) {
+
+    if (!frame_buffer || !s_initialised || !per_spi_initialised(LCD_SPI)) {
+        return false;
+    }
+
+    for (u8 page_index = 0; page_index < LCD_PAGES; page_index++) {
+        const u8 *page_buffer = frame_buffer + page_index * LCD_COLUMNS;
+
+        if (!_lcd_try_set_page(page_index, page_buffer)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void dev_lcd_set_page(u8 page_index, u8 *page_buffer) {
 
     _lcd_mode(COMMAND);
 
@@ -166,7 +195,7 @@ void dev_lcd_set_page(uint8_t page_index, uint8_t *page_buffer) {
     // _lcd_command(0x10);              // Column address upper.
     // _lcd_command(0x00);              // Column address lower.
 
-    uint8_t lcd_page_cmd[] = {0xb0 | page_index, 0x40, 0x10, 0x00};
+    u8 lcd_page_cmd[] = {0xb0 | page_index, 0x40, 0x10, 0x00};
 
     _lcd_tx(lcd_page_cmd, sizeof(lcd_page_cmd));
 
@@ -175,7 +204,7 @@ void dev_lcd_set_page(uint8_t page_index, uint8_t *page_buffer) {
     _lcd_tx(page_buffer, LCD_COLUMNS);
 }
 
-void dev_lcd_set_contrast(uint8_t contrast) {
+void dev_lcd_set_contrast(u8 contrast) {
 
     contrast = contrast > 0x3f ? 0x3f : contrast;
     contrast = contrast < 0x01 ? 0x01 : contrast;
@@ -206,7 +235,7 @@ void dev_lcd_set_backlight(bool red, bool green, bool blue) {
 
 /*----- Static function implementations ------------------------------*/
 
-static void _lcd_tx(uint8_t *buffer, uint32_t length) {
+static void _lcd_tx(u8 *buffer, u32 length) {
 
     /// TODO: DMA frame buffer.
 
@@ -218,8 +247,34 @@ static void _lcd_tx(uint8_t *buffer, uint32_t length) {
     per_spi_write_blocking(LCD_SPI, buffer, length);
 }
 
-static void _lcd_mode(t_lcd_mode mode) { per_gpio_set(8, 1, mode); }
+static bool _lcd_tx_bounded(const u8 *buffer, u32 length) {
 
-static void _lcd_command(uint8_t command) { _lcd_tx(&command, 1); }
+    per_spi_chip_format(LCD_SPI, LCD_SPI_DATA_FORMAT, LCD_SPI_CHIP_SELECT,
+                        LCD_SPI_CSHOLD);
+
+    return per_spi_write_blocking_bounded(
+        LCD_SPI,
+        buffer,
+        length,
+        LCD_FATAL_SPI_POLL_LIMIT
+    );
+}
+
+static bool _lcd_try_set_page(u8 page_index, const u8 *page_buffer) {
+
+    u8 lcd_page_cmd[] = {0xb0 | page_index, 0x40, 0x10, 0x00};
+
+    _lcd_mode(COMMAND);
+    if (!_lcd_tx_bounded(lcd_page_cmd, sizeof(lcd_page_cmd))) {
+        return false;
+    }
+
+    _lcd_mode(DATA);
+    return _lcd_tx_bounded(page_buffer, LCD_COLUMNS);
+}
+
+static void _lcd_mode(t_lcd_mode mode) { per_gpio_set_indexed(PIN_SPI0_SCS2__UART0_RTS__MII_RXD0, mode); }
+
+static void _lcd_command(u8 command) { _lcd_tx(&command, 1); }
 
 /*----- End of file --------------------------------------------------*/

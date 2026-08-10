@@ -88,13 +88,6 @@ under the terms of the GNU Affero General Public License as published by
 #define DSP_SPI_TX_BUF_LEN 0x100
 #define DSP_SPI_RX_BUF_LEN 0x100
 
-/// TODO: Use indexed GPIO functions for single pin id.
-#define DSP_RESET_BANK 6
-#define DSP_RESET_PIN 10
-
-#define DSP_SPI_ENA_BANK 2
-#define DSP_SPI_ENA_PIN 12
-
 #define DSP_SPI_RECV_FLAG SPI_SPIFLG_RXINTFLG
 
 /*----- Typedefs -----------------------------------------------------*/
@@ -111,9 +104,9 @@ static rbd_t dsp_spi_tx_rbd;
 static char dsp_spi_tx_rbmem[DSP_SPI_TX_BUF_LEN]
     __attribute__((aligned(CACHE_LINE_SIZE)));
 
-static uint8_t dsp_spi_tx_byte_mem[CACHE_LINE_SIZE]
+static u8 dsp_spi_tx_byte_mem[CACHE_LINE_SIZE]
     __attribute__((aligned(CACHE_LINE_SIZE)));
-static uint8_t dsp_spi_rx_byte_mem[CACHE_LINE_SIZE]
+static u8 dsp_spi_rx_byte_mem[CACHE_LINE_SIZE]
     __attribute__((aligned(CACHE_LINE_SIZE)));
 
 volatile static bool g_dsp_spi_tx_complete = false;
@@ -125,12 +118,12 @@ volatile static bool g_dsp_spi_rx_complete = false;
 
 static void _dsp_spi_init(void);
 
-static int _dsp_spi_tx_dequeue(uint8_t *p_byte);
-static void _dsp_spi_rx_enqueue(uint8_t *p_byte);
+static int _dsp_spi_tx_dequeue(u8 *p_byte);
+static void _dsp_spi_rx_enqueue(u8 *p_byte);
 
-static void _dsp_spi_tx_boot_blocking(uint8_t *buffer, uint32_t length);
+static void _dsp_spi_tx_boot_blocking(u8 *buffer, u32 length);
 static void _dsp_spi_wait_boot_ena(void);
-static void _dsp_spi_tx_byte(const uint8_t *p_byte);
+static void _dsp_spi_tx_byte(const u8 *p_byte);
 static void _dsp_spi_tx_next(void);
 static void _dsp_spi_rx_byte(void);
 
@@ -152,7 +145,7 @@ void dev_dsp_init(void) {
     // _dsp_emifa_init();
 }
 
-void dev_dsp_spi_tx_enqueue(uint8_t *p_byte) {
+void dev_dsp_spi_tx_enqueue(u8 *p_byte) {
 
     /// TODO: Should catch overflow error and
     ///       redesign so this does not happen.
@@ -167,7 +160,7 @@ void dev_dsp_spi_tx_enqueue(uint8_t *p_byte) {
     }
 }
 
-int dev_dsp_spi_rx_dequeue(uint8_t *p_byte) {
+int dev_dsp_spi_rx_dequeue(u8 *p_byte) {
 
     return ring_buffer_get(dsp_spi_rx_rbd, p_byte);
 }
@@ -180,7 +173,7 @@ void dev_dsp_spi_poll(void) {
     }
 }
 
-void dev_dsp_spi_tx_boot(uint8_t *buffer, uint32_t length) {
+void dev_dsp_spi_tx_boot(u8 *buffer, u32 length) {
 
     per_spi_chip_format(DSP_SPI, DSP_SPI_BOOT_DATA_FORMAT, DSP_SPI_CHIP_SELECT,
                         DSP_SPI_CSHOLD);
@@ -191,7 +184,7 @@ void dev_dsp_spi_tx_boot(uint8_t *buffer, uint32_t length) {
 // True puts DSP in reset.
 void dev_dsp_reset(bool state) {
     //
-    per_gpio_set(DSP_RESET_BANK, DSP_RESET_PIN, !state);
+    per_gpio_set_indexed(PIN_DSP_RESET, !state);
 }
 
 /// /// TODO: Use GPIO interrupt to set flag.
@@ -199,7 +192,7 @@ void dev_dsp_reset(bool state) {
 /// // Return true if SPI enabled.
 /// bool _dsp_spi_enabled(void) {
 ///     //
-///     return !per_gpio_get(DSP_SPI_ENA_BANK, DSP_SPI_ENA_PIN);
+///     return !per_gpio_get_indexed(PIN_SPI1_ENA);
 /// }
 
 // void dev_dsp_spi_transfer(void) {
@@ -287,18 +280,18 @@ static void _dsp_spi_init(void) {
     }
 }
 
-static int _dsp_spi_tx_dequeue(uint8_t *p_byte) {
+static int _dsp_spi_tx_dequeue(u8 *p_byte) {
 
     return ring_buffer_get(dsp_spi_tx_rbd, p_byte);
 }
 
-static void _dsp_spi_rx_enqueue(uint8_t *p_byte) {
+static void _dsp_spi_rx_enqueue(u8 *p_byte) {
 
     // Overwrite on overflow?
     ring_buffer_put_force(dsp_spi_rx_rbd, p_byte);
 }
 
-static void _dsp_spi_tx_boot_blocking(uint8_t *buffer, uint32_t length) {
+static void _dsp_spi_tx_boot_blocking(u8 *buffer, u32 length) {
 
     if (!buffer) {
         return;
@@ -323,13 +316,13 @@ static void _dsp_spi_tx_boot_blocking(uint8_t *buffer, uint32_t length) {
 static void _dsp_spi_wait_boot_ena(void) {
 
     /// TODO: SPI ENA timeout/error?
-    while (per_gpio_get(DSP_SPI_ENA_BANK, DSP_SPI_ENA_PIN))
+    while (per_gpio_get_indexed(PIN_SPI1_ENA))
         ;
 }
 
-static void _dsp_spi_tx_byte(const uint8_t *p_byte) {
-    uint8_t *tx_byte = _ddr_uncached_alias(dsp_spi_tx_byte_mem);
-    uint8_t *rx_byte = _ddr_uncached_alias(dsp_spi_rx_byte_mem);
+static void _dsp_spi_tx_byte(const u8 *p_byte) {
+    u8 *tx_byte = _ddr_uncached_alias(dsp_spi_tx_byte_mem);
+    u8 *rx_byte = _ddr_uncached_alias(dsp_spi_rx_byte_mem);
 
     *tx_byte = *p_byte;
 
@@ -343,7 +336,7 @@ static void _dsp_spi_tx_byte(const uint8_t *p_byte) {
 }
 
 static void _dsp_spi_tx_next(void) {
-    uint8_t byte;
+    u8 byte;
 
     if (_dsp_spi_tx_dequeue(&byte) == 0) {
         _dsp_spi_tx_byte(&byte);
@@ -352,7 +345,7 @@ static void _dsp_spi_tx_next(void) {
 
 static void _dsp_spi_rx_byte(void) {
 
-    uint8_t dummy = 0x00;
+    u8 dummy = 0x00;
 
     // Transmit dummy byte to receive.
     _dsp_spi_tx_byte(&dummy);

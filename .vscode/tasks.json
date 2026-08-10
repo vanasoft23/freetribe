@@ -1,65 +1,255 @@
 {
     "version": "2.0.0",
     "tasks": [
+
+        // -------------------------------------------------------------
+        //
+        // Scripts / Miscellaneous
+        //
+        // -------------------------------------------------------------
+
         {
             "label": "execute freetribe via MIDI",
             "type": "shell",
-            "windows": {
-                "command": "\"F:/data/KORG Electribe 2 stuff/hacktribe/scripts/execute_freetribe.py\" \"${workspaceFolder}/build/kernel/kernel.bin\" \"6- UMC404HD 192k MIDI In 0\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\"",
-            },
-            "linux": {
-                "command": "~/venv/bin/python3 ~/code/hacktribe/scripts/execute_freetribe.py \"${workspaceFolder}/build/kernel/kernel.bin\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\"",
-            },
+            "command": "python \"../hacktribe/scripts/execute_freetribe.py\" \"build/kernel/kernel.bin\" \"6- UMC404HD 192k MIDI In 0\" \"6- UMC404HD 192k MIDI Out 0\"",
             "group": {
                 "kind": "test",
-                "isDefault": true
+                // "isDefault": true
             }
         },
         {
             "label": "execute bootloader via MIDI",
             "type": "shell",
-            "windows": {
-                "command": "\"F:/data/KORG Electribe 2 stuff/hacktribe/scripts/execute_freetribe.py\" \"${workspaceFolder}/build/bootloader/bootloader.bin\" \"6- UMC404HD 192k MIDI In 0\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\"",
-            },
-            "linux": {
-                "command": "~/venv/bin/python3 ~/code/hacktribe/scripts/execute_freetribe.py \"${workspaceFolder}/build/kernel/kernel.bin\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\" \"UMC404HD 192k:UMC404HD 192k MIDI 1\"",
-            },
+            "command": "python \"../hacktribe/scripts/execute_freetribe.py\" \"build/bootloader/bootloader.bin\" \"6- UMC404HD 192k MIDI In 0\" \"6- UMC404HD 192k MIDI Out 0\"",
             "group": {
                 "kind": "test",
-                "isDefault": true
+                // "isDefault": true
             }
         },
         {
             "label": "send freetribe executable through USB (dfu-util)",
             "type": "shell",
-            "command": "dfu-util -d e2fb:1802 --download \"${workspaceFolder}/build/kernel/kernel.bin\"",
+            "command": "dfu-util -d e2fb:1802 --download \"build/kernel/kernel.bin\"",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "group": {
                 "kind": "test"
             }
         },
+        
+        // -------------------------------------------------------------
+        //
+        // CMake Configure
+        //
+        // -------------------------------------------------------------
+
         {
-            "label": "build bootloader",
-            "type": "shell",
-            "command": "cmake -G \"Ninja\" -B build && cmake --build build --target bootloader",
+            "label": "CMake: configure firmware",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "firmware-debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "CMake: configure monosynth",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "monosynth-debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "CMake: configure native tests",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "native-tests-debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/cpu/tests/native"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+
+        // -------------------------------------------------------------
+        //
+        // CMake Build
+        //
+        // -------------------------------------------------------------
+
+        {
+            "label": "CMake: build bootloader",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "bootloader",
+                "--parallel"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "CMake: configure firmware"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
             "group": {
                 "kind": "build",
-            },
+                "isDefault": true
+            }
         },
         {
             "label": "build kernel (monosynth)",
-            "type": "shell",
-            "command": "cmake -G \"Ninja\" -B build -DAPP=monosynth -DMODULE=monosynth && cmake --build build --target kernel",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "monosynth-kernel",
+                "--parallel"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "CMake: configure monosynth"
+            ],
             "group": {
                 "kind": "build",
             },
         },
         {
             "label": "build debug_bringup",
-            "type": "shell",
-            "command": "cmake -G \"Ninja\" -B build && cmake --build build --target debug_bringup",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "debug-bringup"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "CMake: configure firmware"
+            ],
             "group": {
                 "kind": "build",
             },
+        },
+        
+        // {
+        //     "label": "CMake: build all targets",
+        //     "type": "cmake",
+        //     "command": "build",
+        //     "targets": [
+        //         "bootloader",
+        //         "debug_bringup",
+        //         "kernel"
+        //     ],
+        //     "problemMatcher": [
+        //         "$gcc"
+        //     ],
+        //     "group": {
+        //         "kind": "build",
+        //         "isDefault": true
+        //     }
+        // },
+
+        // Tests
+
+        {
+            "label": "CMake: build native tests",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "native-tests"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/cpu/tests/native"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "CMake: configure native tests"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "build MMCSD hardware test",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "mmcsd-hw-test"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "CMake: configure firmware"
+            ],
+            "group": {
+                "kind": "build"
+            }
+        },
+        
+        // -------------------------------------------------------------
+        //
+        // Run Tests
+        //
+        // -------------------------------------------------------------
+
+        {
+            "label": "CMake: run native tests",
+            "type": "process",
+            "command": "ctest",
+            "args": [
+                "--preset",
+                "native-tests"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/cpu/tests/native"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "CMake: build native tests"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "test"
+            }
         }
+        
     ]
 }

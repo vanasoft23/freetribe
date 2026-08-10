@@ -2,8 +2,8 @@
 #include "lut.h"
 #include "param_scale.h"
 
-int32_t g_cutoff_lut[128];
-int32_t g_resonance_lut[256];
+s32 g_cutoff_lut[128];
+s32 g_resonance_lut[256];
 
 void lut_init() {
     // float_to_fract32(1.0 - (value / 255.0f))

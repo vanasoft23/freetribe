@@ -15,7 +15,7 @@
 ########################
 
 //CPU app directory under cpu/src/apps to link into the kernel
-APP:STRING=monosynth
+APP:STRING=
 
 //Path to a program.
 ARM_GCC:FILEPATH=C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gcc.exe
@@ -26,29 +26,23 @@ ARM_OBJCOPY:FILEPATH=C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.1
 //Path to a program.
 BFIN_GCC:FILEPATH=C:/apps/dev/bfin/elf/bin/bfin-elf-gcc.exe
 
-//Blackfin support library include path
-BFIN_INC:PATH=
-
 //Path to a program.
 BFIN_LDR:FILEPATH=C:/apps/dev/bfin/elf/bin/bfin-elf-ldr.exe
 
-//No help, variable specified on the command line.
-CMAKE_BUILD_TYPE:STRING=Debug
+//Enable the early boot debug delay
+BOOT_DEBUG_DELAY:BOOL=true
 
 //No help, variable specified on the command line.
-CMAKE_CXX_COMPILER:FILEPATH=C:/Program Files/LLVM/bin/clang++.exe
+CMAKE_BUILD_TYPE:UNINITIALIZED=Debug
 
-//No help, variable specified on the command line.
-CMAKE_C_COMPILER:FILEPATH=C:/Program Files/LLVM/bin/clang.exe
-
-//No help, variable specified on the command line.
-CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE
+//Enable/Disable output of compile commands during generation.
+CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
 
 //Value Computed by CMake.
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=C:/dev/System23/freetribe/build/CMakeFiles/pkgRedirects
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/bootloader
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/freetribe
 
 //make program
 CMAKE_MAKE_PROGRAM:FILEPATH=C:/Users/USER23~1/AppData/Local/Programs/Python/PYTHON~3/Scripts/ninja.exe
@@ -78,11 +72,8 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //Generate per-source assembly listings (.S files)
 GENERATE_ASM:BOOL=OFF
 
-//No help, variable specified on the command line.
-IGNORE_BOOTSECT_VERIFICATION:UNINITIALIZED=1
-
 //Deprecated: default for KERNEL_DDR_TEXT_CACHEABLE
-KERNEL_DDR_CACHEABLE:BOOL=0
+KERNEL_DDR_CACHEABLE:BOOL=ON
 
 //Map kernel text/rodata DDR section as cacheable when D-cache
 // is enabled
@@ -95,19 +86,10 @@ LIB_C:PATH=
 LIB_GCC:PATH=
 
 //DSP module directory under dsp/src/modules to embed in the kernel
-MODULE:STRING=monosynth
+MODULE:STRING=
 
 //No help, variable specified on the command line.
-NO_BOOTSECT_VERIFY:UNINITIALIZED=1
-
-//Value Computed by CMake
-bootloader_BINARY_DIR:STATIC=C:/dev/System23/freetribe/build
-
-//Value Computed by CMake
-bootloader_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-bootloader_SOURCE_DIR:STATIC=C:/dev/System23/freetribe
+NO_BOOTSECT_VERIFY:BOOL=true
 
 //Value Computed by CMake
 freetribe_BINARY_DIR:STATIC=C:/dev/System23/freetribe/build

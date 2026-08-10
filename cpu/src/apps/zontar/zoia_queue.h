@@ -61,7 +61,7 @@ typedef enum {
 
 typedef struct {
     e_zoia_event type;
-    uint8_t value;
+    u8 value;
 } t_zoia_event;
 
 /*----- Extern variable declarations ---------------------------------*/

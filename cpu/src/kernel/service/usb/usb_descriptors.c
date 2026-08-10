@@ -2,9 +2,44 @@
 
                      This file is part of Freetribe
 
+                https://github.com/bangcorrupt/freetribe
+
+                                License
+
+                   GNU AFFERO GENERAL PUBLIC LICENSE
+                      Version 3, 19 November 2007
+
+                           AGPL-3.0-or-later
+
+ Freetribe is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+                  (at your option) any later version.
+
+     Freetribe is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty
+        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+          See the GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+                       Copyright bangcorrupt 2023
+
 ----------------------------------------------------------------------*/
 
-#include "tusb.h"
+/**
+ * @file    usb_descriptors.c
+ *
+ * @brief   Defines the TinyUSB device, configuration, CDC, MSC, and
+ *          string descriptors exposed by the Freetribe kernel.
+ *
+ * @author  vanasoft23 (mvandijk303@gmail.com)
+ */
+
+#include "ft.h"
+
+#include <tusb.h>
 
 enum {
     ITF_NUM_CDC = 0,
@@ -41,7 +76,7 @@ static const tusb_desc_device_t desc_device = {
     .bNumConfigurations = 0x01,
 };
 
-static const uint8_t desc_configuration[] = {
+static const u8 desc_configuration[] = {
     TUD_CONFIG_DESCRIPTOR(1, ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, 0, 100),
     TUD_CDC_DESCRIPTOR(ITF_NUM_CDC, 4, EPNUM_CDC_NOTIF, 8, EPNUM_CDC_OUT,
                        EPNUM_CDC_IN, 64),
@@ -57,25 +92,25 @@ static const char *const string_desc_arr[] = {
     "Kernel MSC",
 };
 
-static uint16_t desc_string[32];
+static u16 desc_string[32];
 
-uint8_t const *tud_descriptor_device_cb(void) {
+u8 const *tud_descriptor_device_cb(void) {
 
-    return (uint8_t const *)&desc_device;
+    return (u8 const *)&desc_device;
 }
 
-uint8_t const *tud_descriptor_configuration_cb(uint8_t index) {
+u8 const *tud_descriptor_configuration_cb(u8 index) {
 
     (void)index;
 
     return desc_configuration;
 }
 
-uint16_t const *tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
+u16 const *tud_descriptor_string_cb(u8 index, u16 langid) {
 
     (void)langid;
 
-    uint8_t chr_count = 0;
+    u8 chr_count = 0;
 
     if (index == 0) {
         desc_string[1] = 0x0409;

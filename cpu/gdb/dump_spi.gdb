@@ -1,6 +1,14 @@
+
+#
+#  !! IMPORTANT !!
+# Be aware that reading the SPI registers may alter hardware state!
+#
+#
+
 define dump_spi0
   set $base = 0x01C41000
 
+  printf "WARNING: reading SPI regs may alter hardware state!\n"
   printf "SPI 0 Register Dump:\n"
 
   printf "SPIGCR0  : 0x%08x\n", *(unsigned int*)($base + 0x0)
@@ -35,6 +43,7 @@ end
 define dump_spi1
   set $base = 0x01F0E000
 
+  printf "WARNING: reading SPI regs may alter hardware state!\n"
   printf "SPI 1 Register Dump:\n"
 
   printf "SPIGCR0  : 0x%08x\n", *(unsigned int*)($base + 0x0)

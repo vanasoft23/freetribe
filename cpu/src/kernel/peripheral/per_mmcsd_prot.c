@@ -33,10 +33,9 @@ Original work by turmary@126.com, modified by vanasoft23 for freetribe.
 
 /*----- Includes -----------------------------------------------------*/
 
+#include "ft.h"
 #include "am18x_lib.h"
 #include "per_mmcsd_prot.h"
-#include <string.h>
-#include "macros.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -58,6 +57,8 @@ Original work by turmary@126.com, modified by vanasoft23 for freetribe.
 #define INA     SDP_INA
 #define INV     SDP_INV
 
+#define SDPROT_SECTOR_SIZE 512u
+
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
@@ -68,7 +69,7 @@ typedef struct {
 /*----- Static variable definitions ----------------------------------*/
 
 // 4.8 Card State Transition Table
-static uint8_t card_stat_trans_table[/*cmd index*/][SDP_CNT] = {
+static u8 card_stat_trans_table[/*cmd index*/][SDP_CNT] = {
 #define RESERVED_CMD    {INV,  INV,  INV,  INV,  INV,  INV,  INV,  INV,  INV,  }
 
     //IDLE,READY,INDENT,STBY,TRAN, DATA, RCV,  PRG,  DIS
@@ -160,7 +161,7 @@ static kvp_t card_state_name[] = {
 
 /*----- Extern function implementations ------------------------------*/
 
-sdp_cur_stat_t sdprot_next_stat(int cmd_nr, uint8_t cur_stat) {
+sdp_cur_stat_t sdprot_next_stat(int cmd_nr, u8 cur_stat) {
     if (cmd_nr >= countof(card_stat_trans_table)) return SDP_INV;
     if (cur_stat >= SDP_CNT) return SDP_INV;
     return card_stat_trans_table[cmd_nr][cur_stat];
@@ -239,11 +240,10 @@ int sdprot_need_busy(int cmd_nr) {
     return 0;   
 }
 
-int sdprot_get_cid(CID_t* cid, const uint32_t* resp) {
+int sdprot_get_cid(CID_t* cid, const u32* resp) {
     cid->CRC = __field_xget(resp[0], 0x7F << 1);
     cid->MDT = __field_xget(resp[0], 0xFFF << 8);
-    cid->PSN = __field_xget(resp[0], 0xFF << 24) |
-        __field_xget(resp[1], 0xFFFFFF << 0);
+    cid->PSN = __field_xget(resp[0], 0xFF << 24) | __field_xget(resp[1], 0xFFFFFF << 0);
     cid->PRV = __field_xget(resp[1], 0xFF << 24);
 
     memcpy((char*)cid->PNM, (char*)(&resp[2]), 5);
@@ -270,8 +270,8 @@ int sdprot_print_cid(const CID_t* cid) {
     return 0;
 }
 
-int sdprot_get_csd(CSD_t* csd, const uint32_t* resp) {
-    uint32_t v;
+int sdprot_get_csd(CSD_t* csd, const u32* resp) {
+    u32 v;
 
     csd->CSD_STRUCTURE = __field_xget(resp[3], 0x3 << 30);
     csd->TAAC = __field_xget(resp[3], 0xFF << 16);
@@ -284,9 +284,15 @@ int sdprot_get_csd(CSD_t* csd, const uint32_t* resp) {
     csd->WRITE_BLK_MISALIGN = __field_xget(resp[2], 0x1 << 14);
     csd->READ_BLK_MISALIGN = __field_xget(resp[2], 0x1 << 13);
     csd->DSR_IMP = __field_xget(resp[2], 0x1 << 12);
-    v = __field_xget(resp[2], 0x3FF << 0);
-
-    csd->C_SIZE = (v << 2) | __field_xget(resp[1], 0x3 << 30);  
+    if (csd->CSD_STRUCTURE == 1u) {
+        csd->C_SIZE =
+            (__field_xget(resp[2], 0x3fu) << 16) |
+            __field_xget(resp[1], 0xffffu << 16);
+    } else {
+        v = __field_xget(resp[2], 0x3ffu);
+        csd->C_SIZE =
+            (v << 2) | __field_xget(resp[1], 0x3u << 30);
+    }
     csd->VDD_R_CURR_MIN = __field_xget(resp[1], 0x7 << 27);
     csd->VDD_R_CURR_MAX = __field_xget(resp[1], 0x7 << 24);
     csd->VDD_W_CURR_MIN = __field_xget(resp[1], 0x7 << 21);
@@ -344,15 +350,15 @@ int sdprot_print_csd(const CSD_t* csd) {
     return 0;
 }
 
-uint32_t sdprot_trans_speed(const CSD_t* csd) {
+u32 sdprot_trans_speed(const CSD_t* csd) {
     // 5.3.2 CSD Register
-    const uint32_t muls[] = {
+    const u32 muls[] = {
         0, 10, 12, 13,
         15, 20, 25, 30,
         35, 40, 45, 50,
         55, 60, 70, 80,
     };
-    uint32_t v, base, idx, speed;
+    u32 v, base, idx, speed;
 
     v = csd->TRANS_SPEED;
 
@@ -373,27 +379,29 @@ uint32_t sdprot_trans_speed(const CSD_t* csd) {
 }
 
 // unit: mA
-static const uint16_t vdd_rw_current_min[] = {
+static const u16 vdd_rw_current_min[] = {
     0/*0.5*/, 1, 5, 10,
     25, 35, 60, 100,
 };
 
 // uint: mA
-static const uint16_t vdd_rw_current_max[] = {
+static const u16 vdd_rw_current_max[] = {
     1, 5, 10, 25,
     35, 45, 80, 200,
 };
 
 // unit: bytes
-uint32_t sdprot_device_size(const CSD_t* csd) {
-    uint32_t bnr, bln;
+u32 sdprot_device_size(const CSD_t* csd) {
+    u32 sector_count = sdprot_sector_count(csd);
+    u32 max_sectors = 0xffffffffu / SDPROT_SECTOR_SIZE;
 
-    bnr = (csd->C_SIZE + 1) << (csd->C_SIZE_MULT + 2);
-    bln = 1 << csd->READ_BL_LEN;
+    if (sector_count > max_sectors) {
+        return 0xffffffffu;
+    }
 
     DEBUG_LOG_SD("SDPROT\twrite data block length: %d bytes\n", 1 << csd->WRITE_BL_LEN);
-    DEBUG_LOG_SD("SDPROT\tread  data block length: %d bytes\n", bln);
-    DEBUG_LOG_SD("SDPROT\tblock number: %d blocks\n", bnr);
+    DEBUG_LOG_SD("SDPROT\tread  data block length: %d bytes\n", 1 << csd->READ_BL_LEN);
+    DEBUG_LOG_SD("SDPROT\tsector number: %u sectors\n", sector_count);
     DEBUG_LOG_SD("SDPROT\tread current: %dmA %dmA\n", 
         vdd_rw_current_min[csd->VDD_R_CURR_MIN],
         vdd_rw_current_max[csd->VDD_R_CURR_MAX]);
@@ -401,7 +409,34 @@ uint32_t sdprot_device_size(const CSD_t* csd) {
         vdd_rw_current_min[csd->VDD_W_CURR_MIN],
         vdd_rw_current_max[csd->VDD_W_CURR_MAX]);
 
-    return bnr * bln;
+    return sector_count * SDPROT_SECTOR_SIZE;
+}
+
+u32 sdprot_sector_count(const CSD_t* csd) {
+    u64 sector_count;
+
+    if (csd == NULL) {
+        return 0;
+    }
+
+    if (csd->CSD_STRUCTURE == 1u) {
+        sector_count = ((u64)csd->C_SIZE + 1u) << 10;
+    } else if (csd->CSD_STRUCTURE == 0u) {
+        u64 block_count =
+            ((u64)csd->C_SIZE + 1u) << (csd->C_SIZE_MULT + 2u);
+        u64 block_size = (u64)1u << csd->READ_BL_LEN;
+
+        sector_count =
+            (block_count * block_size) / SDPROT_SECTOR_SIZE;
+    } else {
+        return 0;
+    }
+
+    if (sector_count > 0xffffffffu) {
+        return 0xffffffffu;
+    }
+
+    return (u32)sector_count;
 }
 
 int sdprot_print_r1_stat(const sdp_r1_stat_t* r1_stat) {

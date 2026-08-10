@@ -4,7 +4,10 @@ C:/dev/System23/freetribe/build/CMakeFiles/bootloader.dir
 C:/dev/System23/freetribe/build/CMakeFiles/bootloader_clean.dir
 C:/dev/System23/freetribe/build/CMakeFiles/debug_bringup.dir
 C:/dev/System23/freetribe/build/CMakeFiles/debug_bringup_clean.dir
+C:/dev/System23/freetribe/build/CMakeFiles/mmcsd_hw_test.dir
+C:/dev/System23/freetribe/build/CMakeFiles/mmcsd_hw_test_clean.dir
 C:/dev/System23/freetribe/build/CMakeFiles/dsp.dir
 C:/dev/System23/freetribe/build/CMakeFiles/dsp_clean.dir
+C:/dev/System23/freetribe/build/CMakeFiles/build_all.dir
 C:/dev/System23/freetribe/build/CMakeFiles/edit_cache.dir
 C:/dev/System23/freetribe/build/CMakeFiles/rebuild_cache.dir

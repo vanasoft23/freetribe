@@ -221,12 +221,12 @@ void per_ddr_terminate(void) {
     delay(4);
 }
 
-uint8_t per_ddr_memtest(void) {
+u8 per_ddr_memtest(void) {
 
     int i;
     unsigned int *ddr = (unsigned int *)0xc0000000;
 
-    uint8_t result = 0;
+    u8 result = 0;
 
     for (i = 0; i < 0x4000000; i += 4) {
 

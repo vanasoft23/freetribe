@@ -1,3 +1,4 @@
+#include "ft.h"
 #include "freetribe.h"
 
 #include "view.h"
@@ -10,7 +11,6 @@
 #include "pattern.h"
 #include "pattern_cache.h"
 #include "shared_mem.h"
-#include "macros.h"
 #include "cpu_playhead.h"
 
 /*----- Macros -------------------------------------------------------*/
@@ -27,11 +27,11 @@ struct t_sequencer {
 
 static void select(t_sequencer *seq);
 static void draw(t_sequencer *seq);
-static void handle_knob(t_sequencer *seq, uint8_t index, uint8_t value);
-static void handle_button(t_sequencer *seq, uint8_t index, bool state);
-static void handle_xy_pad(t_sequencer *seq, uint32_t x_val, uint32_t y_val);
-static void handle_trigger(t_sequencer *seq, uint8_t pad, uint8_t vel, bool state);
-static void handle_encoder(t_sequencer *seq, uint8_t index, uint8_t value);
+static void handle_knob(t_sequencer *seq, u8 index, u8 value);
+static void handle_button(t_sequencer *seq, u8 index, bool state);
+static void handle_xy_pad(t_sequencer *seq, u32 x_val, u32 y_val);
+static void handle_trigger(t_sequencer *seq, u8 pad, u8 vel, bool state);
+static void handle_encoder(t_sequencer *seq, u8 index, u8 value);
 
 /*----- Variables ----------------------------------------------------*/
 
@@ -59,28 +59,28 @@ static void draw(t_sequencer *seq) {
 
     // step in pad
     if (seq->bar == seq->selected_bar) {
-        for (uint8_t i = 0; i <= 15; i++) {
+        for (u8 i = 0; i <= 15; i++) {
             if (i != phd->step)
                 ft_set_led(LED_PAD_0_BLUE + (2*i), false);
         }
         ft_set_led(LED_PAD_0_BLUE + (2*phd->step), true);
     } else {
-        for (uint8_t i = 0; i <= 15; i++)
+        for (u8 i = 0; i <= 15; i++)
             ft_set_led(LED_PAD_0_BLUE + (2*i), false);
     }
 
     // draw steps
-    for (uint8_t i = 0; i <= 15; i++) {
+    for (u8 i = 0; i <= 15; i++) {
         int  step_idx   = 16 * seq->selected_bar + i;
         bool has_note   = pattern_has_note(ptn_readonly(), g_part_idx, step_idx);
         ft_set_led(LED_PAD_0_RED + (2*i), has_note);
     }
 
     // bars
-    for (uint8_t i = 0; i <= 3; i++) {
+    for (u8 i = 0; i <= 3; i++) {
         ft_set_led(LED_BAR_0_BLUE + i, (i == seq->bar));
     }
-    for (uint8_t i = 0; i <= 3; i++) {
+    for (u8 i = 0; i <= 3; i++) {
         ft_set_led(LED_BAR_0_RED + i, (i == seq->selected_bar));
     }
 
@@ -88,7 +88,7 @@ static void draw(t_sequencer *seq) {
 
 
 
-static void handle_knob(t_sequencer *seq, uint8_t index, uint8_t value) {
+static void handle_knob(t_sequencer *seq, u8 index, u8 value) {
 
     switch (index) {
         
@@ -97,17 +97,17 @@ static void handle_knob(t_sequencer *seq, uint8_t index, uint8_t value) {
         } break;
 
         case KNOB_IFX_EDIT: {
-            uint16_t param_index = g_selected_ifx
+            u16 param_index = g_selected_ifx
                 ? (g_shift ? PARAM_IFX1_PARAM1 : PARAM_IFX1_PARAM0)
                 : (g_shift ? PARAM_IFX0_PARAM1 : PARAM_IFX0_PARAM0);
             DEBUG_LOG("knob %i", (int)param_index);
-            ft_set_module_param(0, param_index, uint8_to_q31(value));
+            ft_set_module_param(0, param_index, u8o_q31(value));
         }
 
     }
 }
 
-static void handle_button(t_sequencer *seq, uint8_t index, bool state) {
+static void handle_button(t_sequencer *seq, u8 index, bool state) {
     
     switch (index) {
 
@@ -133,11 +133,11 @@ static void handle_button(t_sequencer *seq, uint8_t index, bool state) {
 
 }
 
-static void handle_xy_pad(t_sequencer *seq, uint32_t x_val, uint32_t y_val) {
+static void handle_xy_pad(t_sequencer *seq, u32 x_val, u32 y_val) {
 
 }
 
-static void handle_trigger(t_sequencer *seq, uint8_t pad, uint8_t vel, bool state) {
+static void handle_trigger(t_sequencer *seq, u8 pad, u8 vel, bool state) {
 
     // DEBUG_LOG("trigger callback: %02X %u %u", pad, vel, state);
     
@@ -150,11 +150,11 @@ static void handle_trigger(t_sequencer *seq, uint8_t pad, uint8_t vel, bool stat
     
 }
 
-static void handle_encoder(t_sequencer *seq, uint8_t index, uint8_t value) {
+static void handle_encoder(t_sequencer *seq, u8 index, u8 value) {
 
     // DEBUG_LOG("encoder callback: %02X %f", cutoff, note_to_cv(cutoff));
 
-    static uint8_t cutoff = 0x7f;
+    static u8 cutoff = 0x7f;
 
     switch (index) {
 

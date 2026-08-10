@@ -37,13 +37,13 @@ under the terms of the GNU Affero General Public License as published by
 #ifndef PER_AINTC_H
 #define PER_AINTC_H
 
-#include <stdint.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /*----- Includes -----------------------------------------------------*/
+
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -73,14 +73,14 @@ void per_aintc_init(void);
  * 
  * @param   isr        Callback function.
  */
-void per_aintc_register_gpio_interrupt(uint8_t channel, uint8_t pin, uint8_t int_type, void (*isr)(void));
+void per_aintc_register_gpio_interrupt(u8 channel, u8 pin, u8 int_type, void (*isr)(void));
 
 /**
  * @brief   Clear interrupt status for GPIO interrupts.
  * 
  * @param   pin    Indexed GPIO pin number, starting from 1 through 144.
  */
-void per_aintc_clear_status_gpio(uint8_t pin);
+void per_aintc_clear_status_gpio(u8 pin);
 
 /**
  * @brief   Change trigger type of GPIO pin interrupt.
@@ -94,7 +94,7 @@ void per_aintc_clear_status_gpio(uint8_t pin);
  *                     - GPIO_INT_TYPE_BOTHEDGE
  * 
  */
-void per_aintc_change_gpio_int_type(uint8_t pin, uint8_t int_type);
+void per_aintc_change_gpio_int_type(u8 pin, u8 int_type);
 
 #ifdef __cplusplus
 }

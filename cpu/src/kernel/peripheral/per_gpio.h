@@ -43,16 +43,15 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
-#include "per_gpio_pinmap.h"
+#include "per_gpio_pinmap.h" // IWYU pragma: keep
 
 /*----- Macros -------------------------------------------------------*/
 
 /** @brief Get the bank number corresponding to pin number. */
-static inline uint8_t per_gpio_bank_from_pin(uint8_t pin_index) {
-    uint8_t bank_index = ((pin_index - 1) >> 4) * !!pin_index;
+static inline u8 per_gpio_bank_from_pin(u8 pin_index) {
+    u8 bank_index = ((pin_index - 1) >> 4) * !!pin_index;
     return bank_index;
 }
 
@@ -63,13 +62,11 @@ static inline uint8_t per_gpio_bank_from_pin(uint8_t pin_index) {
 /*----- Extern function prototypes -----------------------------------*/
 
 void per_gpio_init(void);
-bool per_gpio_get(uint8_t bank, uint8_t pin);
-void per_gpio_set(uint8_t bank, uint8_t pin, bool state);
-void per_gpio_toggle(uint8_t bank, uint8_t pin);
+void per_gpio_toggle(u8 bank, u8 pin);
 
-bool per_gpio_get_indexed(uint8_t pin_index);
-void per_gpio_set_indexed(uint8_t pin_index, bool state);
-void per_gpio_toggle_indexed(uint8_t pin_index);
+bool per_gpio_get_indexed(u8 pin_index);
+void per_gpio_set_indexed(u8 pin_index, bool state);
+void per_gpio_toggle_indexed(u8 pin_index);
 
 #ifdef __cplusplus
 }

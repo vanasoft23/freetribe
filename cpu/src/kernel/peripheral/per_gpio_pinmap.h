@@ -212,15 +212,15 @@
  * ========================================================================== */
 #define PIN_GP6_0                                       97   // GP6[0]   GPIO only
 #define PIN_GP6_1                                       98   // GP6[1]   GPIO only
-#define PIN_GP6_2                                       99   // GP6[2]   GPIO only
+#define PIN_BOARD_ADC_RESET                             99   // GP6[2]   Board ADC reset
 #define PIN_GP6_3                                      100   // GP6[3]   GPIO only
 #define PIN_GP6_4                                      101   // GP6[4]   GPIO only
 #define PIN_GP6_5                                      102   // GP6[5]   GPIO only
 #define PIN_GP6_6                                      103   // GP6[6]   GPIO only
 #define PIN_GP6_7                                      104   // GP6[7]   GPIO only
-#define PIN_GP6_8                                      105   // GP6[8]   GPIO only
+#define PIN_BOARD_MCU_RESET                            105   // GP6[8]   Board MCU reset
 #define PIN_GP6_9                                      106   // GP6[9]   GPIO only
-#define PIN_GP6_10                                     107   // GP6[10]  GPIO only
+#define PIN_DSP_RESET                                  107   // GP6[10]  DSP reset pin
 #define PIN_GP6_11                                     108   // GP6[11]  GPIO only
 #define PIN_GP6_12                                     109   // GP6[12]  GPIO only
 #define PIN_GP6_13                                     110   // GP6[13]  GPIO only
@@ -241,13 +241,13 @@
 #define PIN_BOOT_6                                     119   // GP7[6]
 #define PIN_BOOT_7                                     120   // GP7[7]
 #define PIN_GP7_8                                      121   // GP7[8]   GPIO only
-#define PIN_GP7_9                                      122   // GP7[9]   GPIO only - Factory firmware sets rise/fall trigs on this
-#define PIN_GP7_10                                     123   // GP7[10]  GPIO only
+#define PIN_GP7_9                                      122   // GP7[9]   Factory firmware sets rise/fall trigs on this
+#define PIN_BOARD_ADC_MCLK                             123   // GP7[10]  Board ADC memory clock enable
 #define PIN_GP7_11                                     124   // GP7[11]  GPIO only
 #define PIN_GP7_12                                     125   // GP7[12]  GPIO only
-#define PIN_GP7_13                                     126   // GP7[13]  GPIO only
-#define PIN_GP7_14                                     127   // GP7[14]  GPIO only
-#define PIN_GP7_15                                     128   // GP7[15]  GPIO only
+#define PIN_POWER_CTL                                  126   // GP7[13]  Board power control
+#define PIN_SHUTDOWN                                   127   // GP7[14]  Shutdown control
+#define PIN_POWER_BUTTON                               128   // GP7[15]  Power button
 
 /* ==========================================================================
  * GP8  —  JTAG / SPI0 data+CS / McASP AXR0 / UART0 / MII receive / GPIO-only

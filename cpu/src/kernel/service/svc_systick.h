@@ -54,9 +54,9 @@ extern "C" {
 /*----- Extern function prototypes -----------------------------------*/
 
 void svc_systick_task(void *param);
-uint32_t svc_systick_get(void);
-void svc_systick_register_callback(void (*callback)(uint32_t));
-void svc_systick_register_user_callback(uint32_t divisor, void (*callback)(void));
+u32 svc_systick_get(void);
+void svc_systick_register_callback(void (*callback)(u32));
+void svc_systick_register_user_callback(u32 divisor, void (*callback)(void));
 
 #ifdef __cplusplus
 }

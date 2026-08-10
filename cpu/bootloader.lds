@@ -12,7 +12,7 @@ DDR_STACK_SIZE         = 0x200000;
 VECTOR_TABLE_SIZE      = 0x80;
 MMU_PAGE_TABLE_SIZE    = 0x4000;
 MMU_PAGE_TABLE_ADDR    = ORIGIN(OC_RAM) + LENGTH(OC_RAM) - MMU_PAGE_TABLE_SIZE;
-FIRMWARE_RESERVED_SIZE = 0x800000;
+FIRMWARE_RESERVED_SIZE = 0x1000000; /* 16 MiB to support DFU reflash operation */
 BOOTSECT_SIZE          = 0x20000;
 
 MEMORY
@@ -38,19 +38,35 @@ SECTIONS
 
     .text : ALIGN(4)
     {
-        *(.text)
+        *(.text .text.*)
+        *(.rodata .rodata.*)
+    } > OC_RAM
+
+    .ARM.extab : ALIGN(4)
+    {
+        *(.ARM.extab* .gnu.linkonce.armextab.*)
+    } > OC_RAM
+
+    .ARM.exidx : ALIGN(4)
+    {
+        __exidx_start = .;
+        *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+        __exidx_end = .;
     } > OC_RAM
 
     .data : ALIGN(4)
     {
-        *(.data)
+        *(.data .data.*)
     } > OC_RAM
 
     /*
      * Must fit in boot section as AIS payload
      */
+    __firmware_reserved_size = FIRMWARE_RESERVED_SIZE;
     .ais_head : { KEEP(*(.ais_head)) } > OC_RAM
     .ais_tail : { KEEP(*(.ais_tail)) } > OC_RAM
+    __ais_head_size = SIZEOF(.ais_head);
+    __ais_tail_size = SIZEOF(.ais_tail);
     __sbl_max_size =
         BOOTSECT_SIZE
         - SIZEOF(.ais_head)

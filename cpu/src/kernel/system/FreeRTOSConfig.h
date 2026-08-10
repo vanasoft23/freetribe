@@ -168,7 +168,7 @@
  * each message written to a FreeRTOS message buffer (the length is also written
  * to the message buffer.  Defaults to size_t if left undefined - but that may
  * waste space if messages never go above a length that could be held in a
- * uint8_t. */
+ * u8. */
 #define configMESSAGE_BUFFER_LENGTH_TYPE           size_t
 
 /* If configHEAP_CLEAR_MEMORY_ON_FREE is set to 1, then blocks of memory

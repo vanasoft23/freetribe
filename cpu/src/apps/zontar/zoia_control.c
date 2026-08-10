@@ -46,7 +46,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Static variable definitions ----------------------------------*/
 
-static uint8_t g_midi_channel;
+static u8 g_midi_channel;
 
 /*----- Extern variable definitions ----------------------------------*/
 
@@ -54,9 +54,9 @@ static uint8_t g_midi_channel;
 
 /*----- Extern function implementations ------------------------------*/
 
-void set_midi_channel(uint8_t channel) { g_midi_channel = channel; }
+void set_midi_channel(u8 channel) { g_midi_channel = channel; }
 
-void zoia_bypass(uint8_t value) {
+void zoia_bypass(u8 value) {
 
     // Non zero == ENABLE if not TOGGLE.
     if (value > 0 && value != ZOIA_VALUE_TOGGLE) {
@@ -66,7 +66,7 @@ void zoia_bypass(uint8_t value) {
     ft_send_cc(g_midi_channel, ZOIA_CC_BYPASS, value);
 }
 
-void zoia_press(uint8_t value) {
+void zoia_press(u8 value) {
 
     if (!(value > ZOIA_VALUE_SHIFT && value < ZOIA_VALUE_STOMP_RIGHT)) {
 
@@ -74,7 +74,7 @@ void zoia_press(uint8_t value) {
     }
 }
 
-void zoia_release(uint8_t value) {
+void zoia_release(u8 value) {
 
     if (!(value > ZOIA_VALUE_SHIFT && value < ZOIA_VALUE_STOMP_RIGHT)) {
 
@@ -82,7 +82,7 @@ void zoia_release(uint8_t value) {
     }
 }
 
-void zoia_turn(uint8_t value) {
+void zoia_turn(u8 value) {
 
     ft_send_cc(g_midi_channel, ZOIA_CC_TURN, value);
 }

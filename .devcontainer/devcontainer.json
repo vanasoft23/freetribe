@@ -1,0 +1,22 @@
+{
+    "name": "Freetribe",
+    "dockerComposeFile": "../docker-compose.yaml",
+    "service": "freetribe",
+    "workspaceFolder": "/freetribe",
+    "remoteUser": "user",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cmake-tools",
+                "marus25.cortex-debug",
+                "llvm-vs-code-extensions.vscode-clangd",
+                "tdennis4496.cmantic",
+                "openai.chatgpt"
+            ]
+        }
+    },
+    "mounts": [
+        "source=freetribe-codex,target=/home/vscode/.codex,type=volume"
+    //     "source=${localEnv:USERPROFILE}/.codex,target=/home/user/.codex,type=bind"
+    ]
+}

@@ -36,8 +36,8 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
+
 #include <stdio.h>
 
 #include "dev_mcu.h"
@@ -70,25 +70,25 @@ typedef enum {
     MSG_ID_BUTTONS_MSW = 0x92  // High word.
 } t_panel_msg_id;
 
-typedef void (*t_button_callback)(uint8_t button, bool state);
-typedef void (*t_encoder_callback)(uint8_t enc, int8_t val);
-typedef void (*t_knob_callback)(uint8_t knob, uint8_t val);
+typedef void (*t_button_callback)(u8 button, bool state);
+typedef void (*t_encoder_callback)(u8 enc, s8 val);
+typedef void (*t_knob_callback)(u8 knob, u8 val);
 typedef void (*t_undefined_callback)(void);
-typedef void (*t_trigger_callback)(uint8_t pad, uint8_t vel, bool state);
-typedef void (*t_xy_pad_callback)(uint32_t x_val, uint32_t y_val);
-typedef void (*t_panel_ack_callback)(uint32_t version);
-typedef void (*t_held_buttons_callback)(uint32_t *held_buttons);
+typedef void (*t_trigger_callback)(u8 pad, u8 vel, bool state);
+typedef void (*t_xy_pad_callback)(u32 x_val, u32 y_val);
+typedef void (*t_panel_ack_callback)(u32 version);
+typedef void (*t_held_buttons_callback)(u32 *held_buttons);
 
 typedef struct {
     t_panel_event event;
-    uint32_t value0;
-    uint32_t value1;
-    uint32_t value2;
+    u32 value0;
+    u32 value1;
+    u32 value2;
 } t_panel_user_event;
 
 /*----- Static variable definitions ----------------------------------*/
 
-static uint8_t g_led_current_brightness[LED_COUNT] = {0};
+static u8 g_led_current_brightness[LED_COUNT] = {0};
 
 static t_button_callback p_button_callback = NULL;
 static t_encoder_callback p_encoder_callback = NULL;
@@ -108,7 +108,7 @@ static TaskHandle_t g_panel_task_handle = NULL;
 /*----- Static function prototypes -----------------------------------*/
 
 static t_status _panel_init(void);
-static t_status _panel_parse(uint8_t *msg);
+static t_status _panel_parse(u8 *msg);
 static void _panel_dispatch_event(const t_panel_user_event *event);
 #ifdef FREETRIBE_FREERTOS
 static void _panel_user_event_dispatch(const void *payload);
@@ -141,7 +141,7 @@ void svc_panel_task(void *param) {
 void svc_panel_process(void) {
 
     static t_panel_task_state state = STATE_INIT;
-    static uint8_t panel_msg[5] = {0};
+    static u8 panel_msg[5] = {0};
 
     switch (state) {
 
@@ -218,16 +218,16 @@ void svc_panel_register_callback(t_panel_event event, void *callback) {
 
 void svc_panel_request_buttons(void) {
 
-    uint8_t msg[5] = {0};
+    u8 msg[5] = {0};
 
     msg[0] = 0x91;
 
     dev_mcu_tx_enqueue(msg);
 }
 
-void svc_panel_calib_xy(uint32_t xcal, uint32_t ycal) {
+void svc_panel_calib_xy(u32 xcal, u32 ycal) {
 
-    uint8_t msg[5];
+    u8 msg[5];
 
     msg[0] = 0x85;
     msg[1] = (xcal >> 24) & 0xff;
@@ -246,9 +246,9 @@ void svc_panel_calib_xy(uint32_t xcal, uint32_t ycal) {
     dev_mcu_tx_enqueue(msg);
 }
 
-void svc_panel_set_trigger_mode(uint8_t mode) {
+void svc_panel_set_trigger_mode(u8 mode) {
 
-    uint8_t msg[5] = {0};
+    u8 msg[5] = {0};
 
     if (mode != 0) {
         mode = 1;
@@ -263,9 +263,9 @@ void svc_panel_set_trigger_mode(uint8_t mode) {
 /**
  * Set LED.
  */
-void svc_panel_set_led(t_led_index led_index, uint8_t brightness) {
+void svc_panel_set_led(t_led_index led_index, u8 brightness) {
 
-    uint8_t mcu_msg[5] = {0, 0, 0, 0, 0};
+    u8 mcu_msg[5] = {0, 0, 0, 0, 0};
 
     mcu_msg[1] = led_index;
     mcu_msg[2] = brightness;
@@ -280,7 +280,7 @@ void svc_panel_set_led(t_led_index led_index, uint8_t brightness) {
 /// TODO: Toggle to specific brightness.
 void svc_panel_toggle_led(t_led_index led_index) {
 
-    uint8_t mcu_msg[5] = {0, 0, 0, 0, 0};
+    u8 mcu_msg[5] = {0, 0, 0, 0, 0};
 
     mcu_msg[1] = led_index;
 
@@ -302,7 +302,7 @@ static t_status _panel_init(void) {
 
     t_status result = TASK_INIT_ERROR;
 
-    uint8_t panel_msg[5] = {0};
+    u8 panel_msg[5] = {0};
 
     // Send initial message to MCU.
     panel_msg[0] = 0x80;
@@ -327,12 +327,12 @@ static t_status _panel_init(void) {
     return result;
 }
 
-static t_status _panel_parse(uint8_t *msg) {
+static t_status _panel_parse(u8 *msg) {
 
     t_status result = PANEL_PARSE_ERROR;
     t_panel_user_event event = {0};
-    static uint32_t held_buttons[2];
-    uint32_t version;
+    static u32 held_buttons[2];
+    u32 version;
 
     switch (msg[0]) {
 
@@ -459,20 +459,20 @@ static void _panel_dispatch_event(const t_panel_user_event *event) {
 
     case BUTTON_EVENT:
         if (p_button_callback != NULL) {
-            p_button_callback((uint8_t)event->value0, (bool)event->value1);
+            p_button_callback((u8)event->value0, (bool)event->value1);
         }
         break;
 
     case ENCODER_EVENT:
         if (p_encoder_callback != NULL) {
-            p_encoder_callback((uint8_t)event->value0,
-                               (int8_t)event->value1);
+            p_encoder_callback((u8)event->value0,
+                               (s8)event->value1);
         }
         break;
 
     case KNOB_EVENT:
         if (p_knob_callback != NULL) {
-            p_knob_callback((uint8_t)event->value0, (uint8_t)event->value1);
+            p_knob_callback((u8)event->value0, (u8)event->value1);
         }
         break;
 
@@ -484,8 +484,8 @@ static void _panel_dispatch_event(const t_panel_user_event *event) {
 
     case TRIGGER_EVENT:
         if (p_trigger_callback != NULL) {
-            p_trigger_callback((uint8_t)event->value0,
-                               (uint8_t)event->value1,
+            p_trigger_callback((u8)event->value0,
+                               (u8)event->value1,
                                (bool)event->value2);
         }
         break;
@@ -504,7 +504,7 @@ static void _panel_dispatch_event(const t_panel_user_event *event) {
 
     case HELD_BUTTONS_EVENT:
         if (p_held_buttons_callback != NULL) {
-            uint32_t held_buttons[2] = {event->value0, event->value1};
+            u32 held_buttons[2] = {event->value0, event->value1};
             p_held_buttons_callback(held_buttons);
         }
         break;

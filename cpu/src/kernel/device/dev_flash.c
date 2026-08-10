@@ -40,10 +40,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
+#include "ft.h"
 
 #include "ft_error.h"
 
@@ -102,32 +99,32 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Static variable definitions ----------------------------------*/
 
-static uint8_t g_sector_buffer[SECTOR_LENGTH] = {0};
+static u8 g_sector_buffer[SECTOR_LENGTH] = {0};
 
 /*----- Static function prototypes -----------------------------------*/
 
 static void _flash_transaction_begin(void);
-static void _flash_command(uint8_t cmd);
-static void _flash_command_end(uint8_t cmd);
-static void _flash_address(uint32_t address);
-static void _flash_address_end(uint32_t address);
-static void _flash_address_32bit(uint32_t address);
-static void _flash_pack_address(uint32_t address, uint8_t addr[3]);
-static void _flash_pack_address_32bit(uint32_t address, uint8_t addr[4]);
-static void _flash_tx(uint8_t *p_tx, uint32_t len);
-static void _flash_tx_end(uint8_t *p_tx, uint32_t len);
-static void _flash_rx(uint8_t *p_rx, uint32_t len);
-static void _flash_rx_end(uint8_t *p_rx, uint32_t len);
-static void _sector_erase(uint32_t sector_addr);
-static void _sector_write(uint32_t dest, uint8_t *p_src);
-static void _page_program(uint32_t dest, uint8_t *p_src);
+static void _flash_command(u8 cmd);
+static void _flash_command_end(u8 cmd);
+static void _flash_address(u32 address);
+static void _flash_address_end(u32 address);
+static void _flash_address_32bit(u32 address);
+static void _flash_pack_address(u32 address, u8 addr[3]);
+static void _flash_pack_address_32bit(u32 address, u8 addr[4]);
+static void _flash_tx(u8 *p_tx, u32 len);
+static void _flash_tx_end(u8 *p_tx, u32 len);
+static void _flash_rx(u8 *p_rx, u32 len);
+static void _flash_rx_end(u8 *p_rx, u32 len);
+static void _sector_erase(u32 sector_addr);
+static void _sector_write(u32 dest, u8 *p_src);
+static void _page_program(u32 dest, u8 *p_src);
 static bool _write_enable(void);
-static uint8_t _read_status(void);
-static uint8_t _read_security(void);
-static uint16_t _read_lock(void);
-static uint8_t _read_spb_lock(void);
-static bool _read_spb(uint32_t addr);
-static bool _read_dpb(uint32_t addr);
+static u8 _read_status(void);
+static u8 _read_security(void);
+static u16 _read_lock(void);
+static u8 _read_spb_lock(void);
+static bool _read_spb(u32 addr);
+static bool _read_dpb(u32 addr);
 static void _erase_spb(void);
 static void _write_disable(void);
 static void _gang_block_unlock(void);
@@ -178,7 +175,7 @@ t_status dev_flash_init(void) {
 }
 
 
-void dev_flash_read(uint32_t src, uint8_t *p_dest, uint32_t len) {
+void dev_flash_read(u32 src, u8 *p_dest, u32 len) {
 
     // Wait for any write operations to complete.
     while (_flash_busy())
@@ -197,9 +194,13 @@ void dev_flash_read(uint32_t src, uint8_t *p_dest, uint32_t len) {
 
 }
 
-void dev_flash_write(uint32_t dest, uint8_t *p_src, uint32_t len) {
+void dev_flash_write(u32 dest, u8 *p_src, u32 len) {
 
-    uint16_t sector_offset = dest & SECTOR_OFFSET_MASK;
+    if (len == 0) {
+        return;
+    }
+
+    u16 sector_offset = dest & SECTOR_OFFSET_MASK;
 
     // If destination address not sector aligned.
     if (sector_offset) {
@@ -208,7 +209,10 @@ void dev_flash_write(uint32_t dest, uint8_t *p_src, uint32_t len) {
         dest -= sector_offset;
 
         // Number of bytes to copy.
-        uint16_t copy_length = SECTOR_LENGTH - sector_offset;
+        u16 copy_length = SECTOR_LENGTH - sector_offset;
+        if (copy_length > len) {
+            copy_length = len;
+        }
 
         // Read target sector.
         dev_flash_read(dest, g_sector_buffer, SECTOR_LENGTH);
@@ -223,11 +227,6 @@ void dev_flash_write(uint32_t dest, uint8_t *p_src, uint32_t len) {
         p_src += copy_length;
         dest += SECTOR_LENGTH;
         len -= copy_length;
-
-        // Handle underflow.
-        if ((int32_t)len < 0) {
-            len = 0;
-        }
     }
 
     // Write complete sectors.
@@ -257,10 +256,10 @@ void dev_flash_write(uint32_t dest, uint8_t *p_src, uint32_t len) {
     }
 }
 
-bool dev_flash_verify(uint32_t flash_addr, uint8_t *p_ram_data, uint32_t len) {
+bool dev_flash_verify(u32 flash_addr, u8 *p_ram_data, u32 len) {
 
     bool verified = true;
-    uint16_t i;
+    u16 i;
 
     while (len > SECTOR_LENGTH) {
 
@@ -291,9 +290,13 @@ bool dev_flash_verify(uint32_t flash_addr, uint8_t *p_ram_data, uint32_t len) {
     return verified;
 }
 
-void dev_flash_erase(uint32_t address, uint32_t len) {
+void dev_flash_erase(u32 address, u32 len) {
 
-    uint16_t sector_offset = address & SECTOR_OFFSET_MASK;
+    if (len == 0) {
+        return;
+    }
+
+    u16 sector_offset = address & SECTOR_OFFSET_MASK;
 
     // If destination address not sector aligned.
     if (sector_offset) {
@@ -302,7 +305,10 @@ void dev_flash_erase(uint32_t address, uint32_t len) {
         address -= sector_offset;
 
         // Number of bytes to set.
-        uint16_t set_length = SECTOR_LENGTH - sector_offset;
+        u16 set_length = SECTOR_LENGTH - sector_offset;
+        if (set_length > len) {
+            set_length = len;
+        }
 
         // Read target sector.
         dev_flash_read(address, g_sector_buffer, SECTOR_LENGTH);
@@ -317,7 +323,7 @@ void dev_flash_erase(uint32_t address, uint32_t len) {
         len -= set_length;
     }
 
-    while (address >> SECTOR_INDEX_SHIFT) {
+    while (len >> SECTOR_INDEX_SHIFT) {
 
         _sector_erase(address);
 
@@ -341,9 +347,9 @@ void dev_flash_unlock(void) { _gang_block_unlock(); }
 
 /*----- Static function implementations ------------------------------*/
 
-static void _sector_write(uint32_t dest, uint8_t *p_src) {
+static void _sector_write(u32 dest, u8 *p_src) {
 
-    uint8_t i;
+    u8 i;
 
     for (i = 0; i < PAGES_PER_SECTOR; i++) {
 
@@ -354,7 +360,7 @@ static void _sector_write(uint32_t dest, uint8_t *p_src) {
     }
 }
 
-static void _sector_erase(uint32_t sector_addr) {
+static void _sector_erase(u32 sector_addr) {
 
     while (!_write_enable())
         ;
@@ -376,7 +382,7 @@ static void _sector_erase(uint32_t sector_addr) {
     }
 }
 
-static void _page_program(uint32_t dest, uint8_t *p_src) {
+static void _page_program(u32 dest, u8 *p_src) {
 
     while (!_write_enable())
         ;
@@ -410,9 +416,9 @@ static bool _write_enable(void) {
     return _read_status() & WRITE_ENABLE_LATCH;
 }
 
-static uint8_t _read_reg_byte(uint8_t cmd) {
+static u8 _read_reg_byte(u8 cmd) {
 
-    uint8_t flash_reg = 0;
+    u8 flash_reg = 0;
 
     _flash_transaction_begin();
     _flash_command(cmd);
@@ -422,9 +428,9 @@ static uint8_t _read_reg_byte(uint8_t cmd) {
     return flash_reg;
 }
 
-static uint16_t _read_reg_short(uint8_t cmd) {
+static u16 _read_reg_short(u8 cmd) {
 
-    uint8_t flash_reg[2] = {0};
+    u8 flash_reg[2] = {0};
 
     _flash_transaction_begin();
     _flash_command(cmd);
@@ -434,19 +440,19 @@ static uint16_t _read_reg_short(uint8_t cmd) {
     return (flash_reg[0] << 8) | flash_reg[1];
 }
 
-static uint8_t _read_status(void) { return _read_reg_byte(FLASH_READ_STATUS); }
+static u8 _read_status(void) { return _read_reg_byte(FLASH_READ_STATUS); }
 
-static uint8_t _read_config(void) { return _read_reg_byte(FLASH_READ_CONFIG); }
+static u8 _read_config(void) { return _read_reg_byte(FLASH_READ_CONFIG); }
 
-static uint8_t _read_security(void) { return _read_reg_byte(FLASH_READ_SECURITY); }
+static u8 _read_security(void) { return _read_reg_byte(FLASH_READ_SECURITY); }
 
-static uint16_t _read_lock(void) { return _read_reg_short(FLASH_READ_LOCK); }
+static u16 _read_lock(void) { return _read_reg_short(FLASH_READ_LOCK); }
 
-static uint8_t _read_spb_lock(void) { return _read_reg_byte(FLASH_READ_SPB_LOCK); }
+static u8 _read_spb_lock(void) { return _read_reg_byte(FLASH_READ_SPB_LOCK); }
 
-static bool _read_spb(uint32_t addr) {
+static bool _read_spb(u32 addr) {
 
-    uint8_t spb = 0;
+    u8 spb = 0;
 
     _flash_transaction_begin();
     _flash_command(FLASH_READ_SPB);
@@ -457,9 +463,9 @@ static bool _read_spb(uint32_t addr) {
     return (bool)spb;
 }
 
-static bool _read_dpb(uint32_t addr) {
+static bool _read_dpb(u32 addr) {
 
-    uint8_t dpb = 0;
+    u8 dpb = 0;
 
     _flash_transaction_begin();
     _flash_command(FLASH_READ_DPB);
@@ -525,54 +531,54 @@ static void _flash_transaction_begin(void) {
     per_spi_chip_format(FLASH_SPI, FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS, true);
 }
 
-static void _flash_command(uint8_t cmd) { _flash_tx(&cmd, 1); }
+static void _flash_command(u8 cmd) { _flash_tx(&cmd, 1); }
 
-static void _flash_command_end(uint8_t cmd) {
+static void _flash_command_end(u8 cmd) {
 
     _flash_tx_end(&cmd, 1);
 }
 
 /// TODO: Maybe typedef flash_address.
-static void _flash_address(uint32_t address) {
+static void _flash_address(u32 address) {
 
-    uint8_t addr[3];
+    u8 addr[3];
 
     _flash_pack_address(address, addr);
     _flash_tx(addr, sizeof(addr));
 }
 
-static void _flash_address_end(uint32_t address) {
+static void _flash_address_end(u32 address) {
 
-    uint8_t addr[3];
+    u8 addr[3];
 
     _flash_pack_address(address, addr);
     _flash_tx_end(addr, sizeof(addr));
 }
 
-static void _flash_address_32bit(uint32_t address) {
+static void _flash_address_32bit(u32 address) {
 
-    uint8_t addr[4];
+    u8 addr[4];
 
     _flash_pack_address_32bit(address, addr);
     _flash_tx(addr, sizeof(addr));
 }
 
-static void _flash_pack_address(uint32_t address, uint8_t addr[3]) {
+static void _flash_pack_address(u32 address, u8 addr[3]) {
 
-    addr[0] = (uint8_t)(address >> 16);
-    addr[1] = (uint8_t)(address >> 8);
-    addr[2] = (uint8_t)address;
+    addr[0] = (u8)(address >> 16);
+    addr[1] = (u8)(address >> 8);
+    addr[2] = (u8)address;
 }
 
-static void _flash_pack_address_32bit(uint32_t address, uint8_t addr[4]) {
+static void _flash_pack_address_32bit(u32 address, u8 addr[4]) {
 
-    addr[0] = (uint8_t)(address >> 24);
-    addr[1] = (uint8_t)(address >> 16);
-    addr[2] = (uint8_t)(address >> 8);
-    addr[3] = (uint8_t)address;
+    addr[0] = (u8)(address >> 24);
+    addr[1] = (u8)(address >> 16);
+    addr[2] = (u8)(address >> 8);
+    addr[3] = (u8)address;
 }
 
-static void _flash_tx(uint8_t *p_tx, uint32_t len) {
+static void _flash_tx(u8 *p_tx, u32 len) {
 
     /// TODO: SPI_1 needs mutex to prevent DSP and flash access collision.
     if (!p_tx || len == 0) {
@@ -583,7 +589,7 @@ static void _flash_tx(uint8_t *p_tx, uint32_t len) {
 
 }
 
-static void _flash_tx_end(uint8_t *p_tx, uint32_t len) {
+static void _flash_tx_end(u8 *p_tx, u32 len) {
 
     if (!p_tx || len == 0) {
         return;
@@ -593,7 +599,7 @@ static void _flash_tx_end(uint8_t *p_tx, uint32_t len) {
                                   FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS);
 }
 
-static void _flash_rx(uint8_t *p_rx, uint32_t len) {
+static void _flash_rx(u8 *p_rx, u32 len) {
 
     /// TODO: SPI_1 needs mutex to prevent DSP and flash access collision.
     if (!p_rx || len == 0) {
@@ -603,7 +609,7 @@ static void _flash_rx(uint8_t *p_rx, uint32_t len) {
     per_spi_transfer_blocking(FLASH_SPI, NULL, p_rx, len);
 }
 
-static void _flash_rx_end(uint8_t *p_rx, uint32_t len) {
+static void _flash_rx_end(u8 *p_rx, u32 len) {
 
     if (!p_rx || len == 0) {
         return;
