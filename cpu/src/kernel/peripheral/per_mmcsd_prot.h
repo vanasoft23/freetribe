@@ -51,9 +51,9 @@ extern "C" {
 
 // 4.7.4 Detailed Command Description
 typedef enum {
-    SDCARD_NONE_RSP,
-    SDCARD_48BIT_RSP,
-    SDCARD_136BIT_RSP,
+	SDCARD_NONE_RSP,
+	SDCARD_48BIT_RSP,
+	SDCARD_136BIT_RSP,
 } sdcard_response_t;
 
 // Basic Commands (class 0)
@@ -118,47 +118,47 @@ typedef enum {
 // 4.10.1 Card Status
 // The response format R1 contains a 32-bit named card status.
 typedef enum {
-    SDP_IDLE = 0,
-    SDP_READY,
-    SDP_IDENT,
-    SDP_STBY,
-    SDP_TRAN,
-    SDP_DATA,
-    SDP_RCV,
-    SDP_PRG,
-    SDP_DIS,
-    SDP_CNT,
-    SDP_INA = 16,
-    SDP_INV = 255,
+	SDP_IDLE = 0,
+	SDP_READY,
+	SDP_IDENT,
+	SDP_STBY,
+	SDP_TRAN,
+	SDP_DATA,
+	SDP_RCV,
+	SDP_PRG,
+	SDP_DIS,
+	SDP_CNT,
+	SDP_INA = 16,
+	SDP_INV = 255,
 } sdp_cur_stat_t;
 
 typedef struct {
-    u8 RES_TEST_MODE       :2;
-    u8 RES_APP_CMD         :1;
-    u8 AKE_SEQ_ERROR       :1;
-    u8 RES_SDIO_CARD       :1;
-    u8 APP_CMD             :1;
-    u8 RES1                :2;
-    u8 READY_FOR_DATA      :1;
-    u8 CURRENT_STATE       :4;
-    u8 ERASE_RESET         :1;
-    u8 CARD_ECC_DISABLED   :1;
-    u8 WP_ERASE_SKIP       :1;
-    u8 CSD_OVERWRITE       :1;
-    u8 RES2                :2;
-    u8 ERROR               :1;
-    u8 CC_ERROR            :1;
-    u8 CARD_ECC_FAILED     :1;
-    u8 ILLEGAL_COMMAND     :1;
-    u8 COM_CRC_ERROR       :1;
-    u8 CARD_UNLOCK_FAILED  :1;
-    u8 CARD_IS_LOCKED      :1;
-    u8 WP_VIOLATION        :1;
-    u8 ERASE_PARAM         :1;
-    u8 ERASE_SEQ_ERROR     :1;
-    u8 BLOCK_LEN_ERROR     :1;
-    u8 ADDRESS_ERROR       :1;
-    u8 OUT_OF_RANGE        :1;
+	u8 RES_TEST_MODE       :2;
+	u8 RES_APP_CMD         :1;
+	u8 AKE_SEQ_ERROR       :1;
+	u8 RES_SDIO_CARD       :1;
+	u8 APP_CMD             :1;
+	u8 RES1                :2;
+	u8 READY_FOR_DATA      :1;
+	u8 CURRENT_STATE       :4;
+	u8 ERASE_RESET         :1;
+	u8 CARD_ECC_DISABLED   :1;
+	u8 WP_ERASE_SKIP       :1;
+	u8 CSD_OVERWRITE       :1;
+	u8 RES2                :2;
+	u8 ERROR               :1;
+	u8 CC_ERROR            :1;
+	u8 CARD_ECC_FAILED     :1;
+	u8 ILLEGAL_COMMAND     :1;
+	u8 COM_CRC_ERROR       :1;
+	u8 CARD_UNLOCK_FAILED  :1;
+	u8 CARD_IS_LOCKED      :1;
+	u8 WP_VIOLATION        :1;
+	u8 ERASE_PARAM         :1;
+	u8 ERASE_SEQ_ERROR     :1;
+	u8 BLOCK_LEN_ERROR     :1;
+	u8 ADDRESS_ERROR       :1;
+	u8 OUT_OF_RANGE        :1;
 } sdp_r1_stat_t;
 
 
@@ -207,52 +207,52 @@ typedef struct {
 
 // 5.2 CID register
 typedef struct {        // width, offset
-    u8     MID;    // 8,  120
-    u16    OID;    // 16, 104
-    u8     PNM[6]; // 40, 64
-    u8     PRV;    // 8,  56
-    u32    PSN;    // 32, 24
-    u16    MDT;    // 12, 8
-    u8     CRC;    // 7,  1
+	u8     MID;    // 8,  120
+	u16    OID;    // 16, 104
+	u8     PNM[6]; // 40, 64
+	u8     PRV;    // 8,  56
+	u32    PSN;    // 32, 24
+	u16    MDT;    // 12, 8
+	u8     CRC;    // 7,  1
 } CID_t;
 
 // 5.3.2 CSD Register
 typedef struct {
-    u8     CSD_STRUCTURE;
-    u8     TAAC;
-    u8     NSAC;
-    u8     TRANS_SPEED;
-    u16    CCC;
-    u8     READ_BL_LEN;
-    u8     READ_BL_PARTIAL;
-    u8     WRITE_BLK_MISALIGN;
-    u8     READ_BLK_MISALIGN;
-    u8     DSR_IMP;
-    u32    C_SIZE;
-    u8     VDD_R_CURR_MIN;
-    u8     VDD_R_CURR_MAX;
-    u8     VDD_W_CURR_MIN;
-    u8     VDD_W_CURR_MAX;
-    u8     C_SIZE_MULT;
-    u8     ERASE_BLK_LEN;
-    u8     SECTOR_SIZE;
-    u8     WP_GRP_SIZE;
-    u8     WP_GRP_ENABLE;
-    u8     R2W_FACTOR;
-    u8     WRITE_BL_LEN;
-    u8     WRITE_BL_PARTIAL;
-    u8     FILE_FORMAT_GRP;
-    u8     COPY;
-    u8     PERM_WRITE_PROTECT;
-    u8     TMP_WRITE_PROTECT;
-    u8     FILE_FORMAT;
-    u8     CRC;
+	u8     CSD_STRUCTURE;
+	u8     TAAC;
+	u8     NSAC;
+	u8     TRANS_SPEED;
+	u16    CCC;
+	u8     READ_BL_LEN;
+	u8     READ_BL_PARTIAL;
+	u8     WRITE_BLK_MISALIGN;
+	u8     READ_BLK_MISALIGN;
+	u8     DSR_IMP;
+	u32    C_SIZE;
+	u8     VDD_R_CURR_MIN;
+	u8     VDD_R_CURR_MAX;
+	u8     VDD_W_CURR_MIN;
+	u8     VDD_W_CURR_MAX;
+	u8     C_SIZE_MULT;
+	u8     ERASE_BLK_LEN;
+	u8     SECTOR_SIZE;
+	u8     WP_GRP_SIZE;
+	u8     WP_GRP_ENABLE;
+	u8     R2W_FACTOR;
+	u8     WRITE_BL_LEN;
+	u8     WRITE_BL_PARTIAL;
+	u8     FILE_FORMAT_GRP;
+	u8     COPY;
+	u8     PERM_WRITE_PROTECT;
+	u8     TMP_WRITE_PROTECT;
+	u8     FILE_FORMAT;
+	u8     CRC;
 } CSD_t;
 
 typedef enum {
-    SDPROT_NO_DATA = 0,
-    SDPROT_READ_DATA,
-    SDPROT_WRITE_DATA,
+	SDPROT_NO_DATA = 0,
+	SDPROT_READ_DATA,
+	SDPROT_WRITE_DATA,
 } sdprot_datadir_t;
 
 /*----- Extern function prototypes -----------------------------------*/

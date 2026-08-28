@@ -34,7 +34,7 @@ Original work by turmary@126.com, modified by vanasoft23 for freetribe.
 /*----- Includes -----------------------------------------------------*/
 
 #include "ft.h"
-#include "ft_error.h"
+
 
 // @TODO: remove these 3
 #include <soc_AM1808.h>
@@ -49,9 +49,9 @@ Original work by turmary@126.com, modified by vanasoft23 for freetribe.
 /*----- Macros -------------------------------------------------------*/
 
 #ifdef DEBUG_SDDRIVER
-#   define DEBUG_LOG_SD(fmt, ...)  DEBUG_LOG(fmt, ##__VA_ARGS__)
+#   define DLOG_SD(fmt, ...)  DLOG(fmt, ##__VA_ARGS__)
 #else
-#   define DEBUG_LOG_SD(...)
+#   define DLOG_SD(...)
 #endif
 
 #define FCLK_FREQ           (300000000/2) // PLL0_SYSCLK2=PLL0/2, assume PLL0=300mhz
@@ -72,26 +72,22 @@ Original work by turmary@126.com, modified by vanasoft23 for freetribe.
 // 	return f;
 // }
 
-t_status mmcsd_set_freq(MMCSD_con_t* mcon, u32 freq)
+void mmcsd_set_freq(MMCSD_con_t* mcon, u32 freq)
 {
-    // note: MMCSD controller gets driven by PLL0_SYSCLK2 which is PLL0
-    //       divided by 2.
+	// note: MMCSD controller gets driven by PLL0_SYSCLK2 which is PLL0
+	//       divided by 2.
 
-    if (freq > MMCSD_MAX_FREQ) {
-        return MMCSD_INVALID_FREQ_ERROR;
-    }
+	ASSERT(freq < MMCSD_MAX_FREQ);
 
-    // FCLK_FREQ/(2*(CLKRT+1))
-    // (150000000/(2*(187+1)))/1000 = 398.94 khz
-    // CLKRT = ((FCLK_FREQ/freq)/2)-1
-    u8 clkrt = (u8)(((FCLK_FREQ + freq) / (2 * freq)) - 1);
-    mcon->MMCCLK = FIELD_SET(mcon->MMCCLK, MMCCLK_CLKRT_MASK, clkrt); // no shift
-	DEBUG_LOG_SD("Clock      clkrt: %u   freq: %u", (unsigned int)clkrt,  freq);
-
-    return SUCCESS;
+	// FCLK_FREQ/(2*(CLKRT+1))
+	// (150000000/(2*(187+1)))/1000 = 398.94 khz
+	// CLKRT = ((FCLK_FREQ/freq)/2)-1
+	u8 clkrt = (u8)(((FCLK_FREQ + freq) / (2 * freq)) - 1);
+	mcon->MMCCLK = FIELD_SET(mcon->MMCCLK, MMCCLK_CLKRT_MASK, clkrt); // no shift
+	DLOG_SD("Clock      clkrt: %u   freq: %u", (unsigned int)clkrt,  freq);
 }
 
-t_status mmcsd_con_init(MMCSD_con_t* mcon, const mmcsd_conf_t* conf) {
+void mmcsd_con_init(MMCSD_con_t* mcon, const mmcsd_conf_t* conf) {
 	u32 reg, msk, v;
 
 	// 1. Place the MMC/SD controller in its reset state
@@ -138,16 +134,15 @@ t_status mmcsd_con_init(MMCSD_con_t* mcon, const mmcsd_conf_t* conf) {
 	reg = mcon->MMCCLK;
 	mcon->MMCCLK = FIELD_SET(reg, MMCCLK_CLKEN_MASK, MMCCLK_CLKEN_enabled);
 
-	return SUCCESS;
 }
 
-t_status mmcsd_send_cmd(MMCSD_con_t* mcon, const t_mmcsd_cmd* cmd) {
+void mmcsd_send_cmd(MMCSD_con_t* mcon, const t_mmcsd_cmd* cmd) {
 	u32 reg, msk, v;
 	u32 idx;
 
-	assert(mcon);
-	assert(cmd);
-	assert(cmd->index < 0x40);
+	ASSERT(mcon);
+	ASSERT(cmd);
+	ASSERT(cmd->index < 0x40);
 
 	idx = cmd->index;
 
@@ -208,22 +203,18 @@ t_status mmcsd_send_cmd(MMCSD_con_t* mcon, const t_mmcsd_cmd* cmd) {
 	mcon->MMCCMD = reg;
 
 	if (cmd->cflags & MMCSD_CMD_F_DATA) {
-		DEBUG_LOG_SD("*** MMCCMD = 0x%.8X ***\n", mcon->MMCCMD);
+		DLOG_SD("*** MMCCMD = 0x%.8X ***\n", mcon->MMCCMD);
 	}
-
-	return SUCCESS;
 }
 
-t_status mmcsd_trigger_data_transfer(MMCSD_con_t* mcon) {
-	assert(mcon);
+void mmcsd_trigger_data_transfer(MMCSD_con_t* mcon) {
+	ASSERT(mcon);
 
 	mcon->MMCCMD = FIELD_SET(
 		mcon->MMCCMD,
 		MMCCMD_DMATRIG_MASK,
 		MMCCMD_DMATRIG_triggered
 	);
-
-	return SUCCESS;
 }
 
 #define TRACK_SAMPLES    40000
@@ -254,9 +245,9 @@ t_mmcsd_cmd_state mmcsd_cmd_state(const MMCSD_con_t* mcon, am18x_bool need_crc) 
 		}
 	}
 
-	DEBUG_LOG_SD("%s() \n", __func__);
+	DLOG_SD("%s() \n", __func__);
 	for (i = 0; i < n; i++) {
-		DEBUG_LOG_SD("[%.3d] = 0x%.8X\n", i, reg_tracks[i]);
+		DLOG_SD("[%.3d] = 0x%.8X\n", i, reg_tracks[i]);
 		if (FIELD_GET(reg_tracks[i], MMCST0_RSPDNE_MASK) == MMCST0_RSPDNE_done
 		//|| FIELD_GET(reg_tracks[i], MMCST0_BSYDNE_MASK) == MMCST0_BSYDNE_done
 		) {
@@ -324,9 +315,9 @@ t_mmcsd_dat_state mmcsd_rd_state(const MMCSD_con_t* mcon) {
 		}
 	}
 
-	DEBUG_LOG_SD("%s() \n", __func__);
+	DLOG_SD("%s() \n", __func__);
 	for (i = 0; i < n; i++) {
-		DEBUG_LOG_SD("[%.3d] = 0x%.8X\n", i, reg_tracks[i]);
+		DLOG_SD("[%.3d] = 0x%.8X\n", i, reg_tracks[i]);
 	}
 	for (i = 0; i < n; i++) {
 		if (FIELD_GET(reg_tracks[i], MMCST0_CRCRD_MASK) == MMCST0_CRCRD_detected) {
@@ -377,9 +368,9 @@ t_mmcsd_dat_state mmcsd_wr_state(const MMCSD_con_t* mcon) {
 		}
 	}
 
-	DEBUG_LOG_SD("%s() \n", __func__);
+	DLOG_SD("%s() \n", __func__);
 	for (i = 0; i < n; i++) {
-		DEBUG_LOG_SD("[%.3d] = 0x%.8X\n", i, reg_tracks[i]);
+		DLOG_SD("[%.3d] = 0x%.8X\n", i, reg_tracks[i]);
 	}
 	for (i = 0; i < n; i++) {
 		if (FIELD_GET(reg_tracks[i], MMCST0_CRCWR_MASK) == MMCST0_CRCWR_detected) {
@@ -396,11 +387,11 @@ t_mmcsd_dat_state mmcsd_wr_state(const MMCSD_con_t* mcon) {
 	return MMCSD_SD_NONE;
 }
 
-t_status mmcsd_get_resp(const MMCSD_con_t* mcon, t_mmcsd_resp_type type, t_mmcsd_resp* resp) {
+void mmcsd_get_resp(const MMCSD_con_t* mcon, t_mmcsd_resp_type type, t_mmcsd_resp* resp) {
 	int i;
 
-	assert(mcon);
-	assert(resp);
+	ASSERT(mcon);
+	ASSERT(resp);
 
 	switch(type) {
 	case MMCSD_RESP_LONG:
@@ -413,10 +404,9 @@ t_status mmcsd_get_resp(const MMCSD_con_t* mcon, t_mmcsd_resp_type type, t_mmcsd
 		resp->v[0] = mcon->MMCRSP[3];
 		break;
 	}
-	return SUCCESS;
 }
 
-t_status mmcsd_cntl_misc(MMCSD_con_t* mcon, const t_mmcsd_misc* misc) {
+void mmcsd_cntl_misc(MMCSD_con_t* mcon, const t_mmcsd_misc* misc) {
 	u32 reg, msk, v;
 
 	if (misc->mflags & MMCSD_MISC_F_BUS4BIT) {
@@ -425,7 +415,7 @@ t_status mmcsd_cntl_misc(MMCSD_con_t* mcon, const t_mmcsd_misc* misc) {
 		msk = MMCCTL_WIDTH0_MASK | MMCCTL_WIDTH1_MASK;
 		v = MMCCTL_WIDTH0_4bit | MMCCTL_WIDTH1_1_4bit;
 		mcon->MMCCTL = FIELD_SET(reg, msk, v);
-		return SUCCESS;
+		return;
 	}
 
 	// setting block count
@@ -464,7 +454,7 @@ t_status mmcsd_cntl_misc(MMCSD_con_t* mcon, const t_mmcsd_misc* misc) {
 
 	mcon->MMCFIFOCTL = reg;
 
-	// DEBUG_LOG_SD("*** MMCFIFOCTL = 0x%.8X ***\n", mcon->MMCFIFOCTL);
+	// DLOG_SD("*** MMCFIFOCTL = 0x%.8X ***\n", mcon->MMCFIFOCTL);
 
 	reg = mcon->MMCIM;
 	msk = MMCIM_ECRCRS_MASK | MMCIM_ETOUTRS_MASK | MMCIM_ERSPDNE_MASK | MMCIM_EDATDNE_MASK;
@@ -480,17 +470,14 @@ t_status mmcsd_cntl_misc(MMCSD_con_t* mcon, const t_mmcsd_misc* misc) {
 		v = MMCIM_EDRRDY_enabled | MMCIM_ECRCRD_enabled | MMCIM_ETOUTRD_enabled;
 	}
 	mcon->MMCIM = FIELD_SET(reg, msk, v);
-
-	return SUCCESS;
 }
 
 u32 mmcsd_read(const MMCSD_con_t* mcon) {
 	return mcon->MMCDRR;
 }
 
-t_status mmcsd_write(MMCSD_con_t* mcon, u32 data) {
+void mmcsd_write(MMCSD_con_t* mcon, u32 data) {
 	mcon->MMCDXR = data;
-	return SUCCESS;
 }
 
 /*----- End of file --------------------------------------------------*/

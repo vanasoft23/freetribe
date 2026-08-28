@@ -61,13 +61,13 @@ extern "C" {
 typedef enum { UART_TX_COMPLETE, UART_RX_COMPLETE, UART_RX_ERROR } t_uart_event;
 
 typedef struct {
-    u8 instance;
-    u32 baud;
-    u8 word_length;
-    bool int_enable;
-    u8 int_channel;
-    bool fifo_enable;
-    u32 oversample;
+	u8 instance;
+	u32 baud;
+	u8 word_length;
+	bool int_enable;
+	u8 int_channel;
+	bool fifo_enable;
+	u32 oversample;
 } t_uart_config;
 
 /*----- Extern variable declarations ---------------------------------*/
@@ -77,7 +77,7 @@ typedef struct {
 void per_uart_init(t_uart_config *config);
 
 void per_uart_register_callback(u8 instance, t_uart_event event,
-                                void (*callback)());
+								void (*callback)());
 
 void per_uart_transmit(u8 instance, u8 *buffer, u32 length);
 void per_uart_transmit_int(u8 instance, u8 *buffer, u32 length);

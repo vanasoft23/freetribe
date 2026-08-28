@@ -66,82 +66,82 @@ static uint32_t g_saved_imask;
 
 inline void disable_interrupts(void) {
 
-    g_saved_imask = *pIMASK;
-    *pIMASK = 0;
-    ssync();
+	g_saved_imask = *pIMASK;
+	*pIMASK = 0;
+	ssync();
 }
 
 inline void enable_interrupts(void) {
 
-    *pIMASK = g_saved_imask;
-    ssync();
+	*pIMASK = g_saved_imask;
+	ssync();
 }
 
 int main(void) {
 
-    uint64_t start;
-    uint64_t stop;
+	uint64_t start;
+	uint64_t stop;
 
-    *pPORTGIO_SET = HWAIT;
+	*pPORTGIO_SET = HWAIT;
 
-    /// TODO: Move to initcode, before main.
-    pll_init();
-    ebiu_init();
+	/// TODO: Move to initcode, before main.
+	pll_init();
+	ebiu_init();
 
-    per_gpio_init();
+	per_gpio_init();
 
-    sysint_init();
+	sysint_init();
 
-    dma_init();
+	dma_init();
 
-    heap_init();
+	heap_init();
 
-    // Initialise communication with CPU.
-    svc_cpu_task();
+	// Initialise communication with CPU.
+	svc_cpu_task();
 
-    sport0_init();
+	sport0_init();
 
-    module_init();
+	module_init();
 
-    while (true) {
+	while (true) {
 
-        if (sport0_frame_received()) {
+		if (sport0_frame_received()) {
 
-            start = cycles();
+			start = cycles();
 
-            // disable_interrupts();
+			// disable_interrupts();
 
-            /// TODO: Maybe disable interrupts while processing audio.
-            //
-            module_process(sport0_get_rx_buffer(), sport0_get_tx_buffer());
+			/// TODO: Maybe disable interrupts while processing audio.
+			//
+			module_process(sport0_get_rx_buffer(), sport0_get_tx_buffer());
 
-            sport0_frame_processed();
+			sport0_frame_processed();
 
-            stop = cycles();
+			stop = cycles();
 
-            g_module_cycles = stop - start;
+			g_module_cycles = stop - start;
 
-            // enable_interrupts();
-        }
+			// enable_interrupts();
+		}
 
-        // Process communication with CPU.
-        svc_cpu_task();
-    }
+		// Process communication with CPU.
+		svc_cpu_task();
+	}
 }
 
 void sysint_init(void) {
 
-    *pSIC_IAR0 = 0;
-    *pSIC_IAR1 = 0;
-    *pSIC_IAR2 = 0;
-    *pSIC_IAR3 = 0;
-    *pSIC_IAR4 = 0;
-    *pSIC_IAR5 = 0;
-    *pSIC_IAR6 = 0;
-    *pSIC_IAR7 = 0;
+	*pSIC_IAR0 = 0;
+	*pSIC_IAR1 = 0;
+	*pSIC_IAR2 = 0;
+	*pSIC_IAR3 = 0;
+	*pSIC_IAR4 = 0;
+	*pSIC_IAR5 = 0;
+	*pSIC_IAR6 = 0;
+	*pSIC_IAR7 = 0;
 
-    *pSIC_IWR0 = 0xffffffff;
-    *pSIC_IWR1 = 0xffffffff;
+	*pSIC_IWR0 = 0xffffffff;
+	*pSIC_IWR1 = 0xffffffff;
 }
 
 /*----- Static function implementations ------------------------------*/

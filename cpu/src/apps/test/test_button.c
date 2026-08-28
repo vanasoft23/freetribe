@@ -58,45 +58,40 @@ typedef enum { STATE_INIT, STATE_RUN, STATE_ERROR } e_test_state;
 
 t_status test_button(void) {
 
-    static e_test_state state = STATE_INIT;
+	static e_test_state state = STATE_INIT;
 
-    t_status result = ERROR;
+	t_status result = ERROR;
 
-    switch (state) {
+	switch (state) {
 
-    // Initialise test.
-    case STATE_INIT:
+	// Initialise test.
+	case STATE_INIT:
 
-        ft_print("Button test:");
-        ft_print("Press [Play] to confirm pass.");
-        gui_print(8, 32, "Press [Play].");
+		ft_print("Button test:");
+		ft_print("Press [Play] to confirm pass.");
+		gui_print(8, 32, "Press [Play].");
 
-        state = STATE_RUN;
-        break;
+		state = STATE_RUN;
+		break;
 
-    case STATE_RUN:
+	case STATE_RUN:
 
-        if (test_confirmed()) {
+		if (test_confirmed()) {
 
-            ft_print("Button test passed.");
+			ft_print("Button test passed.");
 
-            result = SUCCESS;
-            reset_test();
-        }
-        break;
+			result = SUCCESS;
+			reset_test();
+		}
+		break;
 
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
+	case STATE_ERROR:
+	default:
+		PANIC(PANIC_UNHANDLED_STATE);
+		break;
+	}
 
-    default:
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
-
-    return result;
+	return result;
 }
 
 /*----- Static function implementations ------------------------------*/

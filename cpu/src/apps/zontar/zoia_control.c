@@ -58,33 +58,33 @@ void set_midi_channel(u8 channel) { g_midi_channel = channel; }
 
 void zoia_bypass(u8 value) {
 
-    // Non zero == ENABLE if not TOGGLE.
-    if (value > 0 && value != ZOIA_VALUE_TOGGLE) {
-        value = 127;
-    }
+	// Non zero == ENABLE if not TOGGLE.
+	if (value > 0 && value != ZOIA_VALUE_TOGGLE) {
+		value = 127;
+	}
 
-    ft_send_cc(g_midi_channel, ZOIA_CC_BYPASS, value);
+	ft_send_cc(g_midi_channel, ZOIA_CC_BYPASS, value);
 }
 
 void zoia_press(u8 value) {
 
-    if (!(value > ZOIA_VALUE_SHIFT && value < ZOIA_VALUE_STOMP_RIGHT)) {
+	if (!(value > ZOIA_VALUE_SHIFT && value < ZOIA_VALUE_STOMP_RIGHT)) {
 
-        ft_send_cc(g_midi_channel, ZOIA_CC_PRESS, value);
-    }
+		ft_send_cc(g_midi_channel, ZOIA_CC_PRESS, value);
+	}
 }
 
 void zoia_release(u8 value) {
 
-    if (!(value > ZOIA_VALUE_SHIFT && value < ZOIA_VALUE_STOMP_RIGHT)) {
+	if (!(value > ZOIA_VALUE_SHIFT && value < ZOIA_VALUE_STOMP_RIGHT)) {
 
-        ft_send_cc(g_midi_channel, ZOIA_CC_RELEASE, value);
-    }
+		ft_send_cc(g_midi_channel, ZOIA_CC_RELEASE, value);
+	}
 }
 
 void zoia_turn(u8 value) {
 
-    ft_send_cc(g_midi_channel, ZOIA_CC_TURN, value);
+	ft_send_cc(g_midi_channel, ZOIA_CC_TURN, value);
 }
 
 /*----- Static function implementations ------------------------------*/

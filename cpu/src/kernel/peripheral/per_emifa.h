@@ -58,18 +58,18 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    EMIFA_SUCCESS = 0,
-    EMIFA_UNINITIALISED,
-    EMIFA_BUS_OCCUPIED,
-    EMIFA_INVALID_PARAMETER,
+	EMIFA_SUCCESS = 0,
+	EMIFA_UNINITIALISED,
+	EMIFA_BUS_OCCUPIED,
+	EMIFA_INVALID_PARAMETER,
 } t_emifa_status;
 
 typedef struct {
-    u32 meta0;
-    u32 meta1;
-    u32 meta2;
-    u32 meta3;
-    u32 meta4;
+	u32 meta0;
+	u32 meta1;
+	u32 meta2;
+	u32 meta3;
+	u32 meta4;
 } t_emifa_metadata;
 
 typedef void (*t_emifa_idle_callback)(void);
@@ -89,9 +89,9 @@ typedef void (*t_emifa_error_callback)(t_emifa_metadata);
  *                          the active transaction had been flushed.
  */
 void per_emifa_init(t_emifa_idle_callback idle_callback,
-                    t_emifa_tx_callback tx_callback,
-                    t_emifa_rx_callback rx_callback,
-                    t_emifa_error_callback error_callback);
+					t_emifa_tx_callback tx_callback,
+					t_emifa_rx_callback rx_callback,
+					t_emifa_error_callback error_callback);
 
 /**
  * @brief   Update tick of the EMIFA engine. During a transfer, nothing
@@ -108,9 +108,9 @@ void per_emifa_task(void);
  * @param   metadata      Gets sent along through the header.
  */
 t_emifa_status per_emifa_transfer(u32 dsp_address,
-                                  const u16 *words,
-                                  u16 word_count,
-                                  t_emifa_metadata metadata);
+								  const u16 *words,
+								  u16 word_count,
+								  t_emifa_metadata metadata);
 
 #ifdef __cplusplus
 }

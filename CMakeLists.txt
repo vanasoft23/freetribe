@@ -169,6 +169,7 @@ set(bootloader_sources
   "${CPU_SRC_ROOT}/kernel/service/svc_fatfs.c"
   "${CPU_SRC_ROOT}/kernel/service/svc_panel.c"
   "${CPU_SRC_ROOT}/kernel/service/svc_delay.c"
+  "${CPU_SRC_ROOT}/kernel/service/svc_logger.c"
 )
 list(REMOVE_DUPLICATES bootloader_sources)
 
@@ -347,7 +348,7 @@ list(REMOVE_DUPLICATES dsp_include_dirs)
 
 set(kernel_c_flags
   -mcpu=arm926ej-s
-  -Og
+  -O0
   -ggdb
   -fdata-sections
   -ffunction-sections

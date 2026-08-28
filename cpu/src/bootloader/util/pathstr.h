@@ -45,16 +45,17 @@ under the terms of the GNU Affero General Public License as published by
 #define PATH_NAME_MAX 256
 
 
+const char *path_extract_filename(const char *path);
 bool path_has_extension(const char *name, const char *extension);
 void path_build_child_path(char *dest, u16 dest_size, const char *name, const char *current_dir);
 void path_goto_parent_dir(char *path);
 
 static inline bool path_is_root_dir(const char *path) {
-    return 0 == strcmp(path, "/");
+	return 0 == strcmp(path, "/");
 }
 
 static inline bool path_is_dot_entry(const char *name) {
-    return (0 == strcmp(name, ".")) || (0 == strcmp(name, ".."));
+	return (0 == strcmp(name, ".")) || (0 == strcmp(name, ".."));
 }
 
 #endif /* PATHSTR_H */

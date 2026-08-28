@@ -60,7 +60,7 @@ void gui_post(char *text);
 void gui_post_param(char *label, u8 value);
 void gui_print_int(u8 x_start, u8 y_start, u8 value);
 void gui_draw_line(u8 x_start, u8 y_start, u8 x_end,
-                   u8 y_end, bool colour);
+				   u8 y_end, bool colour);
 
 #ifdef __cplusplus
 }

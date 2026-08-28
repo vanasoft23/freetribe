@@ -57,21 +57,21 @@ static void _usb0_bridge_clear(void);
 
 bool per_usb_init_device(u8 int_channel) {
 
-    IntSystemDisable(SYS_INT_USB0);
-    _usb0_bridge_clear();
+	IntSystemDisable(SYS_INT_USB0);
+	_usb0_bridge_clear();
 
-    IntChannelSet(SYS_INT_USB0, int_channel);
-    IntRegister(SYS_INT_USB0, _usb0_isr);
-    IntSystemStatusClear(SYS_INT_USB0);
+	IntChannelSet(SYS_INT_USB0, int_channel);
+	IntRegister(SYS_INT_USB0, _usb0_isr);
+	IntSystemStatusClear(SYS_INT_USB0);
 
-    return true;
+	return true;
 }
 
 void per_usb_terminate(void) {
 
-    IntSystemDisable(SYS_INT_USB0);
-    IntSystemStatusClear(SYS_INT_USB0);
-    _usb0_bridge_clear();
+	IntSystemDisable(SYS_INT_USB0);
+	IntSystemStatusClear(SYS_INT_USB0);
+	_usb0_bridge_clear();
 }
 
 /*----- Static function implementations ------------------------------*/
@@ -80,9 +80,9 @@ static void _usb0_isr(void) { tusb_int_handler(USB_INSTANCE, true); }
 
 static void _usb0_bridge_clear(void) {
 
-    HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_MASK_CLEAR) = 0xffffffffu;
-    HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_SRC_CLEAR) = 0xffffffffu;
-    HWREG(SOC_USB_0_OTG_BASE + USB_0_END_OF_INTR) = 0u;
+	HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_MASK_CLEAR) = 0xffffffffu;
+	HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_SRC_CLEAR) = 0xffffffffu;
+	HWREG(SOC_USB_0_OTG_BASE + USB_0_END_OF_INTR) = 0u;
 }
 
 /*----- End of file --------------------------------------------------*/

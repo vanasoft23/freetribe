@@ -50,11 +50,11 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    u32  start_time;
-    u32  delay_time;
-    u32  elapsed_cycles;
-    u32  elapsed_us;
-    bool expired;
+	u32  start_time;
+	u32  delay_time;
+	u32  elapsed_cycles;
+	u32  elapsed_us;
+	bool expired;
 } t_delay_state;
 
 /*----- Extern variable declarations ---------------------------------*/

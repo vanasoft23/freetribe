@@ -58,8 +58,8 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    uint32_t period;
-    uint32_t cycles;
+	uint32_t period;
+	uint32_t cycles;
 
 } t_profile;
 
@@ -71,11 +71,11 @@ extern uint64_t g_module_cycles;
 
 __inline__ __attribute__((always_inline)) static uint64_t cycles(void) {
 
-    uint64_t ret;
+	uint64_t ret;
 
-    asm volatile("%0=cycles; %H0=cycles2;" : "=d"(ret));
+	asm volatile("%0=cycles; %H0=cycles2;" : "=d"(ret));
 
-    return ret;
+	return ret;
 }
 
 t_profile knl_profile_stats(void);

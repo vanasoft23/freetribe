@@ -43,8 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -56,7 +55,7 @@ extern "C" {
 
 void dev_mcu_init(void);
 void dev_mcu_tx_enqueue(u8 *mcu_msg);
-int dev_mcu_rx_dequeue(u8 *mcu_msg);
+bool dev_mcu_rx_dequeue(u8 *mcu_msg);
 void dev_mcu_register_rx_callback(void (*callback)(void));
 
 #ifdef __cplusplus

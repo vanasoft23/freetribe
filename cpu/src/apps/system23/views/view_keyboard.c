@@ -44,7 +44,7 @@
 // static void handle_knob(t_keyboard *kb, u8 index, u8 value) {
 
 //     switch (index) {
-        
+		
 //         case KNOB_RESONANCE: {
 //             ft_set_module_param(0, PARAM_RESONANCE, g_resonance_lut[value]);
 //         } break;
@@ -53,7 +53,7 @@
 //             u16 param_index = g_selected_ifx
 //                 ? (g_shift ? PARAM_IFX1_PARAM1 : PARAM_IFX1_PARAM0)
 //                 : (g_shift ? PARAM_IFX0_PARAM1 : PARAM_IFX0_PARAM0);
-//             DEBUG_LOG("knob %i", (int)param_index);
+//             DLOG("knob %i", (int)param_index);
 //             ft_set_module_param(0, param_index, u8o_q31(value));
 //         }
 
@@ -61,7 +61,7 @@
 // }
 
 // static void handle_button(t_keyboard *kb, u8 index, bool state) {
-    
+	
 //     switch (index) {
 //         case BUTTON_EXIT: ft_shutdown(); break;
 //         case BUTTON_BAR_0: g_selected_bar = 0; break;
@@ -84,7 +84,7 @@
 
 // static void handle_trigger(t_keyboard *kb, u8 pad, u8 vel, bool state) {
 
-//     // DEBUG_LOG("trigger callback: %02X %u %u", pad, vel, state);
+//     // DLOG("trigger callback: %02X %u %u", pad, vel, state);
 
 //     u8 step_index = pad + (g_selected_bar * 16);
 //     if (g_keyboard_steps[step_index].gate > 0) {
@@ -97,7 +97,7 @@
 
 // static void handle_encoder(t_keyboard *kb, u8 index, u8 value) {
 
-//     // DEBUG_LOG("encoder callback: %02X %f", cutoff, note_to_cv(cutoff));
+//     // DLOG("encoder callback: %02X %f", cutoff, note_to_cv(cutoff));
 
 //     static u8 cutoff = 0x7f;
 

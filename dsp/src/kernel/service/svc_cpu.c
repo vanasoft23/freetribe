@@ -41,7 +41,7 @@ under the terms of the GNU Affero General Public License as published by
 #include <stdint.h>
 #include <string.h>
 
-#include "ft_error.h"
+
 
 #include "per_gpio.h"
 #include "per_spi.h"
@@ -61,11 +61,11 @@ under the terms of the GNU Affero General Public License as published by
 typedef enum { STATE_INIT, STATE_RUN, STATE_ERROR } t_cpu_task_state;
 
 typedef enum {
-    PARSE_START,
-    PARSE_MSG_TYPE,
-    PARSE_MSG_ID,
-    PARSE_PAYLOAD_LENGTH,
-    PARSE_PAYLOAD
+	PARSE_START,
+	PARSE_MSG_TYPE,
+	PARSE_MSG_ID,
+	PARSE_PAYLOAD_LENGTH,
+	PARSE_PAYLOAD
 } t_msg_parse_state;
 
 // TODO: Move protocol definition to common module.
@@ -73,19 +73,19 @@ typedef enum {
 enum e_message_type { MSG_TYPE_MODULE, MSG_TYPE_SYSTEM };
 
 enum e_module_msg_id {
-    MODULE_GET_PARAM_VALUE,
-    MODULE_SET_PARAM_VALUE,
-    MODULE_PARAM_VALUE,
-    MODULE_GET_PARAM_NAME,
-    MODULE_PARAM_NAME,
+	MODULE_GET_PARAM_VALUE,
+	MODULE_SET_PARAM_VALUE,
+	MODULE_PARAM_VALUE,
+	MODULE_GET_PARAM_NAME,
+	MODULE_PARAM_NAME,
 };
 
 enum e_system_msg_id {
-    SYSTEM_GET_PORT_STATE,
-    SYSTEM_SET_PORT_STATE,
-    SYSTEM_PORT_STATE,
-    SYSTEM_GET_PROFILE,
-    SYSTEM_PROFILE,
+	SYSTEM_GET_PORT_STATE,
+	SYSTEM_SET_PORT_STATE,
+	SYSTEM_PORT_STATE,
+	SYSTEM_GET_PROFILE,
+	SYSTEM_PROFILE,
 };
 
 /*----- Static variable definitions ----------------------------------*/
@@ -99,22 +99,22 @@ static t_status _cpu_init(void);
 static void _cpu_receive(uint8_t byte);
 
 static void _transmit_message(uint8_t msg_type, uint8_t msg_id,
-                              uint8_t *payload, uint8_t length);
+							  uint8_t *payload, uint8_t length);
 
 static void _handle_message(uint8_t msg_type, uint8_t msg_id, uint8_t *payload,
-                            uint8_t length);
+							uint8_t length);
 
 static t_status _handle_module_message(uint8_t msg_id, uint8_t *payload,
-                                       uint8_t length);
+									   uint8_t length);
 
 static t_status _handle_system_message(uint8_t msg_id, uint8_t *payload,
-                                       uint8_t length);
+									   uint8_t length);
 
 static t_status _handle_module_get_param_value(uint8_t *payload,
-                                               uint8_t length);
+											   uint8_t length);
 
 static t_status _handle_module_set_param_value(uint8_t *payload,
-                                               uint8_t length);
+											   uint8_t length);
 
 static t_status _handle_module_get_param_name(uint8_t *payload, uint8_t length);
 
@@ -124,15 +124,15 @@ static t_status _handle_system_set_port_state(uint8_t *payload, uint8_t length);
 static t_status _handle_system_get_profile(void);
 
 static t_status _respond_module_param_value(uint16_t module_id,
-                                            uint16_t param_index,
-                                            int32_t param_value);
+											uint16_t param_index,
+											int32_t param_value);
 
 static t_status _respond_module_param_name(uint16_t module_id,
-                                           uint16_t param_index,
-                                           char *param_name);
+										   uint16_t param_index,
+										   char *param_name);
 
 static t_status _respond_system_port_state(uint16_t port_f, uint16_t port_g,
-                                           uint16_t port_h);
+										   uint16_t port_h);
 
 static t_status _respond_system_profile(t_profile stats);
 
@@ -140,360 +140,346 @@ static t_status _respond_system_profile(t_profile stats);
 
 void svc_cpu_task(void) {
 
-    static t_cpu_task_state state = STATE_INIT;
+	static t_cpu_task_state state = STATE_INIT;
 
-    static uint8_t cpu_byte;
+	static uint8_t cpu_byte;
 
-    switch (state) {
+	switch (state) {
 
-    case STATE_INIT:
-        if (_cpu_init() == SUCCESS) {
-            state = STATE_RUN;
-        }
-        // Remain in INIT state until initialisation
-        // successful.
-        break;
+	case STATE_INIT:
+		_cpu_init();
+		state = STATE_RUN;
+		break;
 
-        /// TODO: case STATE_HANDSHAKE:
+		/// TODO: case STATE_HANDSHAKE:
 
-    case STATE_RUN:
+	case STATE_RUN:
 
-        // Handle received bytes.
-        if (dev_cpu_spi_rx_dequeue(&cpu_byte) == SUCCESS) {
-            _cpu_receive(cpu_byte);
-        }
-        break;
+		// Handle received bytes.
+		if (dev_cpu_spi_rx_dequeue(&cpu_byte)) {
+			_cpu_receive(cpu_byte);
+		}
+		break;
 
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
-
-    default:
-        /// TODO: Record unhandled state.
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
+	case STATE_ERROR:
+	default:
+		PANIC(PANIC_UNHANDLED_STATE);
+		break;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/
 
-static t_status _cpu_init(void) {
+static void _cpu_init(void) {
 
-    t_status result = TASK_INIT_ERROR;
+	// Initialise CPU SPI device driver.
+	dev_cpu_spi_init();
 
-    // Initialise CPU SPI device driver.
-    dev_cpu_spi_init();
+	dev_cpu_ipc_init();
 
-    dev_cpu_ipc_init();
+	/// TODO: Handhsake.
 
-    /// TODO: Handhsake.
-
-    result = SUCCESS;
-
-    return result;
 }
 
 /// TODO: Return status.
 static void _transmit_message(uint8_t msg_type, uint8_t msg_id,
-                              uint8_t *payload, uint8_t length) {
-    //
-    uint8_t msg_start = MSG_START;
+							  uint8_t *payload, uint8_t length) {
+	//
+	uint8_t msg_start = MSG_START;
 
-    dev_cpu_spi_tx_enqueue(&msg_start);
-    dev_cpu_spi_tx_enqueue(&msg_type);
-    dev_cpu_spi_tx_enqueue(&msg_id);
-    dev_cpu_spi_tx_enqueue(&length);
+	dev_cpu_spi_tx_enqueue(&msg_start);
+	dev_cpu_spi_tx_enqueue(&msg_type);
+	dev_cpu_spi_tx_enqueue(&msg_id);
+	dev_cpu_spi_tx_enqueue(&length);
 
-    while (length--) {
-        dev_cpu_spi_tx_enqueue(payload++);
-    }
+	while (length--) {
+		dev_cpu_spi_tx_enqueue(payload++);
+	}
 }
 
 /// TODO: Move to separate module.
 static void _cpu_receive(uint8_t byte) {
 
-    static t_msg_parse_state state = PARSE_START;
+	static t_msg_parse_state state = PARSE_START;
 
-    static uint8_t msg_type;
-    static uint8_t msg_id;
-    static uint8_t length;
-    static uint8_t payload[0xff];
-    static uint8_t count;
+	static uint8_t msg_type;
+	static uint8_t msg_id;
+	static uint8_t length;
+	static uint8_t payload[0xff];
+	static uint8_t count;
 
-    switch (state) {
+	switch (state) {
 
-        /// TODO: Handshake.
+		/// TODO: Handshake.
 
-    case PARSE_START:
-        if (byte == MSG_START) {
-            state = PARSE_MSG_TYPE;
-        }
-        // TODO: Error handling and reset protocol.
-        break;
+	case PARSE_START:
+		if (byte == MSG_START) {
+			state = PARSE_MSG_TYPE;
+		}
+		// TODO: Error handling and reset protocol.
+		break;
 
-    case PARSE_MSG_TYPE:
-        msg_type = byte;
-        state = PARSE_MSG_ID;
-        break;
+	case PARSE_MSG_TYPE:
+		msg_type = byte;
+		state = PARSE_MSG_ID;
+		break;
 
-    case PARSE_MSG_ID:
-        msg_id = byte;
-        state = PARSE_PAYLOAD_LENGTH;
-        break;
+	case PARSE_MSG_ID:
+		msg_id = byte;
+		state = PARSE_PAYLOAD_LENGTH;
+		break;
 
-    case PARSE_PAYLOAD_LENGTH:
-        length = byte;
-        if (length == 0) {
-            count = 0;
-            _handle_message(msg_type, msg_id, payload, length);
-            state = PARSE_START;
-        } else {
-            state = PARSE_PAYLOAD;
-        }
-        break;
+	case PARSE_PAYLOAD_LENGTH:
+		length = byte;
+		if (length == 0) {
+			count = 0;
+			_handle_message(msg_type, msg_id, payload, length);
+			state = PARSE_START;
+		} else {
+			state = PARSE_PAYLOAD;
+		}
+		break;
 
-    case PARSE_PAYLOAD:
-        if (count < length) {
-            payload[count] = byte;
-            count++;
-        }
-        // Handle message before returning,
-        // else it is not handled until first
-        // byte of next message is received.
-        if (count >= length) {
-            count = 0;
-            _handle_message(msg_type, msg_id, payload, length);
-            state = PARSE_START;
-        }
-        break;
+	case PARSE_PAYLOAD:
+		if (count < length) {
+			payload[count] = byte;
+			count++;
+		}
+		// Handle message before returning,
+		// else it is not handled until first
+		// byte of next message is received.
+		if (count >= length) {
+			count = 0;
+			_handle_message(msg_type, msg_id, payload, length);
+			state = PARSE_START;
+		}
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 static void _handle_message(uint8_t msg_type, uint8_t msg_id, uint8_t *payload,
-                            uint8_t length) {
-    // Switch message type.
-    switch (msg_type) {
+							uint8_t length) {
+	// Switch message type.
+	switch (msg_type) {
 
-    case MSG_TYPE_MODULE:
-        _handle_module_message(msg_id, payload, length);
-        break;
+	case MSG_TYPE_MODULE:
+		_handle_module_message(msg_id, payload, length);
+		break;
 
-    case MSG_TYPE_SYSTEM:
-        _handle_system_message(msg_id, payload, length);
-        break;
+	case MSG_TYPE_SYSTEM:
+		_handle_system_message(msg_id, payload, length);
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 static t_status _handle_module_message(uint8_t msg_id, uint8_t *payload,
-                                       uint8_t length) {
+									   uint8_t length) {
 
-    uint8_t result = ERROR;
+	uint8_t result = ERROR;
 
-    switch (msg_id) {
+	switch (msg_id) {
 
-    case MODULE_GET_PARAM_VALUE:
-        result = _handle_module_get_param_value(payload, length);
-        break;
+	case MODULE_GET_PARAM_VALUE:
+		result = _handle_module_get_param_value(payload, length);
+		break;
 
-    case MODULE_SET_PARAM_VALUE:
-        result = _handle_module_set_param_value(payload, length);
-        break;
+	case MODULE_SET_PARAM_VALUE:
+		result = _handle_module_set_param_value(payload, length);
+		break;
 
-    case MODULE_GET_PARAM_NAME:
-        result = _handle_module_get_param_name(payload, length);
-        break;
+	case MODULE_GET_PARAM_NAME:
+		result = _handle_module_get_param_name(payload, length);
+		break;
 
-    default:
-        result = ERROR;
-        break;
-    }
+	default:
+		result = ERROR;
+		break;
+	}
 
-    return result;
+	return result;
 }
 
 static t_status _handle_system_message(uint8_t msg_id, uint8_t *payload,
-                                       uint8_t length) {
+									   uint8_t length) {
 
-    uint8_t result = ERROR;
-    switch (msg_id) {
+	uint8_t result = ERROR;
+	switch (msg_id) {
 
-    case SYSTEM_GET_PORT_STATE:
-        result = _handle_system_get_port_state();
-        break;
+	case SYSTEM_GET_PORT_STATE:
+		result = _handle_system_get_port_state();
+		break;
 
-    case SYSTEM_SET_PORT_STATE:
-        // result = _handle_system_set_port_state(payload, length);
-        break;
+	case SYSTEM_SET_PORT_STATE:
+		// result = _handle_system_set_port_state(payload, length);
+		break;
 
-    case SYSTEM_GET_PROFILE:
-        result = _handle_system_get_profile();
-        break;
+	case SYSTEM_GET_PROFILE:
+		result = _handle_system_get_profile();
+		break;
 
-    default:
-        result = ERROR;
-        break;
-    }
+	default:
+		result = ERROR;
+		break;
+	}
 
-    return result;
+	return result;
 }
 
 static t_status _handle_module_get_param_value(uint8_t *payload,
-                                               uint8_t length) {
+											   uint8_t length) {
 
-    /// TODO: Union struct for message parsing.
-    uint16_t module_id = (payload[1] << 8) | payload[0];
+	/// TODO: Union struct for message parsing.
+	uint16_t module_id = (payload[1] << 8) | payload[0];
 
-    uint16_t param_index = (payload[3] << 8) | payload[2];
+	uint16_t param_index = (payload[3] << 8) | payload[2];
 
-    /// TODO: Register callbacks for message handling?
-    //
-    // module_id not supported yet.
-    int32_t param_value = module_get_param(param_index);
+	/// TODO: Register callbacks for message handling?
+	//
+	// module_id not supported yet.
+	int32_t param_value = module_get_param(param_index);
 
-    _respond_module_param_value(module_id, param_index, param_value);
+	_respond_module_param_value(module_id, param_index, param_value);
 
-    /// TODO: Error handling and protocol reset.
-    return SUCCESS;
+	/// TODO: Error handling and protocol reset.
+	return SUCCESS;
 }
 
 static t_status _handle_module_set_param_value(uint8_t *payload,
-                                               uint8_t length) {
+											   uint8_t length) {
 
-    /// TODO: Union struct for message parsing.
-    int16_t module_id = (payload[1] << 8) | payload[0];
+	/// TODO: Union struct for message parsing.
+	int16_t module_id = (payload[1] << 8) | payload[0];
 
-    uint16_t param_index = (payload[3] << 8) | payload[2];
+	uint16_t param_index = (payload[3] << 8) | payload[2];
 
-    /// TODO: Register callbacks for message handling?
-    int32_t param_value = (payload[7] << 24) | (payload[6] << 16) |
-                          (payload[5] << 8) | payload[4];
+	/// TODO: Register callbacks for message handling?
+	int32_t param_value = (payload[7] << 24) | (payload[6] << 16) |
+						  (payload[5] << 8) | payload[4];
 
-    // module_id not supported yet.
-    module_set_param(param_index, param_value);
+	// module_id not supported yet.
+	module_set_param(param_index, param_value);
 
-    /// TODO: Error handling and protocol reset.
-    return SUCCESS;
+	/// TODO: Error handling and protocol reset.
+	return SUCCESS;
 }
 
 static t_status _handle_module_get_param_name(uint8_t *payload,
-                                              uint8_t length) {
+											  uint8_t length) {
 
-    uint16_t module_id;
-    uint16_t param_index;
+	uint16_t module_id;
+	uint16_t param_index;
 
-    char param_name[MAX_PARAM_NAME_LENGTH];
+	char param_name[MAX_PARAM_NAME_LENGTH];
 
-    /// TODO: Union struct for message parsing.
-    module_id = (payload[1] << 8) | payload[0];
+	/// TODO: Union struct for message parsing.
+	module_id = (payload[1] << 8) | payload[0];
 
-    param_index = (payload[3] << 8) | payload[2];
+	param_index = (payload[3] << 8) | payload[2];
 
-    // module_id not supported yet.
-    module_get_param_name(param_index, param_name);
+	// module_id not supported yet.
+	module_get_param_name(param_index, param_name);
 
-    _respond_module_param_name(module_id, param_index, param_name);
+	_respond_module_param_name(module_id, param_index, param_name);
 
-    /// TODO: Error handling and protocol reset.
-    return SUCCESS;
+	/// TODO: Error handling and protocol reset.
+	return SUCCESS;
 }
 
 static t_status _handle_system_get_port_state(void) {
 
-    uint16_t port_f = per_gpio_get_port(PORT_F);
-    uint16_t port_g = per_gpio_get_port(PORT_G);
-    uint16_t port_h = per_gpio_get_port(PORT_H);
+	uint16_t port_f = per_gpio_get_port(PORT_F);
+	uint16_t port_g = per_gpio_get_port(PORT_G);
+	uint16_t port_h = per_gpio_get_port(PORT_H);
 
-    _respond_system_port_state(port_f, port_g, port_h);
+	_respond_system_port_state(port_f, port_g, port_h);
 
-    /// TODO: Error handling and protocol reset.
-    return SUCCESS;
+	/// TODO: Error handling and protocol reset.
+	return SUCCESS;
 }
 
 static t_status _handle_system_get_profile(void) {
 
-    t_profile stats = knl_profile_stats();
+	t_profile stats = knl_profile_stats();
 
-    _respond_system_profile(stats);
+	_respond_system_profile(stats);
 
-    /// TODO: Error handling and protocol reset.
-    return SUCCESS;
+	/// TODO: Error handling and protocol reset.
+	return SUCCESS;
 }
 
 static t_status _respond_module_param_value(uint16_t module_id,
-                                            uint16_t param_index,
-                                            int32_t param_value) {
+											uint16_t param_index,
+											int32_t param_value) {
 
-    uint8_t payload[] = {module_id & 0xff,   (module_id >> 8) & 0xff,
-                         param_index & 0xff, (param_index >> 8) & 0xff,
-                         param_value & 0xff, (param_value >> 8 & 0xff)};
+	uint8_t payload[] = {module_id & 0xff,   (module_id >> 8) & 0xff,
+						 param_index & 0xff, (param_index >> 8) & 0xff,
+						 param_value & 0xff, (param_value >> 8 & 0xff)};
 
-    _transmit_message(MSG_TYPE_MODULE, MODULE_PARAM_VALUE, payload,
-                      sizeof(payload));
+	_transmit_message(MSG_TYPE_MODULE, MODULE_PARAM_VALUE, payload,
+					  sizeof(payload));
 
-    return SUCCESS;
+	return SUCCESS;
 }
 
 static t_status _respond_module_param_name(uint16_t module_id,
-                                           uint16_t param_index,
-                                           char *param_name) {
+										   uint16_t param_index,
+										   char *param_name) {
 
-    /// TODO: This is jank.
+	/// TODO: This is jank.
 
-    uint32_t string_length = strlen(param_name);
-    uint32_t payload_length = string_length + 5;
+	uint32_t string_length = strlen(param_name);
+	uint32_t payload_length = string_length + 5;
 
-    uint8_t payload[payload_length];
+	uint8_t payload[payload_length];
 
-    payload[0] = module_id & 0xff;
-    payload[1] = (module_id >> 8) & 0xff;
-    payload[2] = param_index & 0xff;
-    payload[3] = (param_index >> 8) & 0xff;
+	payload[0] = module_id & 0xff;
+	payload[1] = (module_id >> 8) & 0xff;
+	payload[2] = param_index & 0xff;
+	payload[3] = (param_index >> 8) & 0xff;
 
-    memcpy(payload + 4, param_name, string_length);
+	memcpy(payload + 4, param_name, string_length);
 
-    // Ensure null termination.
-    payload[payload_length - 1] = '\0';
+	// Ensure null termination.
+	payload[payload_length - 1] = '\0';
 
-    _transmit_message(MSG_TYPE_MODULE, MODULE_PARAM_NAME, payload,
-                      sizeof(payload));
+	_transmit_message(MSG_TYPE_MODULE, MODULE_PARAM_NAME, payload,
+					  sizeof(payload));
 
-    return SUCCESS;
+	return SUCCESS;
 }
 
 static t_status _respond_system_port_state(uint16_t port_f, uint16_t port_g,
-                                           uint16_t port_h) {
+										   uint16_t port_h) {
 
-    uint8_t payload[] = {port_f & 0xff, (port_f >> 8) & 0xff,
-                         port_g & 0xff, (port_g >> 8) & 0xff,
-                         port_h & 0xff, (port_h >> 8) & 0xff};
+	uint8_t payload[] = {port_f & 0xff, (port_f >> 8) & 0xff,
+						 port_g & 0xff, (port_g >> 8) & 0xff,
+						 port_h & 0xff, (port_h >> 8) & 0xff};
 
-    _transmit_message(MSG_TYPE_SYSTEM, SYSTEM_PORT_STATE, payload,
-                      sizeof(payload));
+	_transmit_message(MSG_TYPE_SYSTEM, SYSTEM_PORT_STATE, payload,
+					  sizeof(payload));
 
-    return SUCCESS;
+	return SUCCESS;
 }
 
 static t_status _respond_system_profile(t_profile stats) {
 
-    uint8_t payload[] = {
-        stats.period & 0xff,         (stats.period >> 8) & 0xff,
-        (stats.period >> 16) & 0xff, (stats.period >> 24) & 0xff,
-        stats.cycles & 0xff,         (stats.cycles >> 8) & 0xff,
-        (stats.cycles >> 16) & 0xff, (stats.cycles >> 24) & 0xff,
-    };
+	uint8_t payload[] = {
+		stats.period & 0xff,         (stats.period >> 8) & 0xff,
+		(stats.period >> 16) & 0xff, (stats.period >> 24) & 0xff,
+		stats.cycles & 0xff,         (stats.cycles >> 8) & 0xff,
+		(stats.cycles >> 16) & 0xff, (stats.cycles >> 24) & 0xff,
+	};
 
-    _transmit_message(MSG_TYPE_SYSTEM, SYSTEM_PROFILE, payload,
-                      sizeof(payload));
+	_transmit_message(MSG_TYPE_SYSTEM, SYSTEM_PROFILE, payload,
+					  sizeof(payload));
 
-    return SUCCESS;
+	return SUCCESS;
 }
 
 /*----- End of file --------------------------------------------------*/

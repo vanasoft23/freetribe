@@ -44,11 +44,11 @@ extern "C" {
 #endif
 
 typedef enum {
-    DEV_USB_MSC_EXPORT_OK = 0,
-    DEV_USB_MSC_EXPORT_DISABLED,
-    DEV_USB_MSC_EXPORT_NO_CARD,
-    DEV_USB_MSC_EXPORT_INIT_FAILED,
-    DEV_USB_MSC_EXPORT_NO_BLOCKS,
+	DEV_USB_MSC_EXPORT_OK = 0,
+	DEV_USB_MSC_EXPORT_DISABLED,
+	DEV_USB_MSC_EXPORT_NO_CARD,
+	DEV_USB_MSC_EXPORT_INIT_FAILED,
+	DEV_USB_MSC_EXPORT_NO_BLOCKS,
 } t_dev_usb_msc_export_status;
 
 bool dev_usb_init_device(u8 int_channel);

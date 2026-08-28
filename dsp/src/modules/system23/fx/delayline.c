@@ -38,33 +38,33 @@
 
 void delayline_init(t_delayline *dl) {
 
-    dl->buffer = (fract32*)malloc(DELAY_BUFFER_SIZE);
-    memset(dl->buffer, 0, DELAY_BUFFER_SIZE);
-    dl->write_offset = 0;
+	dl->buffer = (fract32*)malloc(DELAY_BUFFER_SIZE);
+	memset(dl->buffer, 0, DELAY_BUFFER_SIZE);
+	dl->write_offset = 0;
 
 }
 
 
 void delayline_free(t_delayline *dl) {
 
-    free(dl->buffer);
+	free(dl->buffer);
 
 }
 
 
 fract32 delayline_process(t_delayline *dl, fract32 input_sample) {
 
-    dl->read_offset = (dl->write_offset + DELAY_BUFFER_SIZE - dl->delay_length) % DELAY_BUFFER_SIZE;
-    fract32 delayed_sample = dl->buffer[dl->read_offset];
+	dl->read_offset = (dl->write_offset + DELAY_BUFFER_SIZE - dl->delay_length) % DELAY_BUFFER_SIZE;
+	fract32 delayed_sample = dl->buffer[dl->read_offset];
 
-    dl->buffer[dl->write_offset] = add_fr1x32(
-        input_sample,
-        mult_fr1x32x32(delayed_sample, dl->feedback)
-    );
+	dl->buffer[dl->write_offset] = add_fr1x32(
+		input_sample,
+		mult_fr1x32x32(delayed_sample, dl->feedback)
+	);
 
-    dl->write_offset = (dl->write_offset + 1) % DELAY_BUFFER_SIZE;
+	dl->write_offset = (dl->write_offset + 1) % DELAY_BUFFER_SIZE;
 
-    return delayed_sample;
+	return delayed_sample;
 }
 
 

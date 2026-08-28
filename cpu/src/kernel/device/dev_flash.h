@@ -44,7 +44,7 @@ extern "C" {
 /*----- Includes -----------------------------------------------------*/
 
 #include "ft.h"
-#include "ft_error.h"
+
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -54,7 +54,7 @@ extern "C" {
 
 /*----- Extern function prototypes -----------------------------------*/
 
-t_status dev_flash_init(void);
+bool dev_flash_init(void);
 void dev_flash_read(u32 src, u8 *p_dest, u32 len);
 void dev_flash_write(u32 dest, u8 *p_src, u32 len);
 bool dev_flash_verify(u32 flash_addr, u8 *p_ram_data, u32 len);

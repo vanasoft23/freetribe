@@ -51,17 +51,17 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    ZOIA_EVENT_BYPASS,
-    ZOIA_EVENT_PRESS,
-    ZOIA_EVENT_RELEASE,
-    ZOIA_EVENT_TURN,
+	ZOIA_EVENT_BYPASS,
+	ZOIA_EVENT_PRESS,
+	ZOIA_EVENT_RELEASE,
+	ZOIA_EVENT_TURN,
 
-    ZOIA_EVENT_COUNT
+	ZOIA_EVENT_COUNT
 } e_zoia_event;
 
 typedef struct {
-    e_zoia_event type;
-    u8 value;
+	e_zoia_event type;
+	u8 value;
 } t_zoia_event;
 
 /*----- Extern variable declarations ---------------------------------*/

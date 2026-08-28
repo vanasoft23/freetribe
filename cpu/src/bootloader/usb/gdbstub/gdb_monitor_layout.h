@@ -59,55 +59,55 @@ under the terms of the GNU Affero General Public License as published by
 #include "arm_frame.h"
 
 typedef struct {
-    u32  address;                    // INACTIVE_BREAKPT_ADDR when inactive
-    u32  original_instruction;       // replaced with undefined instruction
+	u32  address;                    // INACTIVE_BREAKPT_ADDR when inactive
+	u32  original_instruction;       // replaced with undefined instruction
 } gdb_breakpoint_t;
 
 typedef struct __attribute__((packed, aligned(4))) {
-    int               sigval;        // unix sigval; values above 0 indicate target is halted
-    bool              ignore_stop;   // disables adherence to stop requests
-    bool              frame_ready;   // IRQHandler is now in trap loop
-    u8                _reserved0[2];
-    arm_frame_t      *frame_ptr;     // ARM register layout to be appointed to stack of IRQHandler
-    gdb_breakpoint_t  breakpts[NUM_SW_BREAKPOINTS];
+	int               sigval;        // unix sigval; values above 0 indicate target is halted
+	bool              ignore_stop;   // disables adherence to stop requests
+	bool              frame_ready;   // IRQHandler is now in trap loop
+	u8                _reserved0[2];
+	arm_frame_t      *frame_ptr;     // ARM register layout to be appointed to stack of IRQHandler
+	gdb_breakpoint_t  breakpts[NUM_SW_BREAKPOINTS];
 } gdb_monitor_t;
 
 _Static_assert(
-    offsetof(gdb_monitor_t, sigval) == GDB_MONITOR_SIGVAL_OFFSET,
-    "gdb_monitor_t sigval offset"
+	offsetof(gdb_monitor_t, sigval) == GDB_MONITOR_SIGVAL_OFFSET,
+	"gdb_monitor_t sigval offset"
 );
 _Static_assert(
-    offsetof(gdb_monitor_t, ignore_stop) == GDB_MONITOR_IGNORE_STOP_OFFSET,
-    "gdb_monitor_t ignore_stop offset"
+	offsetof(gdb_monitor_t, ignore_stop) == GDB_MONITOR_IGNORE_STOP_OFFSET,
+	"gdb_monitor_t ignore_stop offset"
 );
 _Static_assert(
-    offsetof(gdb_monitor_t, frame_ready) == GDB_MONITOR_FRAME_READY_OFFSET,
-    "gdb_monitor_t frame_ready offset"
+	offsetof(gdb_monitor_t, frame_ready) == GDB_MONITOR_FRAME_READY_OFFSET,
+	"gdb_monitor_t frame_ready offset"
 );
 _Static_assert(
-    offsetof(gdb_monitor_t, frame_ptr) == GDB_MONITOR_FRAME_PTR_OFFSET,
-    "gdb_monitor_t frame_ptr offset"
+	offsetof(gdb_monitor_t, frame_ptr) == GDB_MONITOR_FRAME_PTR_OFFSET,
+	"gdb_monitor_t frame_ptr offset"
 );
 _Static_assert(
-    GDB_MONITOR_FRAME_PTR_OFFSET % _Alignof(arm_frame_t *) == 0,
-    "frame_ptr must be naturally aligned"
+	GDB_MONITOR_FRAME_PTR_OFFSET % _Alignof(arm_frame_t *) == 0,
+	"frame_ptr must be naturally aligned"
 );
 _Static_assert(
-    offsetof(gdb_monitor_t, breakpts) == GDB_MONITOR_BREAKPTS_OFFSET,
-    "gdb_monitor_t breakpts offset"
+	offsetof(gdb_monitor_t, breakpts) == GDB_MONITOR_BREAKPTS_OFFSET,
+	"gdb_monitor_t breakpts offset"
 );
 
 _Static_assert(
-    offsetof(gdb_breakpoint_t, address) == GDB_BREAKPOINT_ADDRESS_OFFSET,
-    "gdb_breakpoint_t address offset"
+	offsetof(gdb_breakpoint_t, address) == GDB_BREAKPOINT_ADDRESS_OFFSET,
+	"gdb_breakpoint_t address offset"
 );
 _Static_assert(
-    offsetof(gdb_breakpoint_t, original_instruction) == GDB_BREAKPOINT_ORIGINAL_OFFSET,
-    "gdb_breakpoint_t original instruction offset"
+	offsetof(gdb_breakpoint_t, original_instruction) == GDB_BREAKPOINT_ORIGINAL_OFFSET,
+	"gdb_breakpoint_t original instruction offset"
 );
 _Static_assert(
-    sizeof(gdb_breakpoint_t) == GDB_BREAKPOINT_SIZE,
-    "gdb_breakpoint_t size"
+	sizeof(gdb_breakpoint_t) == GDB_BREAKPOINT_SIZE,
+	"gdb_breakpoint_t size"
 );
 
 #endif

@@ -32,9 +32,9 @@ under the terms of the GNU Affero General Public License as published by
 #define UI_CONTROLLER_H
 
 typedef enum {
-    VIEW_BROWSER,
-    VIEW_MODAL,
-    VIEW_PROGRESS
+	VIEW_BROWSER,
+	VIEW_MODAL,
+	VIEW_PROGRESS
 } view_t;
 
 void ui_controller_init(void);

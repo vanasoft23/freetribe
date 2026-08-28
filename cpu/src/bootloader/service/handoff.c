@@ -76,67 +76,67 @@ void boot_sanitize_ddr_and_caches(void);
 __attribute__((noreturn))
 void handoff_factory_firmware(void) {
 
-    // Patch over product ID check; otherwise what lies in firmware
-    // MUST be the same firmware.
-    // @TODO: check if can still boot with broken flash (bad checksum etc)
-    *(u8*)0xc0025e4f = 0xea;
+	// Patch over product ID check; otherwise what lies in firmware
+	// MUST be the same firmware.
+	// @TODO: check if can still boot with broken flash (bad checksum etc)
+	*(u8*)0xc0025e4f = 0xea;
 
-    // Disable interrupts
-    CPUirqd();
-    CPUfiqd();
-    IntGlobalDisable();
-    // HWREG(SOC_SPI_1_REGS + SPI_SPIPC(0)) = 0x01010e00;
-    // HWREG(SOC_SPI_1_REGS + SPI_SPIPC(1)) = 0x00000003;
+	// Disable interrupts
+	CPUirqd();
+	CPUfiqd();
+	IntGlobalDisable();
+	// HWREG(SOC_SPI_1_REGS + SPI_SPIPC(0)) = 0x01010e00;
+	// HWREG(SOC_SPI_1_REGS + SPI_SPIPC(1)) = 0x00000003;
 
-    // Uninitialize peripherals used by bootloader that
-    // firmware expects not to be initialized.
-    per_spi_unregister_interrupts(0); // LCD
-    boot_usb_terminate();
-    per_uart_terminate(0); // MCU UART
-    dev_sdcard_terminate();
+	// Uninitialize peripherals used by bootloader that
+	// firmware expects not to be initialized.
+	per_spi_unregister_interrupts(0); // LCD
+	boot_usb_terminate();
+	per_uart_terminate(0); // MCU UART
+	dev_sdcard_terminate();
 
-    // Match GPIO
-    GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 0, 0x0);
-    GPIOBankDirModeSet(SOC_GPIO_0_REGS, 0, 0xffffffff);
+	// Match GPIO
+	GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 0, 0x0);
+	GPIOBankDirModeSet(SOC_GPIO_0_REGS, 0, 0xffffffff);
 
-    // Match pinmux. Factory flash driver bitbangs SPI CS pins
-    HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_PINMUX(5)) = 0x81118188;
+	// Match pinmux. Factory flash driver bitbangs SPI CS pins
+	HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_PINMUX(5)) = 0x81118188;
 
-    // Point vector table to DDR
-    CP15HighVectorDisable();
-    HWREG(SOC_AINTC_0_REGS + AINTC_VBR) = 0xC0000000;
+	// Point vector table to DDR
+	CP15HighVectorDisable();
+	HWREG(SOC_AINTC_0_REGS + AINTC_VBR) = 0xC0000000;
 
-    boot_sanitize_and_jump();
+	boot_sanitize_and_jump();
 
 }
 
 __attribute__((noreturn))
 void handoff_freetribe_kernel(void) {
 
-    // Disable interrupts
-    CPUirqd();
-    CPUfiqd();
-    IntGlobalDisable();
+	// Disable interrupts
+	CPUirqd();
+	CPUfiqd();
+	IntGlobalDisable();
 
-    // Uninitialize peripherals used by bootloader that
-    // firmware expects not to be initialized.
-    per_spi_unregister_interrupts(0); // LCD
-    boot_usb_terminate();
-    per_uart_terminate(0); // MCU UART
-    dev_sdcard_terminate();
+	// Uninitialize peripherals used by bootloader that
+	// firmware expects not to be initialized.
+	per_spi_unregister_interrupts(0); // LCD
+	boot_usb_terminate();
+	per_uart_terminate(0); // MCU UART
+	dev_sdcard_terminate();
 
-    // Match GPIO
-    // GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 0, 0x0);
-    // GPIOBankDirModeSet(SOC_GPIO_0_REGS, 0, 0xffffffff);
+	// Match GPIO
+	// GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 0, 0x0);
+	// GPIOBankDirModeSet(SOC_GPIO_0_REGS, 0, 0xffffffff);
 
-    // Match pinmux
-    // HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_PINMUX(5)) = 0x81118188;
+	// Match pinmux
+	// HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_PINMUX(5)) = 0x81118188;
 
-    // // Point vector table to DDR
-    // CP15HighVectorDisable();
-    // HWREG(SOC_AINTC_0_REGS + AINTC_VBR) = 0xC0000000;
+	// // Point vector table to DDR
+	// CP15HighVectorDisable();
+	// HWREG(SOC_AINTC_0_REGS + AINTC_VBR) = 0xC0000000;
 
-    boot_sanitize_and_jump();
+	boot_sanitize_and_jump();
 
 }
 
@@ -151,16 +151,16 @@ void handoff_freetribe_kernel(void) {
  */
 void boot_sanitize_ddr_and_caches(void) {
 
-    CP15DCacheCleanFlush();
+	CP15DCacheCleanFlush();
 
-    // Use uncached DDR alias, that's why we start at 0xC4200000.
-    u32 *ptr = (u32 *)0xC4200000;
-    u32 *end = (u32 *)0xC8000000;
-    while (ptr < end)
-        *ptr++ = 0;
-    CP15WriteBufferDrain();
+	// Use uncached DDR alias, that's why we start at 0xC4200000.
+	u32 *ptr = (u32 *)0xC4200000;
+	u32 *end = (u32 *)0xC8000000;
+	while (ptr < end)
+		*ptr++ = 0;
+	CP15WriteBufferDrain();
 
-    CP15ICacheFlush();
+	CP15ICacheFlush();
 }
 
 

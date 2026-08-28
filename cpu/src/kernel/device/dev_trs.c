@@ -62,11 +62,11 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Static variable definitions ----------------------------------*/
 
 // TRS RX ring buffer.
-static rbd_t trs_rx_rbd;
+static rb_t trs_rx_rbd;
 static char trs_rx_rbmem[TRS_RX_BUF_LEN];
 
 // TRS TX ring buffer.
-static rbd_t trs_tx_rbd;
+static rb_t trs_tx_rbd;
 static char trs_tx_rbmem[TRS_TX_BUF_LEN];
 
 static u8 g_trs_rx_byte;
@@ -94,111 +94,103 @@ static void _trs_rx_callback(void);
 //
 void dev_trs_init(void) {
 
-    static t_uart_config uart_cfg = {.instance = TRS_UART,
-                                     .baud = 31250,
-                                     .word_length = 8,
-                                     .int_enable = true,
-                                     .int_channel = TRS_UART_INT_CHANNEL,
-                                     .fifo_enable = true,
-                                     .oversample = OVERSAMPLE_16};
-    // Tx ring buffer attributes.
-    rb_attr_t tx_attr = {sizeof(trs_tx_rbmem[0]), ARRAY_SIZE(trs_tx_rbmem),
-                         trs_tx_rbmem};
+	static t_uart_config uart_cfg = {.instance = TRS_UART,
+									 .baud = 31250,
+									 .word_length = 8,
+									 .int_enable = true,
+									 .int_channel = TRS_UART_INT_CHANNEL,
+									 .fifo_enable = true,
+									 .oversample = OVERSAMPLE_16};
+	// Initialise ring buffers.
+	if (ring_buffer_init(&trs_tx_rbd, trs_tx_rbmem, sizeof(trs_tx_rbmem[0]), ARRAY_SIZE(trs_tx_rbmem)) == RING_BUFFER_OK &&
+		ring_buffer_init(&trs_rx_rbd, trs_rx_rbmem, sizeof(trs_rx_rbmem[0]), ARRAY_SIZE(trs_rx_rbmem)) == RING_BUFFER_OK) {
 
-    // Rx ring buffer attributes.
-    rb_attr_t rx_attr = {sizeof(trs_rx_rbmem[0]), ARRAY_SIZE(trs_rx_rbmem),
-                         trs_rx_rbmem};
+		// Initialise UART for MIDI.
+		per_uart_init(&uart_cfg);
 
-    // Initialise ring buffers.
-    if (ring_buffer_init(&trs_tx_rbd, &tx_attr) ||
-        ring_buffer_init(&trs_rx_rbd, &rx_attr) == 0) {
+		// Register Tx callback.
+		per_uart_register_callback(TRS_UART, UART_TX_COMPLETE,
+								   _trs_tx_callback);
 
-        // Initialise UART for MIDI.
-        per_uart_init(&uart_cfg);
+		// Register Rx callback.
+		per_uart_register_callback(TRS_UART, UART_RX_COMPLETE,
+								   _trs_rx_callback);
 
-        // Register Tx callback.
-        per_uart_register_callback(TRS_UART, UART_TX_COMPLETE,
-                                   _trs_tx_callback);
+		g_trs_tx_complete = true;
 
-        // Register Rx callback.
-        per_uart_register_callback(TRS_UART, UART_RX_COMPLETE,
-                                   _trs_rx_callback);
-
-        g_trs_tx_complete = true;
-
-        // Enable Rx callback.
-        _trs_rx_byte();
-    }
+		// Enable Rx callback.
+		_trs_rx_byte();
+	}
 }
 
 void dev_trs_tx_enqueue(u8 *byte) {
 
-    ring_buffer_put_force(trs_tx_rbd, byte);
+	ring_buffer_put_overwrite(&trs_tx_rbd, byte, NULL);
 
-    if (g_trs_tx_complete) {
+	if (g_trs_tx_complete) {
 
-        // Start transmission.
-        _trs_tx_callback();
-    }
+		// Start transmission.
+		_trs_tx_callback();
+	}
 }
 
 int dev_trs_rx_dequeue(u8 *byte) {
 
-    return ring_buffer_get(trs_rx_rbd, byte);
+	return ring_buffer_get(&trs_rx_rbd, byte);
 }
 
 void dev_trs_register_rx_callback(void (*callback)(void)) {
 
-    p_trs_rx_callback = callback;
+	p_trs_rx_callback = callback;
 }
 
 /*----- Static function implementations ------------------------------*/
 
 static int _trs_tx_dequeue(u8 *byte) {
 
-    return ring_buffer_get(trs_tx_rbd, byte);
+	return ring_buffer_get(&trs_tx_rbd, byte);
 }
 
 static void _trs_rx_enqueue(u8 *byte) {
 
-    // Overwrite on overflow.
-    ring_buffer_put_force(trs_rx_rbd, byte);
+	// Overwrite on overflow.
+	ring_buffer_put_overwrite(&trs_rx_rbd, byte, NULL);
 
-    if (p_trs_rx_callback != NULL) {
-        p_trs_rx_callback();
-    }
+	if (p_trs_rx_callback != NULL) {
+		p_trs_rx_callback();
+	}
 }
 
 static void _trs_tx_byte(u8 *byte) {
 
-    g_trs_tx_complete = false;
-    per_uart_transmit_int(TRS_UART, byte, 1);
+	g_trs_tx_complete = false;
+	per_uart_transmit_int(TRS_UART, byte, 1);
 }
 
 static void _trs_rx_byte(void) {
-    //
-    per_uart_receive_int(TRS_UART, &g_trs_rx_byte, 1);
+	//
+	per_uart_receive_int(TRS_UART, &g_trs_rx_byte, 1);
 }
 
 static void _trs_tx_callback(void) {
-    //
-    static u8 byte;
+	//
+	static u8 byte;
 
-    // Send next queued byte.
-    if (_trs_tx_dequeue(&byte) == 0) {
+	// Send next queued byte.
+	if (_trs_tx_dequeue(&byte) == 0) {
 
-        _trs_tx_byte(&byte);
+		_trs_tx_byte(&byte);
 
-    } else {
-        g_trs_tx_complete = true;
-    }
+	} else {
+		g_trs_tx_complete = true;
+	}
 }
 
 static void _trs_rx_callback(void) {
 
-    _trs_rx_enqueue(&g_trs_rx_byte);
+	_trs_rx_enqueue(&g_trs_rx_byte);
 
-    _trs_rx_byte();
+	_trs_rx_byte();
 }
 
 /*----- End of file --------------------------------------------------*/

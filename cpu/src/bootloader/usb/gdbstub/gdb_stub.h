@@ -56,6 +56,8 @@ const u8 *gdb_stub_tx_peek(u32 *len);
 void gdb_stub_tx_discard(u32 len);
 
 void gdb_stub_service_stop_reply(void);
+void gdb_stub_service_console_output(void);
+void gdb_stub_print(const char *text);
 
 bool gdb_stub_take_handoff_request(void);
 

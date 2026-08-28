@@ -52,15 +52,15 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    STATE_INIT,
-    STATE_PRINT,
-    STATE_DISPLAY,
-    STATE_BUTTON,
-    STATE_KNOB,
-    STATE_SHUTDOWN,
-    STATE_WAIT,
+	STATE_INIT,
+	STATE_PRINT,
+	STATE_DISPLAY,
+	STATE_BUTTON,
+	STATE_KNOB,
+	STATE_SHUTDOWN,
+	STATE_WAIT,
 
-    STATE_ERROR
+	STATE_ERROR
 } e_template_task_state;
 
 /*----- Static variable definitions ----------------------------------*/
@@ -82,123 +82,118 @@ static t_status _test_shutdown(void);
 
 void test_task(void) {
 
-    static e_template_task_state state = STATE_INIT;
+	static e_template_task_state state = STATE_INIT;
 
-    switch (state) {
+	switch (state) {
 
-    // Initialise template task.
-    case STATE_INIT:
-        if (error_check(_init()) == SUCCESS) {
-            state = STATE_PRINT;
-        }
-        // Remain in INIT state until initialisation successful.
-        break;
+	// Initialise template task.
+	case STATE_INIT:
+		if (error_check(_init()) == SUCCESS) {
+			state = STATE_PRINT;
+		}
+		// Remain in INIT state until initialisation successful.
+		break;
 
-    case STATE_PRINT:
-        if (_test_print() == SUCCESS) {
-            state = STATE_BUTTON;
-        }
-        break;
+	case STATE_PRINT:
+		if (_test_print() == SUCCESS) {
+			state = STATE_BUTTON;
+		}
+		break;
 
-    case STATE_BUTTON:
-        if (test_button() == SUCCESS) {
-            state = STATE_DISPLAY;
-        }
-        break;
+	case STATE_BUTTON:
+		if (test_button() == SUCCESS) {
+			state = STATE_DISPLAY;
+		}
+		break;
 
-    case STATE_DISPLAY:
-        if (test_display() == SUCCESS) {
-            state = STATE_KNOB;
-        }
-        break;
+	case STATE_DISPLAY:
+		if (test_display() == SUCCESS) {
+			state = STATE_KNOB;
+		}
+		break;
 
-    case STATE_KNOB:
-        state = STATE_SHUTDOWN;
-        break;
+	case STATE_KNOB:
+		state = STATE_SHUTDOWN;
+		break;
 
-    case STATE_SHUTDOWN:
-        _test_shutdown();
-        state = STATE_WAIT;
-        break;
+	case STATE_SHUTDOWN:
+		_test_shutdown();
+		state = STATE_WAIT;
+		break;
 
-    case STATE_WAIT:
-        break;
+	case STATE_WAIT:
+		break;
 
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
-
-    default:
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
+	case STATE_ERROR:
+	default:
+		PANIC(PANIC_UNHANDLED_STATE);
+		break;
+	}
 }
 
 bool test_confirmed(void) {
-    //
-    return g_test_confirmed;
+	//
+	return g_test_confirmed;
 }
 
 void confirm_test(void) {
-    //
-    g_test_confirmed = true;
+	//
+	g_test_confirmed = true;
 }
 
 void reset_test(void) {
-    //
-    g_test_confirmed = false;
+	//
+	g_test_confirmed = false;
 }
 
 /*----- Static function implementations ------------------------------*/
 
 static t_status _init(void) {
 
-    t_status result = TASK_INIT_ERROR;
+	t_status result = TASK_INIT_ERROR;
 
-    ft_register_panel_callback(BUTTON_EVENT, _button_callback);
+	ft_register_panel_callback(BUTTON_EVENT, _button_callback);
 
-    ft_print("Freetribe Test");
+	ft_print("Freetribe Test");
 
-    result = SUCCESS;
-    return result;
+	result = SUCCESS;
+	return result;
 }
 
 static void _button_callback(u8 button, bool state) {
 
-    switch (button) {
+	switch (button) {
 
-    case BUTTON_PLAY:
-        if (state) {
-            confirm_test();
-        }
-        break;
+	case BUTTON_PLAY:
+		if (state) {
+			confirm_test();
+		}
+		break;
 
-    case BUTTON_EXIT:
-        if (state) {
-            ft_shutdown();
-        }
+	case BUTTON_EXIT:
+		if (state) {
+			ft_shutdown();
+		}
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 static t_status _test_print(void) {
 
-    ft_print("Print test passed.");
+	ft_print("Print test passed.");
 
-    // Assume success to move on to next test.
-    return SUCCESS;
+	// Assume success to move on to next test.
+	return SUCCESS;
 }
 
 static t_status _test_shutdown(void) {
 
-    ft_print("Test complete.");
-    ft_print("Press [Exit] to power off.");
+	ft_print("Test complete.");
+	ft_print("Press [Exit] to power off.");
 
-    return ERROR;
+	return ERROR;
 }
 
 /*----- End of file --------------------------------------------------*/

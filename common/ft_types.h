@@ -22,13 +22,9 @@
 #ifndef FT_TYPES_H
 #define FT_TYPES_H
 
-
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+#include <stddef.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 typedef   uint8_t    u8;
 typedef   uint16_t  u16;
@@ -47,10 +43,6 @@ typedef   double    f64;
 // typedef   int32_t   fix16;
 // typedef   int32_t   fract32;
 // typedef   int16_t   fract16;
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* FT_TYPES_H */
 

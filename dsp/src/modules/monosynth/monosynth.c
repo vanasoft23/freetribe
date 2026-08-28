@@ -70,52 +70,52 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    PARAM_AMP,
-    PARAM_FREQ,
-    PARAM_OSC_PHASE,
-    PARAM_LFO_PHASE,
-    PARAM_GATE,
-    PARAM_VEL,
-    PARAM_AMP_LEVEL,
-    PARAM_AMP_ENV_ATTACK,
-    PARAM_AMP_ENV_DECAY,
-    PARAM_AMP_ENV_SUSTAIN,
-    PARAM_AMP_ENV_RELEASE,
-    PARAM_AMP_ENV_DEPTH,
-    PARAM_FILTER_ENV_DEPTH,
-    PARAM_FILTER_ENV_ATTACK,
-    PARAM_FILTER_ENV_DECAY,
-    PARAM_FILTER_ENV_SUSTAIN,
-    PARAM_FILTER_ENV_RELEASE,
-    PARAM_PITCH_ENV_DEPTH,
-    PARAM_PITCH_ENV_ATTACK,
-    PARAM_PITCH_ENV_DECAY,
-    PARAM_PITCH_ENV_SUSTAIN,
-    PARAM_PITCH_ENV_RELEASE,
-    PARAM_CUTOFF,
-    PARAM_RES,
-    PARAM_TUNE,
-    PARAM_OSC_TYPE,
-    PARAM_FILTER_TYPE,
-    PARAM_AMP_LFO_DEPTH,
-    PARAM_AMP_LFO_SPEED,
-    PARAM_FILTER_LFO_DEPTH,
-    PARAM_FILTER_LFO_SPEED,
-    PARAM_PITCH_LFO_DEPTH,
-    PARAM_PITCH_LFO_SPEED,
-    PARAM_OSC_BASE_FREQ,
-    PARAM_FILTER_BASE_CUTOFF,
-    PARAM_PHASE_RESET,
-    PARAM_RETRIGGER,
+	PARAM_AMP,
+	PARAM_FREQ,
+	PARAM_OSC_PHASE,
+	PARAM_LFO_PHASE,
+	PARAM_GATE,
+	PARAM_VEL,
+	PARAM_AMP_LEVEL,
+	PARAM_AMP_ENV_ATTACK,
+	PARAM_AMP_ENV_DECAY,
+	PARAM_AMP_ENV_SUSTAIN,
+	PARAM_AMP_ENV_RELEASE,
+	PARAM_AMP_ENV_DEPTH,
+	PARAM_FILTER_ENV_DEPTH,
+	PARAM_FILTER_ENV_ATTACK,
+	PARAM_FILTER_ENV_DECAY,
+	PARAM_FILTER_ENV_SUSTAIN,
+	PARAM_FILTER_ENV_RELEASE,
+	PARAM_PITCH_ENV_DEPTH,
+	PARAM_PITCH_ENV_ATTACK,
+	PARAM_PITCH_ENV_DECAY,
+	PARAM_PITCH_ENV_SUSTAIN,
+	PARAM_PITCH_ENV_RELEASE,
+	PARAM_CUTOFF,
+	PARAM_RES,
+	PARAM_TUNE,
+	PARAM_OSC_TYPE,
+	PARAM_FILTER_TYPE,
+	PARAM_AMP_LFO_DEPTH,
+	PARAM_AMP_LFO_SPEED,
+	PARAM_FILTER_LFO_DEPTH,
+	PARAM_FILTER_LFO_SPEED,
+	PARAM_PITCH_LFO_DEPTH,
+	PARAM_PITCH_LFO_SPEED,
+	PARAM_OSC_BASE_FREQ,
+	PARAM_FILTER_BASE_CUTOFF,
+	PARAM_PHASE_RESET,
+	PARAM_RETRIGGER,
 
-    PARAM_COUNT
+	PARAM_COUNT
 } e_param;
 
 typedef struct {
 
-    Aleph_MonoVoice voice;
-    fract32 amp_level;
-    fract32 velocity;
+	Aleph_MonoVoice voice;
+	fract32 amp_level;
+	fract32 velocity;
 
 } t_module;
 
@@ -138,18 +138,18 @@ static t_module g_module;
  */
 void module_init(void) {
 
-    Aleph_init(&g_aleph, SAMPLERATE, g_mempool, MEMPOOL_SIZE, NULL);
+	Aleph_init(&g_aleph, SAMPLERATE, g_mempool, MEMPOOL_SIZE, NULL);
 
-    Aleph_MonoVoice_init(&g_module.voice, &g_aleph);
+	Aleph_MonoVoice_init(&g_module.voice, &g_aleph);
 
-    /// TODO: Define defaults.
+	/// TODO: Define defaults.
 
-    module_set_param(PARAM_AMP_LEVEL, FR32_MAX);
-    module_set_param(PARAM_OSC_TYPE, 2);
-    module_set_param(PARAM_FREQ, 220 << 16);
-    module_set_param(PARAM_TUNE, FIX16_ONE);
-    module_set_param(PARAM_CUTOFF, 0x326f6abb);
-    module_set_param(PARAM_RES, FR32_MAX);
+	module_set_param(PARAM_AMP_LEVEL, FR32_MAX);
+	module_set_param(PARAM_OSC_TYPE, 2);
+	module_set_param(PARAM_FREQ, 220 << 16);
+	module_set_param(PARAM_TUNE, FIX16_ONE);
+	module_set_param(PARAM_CUTOFF, 0x326f6abb);
+	module_set_param(PARAM_RES, FR32_MAX);
 }
 
 /**
@@ -160,16 +160,16 @@ void module_init(void) {
  */
 void module_process(fract32 *in, fract32 *out) {
 
-    fract32 output;
+	fract32 output;
 
-    output = Aleph_MonoVoice_next(&g_module.voice);
+	output = Aleph_MonoVoice_next(&g_module.voice);
 
-    // Scale amplitude by level.
-    output = mult_fr1x32x32(output, g_module.amp_level);
+	// Scale amplitude by level.
+	output = mult_fr1x32x32(output, g_module.amp_level);
 
-    // Set output.
-    out[0] = output;
-    out[1] = output;
+	// Set output.
+	out[0] = output;
+	out[1] = output;
 }
 
 /**
@@ -180,47 +180,47 @@ void module_process(fract32 *in, fract32 *out) {
  */
 void module_set_param(uint16_t param_index, int32_t value) {
 
-    switch (param_index) {
+	switch (param_index) {
 
-    case PARAM_AMP:
-        Aleph_MonoVoice_set_amp(&g_module.voice, value);
-        break;
+	case PARAM_AMP:
+		Aleph_MonoVoice_set_amp(&g_module.voice, value);
+		break;
 
-    case PARAM_FREQ:
-        Aleph_MonoVoice_set_freq(&g_module.voice, value);
-        break;
+	case PARAM_FREQ:
+		Aleph_MonoVoice_set_freq(&g_module.voice, value);
+		break;
 
-    case PARAM_OSC_PHASE:
-        Aleph_MonoVoice_set_phase(&g_module.voice, value);
-        break;
+	case PARAM_OSC_PHASE:
+		Aleph_MonoVoice_set_phase(&g_module.voice, value);
+		break;
 
-    case PARAM_TUNE:
-        Aleph_MonoVoice_set_freq_offset(&g_module.voice, value);
-        break;
+	case PARAM_TUNE:
+		Aleph_MonoVoice_set_freq_offset(&g_module.voice, value);
+		break;
 
-    case PARAM_AMP_LEVEL:
-        g_module.amp_level = value;
-        break;
+	case PARAM_AMP_LEVEL:
+		g_module.amp_level = value;
+		break;
 
-    case PARAM_CUTOFF:
-        Aleph_MonoVoice_set_cutoff(&g_module.voice, value);
-        break;
+	case PARAM_CUTOFF:
+		Aleph_MonoVoice_set_cutoff(&g_module.voice, value);
+		break;
 
-    case PARAM_RES:
-        Aleph_MonoVoice_set_res(&g_module.voice, value);
-        break;
+	case PARAM_RES:
+		Aleph_MonoVoice_set_res(&g_module.voice, value);
+		break;
 
-    case PARAM_OSC_TYPE:
-        Aleph_MonoVoice_set_shape(&g_module.voice, value);
-        break;
+	case PARAM_OSC_TYPE:
+		Aleph_MonoVoice_set_shape(&g_module.voice, value);
+		break;
 
-    case PARAM_FILTER_TYPE:
-        Aleph_MonoVoice_set_filter_type(&g_module.voice, value);
-        break;
+	case PARAM_FILTER_TYPE:
+		Aleph_MonoVoice_set_filter_type(&g_module.voice, value);
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /**
@@ -232,15 +232,15 @@ void module_set_param(uint16_t param_index, int32_t value) {
  */
 int32_t module_get_param(uint16_t param_index) {
 
-    int32_t value = 0;
+	int32_t value = 0;
 
-    switch (param_index) {
+	switch (param_index) {
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 
-    return value;
+	return value;
 }
 
 /**
@@ -260,12 +260,12 @@ uint32_t module_get_param_count(void) { return PARAM_COUNT; }
  */
 void module_get_param_name(uint16_t param_index, char *text) {
 
-    switch (param_index) {
+	switch (param_index) {
 
-    default:
-        copy_string(text, "Unknown", MAX_PARAM_NAME_LENGTH);
-        break;
-    }
+	default:
+		copy_string(text, "Unknown", MAX_PARAM_NAME_LENGTH);
+		break;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/

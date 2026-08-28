@@ -1,30 +1,30 @@
 /*----------------------------------------------------------------------
 
-                     This file is part of Freetribe
+					 This file is part of Freetribe
 
-                https://github.com/bangcorrupt/freetribe
+				https://github.com/bangcorrupt/freetribe
 
-                                License
+								License
 
-                   GNU AFFERO GENERAL PUBLIC LICENSE
-                      Version 3, 19 November 2007
+				   GNU AFFERO GENERAL PUBLIC LICENSE
+					  Version 3, 19 November 2007
 
-                           AGPL-3.0-or-later
+						   AGPL-3.0-or-later
 
  Freetribe is free software: you can redistribute it and/or modify it
 under the terms of the GNU Affero General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
-                  (at your option) any later version.
+				  (at your option) any later version.
 
-     Freetribe is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty
-        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-          See the GNU General Public License for more details.
+	 Freetribe is distributed in the hope that it will be useful,
+	  but WITHOUT ANY WARRANTY; without even the implied warranty
+		of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+		  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
  along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-                       Copyright bangcorrupt 2024
+					   Copyright bangcorrupt 2024
 
 ----------------------------------------------------------------------*/
 
@@ -75,13 +75,13 @@ void _button_callback(u8 index, bool state);
  */
 t_status app_init(void) {
 
-    t_status status = ERROR;
+	t_status status = ERROR;
 
-    ft_register_panel_callback(KNOB_EVENT, _knob_callback);
-    ft_register_panel_callback(BUTTON_EVENT, _button_callback);
+	ft_register_panel_callback(KNOB_EVENT, _knob_callback);
+	ft_register_panel_callback(BUTTON_EVENT, _button_callback);
 
-    status = SUCCESS;
-    return status;
+	status = SUCCESS;
+	return status;
 }
 
 /**
@@ -92,11 +92,11 @@ t_status app_init(void) {
  */
 void app_run(void) {
 
-    if (g_toggle_led) {
-        ft_toggle_led(LED_PLAY);
+	if (g_toggle_led) {
+		ft_toggle_led(LED_PLAY);
 
-        g_toggle_led = false;
-    }
+		g_toggle_led = false;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/
@@ -115,7 +115,7 @@ void app_run(void) {
  */
 void _knob_callback(u8 index, u8 value) {
 
-    ft_send_cc(0, index, value >> 1);
+	ft_send_cc(0, index, value >> 1);
 }
 
 /**
@@ -133,17 +133,17 @@ void _knob_callback(u8 index, u8 value) {
  */
 void _button_callback(u8 index, bool state) {
 
-    switch (index) {
+	switch (index) {
 
-    case BUTTON_PLAY:
-        if (state == 1) {
-            g_toggle_led = true;
-        }
-        break;
+	case BUTTON_PLAY:
+		if (state == 1) {
+			g_toggle_led = true;
+		}
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /*----- End of file --------------------------------------------------*/

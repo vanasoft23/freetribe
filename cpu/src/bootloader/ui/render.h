@@ -39,11 +39,11 @@ under the terms of the GNU Affero General Public License as published by
 #include "modal.h"
 
 typedef struct {
-    view_t           mode;
-    const fb_view_t *browser;
-    modal_t          modal;
-    u32              progress_done;
-    u32              progress_total;
+	view_t           mode;
+	const fb_view_t *browser;
+	modal_t          modal;
+	u32              progress_done;
+	u32              progress_total;
 } gui_view_t;
 
 void gui_init(void);

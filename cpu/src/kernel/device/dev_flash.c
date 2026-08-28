@@ -42,7 +42,7 @@ under the terms of the GNU Affero General Public License as published by
 
 #include "ft.h"
 
-#include "ft_error.h"
+
 
 #include "per_spi.h"
 
@@ -56,7 +56,7 @@ under the terms of the GNU Affero General Public License as published by
 // SPI settings
 #define FLASH_SPI             SPI_1
 #define FLASH_SPI_PIN_FUNC                                                   \
-    (SPI_PIN_SOMI | SPI_PIN_SIMO | SPI_PIN_CLK | SPI_PIN_CS0 | SPI_PIN_CS1)
+	(SPI_PIN_SOMI | SPI_PIN_SIMO | SPI_PIN_CLK | SPI_PIN_CS0 | SPI_PIN_CS1)
 #define FLASH_SPI_PIN_DIR     0
 #define FLASH_SPI_DATA_FORMAT SPI_DATA_FORMAT0
 #define FLASH_SPI_FREQ        SPI_FREQ_37_5_MHZ
@@ -134,213 +134,214 @@ static bool _flash_busy(void);
 
 /*----- Extern function implementations ------------------------------*/
 
-t_status dev_flash_init(void) {
+/** @returns true on success, false on failure */
+bool dev_flash_init(void) {
 
-    // per_spi1_init(); // Flash
-    
-    // ////////////////
-    // HWREG(SOC_SPI_1_REGS + SPI_SPIGCR0) = 0;
-    // delay_block_us(5);
-    // HWREG(SOC_SPI_1_REGS + SPI_SPIGCR0) |= 1;
-    // HWREG(SOC_SPI_1_REGS + SPI_SPIGCR1) = 3; // confirmed
-    // HWREG(SOC_SPI_1_REGS + SPI_SPIPC(0)) = 0xe00; // 0x00000F03 in custom SBL
-    // HWREG(SOC_SPI_1_REGS + SPI_SPIPC(1)) = 3;
-    // HWREG(SOC_SPI_1_REGS + SPI_SPIFMT(0)) = 0x00010308;
-    // HWREG(SOC_SPI_1_REGS + SPI_SPIGCR1) |= SPI_SPIGCR1_ENABLE;
-    // delay_block_us(5);
-    // ////////////////
-    t_spi_config config = {
-        .instance = FLASH_SPI,
-        .int_channel = 0,
-        .int_level = 0,
-        .pin_func = FLASH_SPI_PIN_FUNC,
-        .pin_dir = FLASH_SPI_PIN_DIR,
-        .int_enable = false
-    };
+	// per_spi1_init(); // Flash
+	
+	// ////////////////
+	// HWREG(SOC_SPI_1_REGS + SPI_SPIGCR0) = 0;
+	// delay_block_us(5);
+	// HWREG(SOC_SPI_1_REGS + SPI_SPIGCR0) |= 1;
+	// HWREG(SOC_SPI_1_REGS + SPI_SPIGCR1) = 3; // confirmed
+	// HWREG(SOC_SPI_1_REGS + SPI_SPIPC(0)) = 0xe00; // 0x00000F03 in custom SBL
+	// HWREG(SOC_SPI_1_REGS + SPI_SPIPC(1)) = 3;
+	// HWREG(SOC_SPI_1_REGS + SPI_SPIFMT(0)) = 0x00010308;
+	// HWREG(SOC_SPI_1_REGS + SPI_SPIGCR1) |= SPI_SPIGCR1_ENABLE;
+	// delay_block_us(5);
+	// ////////////////
+	t_spi_config config = {
+		.instance = FLASH_SPI,
+		.int_channel = 0,
+		.int_level = 0,
+		.pin_func = FLASH_SPI_PIN_FUNC,
+		.pin_dir = FLASH_SPI_PIN_DIR,
+		.int_enable = false
+	};
 
-    per_spi_init(&config);
+	per_spi_init(&config);
 
-    t_spi_format format = {
-        .instance = FLASH_SPI,
-        .index = FLASH_SPI_DATA_FORMAT,
-        .freq = FLASH_SPI_FREQ,
-        .char_length = FLASH_SPI_CHAR_LENGTH,
-    };
+	t_spi_format format = {
+		.instance = FLASH_SPI,
+		.index = FLASH_SPI_DATA_FORMAT,
+		.freq = FLASH_SPI_FREQ,
+		.char_length = FLASH_SPI_CHAR_LENGTH,
+	};
 
-    per_spi_set_data_format(&format);
-    per_spi_chip_format(FLASH_SPI, FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS, false);
-    delay_block_us(5);
+	per_spi_set_data_format(&format);
+	per_spi_chip_format(FLASH_SPI, FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS, false);
+	delay_block_us(5);
 
-    return SUCCESS;
+	return true;
 }
 
 
 void dev_flash_read(u32 src, u8 *p_dest, u32 len) {
 
-    // Wait for any write operations to complete.
-    while (_flash_busy())
-        ;
+	// Wait for any write operations to complete.
+	while (_flash_busy())
+		;
 
-    _flash_transaction_begin();
+	_flash_transaction_begin();
 
-    // Send read command.
-    _flash_command(FLASH_READ);
+	// Send read command.
+	_flash_command(FLASH_READ);
 
-    // Send source address.
-    _flash_address(src);
+	// Send source address.
+	_flash_address(src);
 
-    // Receive data.
-    _flash_rx_end(p_dest, len);
+	// Receive data.
+	_flash_rx_end(p_dest, len);
 
 }
 
 void dev_flash_write(u32 dest, u8 *p_src, u32 len) {
 
-    if (len == 0) {
-        return;
-    }
+	if (len == 0) {
+		return;
+	}
 
-    u16 sector_offset = dest & SECTOR_OFFSET_MASK;
+	u16 sector_offset = dest & SECTOR_OFFSET_MASK;
 
-    // If destination address not sector aligned.
-    if (sector_offset) {
+	// If destination address not sector aligned.
+	if (sector_offset) {
 
-        // Start address of target sector.
-        dest -= sector_offset;
+		// Start address of target sector.
+		dest -= sector_offset;
 
-        // Number of bytes to copy.
-        u16 copy_length = SECTOR_LENGTH - sector_offset;
-        if (copy_length > len) {
-            copy_length = len;
-        }
+		// Number of bytes to copy.
+		u16 copy_length = SECTOR_LENGTH - sector_offset;
+		if (copy_length > len) {
+			copy_length = len;
+		}
 
-        // Read target sector.
-        dev_flash_read(dest, g_sector_buffer, SECTOR_LENGTH);
+		// Read target sector.
+		dev_flash_read(dest, g_sector_buffer, SECTOR_LENGTH);
 
-        // Copy source data to sector buffer.
-        memcpy(g_sector_buffer + sector_offset, p_src, copy_length);
+		// Copy source data to sector buffer.
+		memcpy(g_sector_buffer + sector_offset, p_src, copy_length);
 
-        _sector_erase(dest);
+		_sector_erase(dest);
 
-        _sector_write(dest, g_sector_buffer);
+		_sector_write(dest, g_sector_buffer);
 
-        p_src += copy_length;
-        dest += SECTOR_LENGTH;
-        len -= copy_length;
-    }
+		p_src += copy_length;
+		dest += SECTOR_LENGTH;
+		len -= copy_length;
+	}
 
-    // Write complete sectors.
-    while (len >> SECTOR_INDEX_SHIFT) {
+	// Write complete sectors.
+	while (len >> SECTOR_INDEX_SHIFT) {
 
-        _sector_erase(dest);
+		_sector_erase(dest);
 
-        _sector_write(dest, p_src);
+		_sector_write(dest, p_src);
 
-        p_src += SECTOR_LENGTH;
-        dest += SECTOR_LENGTH;
-        len -= SECTOR_LENGTH;
-    }
+		p_src += SECTOR_LENGTH;
+		dest += SECTOR_LENGTH;
+		len -= SECTOR_LENGTH;
+	}
 
-    // If partial final sector.
-    if (len) {
+	// If partial final sector.
+	if (len) {
 
-        // Read target sector.
-        dev_flash_read(dest, g_sector_buffer, SECTOR_LENGTH);
+		// Read target sector.
+		dev_flash_read(dest, g_sector_buffer, SECTOR_LENGTH);
 
-        // Copy source data to sector buffer.
-        memcpy(g_sector_buffer, p_src, len);
+		// Copy source data to sector buffer.
+		memcpy(g_sector_buffer, p_src, len);
 
-        _sector_erase(dest);
+		_sector_erase(dest);
 
-        _sector_write(dest, g_sector_buffer);
-    }
+		_sector_write(dest, g_sector_buffer);
+	}
 }
 
 bool dev_flash_verify(u32 flash_addr, u8 *p_ram_data, u32 len) {
 
-    bool verified = true;
-    u16 i;
+	bool verified = true;
+	u16 i;
 
-    while (len > SECTOR_LENGTH) {
+	while (len > SECTOR_LENGTH) {
 
-        // Read data from flash (does not need to be sector aligned).
-        dev_flash_read(flash_addr, g_sector_buffer, SECTOR_LENGTH);
+		// Read data from flash (does not need to be sector aligned).
+		dev_flash_read(flash_addr, g_sector_buffer, SECTOR_LENGTH);
 
-        for (i = 0; i < SECTOR_LENGTH; i++) {
+		for (i = 0; i < SECTOR_LENGTH; i++) {
 
-            if (g_sector_buffer[i] != p_ram_data[i]) {
-                verified = false;
-            }
-        }
+			if (g_sector_buffer[i] != p_ram_data[i]) {
+				verified = false;
+			}
+		}
 
-        p_ram_data += SECTOR_LENGTH;
-        flash_addr += SECTOR_LENGTH;
-        len -= SECTOR_LENGTH;
-    }
+		p_ram_data += SECTOR_LENGTH;
+		flash_addr += SECTOR_LENGTH;
+		len -= SECTOR_LENGTH;
+	}
 
-    dev_flash_read(flash_addr, g_sector_buffer, len);
+	dev_flash_read(flash_addr, g_sector_buffer, len);
 
-    for (i = 0; i < len; i++) {
+	for (i = 0; i < len; i++) {
 
-        if (g_sector_buffer[i] != p_ram_data[i]) {
-            verified = false;
-        }
-    }
+		if (g_sector_buffer[i] != p_ram_data[i]) {
+			verified = false;
+		}
+	}
 
-    return verified;
+	return verified;
 }
 
 void dev_flash_erase(u32 address, u32 len) {
 
-    if (len == 0) {
-        return;
-    }
+	if (len == 0) {
+		return;
+	}
 
-    u16 sector_offset = address & SECTOR_OFFSET_MASK;
+	u16 sector_offset = address & SECTOR_OFFSET_MASK;
 
-    // If destination address not sector aligned.
-    if (sector_offset) {
+	// If destination address not sector aligned.
+	if (sector_offset) {
 
-        // Start address of target sector.
-        address -= sector_offset;
+		// Start address of target sector.
+		address -= sector_offset;
 
-        // Number of bytes to set.
-        u16 set_length = SECTOR_LENGTH - sector_offset;
-        if (set_length > len) {
-            set_length = len;
-        }
+		// Number of bytes to set.
+		u16 set_length = SECTOR_LENGTH - sector_offset;
+		if (set_length > len) {
+			set_length = len;
+		}
 
-        // Read target sector.
-        dev_flash_read(address, g_sector_buffer, SECTOR_LENGTH);
+		// Read target sector.
+		dev_flash_read(address, g_sector_buffer, SECTOR_LENGTH);
 
-        memset(g_sector_buffer + sector_offset, 0xff, set_length);
+		memset(g_sector_buffer + sector_offset, 0xff, set_length);
 
-        _sector_erase(address);
+		_sector_erase(address);
 
-        _sector_write(address, g_sector_buffer);
+		_sector_write(address, g_sector_buffer);
 
-        address += SECTOR_LENGTH;
-        len -= set_length;
-    }
+		address += SECTOR_LENGTH;
+		len -= set_length;
+	}
 
-    while (len >> SECTOR_INDEX_SHIFT) {
+	while (len >> SECTOR_INDEX_SHIFT) {
 
-        _sector_erase(address);
+		_sector_erase(address);
 
-        address += SECTOR_LENGTH;
-        len -= SECTOR_LENGTH;
-    }
+		address += SECTOR_LENGTH;
+		len -= SECTOR_LENGTH;
+	}
 
-    if (len) {
+	if (len) {
 
-        dev_flash_read(address, g_sector_buffer, SECTOR_LENGTH);
+		dev_flash_read(address, g_sector_buffer, SECTOR_LENGTH);
 
-        memset(g_sector_buffer, 0xff, len);
+		memset(g_sector_buffer, 0xff, len);
 
-        _sector_erase(address);
+		_sector_erase(address);
 
-        _sector_write(address, g_sector_buffer);
-    }
+		_sector_write(address, g_sector_buffer);
+	}
 }
 
 void dev_flash_unlock(void) { _gang_block_unlock(); }
@@ -349,95 +350,95 @@ void dev_flash_unlock(void) { _gang_block_unlock(); }
 
 static void _sector_write(u32 dest, u8 *p_src) {
 
-    u8 i;
+	u8 i;
 
-    for (i = 0; i < PAGES_PER_SECTOR; i++) {
+	for (i = 0; i < PAGES_PER_SECTOR; i++) {
 
-        _page_program(dest, p_src);
+		_page_program(dest, p_src);
 
-        dest += PAGE_LENGTH;
-        p_src += PAGE_LENGTH;
-    }
+		dest += PAGE_LENGTH;
+		p_src += PAGE_LENGTH;
+	}
 }
 
 static void _sector_erase(u32 sector_addr) {
 
-    while (!_write_enable())
-        ;
+	while (!_write_enable())
+		;
 
-    _flash_transaction_begin();
+	_flash_transaction_begin();
 
-    _flash_command(FLASH_SECTOR_ERASE);
+	_flash_command(FLASH_SECTOR_ERASE);
 
-    _flash_address_end(sector_addr);
+	_flash_address_end(sector_addr);
 
-    while (_flash_busy())
-        ;
+	while (_flash_busy())
+		;
 
-    while (_read_status() & WRITE_ENABLE_LATCH)
-        ;
+	while (_read_status() & WRITE_ENABLE_LATCH)
+		;
 
-    if (_read_security() & ERASE_FAIL) {
-        /// TODO: Handle error.
-    }
+	if (_read_security() & ERASE_FAIL) {
+		/// TODO: Handle error.
+	}
 }
 
 static void _page_program(u32 dest, u8 *p_src) {
 
-    while (!_write_enable())
-        ;
+	while (!_write_enable())
+		;
 
-    _flash_transaction_begin();
+	_flash_transaction_begin();
 
-    _flash_command(FLASH_PAGE_PROGRAM);
+	_flash_command(FLASH_PAGE_PROGRAM);
 
-    _flash_address(dest);
+	_flash_address(dest);
  
-    _flash_tx_end(p_src, PAGE_LENGTH);
+	_flash_tx_end(p_src, PAGE_LENGTH);
 
-    while (_flash_busy())
-        ;
+	while (_flash_busy())
+		;
 
-    while (_read_status() & WRITE_ENABLE_LATCH)
-        ;
+	while (_read_status() & WRITE_ENABLE_LATCH)
+		;
 
-    if (_read_security() & PROGRAM_FAIL) {
-        /// TODO: Handle error.
-    }
+	if (_read_security() & PROGRAM_FAIL) {
+		/// TODO: Handle error.
+	}
 }
 
 static bool _flash_busy(void) { return _read_status() & WRITE_IN_PROGRESS; }
 
 static bool _write_enable(void) {
 
-    _flash_transaction_begin();
-    _flash_command_end(FLASH_WRITE_ENABLE);
+	_flash_transaction_begin();
+	_flash_command_end(FLASH_WRITE_ENABLE);
 
-    return _read_status() & WRITE_ENABLE_LATCH;
+	return _read_status() & WRITE_ENABLE_LATCH;
 }
 
 static u8 _read_reg_byte(u8 cmd) {
 
-    u8 flash_reg = 0;
+	u8 flash_reg = 0;
 
-    _flash_transaction_begin();
-    _flash_command(cmd);
+	_flash_transaction_begin();
+	_flash_command(cmd);
 
-    _flash_rx_end(&flash_reg, 1);
+	_flash_rx_end(&flash_reg, 1);
 
-    return flash_reg;
+	return flash_reg;
 }
 
 static u16 _read_reg_short(u8 cmd) {
 
-    u8 flash_reg[2] = {0};
+	u8 flash_reg[2] = {0};
 
-    _flash_transaction_begin();
-    _flash_command(cmd);
+	_flash_transaction_begin();
+	_flash_command(cmd);
 
-    _flash_rx_end(&flash_reg[0], 2);
+	_flash_rx_end(&flash_reg[0], 2);
 
-    return (flash_reg[0] << 8) | flash_reg[1];
+	return (flash_reg[0] << 8) | flash_reg[1];
 }
 
 static u8 _read_status(void) { return _read_reg_byte(FLASH_READ_STATUS); }
@@ -452,169 +453,169 @@ static u8 _read_spb_lock(void) { return _read_reg_byte(FLASH_READ_SPB_LOCK); }
 
 static bool _read_spb(u32 addr) {
 
-    u8 spb = 0;
+	u8 spb = 0;
 
-    _flash_transaction_begin();
-    _flash_command(FLASH_READ_SPB);
-    _flash_address_32bit(addr);
+	_flash_transaction_begin();
+	_flash_command(FLASH_READ_SPB);
+	_flash_address_32bit(addr);
 
-    _flash_rx_end(&spb, 1);
+	_flash_rx_end(&spb, 1);
 
-    return (bool)spb;
+	return (bool)spb;
 }
 
 static bool _read_dpb(u32 addr) {
 
-    u8 dpb = 0;
+	u8 dpb = 0;
 
-    _flash_transaction_begin();
-    _flash_command(FLASH_READ_DPB);
-    _flash_address_32bit(addr);
+	_flash_transaction_begin();
+	_flash_command(FLASH_READ_DPB);
+	_flash_address_32bit(addr);
 
-    _flash_rx_end(&dpb, 1);
+	_flash_rx_end(&dpb, 1);
 
-    return (bool)dpb;
+	return (bool)dpb;
 }
 
 static void _erase_spb(void) {
 
-    while (!_write_enable())
-        ;
+	while (!_write_enable())
+		;
 
-    _flash_transaction_begin();
+	_flash_transaction_begin();
 
-    _flash_command_end(FLASH_ERASE_SPB);
+	_flash_command_end(FLASH_ERASE_SPB);
 
-    while (_flash_busy())
-        ;
+	while (_flash_busy())
+		;
 
-    while (_read_status() & WRITE_ENABLE_LATCH)
-        ;
+	while (_read_status() & WRITE_ENABLE_LATCH)
+		;
 
-    if (_read_security() & ERASE_FAIL) {
-        /// TODO: Handle error.
-    }
+	if (_read_security() & ERASE_FAIL) {
+		/// TODO: Handle error.
+	}
 
-    if (_read_security() & PROGRAM_FAIL) {
-        /// TODO: Handle error.
-    }
+	if (_read_security() & PROGRAM_FAIL) {
+		/// TODO: Handle error.
+	}
 }
 
 static void _gang_block_unlock(void) {
 
-    while (!_write_enable())
-        ;
+	while (!_write_enable())
+		;
 
-    _flash_transaction_begin();
+	_flash_transaction_begin();
 
-    _flash_command_end(FLASH_GANG_BLOCK_UNLOCK);
+	_flash_command_end(FLASH_GANG_BLOCK_UNLOCK);
 
-    while (_flash_busy())
-        ;
+	while (_flash_busy())
+		;
 
-    while (_read_status() & WRITE_ENABLE_LATCH)
-        ;
+	while (_read_status() & WRITE_ENABLE_LATCH)
+		;
 }
 
 static void _write_disable(void) {
 
-    _flash_transaction_begin();
+	_flash_transaction_begin();
 
-    _flash_command_end(FLASH_WRITE_DISABLE);
+	_flash_command_end(FLASH_WRITE_DISABLE);
 
-    while (_read_status() & WRITE_ENABLE_LATCH)
-        ;
+	while (_read_status() & WRITE_ENABLE_LATCH)
+		;
 }
 
 static void _flash_transaction_begin(void) {
 
-    per_spi_chip_format(FLASH_SPI, FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS, true);
+	per_spi_chip_format(FLASH_SPI, FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS, true);
 }
 
 static void _flash_command(u8 cmd) { _flash_tx(&cmd, 1); }
 
 static void _flash_command_end(u8 cmd) {
 
-    _flash_tx_end(&cmd, 1);
+	_flash_tx_end(&cmd, 1);
 }
 
 /// TODO: Maybe typedef flash_address.
 static void _flash_address(u32 address) {
 
-    u8 addr[3];
+	u8 addr[3];
 
-    _flash_pack_address(address, addr);
-    _flash_tx(addr, sizeof(addr));
+	_flash_pack_address(address, addr);
+	_flash_tx(addr, sizeof(addr));
 }
 
 static void _flash_address_end(u32 address) {
 
-    u8 addr[3];
+	u8 addr[3];
 
-    _flash_pack_address(address, addr);
-    _flash_tx_end(addr, sizeof(addr));
+	_flash_pack_address(address, addr);
+	_flash_tx_end(addr, sizeof(addr));
 }
 
 static void _flash_address_32bit(u32 address) {
 
-    u8 addr[4];
+	u8 addr[4];
 
-    _flash_pack_address_32bit(address, addr);
-    _flash_tx(addr, sizeof(addr));
+	_flash_pack_address_32bit(address, addr);
+	_flash_tx(addr, sizeof(addr));
 }
 
 static void _flash_pack_address(u32 address, u8 addr[3]) {
 
-    addr[0] = (u8)(address >> 16);
-    addr[1] = (u8)(address >> 8);
-    addr[2] = (u8)address;
+	addr[0] = (u8)(address >> 16);
+	addr[1] = (u8)(address >> 8);
+	addr[2] = (u8)address;
 }
 
 static void _flash_pack_address_32bit(u32 address, u8 addr[4]) {
 
-    addr[0] = (u8)(address >> 24);
-    addr[1] = (u8)(address >> 16);
-    addr[2] = (u8)(address >> 8);
-    addr[3] = (u8)address;
+	addr[0] = (u8)(address >> 24);
+	addr[1] = (u8)(address >> 16);
+	addr[2] = (u8)(address >> 8);
+	addr[3] = (u8)address;
 }
 
 static void _flash_tx(u8 *p_tx, u32 len) {
 
-    /// TODO: SPI_1 needs mutex to prevent DSP and flash access collision.
-    if (!p_tx || len == 0) {
-        return;
-    }
+	/// TODO: SPI_1 needs mutex to prevent DSP and flash access collision.
+	if (!p_tx || len == 0) {
+		return;
+	}
 
-    per_spi_transfer_blocking(FLASH_SPI, p_tx, NULL, len);
+	per_spi_transfer_blocking(FLASH_SPI, p_tx, NULL, len);
 
 }
 
 static void _flash_tx_end(u8 *p_tx, u32 len) {
 
-    if (!p_tx || len == 0) {
-        return;
-    }
+	if (!p_tx || len == 0) {
+		return;
+	}
 
-    per_spi_transfer_blocking_end(FLASH_SPI, p_tx, NULL, len,
-                                  FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS);
+	per_spi_transfer_blocking_end(FLASH_SPI, p_tx, NULL, len,
+								  FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS);
 }
 
 static void _flash_rx(u8 *p_rx, u32 len) {
 
-    /// TODO: SPI_1 needs mutex to prevent DSP and flash access collision.
-    if (!p_rx || len == 0) {
-        return;
-    }
+	/// TODO: SPI_1 needs mutex to prevent DSP and flash access collision.
+	if (!p_rx || len == 0) {
+		return;
+	}
 
-    per_spi_transfer_blocking(FLASH_SPI, NULL, p_rx, len);
+	per_spi_transfer_blocking(FLASH_SPI, NULL, p_rx, len);
 }
 
 static void _flash_rx_end(u8 *p_rx, u32 len) {
 
-    if (!p_rx || len == 0) {
-        return;
-    }
+	if (!p_rx || len == 0) {
+		return;
+	}
 
-    per_spi_transfer_blocking_end(FLASH_SPI, NULL, p_rx, len,
-                                  FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS);
+	per_spi_transfer_blocking_end(FLASH_SPI, NULL, p_rx, len,
+								  FLASH_SPI_DATA_FORMAT, SPI_FLASH_CS);
 }

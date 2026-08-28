@@ -89,14 +89,14 @@ void _psc0_init(void);
 void _psc1_init(void);
 
 void _pll0_init(unsigned char clk_src, unsigned char pllm,
-                unsigned char prediv, unsigned char postdiv,
-                unsigned char div1, unsigned char div3,
-                unsigned char div7);
-                
+				unsigned char prediv, unsigned char postdiv,
+				unsigned char div1, unsigned char div3,
+				unsigned char div7);
+				
 void _pll1_init(unsigned char pllm, unsigned char postdiv,
-                unsigned char div1, unsigned char div2,
-                unsigned char div3);
-                
+				unsigned char div1, unsigned char div2,
+				unsigned char div3);
+				
 void delay(unsigned int count);
 #ifdef __cplusplus
 }

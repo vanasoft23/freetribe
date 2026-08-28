@@ -55,7 +55,7 @@ extern "C" {
 
 void dev_dsp_init(void);
 void dev_dsp_spi_tx_enqueue(u8 *dsp_spi_msg);
-int dev_dsp_spi_rx_dequeue(u8 *dsp_spi_msg);
+bool dev_dsp_spi_rx_dequeue(u8 *dsp_spi_msg);
 void dev_dsp_spi_poll(void);
 void dev_dsp_spi_tx_boot(u8 *buffer, u32 length);
 void dev_dsp_reset(bool state);

@@ -51,10 +51,10 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    STATE_INIT,
-    STATE_RUN,
-    STATE_ERROR,
-    STATE_DELAY,
+	STATE_INIT,
+	STATE_RUN,
+	STATE_ERROR,
+	STATE_DELAY,
 } e_zoia_task_state;
 
 /*----- Static variable definitions ----------------------------------*/
@@ -70,107 +70,102 @@ static void _event_parse(t_zoia_event *event);
 
 void zoia_task(void) {
 
-    static e_zoia_task_state state = STATE_INIT;
+	static e_zoia_task_state state = STATE_INIT;
 
-    static t_zoia_event event;
+	static t_zoia_event event;
 
-    static t_delay_state delay;
+	static t_delay_state delay;
 
-    switch (state) {
+	switch (state) {
 
-    // Initialise zoia task.
-    case STATE_INIT:
+	// Initialise zoia task.
+	case STATE_INIT:
 
-        if (_zoia_init() == SUCCESS) {
-            state = STATE_RUN;
-        }
-        // Remain in INIT state until initialisation successful.
-        break;
+		if (_zoia_init() == SUCCESS) {
+			state = STATE_RUN;
+		}
+		// Remain in INIT state until initialisation successful.
+		break;
 
-    case STATE_RUN:
+	case STATE_RUN:
 
-        if (zoia_dequeue(&event) == SUCCESS) {
+		if (zoia_dequeue(&event) == SUCCESS) {
 
-            if (event.value == ZOIA_VALUE_BACK &&
-                event.type == ZOIA_EVENT_PRESS) {
+			if (event.value == ZOIA_VALUE_BACK &&
+				event.type == ZOIA_EVENT_PRESS) {
 
-                // Add delay between BACK presses to avoid bug.
-                ft_start_delay(&delay, DELAY_TIME);
-                state = STATE_DELAY;
+				// Add delay between BACK presses to avoid bug.
+				ft_start_delay(&delay, DELAY_TIME);
+				state = STATE_DELAY;
 
-            } else {
-                _event_parse(&event);
-            }
-        }
-        break;
+			} else {
+				_event_parse(&event);
+			}
+		}
+		break;
 
-    case STATE_DELAY:
+	case STATE_DELAY:
 
-        // Wait for delay.
-        if (ft_delay(&delay)) {
+		// Wait for delay.
+		if (ft_delay(&delay)) {
 
-            // Parse delayed event.
-            _event_parse(&event);
+			// Parse delayed event.
+			_event_parse(&event);
 
-            // Reset start time.
-            ft_start_delay(&delay, DELAY_TIME);
+			// Reset start time.
+			ft_start_delay(&delay, DELAY_TIME);
 
-            // Move back to RUN state.
-            state = STATE_RUN;
-        }
-        break;
+			// Move back to RUN state.
+			state = STATE_RUN;
+		}
+		break;
 
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
-
-    default:
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
+	case STATE_ERROR:
+	default:
+		PANIC(PANIC_UNHANDLED_STATE);
+		break;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/
 
 static t_status _zoia_init(void) {
 
-    t_status result = TASK_INIT_ERROR;
+	t_status result = TASK_INIT_ERROR;
 
-    if (zoia_queue_init() == SUCCESS) {
+	if (zoia_queue_init() == SUCCESS) {
 
-        // Do any other initialisation...
+		// Do any other initialisation...
 
-        result = SUCCESS;
-    }
+		result = SUCCESS;
+	}
 
-    return result;
+	return result;
 }
 
 static void _event_parse(t_zoia_event *p_event) {
 
-    switch (p_event->type) {
+	switch (p_event->type) {
 
-    case ZOIA_EVENT_BYPASS:
-        zoia_bypass(p_event->value);
-        break;
+	case ZOIA_EVENT_BYPASS:
+		zoia_bypass(p_event->value);
+		break;
 
-    case ZOIA_EVENT_PRESS:
-        zoia_press(p_event->value);
-        break;
+	case ZOIA_EVENT_PRESS:
+		zoia_press(p_event->value);
+		break;
 
-    case ZOIA_EVENT_RELEASE:
-        zoia_release(p_event->value);
-        break;
+	case ZOIA_EVENT_RELEASE:
+		zoia_release(p_event->value);
+		break;
 
-    case ZOIA_EVENT_TURN:
-        zoia_turn(p_event->value);
-        break;
+	case ZOIA_EVENT_TURN:
+		zoia_turn(p_event->value);
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /*----- End of file --------------------------------------------------*/

@@ -49,7 +49,7 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Static variable definitions ----------------------------------*/
 
 // Event queue ring buffer.
-static rbd_t g_zoia_rbd;
+static rb_t g_zoia_rbd;
 static char g_zoia_rbmem[ZOIA_EVENT_QUEUE_LEN][sizeof(t_zoia_event)];
 
 /*----- Extern variable definitions ----------------------------------*/
@@ -60,32 +60,30 @@ static char g_zoia_rbmem[ZOIA_EVENT_QUEUE_LEN][sizeof(t_zoia_event)];
 
 t_status zoia_queue_init(void) {
 
-    t_status result = ERROR;
+	t_status result = ERROR;
 
-    // Event queue buffer attributes.
-    rb_attr_t rb_attr = {sizeof(g_zoia_rbmem[0]), ARRAY_SIZE(g_zoia_rbmem),
-                         g_zoia_rbmem};
+	// Event queue buffer attributes.
+	if (ring_buffer_init(&g_zoia_rbd, g_zoia_rbmem, sizeof(g_zoia_rbmem[0]),
+						 ARRAY_SIZE(g_zoia_rbmem)) == RING_BUFFER_OK) {
 
-    if (ring_buffer_init(&g_zoia_rbd, &rb_attr) == SUCCESS) {
+		// Do any other initialisation...
 
-        // Do any other initialisation...
+		result = SUCCESS;
+	}
 
-        result = SUCCESS;
-    }
-
-    return result;
+	return result;
 }
 
 t_status zoia_enqueue(t_zoia_event *p_event) {
 
-    // Returns 0 if SUCCESS.
-    return ring_buffer_put(g_zoia_rbd, p_event);
+	// Returns 0 if SUCCESS.
+	return ring_buffer_put(&g_zoia_rbd, p_event);
 }
 
 t_status zoia_dequeue(t_zoia_event *p_event) {
 
-    // Returns 0 if SUCCESS.
-    return ring_buffer_get(g_zoia_rbd, p_event);
+	// Returns 0 if SUCCESS.
+	return ring_buffer_get(&g_zoia_rbd, p_event);
 }
 
 /*----- Static function implementations ------------------------------*/

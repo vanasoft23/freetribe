@@ -44,71 +44,84 @@ under the terms of the GNU Affero General Public License as published by
 #include "pathstr.h"
 
 
-bool path_has_extension(const char *name, const char *extension) {
+const char *path_extract_filename(const char *path)
+{
+	const char *filename = path;
 
-    u16 name_len = strlen(name);
-    u16 ext_len = strlen(extension);
+	while ('\0' != *path) {
+		if (('/' == *path) || ('\\' == *path)) {
+			filename = path + 1;
+		}
+		path++;
+	}
+	return filename;
+}
 
-    if (name_len < ext_len) {
-        return false;
-    }
+bool path_has_extension(const char *name, const char *extension)
+{
+	u16 name_len = strlen(name);
+	u16 ext_len = strlen(extension);
 
-    name += name_len - ext_len;
-    while (*extension) {
-        if (char_to_upper(*name) != char_to_upper(*extension)) {
-            return false;
-        }
-        name++;
-        extension++;
-    }
+	if (name_len < ext_len) {
+		return false;
+	}
 
-    return true;
+	name += name_len - ext_len;
+	while (*extension) {
+		if (char_to_upper(*name) != char_to_upper(*extension)) {
+			return false;
+		}
+		name++;
+		extension++;
+	}
+
+	return true;
 
 }
 
-void path_build_child_path(char *dest, u16 dest_size, const char *name, const char *current_dir) {
+void path_build_child_path(char *dest, u16 dest_size, const char *name, const char *current_dir) 
+{
+	u16 len;
 
-    u16 len;
+	memset(dest, 0, dest_size);
 
-    memset(dest, 0, dest_size);
+	if (path_is_root_dir(current_dir)) {
+		strncpy(dest, "/", dest_size - 1);
+	} else {
+		strncpy(dest, current_dir, dest_size - 1);
+		dest[dest_size - 1] = '\0';
 
-    if (path_is_root_dir(current_dir)) {
-        strncpy(dest, "/", dest_size - 1);
-    } else {
-        strncpy(dest, current_dir, dest_size - 1);
-        dest[dest_size - 1] = '\0';
+		len = strlen(dest);
+		if (len < (dest_size - 1)) {
+			strncat(dest, "/", dest_size - len - 1);
+		}
+	}
 
-        len = strlen(dest);
-        if (len < (dest_size - 1)) {
-            strncat(dest, "/", dest_size - len - 1);
-        }
-    }
-
-    len = strlen(dest);
-    if (len < (dest_size - 1)) {
-        strncat(dest, name, dest_size - len - 1);
-    }
+	len = strlen(dest);
+	if (len < (dest_size - 1)) {
+		strncat(dest, name, dest_size - len - 1);
+	}
 
 }
 
 
-void path_goto_parent_dir(char *path) {
+void path_goto_parent_dir(char *path)
+{
+	// Copy old path string
+	char tmp[PATH_NAME_MAX];
+	strncpy(tmp, path, PATH_NAME_MAX - 1);
+	tmp[PATH_NAME_MAX - 1] = '\0';
 
-    // Copy old path string
-    char tmp[PATH_NAME_MAX];
-    strncpy(tmp, path, PATH_NAME_MAX - 1);
-    tmp[PATH_NAME_MAX - 1] = '\0';
+	char *last_separator = strrchr(tmp, '/');
+	if ((NULL == last_separator) || (last_separator == tmp)) {
 
-    char *last_separator = strrchr(tmp, '/');
-    if ((NULL == last_separator) || (last_separator == tmp)) {
+		strncpy(path, "/", PATH_NAME_MAX - 1);
+	} else {
 
-        strncpy(path, "/", PATH_NAME_MAX - 1);
-    } else {
+		*last_separator = '\0';
+		strncpy(path, tmp, PATH_NAME_MAX - 1);
+	}
 
-        *last_separator = '\0';
-        strncpy(path, tmp, PATH_NAME_MAX - 1);
-    }
-
-    path[PATH_NAME_MAX - 1] = '\0';
+	path[PATH_NAME_MAX - 1] = '\0';
 }
 

@@ -24,13 +24,8 @@
             //"runToEntryPoint": "main",
 
             "overrideLaunchCommands": [
-                // "set debug remote 1",
-                "monitor semihosting enable 0xFFFF0008",
-                "monitor semihosting IOClient 2",
-                "load ./build/bootloader/bootloader.elf",
-                "file ./build/bootloader/bootloader.elf",
-                "set $pc=0x80000000",
-            ],
+                "source ./cpu/gdb/run-bootloader.gdb"
+            ]
 
         },
 
@@ -95,7 +90,7 @@
             "showDevDebugOutput": "none",
 
             "overrideLaunchCommands": [
-                "source ./cpu/gdb/debug-mmcsd-hw-test.gdb"
+                "source ./cpu/gdb/run-mmcsd-hw-test.gdb"
             ]
         }
     ]

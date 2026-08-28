@@ -1,30 +1,30 @@
 /*----------------------------------------------------------------------
 
-                     This file is part of Freetribe
+					 This file is part of Freetribe
 
-                https://github.com/bangcorrupt/freetribe
+				https://github.com/bangcorrupt/freetribe
 
-                                License
+								License
 
-                   GNU AFFERO GENERAL PUBLIC LICENSE
-                      Version 3, 19 November 2007
+				   GNU AFFERO GENERAL PUBLIC LICENSE
+					  Version 3, 19 November 2007
 
-                           AGPL-3.0-or-later
+						   AGPL-3.0-or-later
 
  Freetribe is free software: you can redistribute it and/or modify it
 under the terms of the GNU Affero General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
-                  (at your option) any later version.
+				  (at your option) any later version.
 
-     Freetribe is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty
-        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-          See the GNU General Public License for more details.
+	 Freetribe is distributed in the hope that it will be useful,
+	  but WITHOUT ANY WARRANTY; without even the implied warranty
+		of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+		  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
  along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-                       Copyright bangcorrupt 2024
+					   Copyright bangcorrupt 2024
 
 ----------------------------------------------------------------------*/
 
@@ -63,14 +63,14 @@ under the terms of the GNU Affero General Public License as published by
  */
 t_status app_init(void) {
 
-    t_status status = ERROR;
+	t_status status = ERROR;
 
-    // Initialise GUI.
-    gui_task();
+	// Initialise GUI.
+	gui_task();
 
-    status = SUCCESS;
+	status = SUCCESS;
 
-    return status;
+	return status;
 }
 
 /**
@@ -78,8 +78,8 @@ t_status app_init(void) {
  */
 void app_run(void) {
 
-    gui_task();
-    test_task();
+	gui_task();
+	test_task();
 }
 
 /*----- Static function implementations ------------------------------*/

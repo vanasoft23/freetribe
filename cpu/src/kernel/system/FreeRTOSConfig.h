@@ -406,12 +406,12 @@
 
 /* *INDENT-OFF* */
 #define configASSERT( x )         \
-    if( ( x ) == 0 )              \
-    {                             \
-        taskDISABLE_INTERRUPTS(); \
-        for( ; ; )                \
-        ;                         \
-    }
+	if( ( x ) == 0 )              \
+	{                             \
+		taskDISABLE_INTERRUPTS(); \
+		for( ; ; )                \
+		;                         \
+	}
 /* *INDENT-ON* */
 
 /******************************************************************************/

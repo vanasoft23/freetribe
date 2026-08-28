@@ -57,9 +57,9 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Static variable definitions ----------------------------------*/
 
 struct usb_service {
-    SemaphoreHandle_t mutex;
-    volatile bool     ready;
-    volatile bool     init_failed;
+	SemaphoreHandle_t mutex;
+	volatile bool     ready;
+	volatile bool     init_failed;
 };
 
 /*----- Static function prototypes -----------------------------------*/
@@ -68,7 +68,7 @@ struct usb_service {
 
 void svc_usb_task(void *param) {
 
-    (void)param;
+	(void)param;
 
 }
 
@@ -78,7 +78,7 @@ bool svc_usb_init_failed(void) { return true; }
 
 bool svc_usb_mounted(void) {
 
-    return false;
+	return false;
 }
 
 /*----- End of file --------------------------------------------------*/

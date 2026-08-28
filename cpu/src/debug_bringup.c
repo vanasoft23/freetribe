@@ -60,37 +60,37 @@ extern void per_ddr_init(void);
 __attribute__((naked, noreturn))
 void start(void) {
 
-    //
-    // set up temporary stack
-    //
-    asm volatile(
-        "ldr   r0, =" STR(STACK_ADDR) "\n\t"             // read the stack address
-        "msr   cpsr_c, #" STR(MODE_SVC | I_F_BIT) "\n\t" // change to SVC mode
-        "mov   sp, r0\n\t"                               // write the stack pointer
-        :
-        :
-        : "r0", "memory"
-    );
+	//
+	// set up temporary stack
+	//
+	asm volatile(
+		"ldr   r0, =" STR(STACK_ADDR) "\n\t"             // read the stack address
+		"msr   cpsr_c, #" STR(MODE_SVC | I_F_BIT) "\n\t" // change to SVC mode
+		"mov   sp, r0\n\t"                               // write the stack pointer
+		:
+		:
+		: "r0", "memory"
+	);
 
-    SysCfgRegistersUnlock();
+	SysCfgRegistersUnlock();
 
-    _psc0_init();
+	_psc0_init();
 
-    _psc1_init();
+	_psc1_init();
 
-    _pll0_init(PLL_CLK_SRC, PLL0_MUL, PLL0_PREDIV, PLL0_POSTDIV, PLL0_DIV1, PLL0_DIV3, PLL0_DIV7);
+	_pll0_init(PLL_CLK_SRC, PLL0_MUL, PLL0_PREDIV, PLL0_POSTDIV, PLL0_DIV1, PLL0_DIV3, PLL0_DIV7);
 
-    _pll1_init(PLL1_MUL, PLL1_POSTDIV, PLL1_DIV1, PLL1_DIV2, PLL1_DIV3);
+	_pll1_init(PLL1_MUL, PLL1_POSTDIV, PLL1_DIV1, PLL1_DIV2, PLL1_DIV3);
 
-    per_ddr_init();
+	per_ddr_init();
 
-    //
-    // DDR ready breakpoint from which freetribe kernel can be loaded & run
-    //
-    asm volatile(
-        "debug_ddr_ready:\n\t"
-        "b       debug_ddr_ready\n\t"
-    );
+	//
+	// DDR ready breakpoint from which freetribe kernel can be loaded & run
+	//
+	asm volatile(
+		"debug_ddr_ready:\n\t"
+		"b       debug_ddr_ready\n\t"
+	);
 
 }
 

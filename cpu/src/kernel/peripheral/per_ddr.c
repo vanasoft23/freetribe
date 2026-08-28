@@ -111,83 +111,83 @@ under the terms of the GNU Affero General Public License as published by
  */
 void per_ddr_init(void) {
 
-    // Power up DDR controller.
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_DDR2_MDDR, 0,
-                     PSC_MDCTL_NEXT_ENABLE);
+	// Power up DDR controller.
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_DDR2_MDDR, 0,
+					 PSC_MDCTL_NEXT_ENABLE);
 
-    if (HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &
-        SYSCFG1_VTPIO_CTL_POWERDN) {
+	if (HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &
+		SYSCFG1_VTPIO_CTL_POWERDN) {
 
-        // Set IOPWRDN bit, powerdown enable mode
-        HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |=
-            SYSCFG1_VTPIO_CTL_IOPWRDN;
+		// Set IOPWRDN bit, powerdown enable mode
+		HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |=
+			SYSCFG1_VTPIO_CTL_IOPWRDN;
 
-        // Clear POWERDN bit (enable VTP)
-        HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &=
-            ~(SYSCFG1_VTPIO_CTL_POWERDN);
+		// Clear POWERDN bit (enable VTP)
+		HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &=
+			~(SYSCFG1_VTPIO_CTL_POWERDN);
 
-        // Set CLKRZ bit
-        HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |= SYSCFG1_VTPIO_CTL_CLKRZ;
+		// Set CLKRZ bit
+		HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |= SYSCFG1_VTPIO_CTL_CLKRZ;
 
-        // Clear CLRKZ bit
-        HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &=
-            ~SYSCFG1_VTPIO_CTL_CLKRZ;
+		// Clear CLRKZ bit
+		HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &=
+			~SYSCFG1_VTPIO_CTL_CLKRZ;
 
-        // CLKRZ bit should be low at least for 2ns
-        delay(4);
+		// CLKRZ bit should be low at least for 2ns
+		delay(4);
 
-        // Set CLKRZ bit
-        HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |= SYSCFG1_VTPIO_CTL_CLKRZ;
-        // Poll ready bit in VTPIO_CTL Untill it is high
+		// Set CLKRZ bit
+		HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |= SYSCFG1_VTPIO_CTL_CLKRZ;
+		// Poll ready bit in VTPIO_CTL Untill it is high
 
-        while (
-            !((HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) & VTPIO_CTL_HIGH) >>
-              15))
-            ;
-        // Set Lock bit for static mode
-        HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |= SYSCFG1_VTPIO_CTL_LOCK;
+		while (
+			!((HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) & VTPIO_CTL_HIGH) >>
+			  15))
+			;
+		// Set Lock bit for static mode
+		HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |= SYSCFG1_VTPIO_CTL_LOCK;
 
-        // set PWRSAVE bit to save Power
-        HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |=
-            SYSCFG1_VTPIO_CTL_PWRSAVE;
-        // VTP Calibration ends
-    }
+		// set PWRSAVE bit to save Power
+		HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |=
+			SYSCFG1_VTPIO_CTL_PWRSAVE;
+		// VTP Calibration ends
+	}
 
-    // Set BOOTUNLOCK
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDCR) |= DDR2_MDDR_SDCR_BOOTUNLOCK;
+	// Set BOOTUNLOCK
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDCR) |= DDR2_MDDR_SDCR_BOOTUNLOCK;
 
-    // Set peripheral bus burst priority
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_PBBPR) = 0x20;
+	// Set peripheral bus burst priority
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_PBBPR) = 0x20;
 
-    // Set EXT_STRBEN and PWRDNEN bit of DDR PHY control register,
-    // assign desired value to the RL bit
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_DRPYC1R) =
-        DDR2_MDDR_DRPYC1R_EXT_STRBEN | DDR2_MDDR_DRPYC1R_PWRDNEN |
-        DDR2_MDDR_DRPYC1R_READ_LAT;
+	// Set EXT_STRBEN and PWRDNEN bit of DDR PHY control register,
+	// assign desired value to the RL bit
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_DRPYC1R) =
+		DDR2_MDDR_DRPYC1R_EXT_STRBEN | DDR2_MDDR_DRPYC1R_PWRDNEN |
+		DDR2_MDDR_DRPYC1R_READ_LAT;
 
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDCR) = DDR2_SDCR;
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDTIMR1) = DDR2_SDTIMR1;
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDTIMR2) = DDR2_SDTIMR2;
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDCR) = DDR2_SDCR;
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDTIMR1) = DDR2_SDTIMR1;
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDTIMR2) = DDR2_SDTIMR2;
 
-    // CLEAR TIMINGUNLOCK
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDCR) &= ~DDR2_MDDR_SDCR_BOOTUNLOCK;
+	// CLEAR TIMINGUNLOCK
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDCR) &= ~DDR2_MDDR_SDCR_BOOTUNLOCK;
 
-    //  IBANK_POS set to 0 so this register does not apply
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDCR2) = DDR2_MDDR_SDCR_IBANK_ONE;
+	//  IBANK_POS set to 0 so this register does not apply
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDCR2) = DDR2_MDDR_SDCR_IBANK_ONE;
 
-    // SET the refreshing rate
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDRCR) = DDR2_SDRCR;
+	// SET the refreshing rate
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDRCR) = DDR2_SDRCR;
 
-    // SyncReset the Clock to SDRAM
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_DDR2_MDDR, 0,
-                     PSC_MDSTAT_STATE_SYNCRST);
+	// SyncReset the Clock to SDRAM
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_DDR2_MDDR, 0,
+					 PSC_MDSTAT_STATE_SYNCRST);
 
-    // Enable clock to SDRAM
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_DDR2_MDDR, 0,
-                     PSC_MDCTL_NEXT_ENABLE);
+	// Enable clock to SDRAM
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_DDR2_MDDR, 0,
+					 PSC_MDCTL_NEXT_ENABLE);
 
-    // Disable Self refresh rate
-    HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDRCR) &= ~DDR2_SDRCR_CLEAR;
+	// Disable Self refresh rate
+	HWREG(SOC_DDR2_0_CTRL_REGS + DDR2_MDDR_SDRCR) &= ~DDR2_SDRCR_CLEAR;
 }
 
 /*
@@ -200,48 +200,48 @@ void per_ddr_init(void) {
  */
 void per_ddr_terminate(void) {
 
-    // Set POWERDN bit (disable VTP).
-    HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |= SYSCFG1_VTPIO_CTL_POWERDN;
+	// Set POWERDN bit (disable VTP).
+	HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) |= SYSCFG1_VTPIO_CTL_POWERDN;
 
-    // Clear Lock bit
-    HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &= ~(SYSCFG1_VTPIO_CTL_LOCK);
+	// Clear Lock bit
+	HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &= ~(SYSCFG1_VTPIO_CTL_LOCK);
 
-    // Clear PWRSAVE bit.
-    HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &=
-        ~(SYSCFG1_VTPIO_CTL_PWRSAVE);
+	// Clear PWRSAVE bit.
+	HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &=
+		~(SYSCFG1_VTPIO_CTL_PWRSAVE);
 
-    // Clear IOPWRDN bit, powerdown disable mode.
-    HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &=
-        ~(SYSCFG1_VTPIO_CTL_IOPWRDN);
+	// Clear IOPWRDN bit, powerdown disable mode.
+	HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &=
+		~(SYSCFG1_VTPIO_CTL_IOPWRDN);
 
-    // Clear CLRZ bit
-    HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &= ~SYSCFG1_VTPIO_CTL_CLKRZ;
+	// Clear CLRZ bit
+	HWREG(SOC_SYSCFG_1_REGS + SYSCFG1_VTPIO_CTL) &= ~SYSCFG1_VTPIO_CTL_CLKRZ;
 
-    // CLRZ bit should be low at least for 2ns.
-    delay(4);
+	// CLRZ bit should be low at least for 2ns.
+	delay(4);
 }
 
 u8 per_ddr_memtest(void) {
 
-    int i;
-    unsigned int *ddr = (unsigned int *)0xc0000000;
+	int i;
+	unsigned int *ddr = (unsigned int *)0xc0000000;
 
-    u8 result = 0;
+	u8 result = 0;
 
-    for (i = 0; i < 0x4000000; i += 4) {
+	for (i = 0; i < 0x4000000; i += 4) {
 
-        *ddr++ = i;
-    }
+		*ddr++ = i;
+	}
 
-    ddr = (unsigned int *)0xc0000000;
-    for (i = 0; i < 0x4000000; i += 4) {
+	ddr = (unsigned int *)0xc0000000;
+	for (i = 0; i < 0x4000000; i += 4) {
 
-        if (*ddr++ != i) {
-            result = 1;
-        }
-    }
+		if (*ddr++ != i) {
+			result = 1;
+		}
+	}
 
-    return result;
+	return result;
 }
 
 /*----- Static function implementations ------------------------------*/

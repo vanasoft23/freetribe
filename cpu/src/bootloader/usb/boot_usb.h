@@ -36,11 +36,11 @@ under the terms of the GNU Affero General Public License as published by
 #define DFU_ALT_COUNT 5
 
 enum {
-    ALT_FLASH_BOOTLOADER   = 0,
-    ALT_FLASH_FIRMWARE     = 1,
-    ALT_DEBUG_BOOTLOADER   = 2,
-    ALT_DEBUG_FIRMWARE     = 3,
-    ALT_REFLASH            = DFU_ALT_COUNT - 1,
+	ALT_FLASH_BOOTLOADER   = 0,
+	ALT_FLASH_FIRMWARE     = 1,
+	ALT_DEBUG_BOOTLOADER   = 2,
+	ALT_DEBUG_FIRMWARE     = 3,
+	ALT_REFLASH            = DFU_ALT_COUNT - 1,
 };
 
 void boot_usb_init(void);

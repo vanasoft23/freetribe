@@ -43,6 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
+#include "ft.h"
 #include <am18x_map.h>
 
 /*----- Macros -------------------------------------------------------*/
@@ -77,7 +78,7 @@ typedef enum {
 
 typedef struct {
 	u8		index;
-	u32	cflags;
+	u32	    cflags;
 	u32 	arg;
 } t_mmcsd_cmd;
 
@@ -125,18 +126,18 @@ typedef struct {
 
 /*----- Extern function prototypes -----------------------------------*/
 
-t_status          mmcsd_con_init(MMCSD_con_t* mcon, const mmcsd_conf_t* conf);
-t_status          mmcsd_set_freq(MMCSD_con_t* mcon, u32 freq);
-t_status          mmcsd_send_cmd(MMCSD_con_t* mcon, const t_mmcsd_cmd* cmd);
-t_status          mmcsd_trigger_data_transfer(MMCSD_con_t* mcon);
+void              mmcsd_con_init(MMCSD_con_t* mcon, const mmcsd_conf_t* conf);
+void              mmcsd_set_freq(MMCSD_con_t* mcon, u32 freq);
+void              mmcsd_send_cmd(MMCSD_con_t* mcon, const t_mmcsd_cmd* cmd);
+void              mmcsd_trigger_data_transfer(MMCSD_con_t* mcon);
 t_mmcsd_cmd_state mmcsd_cmd_state(const MMCSD_con_t* mcon, am18x_bool need_crc);
 t_mmcsd_dat_state mmcsd_busy_state(const MMCSD_con_t* mcon);
 t_mmcsd_dat_state mmcsd_rd_state(const MMCSD_con_t* mcon);
 t_mmcsd_dat_state mmcsd_wr_state(const MMCSD_con_t* mcon);
-t_status          mmcsd_get_resp(const MMCSD_con_t* mcon, t_mmcsd_resp_type type, t_mmcsd_resp* resp);
-t_status          mmcsd_cntl_misc(MMCSD_con_t* mcon, const t_mmcsd_misc* misc);
-u32          mmcsd_read(const MMCSD_con_t* mcon);
-t_status          mmcsd_write(MMCSD_con_t* mcon, u32 data);
+void              mmcsd_get_resp(const MMCSD_con_t* mcon, t_mmcsd_resp_type type, t_mmcsd_resp* resp);
+void              mmcsd_cntl_misc(MMCSD_con_t* mcon, const t_mmcsd_misc* misc);
+u32               mmcsd_read(const MMCSD_con_t* mcon);
+void              mmcsd_write(MMCSD_con_t* mcon, u32 data);
 
 
 #ifdef __cplusplus

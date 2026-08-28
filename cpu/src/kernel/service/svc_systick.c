@@ -79,19 +79,19 @@ void _systick_isr(void);
 /*----- Extern function implementations ------------------------------*/
 
 void svc_systick_task(void *param) {
-    (void)param;
+	(void)param;
 
-    const TickType_t period = pdMS_TO_TICKS(SYSTICK_PERIOD_MS);
+	const TickType_t period = pdMS_TO_TICKS(SYSTICK_PERIOD_MS);
 
-    TickType_t last_wake = xTaskGetTickCount();
+	TickType_t last_wake = xTaskGetTickCount();
 
-    while (true) {
-        vTaskDelayUntil(&last_wake, period);
-        if (p_systick_callback != NULL) {
-            (*p_systick_callback)(g_systick);
-        }
-        g_systick++;
-    }
+	while (true) {
+		vTaskDelayUntil(&last_wake, period);
+		if (p_systick_callback != NULL) {
+			(*p_systick_callback)(g_systick);
+		}
+		g_systick++;
+	}
 
 }
 
@@ -109,9 +109,9 @@ void svc_systick_task(void *param) {
 
 void svc_systick_register_callback(void (*callback)(u32)) {
 
-    if (callback != NULL) {
-        p_systick_callback = callback;
-    }
+	if (callback != NULL) {
+		p_systick_callback = callback;
+	}
 }
 
 u32 svc_systick_get(void) { return g_systick; }

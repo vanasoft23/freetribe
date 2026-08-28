@@ -46,61 +46,63 @@ under the terms of the GNU Affero General Public License as published by
 static const char s_hexchars[] = "0123456789abcdef";
 
 
-char char_to_upper(char c) {
-
-    if ((c >= 'a') && (c <= 'z')) {
-        return c - ('a' - 'A');
-    }
-    return c;
+char char_to_upper(char c)
+{
+	if ((c >= 'a') && (c <= 'z')) {
+		return c - ('a' - 'A');
+	}
+	return c;
 
 }
 
 /**
  * @brief   Convert ch from a hex digit to an int.
  */
-int hex_nibble(u8 ch) {
-    if (ch >= 'a' && ch <= 'f')
-        return ch-'a'+10;
-    if (ch >= '0' && ch <= '9')
-        return ch-'0';
-    if (ch >= 'A' && ch <= 'F')
-        return ch-'A'+10;
-    return -1;
+int hex_nibble(u8 ch)
+{
+	if (ch >= 'a' && ch <= 'f')
+		return ch-'a'+10;
+	if (ch >= '0' && ch <= '9')
+		return ch-'0';
+	if (ch >= 'A' && ch <= 'F')
+		return ch-'A'+10;
+	return -1;
 }
 
 
 
-char hex_digit(u8 value) {
-    return s_hexchars[value & 0x0F];
+char hex_digit(u8 value)
+{
+	return s_hexchars[value & 0x0F];
 }
 
 void hex_digits32(char *out, u32 value)
 {
-    out[0] = s_hexchars[(value >>  4) & 0x0Fu];
-    out[1] = s_hexchars[ value        & 0x0Fu];
-    out[2] = s_hexchars[(value >> 12) & 0x0Fu];
-    out[3] = s_hexchars[(value >>  8) & 0x0Fu];
-    out[4] = s_hexchars[(value >> 20) & 0x0Fu];
-    out[5] = s_hexchars[(value >> 16) & 0x0Fu];
-    out[6] = s_hexchars[(value >> 28)        ];
-    out[7] = s_hexchars[(value >> 24) & 0x0Fu];
+	out[0] = s_hexchars[(value >>  4) & 0x0Fu];
+	out[1] = s_hexchars[ value        & 0x0Fu];
+	out[2] = s_hexchars[(value >> 12) & 0x0Fu];
+	out[3] = s_hexchars[(value >>  8) & 0x0Fu];
+	out[4] = s_hexchars[(value >> 20) & 0x0Fu];
+	out[5] = s_hexchars[(value >> 16) & 0x0Fu];
+	out[6] = s_hexchars[(value >> 28)        ];
+	out[7] = s_hexchars[(value >> 24) & 0x0Fu];
 }
 
 
 
 
 bool buf_starts_with_cstr(
-    const u8   *buf,
-    size_t      buflen,
-    const char *prefix
+	const u8   *buf,
+	size_t      buflen,
+	const char *prefix
 ) {
-    for (size_t i = 0; i < buflen; ++i) {
-        if (prefix[i] == '\0')
-            return true;
+	for (size_t i = 0; i < buflen; ++i) {
+		if (prefix[i] == '\0')
+			return true;
 
-        if (buf[i] != (u8)prefix[i])
-            return false;
-    }
+		if (buf[i] != (u8)prefix[i])
+			return false;
+	}
 
-    return prefix[buflen] == '\0';
+	return prefix[buflen] == '\0';
 }

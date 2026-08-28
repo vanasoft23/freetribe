@@ -41,42 +41,7 @@ under the terms of the GNU Affero General Public License as published by
 extern "C" {
 #endif
 
-/*----- Includes -----------------------------------------------------*/
-
-
-/*----- Macros -------------------------------------------------------*/
-
-//
-// Debugging helpers
-//
-#ifdef DEBUG
-#   ifndef BLACKFIN
-#      include "freetribe.h" // ft_print, ft_printf
-#   endif
-#   define DEBUG_LOG(fmt, ...)  ft_printf(fmt, ##__VA_ARGS__)
-#else
-#   define DEBUG_LOG(...)
-#endif
-
-#ifdef BLACKFIN
-
-  #define STATIC_ASSERT(cond, msg) \
-      typedef char static_assertion_##msg[(cond) ? 1 : -1]
-
-#else
-
-  #define ASSERT_ERROR_FORMAT "Assertion failed: %s, file %s, line %d\n"
-
-  #define ASSERT(condition)                                                   \
-      do {                                                                    \
-          if (!(condition)) {                                                 \
-              fatal_error(                                                    \
-                  ASSERT_ERROR_FORMAT,                                        \
-                  #condition, __FILE__, __LINE__);                            \
-          }                                                                   \
-      } while (0)
-
-#endif
+/*--------------------------------------------------------------------*/
 
 // Bit operations
 #define HI16(x)              ((uint16_t)((((uint32_t)(x)) >> 16) & 0xFFFF))
@@ -89,16 +54,23 @@ extern "C" {
 
 // Math helpers
 #ifndef MIN
-#   define MIN(A,B) ((A) < (B) ? (A) : (B))
+  #define MIN(A,B) ((A) < (B) ? (A) : (B)) /* yeah this should be inline function ... */
 #endif
 
+// Array helpers
+#define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
+
 #ifndef offsetof
-#  define offsetof(type, member) ((size_t) &(((type *)0)->member))
+  #define offsetof(type, member) ((size_t) &(((type *)0)->member))
 #endif
+
+/*--------------------------------------------------------------------*/
+
 
 #ifdef __cplusplus
 }
 #endif
-#endif
+
+#endif /* FT_MACROS_H */
 
 /*----- End of file --------------------------------------------------*/

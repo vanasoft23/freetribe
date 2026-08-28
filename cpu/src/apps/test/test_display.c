@@ -47,12 +47,12 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    STATE_SET_INIT,
-    STATE_SET_RUN,
-    STATE_CLEAR_INIT,
-    STATE_CLEAR_RUN,
-    STATE_RESULT,
-    STATE_ERROR
+	STATE_SET_INIT,
+	STATE_SET_RUN,
+	STATE_CLEAR_INIT,
+	STATE_CLEAR_RUN,
+	STATE_RESULT,
+	STATE_ERROR
 } e_test_state;
 
 /*----- Static variable definitions ----------------------------------*/
@@ -65,71 +65,66 @@ typedef enum {
 
 t_status test_display(void) {
 
-    static e_test_state state = STATE_SET_INIT;
+	static e_test_state state = STATE_SET_INIT;
 
-    static bool passed_set;
-    static bool passed_clear;
+	static bool passed_set;
+	static bool passed_clear;
 
-    t_status result = ERROR;
+	t_status result = ERROR;
 
-    switch (state) {
+	switch (state) {
 
-    case STATE_SET_INIT:
+	case STATE_SET_INIT:
 
-        ft_print("Display test:");
+		ft_print("Display test:");
 
-        ft_fill_frame(0, 0, 127, 63, 0);
-        ft_print("Press [Play] if all pixels set.");
+		ft_fill_frame(0, 0, 127, 63, 0);
+		ft_print("Press [Play] if all pixels set.");
 
-        state = STATE_SET_RUN;
+		state = STATE_SET_RUN;
 
-    case STATE_SET_RUN:
-        if (test_confirmed()) {
+	case STATE_SET_RUN:
+		if (test_confirmed()) {
 
-            passed_set = true;
-            reset_test();
+			passed_set = true;
+			reset_test();
 
-            state = STATE_CLEAR_INIT;
-        }
-        break;
+			state = STATE_CLEAR_INIT;
+		}
+		break;
 
-    case STATE_CLEAR_INIT:
+	case STATE_CLEAR_INIT:
 
-        ft_fill_frame(0, 0, 127, 63, 1);
-        ft_print("Press [Play] if all pixels clear.");
+		ft_fill_frame(0, 0, 127, 63, 1);
+		ft_print("Press [Play] if all pixels clear.");
 
-        state = STATE_CLEAR_RUN;
+		state = STATE_CLEAR_RUN;
 
-    case STATE_CLEAR_RUN:
-        if (test_confirmed()) {
+	case STATE_CLEAR_RUN:
+		if (test_confirmed()) {
 
-            passed_clear = true;
-            reset_test();
+			passed_clear = true;
+			reset_test();
 
-            state = STATE_RESULT;
-        }
-        break;
+			state = STATE_RESULT;
+		}
+		break;
 
-    case STATE_RESULT:
+	case STATE_RESULT:
 
-        if (passed_set && passed_clear) {
-            ft_print("Display test passed.");
-            result = SUCCESS;
-        }
-        break;
+		if (passed_set && passed_clear) {
+			ft_print("Display test passed.");
+			result = SUCCESS;
+		}
+		break;
 
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
+	case STATE_ERROR:
+	default:
+		PANIC(PANIC_UNHANDLED_STATE);
+		break;
+	}
 
-    default:
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
-
-    return result;
+	return result;
 }
 
 /*----- Static function implementations ------------------------------*/

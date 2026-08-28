@@ -64,19 +64,19 @@ under the terms of the GNU Affero General Public License as published by
  */
 typedef enum {
 
-    PARAM_LEVEL0, ///< Attenuation multiplier channel 0.
-    PARAM_LEVEL1, ///< Attenuation multiplier channel 1.
+	PARAM_LEVEL0, ///< Attenuation multiplier channel 0.
+	PARAM_LEVEL1, ///< Attenuation multiplier channel 1.
 
-    PARAM_COUNT ///< Should remain last to return number of paramters.
+	PARAM_COUNT ///< Should remain last to return number of paramters.
 } e_param;
 
 typedef struct {
 
-    /// Input parameters for amplitude scaling.
-    fract32 level[2];
+	/// Input parameters for amplitude scaling.
+	fract32 level[2];
 
-    /// Parameter slew filters.
-    Aleph_LPFOnePole level_slew[2];
+	/// Parameter slew filters.
+	Aleph_LPFOnePole level_slew[2];
 
 } t_module;
 
@@ -102,19 +102,19 @@ static t_module g_module;
  */
 void module_init(void) {
 
-    Aleph_init(&g_aleph, SAMPLERATE, g_mempool, MEMPOOL_SIZE, NULL);
+	Aleph_init(&g_aleph, SAMPLERATE, g_mempool, MEMPOOL_SIZE, NULL);
 
-    // Initialise 1pole filters for input attenuation slew.
-    Aleph_LPFOnePole_init(&g_module.level_slew[0], &g_aleph);
-    Aleph_LPFOnePole_init(&g_module.level_slew[1], &g_aleph);
+	// Initialise 1pole filters for input attenuation slew.
+	Aleph_LPFOnePole_init(&g_module.level_slew[0], &g_aleph);
+	Aleph_LPFOnePole_init(&g_module.level_slew[1], &g_aleph);
 
-    // Set slew defaults.
-    Aleph_LPFOnePole_set_coeff(&g_module.level_slew[0], PARAM_SLEW_DEFAULT);
-    Aleph_LPFOnePole_set_coeff(&g_module.level_slew[1], PARAM_SLEW_DEFAULT);
+	// Set slew defaults.
+	Aleph_LPFOnePole_set_coeff(&g_module.level_slew[0], PARAM_SLEW_DEFAULT);
+	Aleph_LPFOnePole_set_coeff(&g_module.level_slew[1], PARAM_SLEW_DEFAULT);
 
-    // Set amp to -12db.
-    module_set_param(PARAM_LEVEL0, PARAM_AMP_MAX >> 2);
-    module_set_param(PARAM_LEVEL1, PARAM_AMP_MAX >> 2);
+	// Set amp to -12db.
+	module_set_param(PARAM_LEVEL0, PARAM_AMP_MAX >> 2);
+	module_set_param(PARAM_LEVEL1, PARAM_AMP_MAX >> 2);
 }
 
 /**
@@ -127,13 +127,13 @@ void module_init(void) {
  */
 void module_process(fract32 *in, fract32 *out) {
 
-    // Process parameter slew.
-    g_module.level[0] = Aleph_LPFOnePole_next(&g_module.level_slew[0]);
-    g_module.level[1] = Aleph_LPFOnePole_next(&g_module.level_slew[1]);
+	// Process parameter slew.
+	g_module.level[0] = Aleph_LPFOnePole_next(&g_module.level_slew[0]);
+	g_module.level[1] = Aleph_LPFOnePole_next(&g_module.level_slew[1]);
 
-    // Process audio samples.
-    out[0] = mult_fr1x32x32(in[0], g_module.level[0]);
-    out[1] = mult_fr1x32x32(in[1], g_module.level[1]);
+	// Process audio samples.
+	out[0] = mult_fr1x32x32(in[0], g_module.level[0]);
+	out[1] = mult_fr1x32x32(in[1], g_module.level[1]);
 }
 
 /**
@@ -146,25 +146,25 @@ void module_process(fract32 *in, fract32 *out) {
  */
 void module_set_param(uint16_t param_index, int32_t value) {
 
-    switch (param_index) {
+	switch (param_index) {
 
-    // Input attenuation values
-    case PARAM_LEVEL0:
+	// Input attenuation values
+	case PARAM_LEVEL0:
 
-        value = value < PARAM_AMP_MAX ? value : PARAM_AMP_MAX;
-        // Add value to slew filter to avoid stepping.
-        Aleph_LPFOnePole_set_target(&g_module.level_slew[0], value);
-        break;
+		value = value < PARAM_AMP_MAX ? value : PARAM_AMP_MAX;
+		// Add value to slew filter to avoid stepping.
+		Aleph_LPFOnePole_set_target(&g_module.level_slew[0], value);
+		break;
 
-    case PARAM_LEVEL1:
+	case PARAM_LEVEL1:
 
-        value = value < PARAM_AMP_MAX ? value : PARAM_AMP_MAX;
-        Aleph_LPFOnePole_set_target(&g_module.level_slew[1], value);
-        break;
+		value = value < PARAM_AMP_MAX ? value : PARAM_AMP_MAX;
+		Aleph_LPFOnePole_set_target(&g_module.level_slew[1], value);
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /**
@@ -178,22 +178,22 @@ void module_set_param(uint16_t param_index, int32_t value) {
  */
 int32_t module_get_param(uint16_t param_index) {
 
-    int32_t value = 0;
+	int32_t value = 0;
 
-    switch (param_index) {
+	switch (param_index) {
 
-    // Input attenuation values
-    case PARAM_LEVEL0:
-        value = g_module.level[0];
+	// Input attenuation values
+	case PARAM_LEVEL0:
+		value = g_module.level[0];
 
-    case PARAM_LEVEL1:
-        value = g_module.level[1];
+	case PARAM_LEVEL1:
+		value = g_module.level[1];
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 
-    return value;
+	return value;
 }
 
 /// TODO: Return uint16_t?
@@ -214,18 +214,18 @@ uint32_t module_get_param_count(void) { return PARAM_COUNT; }
  */
 void module_get_param_name(uint16_t param_index, char *text) {
 
-    switch (param_index) {
+	switch (param_index) {
 
-    // Input attenuation values
-    case PARAM_LEVEL0:
-        copy_string(text, "Level 0", MAX_PARAM_NAME_LENGTH);
+	// Input attenuation values
+	case PARAM_LEVEL0:
+		copy_string(text, "Level 0", MAX_PARAM_NAME_LENGTH);
 
-    case PARAM_LEVEL1:
-        copy_string(text, "Level 1", MAX_PARAM_NAME_LENGTH);
+	case PARAM_LEVEL1:
+		copy_string(text, "Level 1", MAX_PARAM_NAME_LENGTH);
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/

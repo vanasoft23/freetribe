@@ -1,30 +1,30 @@
 /*----------------------------------------------------------------------
 
-                     This file is part of Freetribe
+					 This file is part of Freetribe
 
-                https://github.com/bangcorrupt/freetribe
+				https://github.com/bangcorrupt/freetribe
 
-                                License
+								License
 
-                   GNU AFFERO GENERAL PUBLIC LICENSE
-                      Version 3, 19 November 2007
+				   GNU AFFERO GENERAL PUBLIC LICENSE
+					  Version 3, 19 November 2007
 
-                           AGPL-3.0-or-later
+						   AGPL-3.0-or-later
 
  Freetribe is free software: you can redistribute it and/or modify it
 under the terms of the GNU Affero General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
-                  (at your option) any later version.
+				  (at your option) any later version.
 
-     Freetribe is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty
-        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-          See the GNU General Public License for more details.
+	 Freetribe is distributed in the hope that it will be useful,
+	  but WITHOUT ANY WARRANTY; without even the implied warranty
+		of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+		  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
  along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-                       Copyright bangcorrupt 2024
+					   Copyright bangcorrupt 2024
 
 ----------------------------------------------------------------------*/
 
@@ -66,13 +66,13 @@ static void _trigger_callback(u8 pad, u8 vel, bool state);
  */
 t_status app_init(void) {
 
-    t_status status = ERROR;
+	t_status status = ERROR;
 
-    ft_register_panel_callback(TRIGGER_EVENT, _trigger_callback);
-    ft_set_trigger_mode(TRIGGER_MODE_CONTINUOUS);
+	ft_register_panel_callback(TRIGGER_EVENT, _trigger_callback);
+	ft_set_trigger_mode(TRIGGER_MODE_CONTINUOUS);
 
-    status = SUCCESS;
-    return status;
+	status = SUCCESS;
+	return status;
 }
 
 /**
@@ -80,36 +80,36 @@ t_status app_init(void) {
  */
 void app_run(void) {
 
-    bool pixel_state = 0;
-    u8 y_coord = 32;
+	bool pixel_state = 0;
+	u8 y_coord = 32;
 
-    u8 i;
+	u8 i;
 
-    for (i = 0; i < 128; i++) {
+	for (i = 0; i < 128; i++) {
 
-        if (i < g_pad_pressure - 3) {
-            pixel_state = 1;
-        } else {
-            pixel_state = 0;
-        }
+		if (i < g_pad_pressure - 3) {
+			pixel_state = 1;
+		} else {
+			pixel_state = 0;
+		}
 
-        ft_put_pixel(i, y_coord, pixel_state);
-    }
+		ft_put_pixel(i, y_coord, pixel_state);
+	}
 }
 
 /*----- Static function implementations ------------------------------*/
 
 static void _trigger_callback(u8 pad, u8 vel, bool state) {
 
-    switch (pad) {
+	switch (pad) {
 
-    case 0x11:
-        g_pad_pressure = vel;
-        break;
+	case 0x11:
+		g_pad_pressure = vel;
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /*----- End of file --------------------------------------------------*/

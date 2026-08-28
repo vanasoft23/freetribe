@@ -10,8 +10,6 @@ M   Implement GDBstub USB semihosting over File I/O commands
 
 *** BOOTLOADER ***
 
-M   FIX BLUE BOOT DSP/oscillators bad loading from flash when sampler is installed
-
 M   Add dfu-util flash firmware, and flash bootloader endpoint, rename old endpoint to debug
 
 M   dev_flash.c int_enable PUT BACK  // @FIXME: enable in freetribe kernel!
@@ -23,6 +21,8 @@ M   Graceful shutdown
 M   check if can still boot factory with broken flash (bad checksum etc)
 
 ---
+
+S   FIX BLUE BOOT DSP/oscillators bad loading from flash when sampler is installed
 
 S   Detect broken factory firmware in flash
 
@@ -51,8 +51,6 @@ S   Detect GDB/jtag, and pipe GDB semihosting to USB (can dfu-util also receive 
 
 C   Bootloader config ini (options: NO_BOOTSECT_VERIFY, autorun after x seconds)
 
-W   French, Czech and Italian language localizations
-
 
 
 
@@ -63,8 +61,12 @@ W   French, Czech and Italian language localizations
 ***************************************************************************
 
 Roadmap:
+- !!!Panel UART driver her-implementatie: want IS COMPLEET VERNEUKT VERKANKERD!!!!!!
+- FIX BOOTLOADER BOOT MONOSYNTH.BIN
 - Fix bootloader booting synth & sampler
-- Implementeer USB GDB in kernel
+- Test DFU flashing etc in bootloader
+- Implementeer USB GDB in kernel:
+  - maak het re-entrant! (mutex de print functie)
 - Refactor & uitbreiding error handling/debug framework:
   - Scheid ft_error
   - USB GDB semihosting printing
@@ -136,6 +138,19 @@ M  Hardware fuzzing test
 ##
 ## UART/MCU/PANEL driver
 ##
+
+_panel_parse: 5, 0, 0, 3, 79
+_panel_parse: 5, 0, 8, 3, 255
+_panel_parse: 5, 0, 48, 3, 255
+_panel_parse: 5, 0, 56, 3, 255
+_panel_parse: 0, 34, 0, 0, 0
+_panel_parse: 5, 0, 0, 3, 255
+_panel_parse: 0, 34, 1, 0, 0
+_panel_parse: 0, 34, 0, 0, 0
+_panel_parse: 5, 0, 0, 3, 255
+_panel_parse: 0, 34, 1, 0, 0
+_panel_parse: 5, 0, 0, 3, 231
+_panel_parse: 5, 0, 0, 3, 207
 
 M   Hardware fuzzing
 

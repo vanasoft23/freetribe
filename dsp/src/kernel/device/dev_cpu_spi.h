@@ -44,7 +44,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdint.h>
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -55,8 +55,8 @@ extern "C" {
 /*----- Extern function prototypes -----------------------------------*/
 
 void dev_cpu_spi_init(void);
-int dev_cpu_spi_rx_dequeue(uint8_t *spi_byte);
-void dev_cpu_spi_tx_enqueue(uint8_t *spi_byte);
+bool dev_cpu_spi_rx_dequeue(u8 *spi_byte);
+bool dev_cpu_spi_tx_enqueue(u8 *spi_byte);
 
 #ifdef __cplusplus
 }

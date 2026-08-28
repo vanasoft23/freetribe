@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 typedef struct {
-    u32 ticks_ms;
-    u32 step;
+	u32 ticks_ms;
+	u32 step;
 } t_cpu_playhead;
 
 t_cpu_playhead *cpu_playhead_fetch();

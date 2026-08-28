@@ -59,7 +59,7 @@ under the terms of the GNU Affero General Public License as published by
 #define AM1802_USB_RHPORT 0 /* root hub port number */
 
 #define MUSB_AM1802_INTR_MASK 0x01ff1e1fu /* TODO: usb0 bridge clear should */
-                                          /* be callable as tusb api        */
+										  /* be callable as tusb api        */
 
 /*----- Static function prototypes -----------------------------------*/
 
@@ -75,30 +75,31 @@ extern void dfu_preinit(void);
 
 void boot_usb_init(void) {
 
-    dfu_preinit();
+	dfu_preinit();
 
-    _register_usb0_intr();
+	_register_usb0_intr();
 
-    tusb_rhport_init_t dev_init = {
-        .role = TUSB_ROLE_DEVICE,
-        .speed = TUSB_SPEED_AUTO
-    };
-    // AM1802 TinyUSB DCD configures CFGCHIP2 and waits for PHYCLKGD.
-    tusb_init(AM1802_USB_RHPORT, &dev_init);
+	tusb_rhport_init_t dev_init = {
+		.role = TUSB_ROLE_DEVICE,
+		.speed = TUSB_SPEED_AUTO
+	};
+	// AM1802 TinyUSB DCD configures CFGCHIP2 and waits for PHYCLKGD.
+	tusb_init(AM1802_USB_RHPORT, &dev_init);
 
 }
 
 void boot_usb_task(void) {
 
-    tud_task();
+	tud_task();
+	tud_cdc_rsp_task();
 
 }
 
 void boot_usb_terminate(void) {
 
-    tusb_deinit(AM1802_USB_RHPORT);
-    IntSystemStatusClear(SYS_INT_USB0);
-    _usb0_bridge_clear();
+	tusb_deinit(AM1802_USB_RHPORT);
+	IntSystemStatusClear(SYS_INT_USB0);
+	_usb0_bridge_clear();
 
 }
 
@@ -108,7 +109,7 @@ void boot_usb_terminate(void) {
  */
 void tud_mount_cb(void) {
 
-    boot_msc_mount_cb();
+	boot_msc_mount_cb();
 
 }
 
@@ -117,8 +118,8 @@ void tud_mount_cb(void) {
  */
 void tud_umount_cb(void) {
 
-    cdc_umount_cb();
-    boot_msc_umount_cb();
+	cdc_umount_cb();
+	boot_msc_umount_cb();
 
 }
 
@@ -128,23 +129,23 @@ void tud_umount_cb(void) {
 
 static void _register_usb0_intr() {
 
-    _usb0_bridge_clear();
-    IntChannelSet(SYS_INT_USB0, BOOT_USB_INT_CHANNEL);
-    IntRegister(SYS_INT_USB0, _usb0_isr);
+	_usb0_bridge_clear();
+	IntChannelSet(SYS_INT_USB0, BOOT_USB_INT_CHANNEL);
+	IntRegister(SYS_INT_USB0, _usb0_isr);
 
 }
 
 static void _usb0_isr(void) {
-    tusb_int_handler(AM1802_USB_RHPORT, true);    
+	tusb_int_handler(AM1802_USB_RHPORT, true);    
 }
 
 static void _usb0_bridge_clear(void) {
 
-    musb_dcd_int_disable(AM1802_USB_RHPORT);
-    musb_dcd_int_clear(AM1802_USB_RHPORT);
-    // HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_MASK_CLEAR) = MUSB_AM1802_INTR_MASK;
-    // HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_SRC_CLEAR) = MUSB_AM1802_INTR_MASK;
-    // HWREG(SOC_USB_0_OTG_BASE + USB_0_END_OF_INTR) = 0u;
+	musb_dcd_int_disable(AM1802_USB_RHPORT);
+	musb_dcd_int_clear(AM1802_USB_RHPORT);
+	// HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_MASK_CLEAR) = MUSB_AM1802_INTR_MASK;
+	// HWREG(SOC_USB_0_OTG_BASE + USB_0_INTR_SRC_CLEAR) = MUSB_AM1802_INTR_MASK;
+	// HWREG(SOC_USB_0_OTG_BASE + USB_0_END_OF_INTR) = 0u;
 
 }
 

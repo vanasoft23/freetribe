@@ -86,7 +86,7 @@
         .extern g_monitor
         .extern tusb_int_handler
         .extern tud_task_ext
-        .extern tud_cdc_rsp_isr_task
+        .extern tud_cdc_rsp_task
 
         .global IRQHandler
         .global FIQHandler
@@ -322,7 +322,7 @@ trap_loop:
         BL       tud_task_ext             
 
         @ Process GDB RSP input/output over CDC
-        BL       tud_cdc_rsp_isr_task
+        BL       tud_cdc_rsp_task
 
         @ Continue or loop
         LDR      r0, gdb_should_stop      @ R0 contains stop request bool

@@ -54,13 +54,13 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    BOOTSECT_INSTALL_SUCCESS,
-    BOOTSECT_INSTALL_FAIL_REPAIRED,
-    BOOTSECT_INSTALL_FAIL_CORRUPTED,
-    BOOTSECT_VERIFY_CHECKSUM_OK,
-    BOOTSECT_VERIFY_CHECKSUM_BAD,
-    BOOTSECT_VERIFY_ERROR,
-    BOOTSECT_UNKNOWN_ERROR
+	BOOTSECT_INSTALL_SUCCESS,
+	BOOTSECT_INSTALL_FAIL_REPAIRED,
+	BOOTSECT_INSTALL_FAIL_CORRUPTED,
+	BOOTSECT_VERIFY_CHECKSUM_OK,
+	BOOTSECT_VERIFY_CHECKSUM_BAD,
+	BOOTSECT_VERIFY_ERROR,
+	BOOTSECT_UNKNOWN_ERROR
 } bootsect_res_t;
 
 /*----- Extern variable declarations ---------------------------------*/

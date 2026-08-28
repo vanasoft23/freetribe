@@ -44,40 +44,40 @@ under the terms of the GNU Affero General Public License as published by
 #define FB_MAX_ITEMS  8
 
 typedef enum {
-    FB_ITEM_FILE,
-    FB_ITEM_DIR,
-    FB_ITEM_ROOT_DIR,
-    FB_ITEM_PARENT_DIR,
-    FB_ITEM_BOOT_FLASH,
-    FB_ITEM_INSTALL_BOOTLOADER,
-    FB_ITEM_DUMP_FLASH
+	FB_ITEM_FILE,
+	FB_ITEM_DIR,
+	FB_ITEM_ROOT_DIR,
+	FB_ITEM_PARENT_DIR,
+	FB_ITEM_BOOT_FLASH,
+	FB_ITEM_INSTALL_BOOTLOADER,
+	FB_ITEM_DUMP_FLASH
 } fb_item_type_t;
 
 typedef struct {
-    char           name[PATH_NAME_MAX];
-    fb_item_type_t type;
-    u32            size;
+	char           name[PATH_NAME_MAX];
+	fb_item_type_t type;
+	u32            size;
 } fb_item_t;
 
 typedef struct {
-    fb_item_t items[FB_MAX_ITEMS];
-    u16       count;
-    u16       selected;
-    bool      sdcard_inserted;
+	fb_item_t items[FB_MAX_ITEMS];
+	u16       count;
+	u16       selected;
+	bool      sdcard_inserted;
 } fb_view_t;
 
 typedef enum {
-    FB_COMMAND_NONE,
-    FB_COMMAND_BOOT_FLASH,
-    FB_COMMAND_INSTALL_BOOTLOADER,
-    FB_COMMAND_DUMP_FLASH,
-    FB_COMMAND_BOOT_FILE
+	FB_COMMAND_NONE,
+	FB_COMMAND_BOOT_FLASH,
+	FB_COMMAND_INSTALL_BOOTLOADER,
+	FB_COMMAND_DUMP_FLASH,
+	FB_COMMAND_BOOT_FILE
 } fb_command_type_t;
 
 typedef struct {
-    fb_command_type_t type;
-    char              path[PATH_NAME_MAX];
-    u32               file_size;
+	fb_command_type_t type;
+	char              path[PATH_NAME_MAX];
+	u32               file_size;
 } fb_command_t;
 
 void file_browser_init(void);

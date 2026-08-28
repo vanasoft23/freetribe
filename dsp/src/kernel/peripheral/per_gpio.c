@@ -74,94 +74,94 @@ void _test_output(void); // for probing which pins are connected
 
 void per_gpio_init(void) {
 
-    *pPORTF_MUX = PFMUX_SPORT;
-    *pPORTG_MUX = PGMUX_UART | PGMUX_HOSTDP;
-    *pPORTH_MUX = PHMUX_HOSTDP;
-    ssync();
+	*pPORTF_MUX = PFMUX_SPORT;
+	*pPORTG_MUX = PGMUX_UART | PGMUX_HOSTDP;
+	*pPORTH_MUX = PHMUX_HOSTDP;
+	ssync();
 
-    // GPIO mode.
-    *pPORTF_FER = PFFER_SPORT;
-    *pPORTG_FER = PGFER_SPI | PGFER_UART | PGFER_HOSTDP;
-    *pPORTH_FER = PHFER_HOSTDP;
-    ssync();
+	// GPIO mode.
+	*pPORTF_FER = PFFER_SPORT;
+	*pPORTG_FER = PGFER_SPI | PGFER_UART | PGFER_HOSTDP;
+	*pPORTH_FER = PHFER_HOSTDP;
+	ssync();
 
-    // Set p0, p7.
-    *pPORTGIO_SET = HWAIT | UART0_TX;
+	// Set p0, p7.
+	*pPORTGIO_SET = HWAIT | UART0_TX;
 
-    // p0, p7, p9, p10 are outputs.
-    *pPORTGIO_DIR = HWAIT | UART0_TX | PG9 | PG10;
+	// p0, p7, p9, p10 are outputs.
+	*pPORTGIO_DIR = HWAIT | UART0_TX | PG9 | PG10;
 
-    *pPORTGIO_SET = HWAIT | UART0_TX;
-    ssync();
+	*pPORTGIO_SET = HWAIT | UART0_TX;
+	ssync();
 }
 
 bool per_gpio_get(uint8_t port, uint8_t pin) {
 
-    //
-    return 0;
+	//
+	return 0;
 }
 
 void per_gpio_set(uint8_t port, uint8_t pin, bool state) {
-    //
+	//
 }
 
 void per_gpio_toggle(uint8_t port, uint8_t pin) {
 
-    //
+	//
 }
 
 uint16_t per_gpio_get_port(uint8_t port) {
 
-    switch (port) {
+	switch (port) {
 
-    case PORT_F:
-        return *pPORTFIO;
+	case PORT_F:
+		return *pPORTFIO;
 
-    case PORT_G:
-        return *pPORTGIO;
+	case PORT_G:
+		return *pPORTGIO;
 
-    case PORT_H:
-        return *pPORTHIO;
+	case PORT_H:
+		return *pPORTHIO;
 
-    default:
-        return 0;
-    }
+	default:
+		return 0;
+	}
 }
 
 void per_gpio_set_port(uint8_t port, uint16_t value) {
 
-    switch (port) {
+	switch (port) {
 
-    case PORT_F:
-        *pPORTFIO = value;
-        break;
+	case PORT_F:
+		*pPORTFIO = value;
+		break;
 
-    case PORT_G:
-        *pPORTGIO = value;
-        break;
+	case PORT_G:
+		*pPORTGIO = value;
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 void per_gpio_set_dir(uint8_t port, uint8_t pin, bool output) {
 
-    switch (port) {
+	switch (port) {
 
-    case PORT_F:
-        *pPORTFIO_DIR |= pin & output;
-        break;
-    case PORT_G:
-        *pPORTGIO_DIR |= pin & output;
-        break;
-    case PORT_H:
-        *pPORTGIO_DIR |= pin & output;
-        break;
+	case PORT_F:
+		*pPORTFIO_DIR |= pin & output;
+		break;
+	case PORT_G:
+		*pPORTGIO_DIR |= pin & output;
+		break;
+	case PORT_H:
+		*pPORTGIO_DIR |= pin & output;
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/

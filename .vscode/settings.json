@@ -8,7 +8,7 @@
     "[m68k]": {
         "editor.rulers": []
     },
-    "cortex-debug.variableUseNaturalFormat": false,
+    "cortex-debug.variableUseNaturalFormat": true,
     "cmake.sourceDirectory": [
         "${workspaceFolder}",
         "${workspaceFolder}/cpu/tests/native"

@@ -46,34 +46,34 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    const u8 *data;
-    u32       len;
+	const u8 *data;
+	u32       len;
 } gdb_request_t;
 
 typedef struct {
-    u8    *data;
-    u32    len;
-    u32    capacity;
-    bool   overflow;
+	u8    *data;
+	u32    len;
+	u32    capacity;
+	bool   overflow;
 } gdb_reply_writer_t;
 
 typedef enum {
-    GDB_ACTION_NONE,
-    GDB_ACTION_CONTINUE,
-    GDB_ACTION_STEP,
-    GDB_ACTION_DETACH,
-    GDB_ACTION_HANDOFF,
+	GDB_ACTION_NONE,
+	GDB_ACTION_CONTINUE,
+	GDB_ACTION_STEP,
+	GDB_ACTION_DETACH,
+	GDB_ACTION_HANDOFF,
 } gdb_action_t;
 
 typedef enum {
-    GDB_PROTOCOL_UNCHANGED,
-    GDB_PROTOCOL_ENTER_NO_ACK,
+	GDB_PROTOCOL_UNCHANGED,
+	GDB_PROTOCOL_ENTER_NO_ACK,
 } gdb_protocol_change_t;
 
 typedef struct {
-    bool                  send_reply;
-    gdb_action_t          action;
-    gdb_protocol_change_t protocol_change;
+	bool                  send_reply;
+	gdb_action_t          action;
+	gdb_protocol_change_t protocol_change;
 } gdb_command_result_t;
 
 typedef struct gdb_server gdb_server_t;
@@ -85,10 +85,10 @@ typedef struct gdb_server gdb_server_t;
  *         cannot be read safely.
  */
 typedef bool (*gdb_memory_reader_t)(
-    void *context,
-    u32   address,
-    u8   *destination,
-    u32   length
+	void *context,
+	u32   address,
+	u8   *destination,
+	u32   length
 );
 
 /**
@@ -98,10 +98,10 @@ typedef bool (*gdb_memory_reader_t)(
  *         cannot be written safely.
  */
 typedef bool (*gdb_memory_writer_t)(
-    void     *context,
-    u32       address,
-    const u8 *source,
-    u32       length
+	void     *context,
+	u32       address,
+	const u8 *source,
+	u32       length
 );
 
 extern gdb_server_t g_gdb_server;
@@ -109,14 +109,14 @@ extern gdb_server_t g_gdb_server;
 /*----- Functions ----------------------------------------------------*/
 
 gdb_command_result_t gdb_server_handle_req(
-    gdb_server_t       *server,
-    gdb_request_t       request,
-    gdb_reply_writer_t *reply
+	gdb_server_t       *server,
+	gdb_request_t       request,
+	gdb_reply_writer_t *reply
 );
 
 void gdb_server_set_stop(
-    gdb_server_t  *server,
-    int            sigval
+	gdb_server_t  *server,
+	int            sigval
 );
 
 /**
@@ -124,9 +124,9 @@ void gdb_server_set_stop(
  * @details Passing NULL restores direct target-memory reads.
  */
 void gdb_server_set_memory_reader(
-    gdb_server_t       *server,
-    gdb_memory_reader_t reader,
-    void               *context
+	gdb_server_t       *server,
+	gdb_memory_reader_t reader,
+	void               *context
 );
 
 /**
@@ -134,9 +134,9 @@ void gdb_server_set_memory_reader(
  * @details Passing NULL restores direct target-memory writes.
  */
 void gdb_server_set_memory_writer(
-    gdb_server_t       *server,
-    gdb_memory_writer_t writer,
-    void               *context
+	gdb_server_t       *server,
+	gdb_memory_writer_t writer,
+	void               *context
 );
 
 #endif /* GDB_SERVER_H */

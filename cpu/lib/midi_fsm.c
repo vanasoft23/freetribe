@@ -73,7 +73,7 @@ under the terms of the GNU Affero General Public License as published by
 /// TODO: Abstract to seaparate library with original BSD license.
 
 #include "midi_fsm.h"
-#include "ft_error.h"
+
 
 /*
  * Masks / patterns that define leading high bits; these are used to
@@ -174,7 +174,7 @@ enum PROTOCOL_STATE {
 static char g_state = STATE_WAITING_FOR_STATUS;
 
 // Last bytes received, saved for debugging.
-static char g_debug_last_status_byte = 0;
+static char g_debug_lasmidi_status_t_byte = 0;
 static char g_debug_last_data_byte = 0;
 
 // The following three variables are updated during message parsing.
@@ -251,7 +251,7 @@ static inline void invoke_callback(int evt) {
  * and then processing of the MIDI byte stream should continue as though the
  * real-time byte was never received.
  */
-static t_status rx_status_sys_realtime_byte(char byte) {
+static midi_status_t rx_status_sys_realtime_byte(char byte) {
     switch (byte) {
     case SYS_REALTIME_TIMING_CLOCK:
         invoke_callback(EVT_SYS_REALTIME_TIMING_CLOCK);
@@ -289,7 +289,7 @@ static t_status rx_status_sys_realtime_byte(char byte) {
 }
 
 // Process a "system common" status byte (0 or more data bytes follow.)
-static t_status rx_status_sys_common_byte(char byte) {
+static midi_status_t rx_status_sys_common_byte(char byte) {
 
     switch (byte) {
     case SYSEX_STATUS:
@@ -310,7 +310,7 @@ static t_status rx_status_sys_common_byte(char byte) {
 }
 
 // Process a "channel" status byte. (1 or 2 data bytes follow.)
-static t_status rx_status_channel_byte(char byte) {
+static midi_status_t rx_status_channel_byte(char byte) {
     // Mask of the channel bits, leaving only the message type.
     const char type = (byte & CHAN_TYPE_MASK);
 
@@ -363,7 +363,7 @@ static t_status rx_status_channel_byte(char byte) {
 }
 
 // Process a trailing data byte.
-static t_status rx_data_byte(char byte) {
+static midi_status_t rx_data_byte(char byte) {
     switch (g_state) {
     // Process first byte of a "note off" message.
     case STATE_WAITING_CHAN_NOTE_OFF_KEY:
@@ -476,7 +476,7 @@ static t_status rx_data_byte(char byte) {
  * Public APIs                                                              *
  ****************************************************************************/
 
-t_status midi_init_fsm() {
+midi_status_t midi_init_fsm() {
     // Initialize the callback table; all events to the null callback.
     for (int i = 0; i < EVT_MAX; ++i) {
         g_callbacks[i] = null_event_cb;
@@ -488,7 +488,7 @@ t_status midi_init_fsm() {
     return 0;
 }
 
-t_status midi_register_event_handler(event_type evt, t_midi_event_callback cb) {
+midi_status_t midi_register_event_handler(event_type evt, t_midi_event_callback cb) {
     // System exclusive callback uses separate function.
     if (cb && evt != EVT_SYS_EXCLUSIVE) {
         g_callbacks[evt] = cb;
@@ -500,7 +500,7 @@ t_status midi_register_event_handler(event_type evt, t_midi_event_callback cb) {
 }
 
 // Register callback for system exclusive messages.
-t_status midi_register_sysex_handler(t_midi_sysex_callback cb) {
+midi_status_t midi_register_sysex_handler(t_midi_sysex_callback cb) {
     if (cb) {
         g_sysex_callback = cb;
     } else {
@@ -510,7 +510,7 @@ t_status midi_register_sysex_handler(t_midi_sysex_callback cb) {
     return 0;
 }
 
-t_status midi_receive_byte(char byte) {
+midi_status_t midi_receive_byte(char byte) {
     /*
      * The statements below, which are performed in deliberate order, determine
      * which type of byte has arrived on the input. First, we test the lead
@@ -524,17 +524,17 @@ t_status midi_receive_byte(char byte) {
 
     if ((byte & SYS_REALTIME_MASK) == SYS_REALTIME_MASK) {
         // The byte is a system real-time status byte.
-        g_debug_last_status_byte = byte;
+        g_debug_lasmidi_status_t_byte = byte;
         return rx_status_sys_realtime_byte(byte);
 
     } else if ((byte & SYS_COMMON_MASK) == SYS_COMMON_MASK) {
         // The byte is a system common status byte.
-        g_debug_last_status_byte = byte;
+        g_debug_lasmidi_status_t_byte = byte;
         return rx_status_sys_common_byte(byte);
 
     } else if (byte & CHAN_STATUS_MASK) {
         // The byte is a channel voice or channel mode status byte.
-        g_debug_last_status_byte = byte;
+        g_debug_lasmidi_status_t_byte = byte;
         return rx_status_channel_byte(byte);
 
     } else {

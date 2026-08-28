@@ -48,15 +48,15 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    BOOT_IMAGE_INVALID,
-    BOOT_IMAGE_FACTORY,
-    BOOT_IMAGE_FREETRIBE
+	BOOT_IMAGE_INVALID,
+	BOOT_IMAGE_FACTORY,
+	BOOT_IMAGE_FREETRIBE
 } boot_image_type_t;
 
 typedef struct {
-    boot_image_type_t type;
-    u32               payload_offset;
-    u32               payload_size;
+	boot_image_type_t type;
+	u32               payload_offset;
+	u32               payload_size;
 } boot_image_info_t;
 
 /*----- Extern variable declarations ---------------------------------*/
@@ -67,18 +67,18 @@ extern u8 __firmware_reserved_size;
 /*----- Extern function prototypes -----------------------------------*/
 
 bool boot_image_classify_parts(
-    const u8          *prefix,
-    u32                prefix_size,
-    const u8          *trailer,
-    u32                trailer_size,
-    u32                image_size,
-    boot_image_info_t *info
+	const u8          *prefix,
+	u32                prefix_size,
+	const u8          *trailer,
+	u32                trailer_size,
+	u32                image_size,
+	boot_image_info_t *info
 );
 
 bool boot_image_classify_memory(
-    const u8          *image,
-    u32                image_size,
-    boot_image_info_t *info
+	const u8          *image,
+	u32                image_size,
+	boot_image_info_t *info
 );
 
 const char *boot_image_type_name(boot_image_type_t type);

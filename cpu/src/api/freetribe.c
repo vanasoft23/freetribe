@@ -56,10 +56,10 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    event_type event;
-    char chan;
-    char data1;
-    char data2;
+	event_type event;
+	char chan;
+	char data1;
+	char data2;
 } t_midi_user_event;
 
 /*----- Static variable definitions ----------------------------------*/
@@ -72,7 +72,7 @@ static t_midi_event_callback p_midi_callbacks[EVT_MAX] = {0};
 
 static void _midi_user_event_dispatch(const void *payload);
 static void _post_midi_user_event(event_type event, char chan, char data1,
-                                  char data2);
+								  char data2);
 static void _midi_timing_clock_callback(char chan, char data1, char data2);
 static void _midi_reserved_f9_callback(char chan, char data1, char data2);
 static void _midi_seq_start_callback(char chan, char data1, char data2);
@@ -106,7 +106,7 @@ static t_midi_event_callback _midi_wrapper_for_event(event_type event);
  */
 void ft_register_tick_callback(u32 divisor, void (*callback)(void)) {
 
-    knl_register_user_tick_callback(divisor, callback);
+	knl_register_user_tick_callback(divisor, callback);
 }
 
 // Delay API
@@ -123,7 +123,7 @@ void ft_register_tick_callback(u32 divisor, void (*callback)(void)) {
  */
 void ft_start_delay(t_delay_state *state, u32 time) {
 
-    delay_start(state, time);
+	delay_start(state, time);
 }
 
 /**
@@ -143,12 +143,12 @@ bool ft_delay(t_delay_state *state) { return delay_us(state); }
 //
 void ft_put_pixel(u16 pos_x, u16 pos_y, bool state) {
 
-    svc_display_put_pixel(pos_x, pos_y, state);
+	svc_display_put_pixel(pos_x, pos_y, state);
 }
 
 s8 ft_fill_frame(u16 x_start, u16 y_start, u16 x_end,
-                     u16 y_end, bool state) {
-    return svc_display_fill_frame(x_start, y_start, x_end, y_end, state);
+					 u16 y_end, bool state) {
+	return svc_display_fill_frame(x_start, y_start, x_end, y_end, state);
 }
 
 // Print API
@@ -157,7 +157,7 @@ s8 ft_fill_frame(u16 x_start, u16 y_start, u16 x_end,
 //
 void ft_register_print_callback(void (*callback)(char *)) {
 
-    svc_system_register_print_callback(callback);
+	svc_system_register_print_callback(callback);
 }
 
 /**
@@ -176,13 +176,13 @@ void ft_print(char *text) { svc_midi_send_string(text); }
  */
 void ft_printf(const char *format, ...)
 {
-    va_list ap;
-    static char str[256];
+	va_list ap;
+	static char str[256];
 
-    va_start(ap, format);
-    tfp_vsprintf(str, format, ap);
-    svc_midi_send_string(str);
-    va_end(ap);
+	va_start(ap, format);
+	tfp_vsprintf(str, format, ap);
+	svc_midi_send_string(str);
+	va_end(ap);
 }
 
 // Panel API
@@ -198,7 +198,7 @@ void ft_printf(const char *format, ...)
 //
 void ft_register_panel_callback(t_panel_event event, void *callback) {
 
-    svc_panel_register_callback(event, callback);
+	svc_panel_register_callback(event, callback);
 }
 
 void ft_set_trigger_mode(u8 mode) { svc_panel_set_trigger_mode(mode); }
@@ -215,16 +215,16 @@ void ft_set_trigger_mode(u8 mode) { svc_panel_set_trigger_mode(mode); }
 /// TODO: Separate function for each event type.
 //
 void ft_register_midi_callback(event_type event,
-                               t_midi_event_callback callback) {
+							   t_midi_event_callback callback) {
 
-    if ((event < 0) || (event >= EVT_MAX)) {
-        return;
-    }
+	if ((event < 0) || (event >= EVT_MAX)) {
+		return;
+	}
 
-    p_midi_callbacks[event] = callback;
-    midi_register_event_handler(event,
-                                callback ? _midi_wrapper_for_event(event)
-                                         : NULL);
+	p_midi_callbacks[event] = callback;
+	midi_register_event_handler(event,
+								callback ? _midi_wrapper_for_event(event)
+										 : NULL);
 }
 
 /**
@@ -237,7 +237,7 @@ void ft_register_midi_callback(event_type event,
  */
 void ft_send_note_on(char chan, char note, char vel) {
 
-    svc_midi_send_note_on(chan, note, vel);
+	svc_midi_send_note_on(chan, note, vel);
 }
 
 /**
@@ -250,7 +250,7 @@ void ft_send_note_on(char chan, char note, char vel) {
  */
 void ft_send_note_off(char chan, char note, char vel) {
 
-    svc_midi_send_note_off(chan, note, vel);
+	svc_midi_send_note_off(chan, note, vel);
 }
 
 /**
@@ -263,7 +263,7 @@ void ft_send_note_off(char chan, char note, char vel) {
  */
 void ft_send_cc(char chan, char index, char val) {
 
-    svc_midi_send_cc(chan, index, val);
+	svc_midi_send_cc(chan, index, val);
 }
 
 // LED API
@@ -283,7 +283,7 @@ void ft_toggle_led(t_led_index led_index) { svc_panel_toggle_led(led_index); }
  *
  */
 void ft_set_led(t_led_index led_index, bool state) {
-    svc_panel_set_led(led_index, state);
+	svc_panel_set_led(led_index, state);
 }
 
 // DSP Command API
@@ -297,9 +297,9 @@ void ft_set_led(t_led_index led_index, bool state) {
  *
  */
 void ft_set_module_param(u16 module_id, u16 param_index,
-                         s32 param_value) {
+						 s32 param_value) {
 
-    svc_dsp_set_module_param(module_id, param_index, param_value);
+	svc_dsp_set_module_param(module_id, param_index, param_value);
 }
 
 /**
@@ -314,13 +314,13 @@ void ft_set_module_param(u16 module_id, u16 param_index,
  */
 void ft_get_module_param(u16 module_id, u16 param_index) {
 
-    svc_dsp_get_module_param(module_id, param_index);
+	svc_dsp_get_module_param(module_id, param_index);
 }
 
 void ft_register_dsp_callback(u8 msg_type, u8 msg_id,
-                              void *callback) {
+							  void *callback) {
 
-    svc_dsp_register_callback(msg_type, msg_id, callback);
+	svc_dsp_register_callback(msg_type, msg_id, callback);
 }
 
 /**
@@ -331,9 +331,9 @@ void ft_shutdown(void) { svc_system_shutdown(); }
 /*----- Static function implementations ------------------------------*/
 
 #define MIDI_USER_CALLBACK(name, event_id)                                      \
-    static void name(char chan, char data1, char data2) {                       \
-        _post_midi_user_event(event_id, chan, data1, data2);                    \
-    }
+	static void name(char chan, char data1, char data2) {                       \
+		_post_midi_user_event(event_id, chan, data1, data2);                    \
+	}
 
 MIDI_USER_CALLBACK(_midi_timing_clock_callback, EVT_SYS_REALTIME_TIMING_CLOCK)
 MIDI_USER_CALLBACK(_midi_reserved_f9_callback, EVT_SYS_REALTIME_RESERVED_F9)
@@ -352,56 +352,56 @@ MIDI_USER_CALLBACK(_midi_aftertouch_callback, EVT_CHAN_AFTERTOUCH)
 MIDI_USER_CALLBACK(_midi_pitch_bend_callback, EVT_CHAN_PITCH_BEND)
 
 static void _midi_user_event_dispatch(const void *payload) {
-    const t_midi_user_event *event = (const t_midi_user_event *)payload;
+	const t_midi_user_event *event = (const t_midi_user_event *)payload;
 
-    if ((event->event < 0) || (event->event >= EVT_MAX)) {
-        return;
-    }
+	if ((event->event < 0) || (event->event >= EVT_MAX)) {
+		return;
+	}
 
-    if (p_midi_callbacks[event->event] != NULL) {
-        p_midi_callbacks[event->event](event->chan, event->data1,
-                                       event->data2);
-    }
+	if (p_midi_callbacks[event->event] != NULL) {
+		p_midi_callbacks[event->event](event->chan, event->data1,
+									   event->data2);
+	}
 }
 
 static void _post_midi_user_event(event_type event, char chan, char data1,
-                                  char data2) {
-    t_midi_user_event user_event = {
-        .event = event, .chan = chan, .data1 = data1, .data2 = data2};
+								  char data2) {
+	t_midi_user_event user_event = {
+		.event = event, .chan = chan, .data1 = data1, .data2 = data2};
 
-    if ((event < 0) || (event >= EVT_MAX) ||
-        (p_midi_callbacks[event] == NULL)) {
-        return;
-    }
+	if ((event < 0) || (event >= EVT_MAX) ||
+		(p_midi_callbacks[event] == NULL)) {
+		return;
+	}
 
-    (void)knl_post_user_event(_midi_user_event_dispatch, &user_event,
-                              sizeof(user_event));
+	(void)knl_post_user_event(_midi_user_event_dispatch, &user_event,
+							  sizeof(user_event));
 }
 
 static t_midi_event_callback _midi_wrapper_for_event(event_type event) {
-    static const t_midi_event_callback wrappers[EVT_MAX] = {
-        _midi_timing_clock_callback,
-        _midi_reserved_f9_callback,
-        _midi_seq_start_callback,
-        _midi_seq_continue_callback,
-        _midi_seq_stop_callback,
-        _midi_reserved_fd_callback,
-        _midi_active_sense_callback,
-        _midi_reset_callback,
-        _midi_note_off_callback,
-        _midi_note_on_callback,
-        _midi_poly_aftertouch_callback,
-        _midi_control_change_callback,
-        _midi_program_change_callback,
-        _midi_aftertouch_callback,
-        _midi_pitch_bend_callback,
-    };
+	static const t_midi_event_callback wrappers[EVT_MAX] = {
+		_midi_timing_clock_callback,
+		_midi_reserved_f9_callback,
+		_midi_seq_start_callback,
+		_midi_seq_continue_callback,
+		_midi_seq_stop_callback,
+		_midi_reserved_fd_callback,
+		_midi_active_sense_callback,
+		_midi_reset_callback,
+		_midi_note_off_callback,
+		_midi_note_on_callback,
+		_midi_poly_aftertouch_callback,
+		_midi_control_change_callback,
+		_midi_program_change_callback,
+		_midi_aftertouch_callback,
+		_midi_pitch_bend_callback,
+	};
 
-    if ((event < 0) || (event >= EVT_MAX)) {
-        return NULL;
-    }
+	if ((event < 0) || (event >= EVT_MAX)) {
+		return NULL;
+	}
 
-    return wrappers[event];
+	return wrappers[event];
 }
 
 /*----- End of file --------------------------------------------------*/

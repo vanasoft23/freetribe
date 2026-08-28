@@ -81,8 +81,8 @@ extern "C" {
 #define SPI_INT_LEVEL_TX_RX SPI_SPILVL_TXINTLVL | SPI_SPILVL_RXINTLVL
 
 #define SPI_INT_LEVEL_TX_RX_TIMEOUT_DESYNC                                     \
-    SPI_SPILVL_TXINTLVL | SPI_SPILVL_RXINTLVL | SPI_SPILVL_TIMEOUTLVL |        \
-        SPI_SPILVL_DESYNCLVL
+	SPI_SPILVL_TXINTLVL | SPI_SPILVL_RXINTLVL | SPI_SPILVL_TIMEOUTLVL |        \
+		SPI_SPILVL_DESYNCLVL
 
 #define SPI_MODULE_FREQ SOC_SPI_0_MODULE_FREQ
 
@@ -100,25 +100,25 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    SPI_TX_COMPLETE,
-    SPI_RX_COMPLETE,
+	SPI_TX_COMPLETE,
+	SPI_RX_COMPLETE,
 } t_spi_event;
 
 typedef struct {
-    u8 instance;
-    u8 int_channel;
-    u32 int_level;
-    bool int_enable;
-    u32 pin_func;
-    u32 pin_dir;
+	u8 instance;
+	u8 int_channel;
+	u32 int_level;
+	bool int_enable;
+	u32 pin_func;
+	u32 pin_dir;
 } t_spi_config;
 
 typedef struct {
-    u8 instance;
-    u8 index;
-    u32 freq;
-    u8 char_length;
-    u8 ena_timeout;
+	u8 instance;
+	u8 index;
+	u32 freq;
+	u8 char_length;
+	u8 ena_timeout;
 } t_spi_format;
 
 /*----- Extern variable declarations ---------------------------------*/
@@ -131,27 +131,27 @@ void per_spi_set_data_format(t_spi_format *format);
 
 // Blocking/polled transfers.
 void per_spi_write_blocking(u8 instance, u8 *buffer,
-                            u32 length);
+							u32 length);
 bool per_spi_write_blocking_bounded(u8 instance, const u8 *buffer,
-                                    u32 length, u32 poll_limit);
+									u32 length, u32 poll_limit);
 void per_spi_transfer_blocking(u8 instance, u8 *tx_buffer,
-                               u8 *rx_buffer, u32 length);
+							   u8 *rx_buffer, u32 length);
 void per_spi_transfer_blocking_end(u8 instance, u8 *tx_buffer,
-                                   u8 *rx_buffer, u32 length,
-                                   u8 data_format,
-                                   u8 chip_select);
+								   u8 *rx_buffer, u32 length,
+								   u8 data_format,
+								   u8 chip_select);
 
 // Interrupt-driven transfers.
 void per_spi_write_isr(u8 instance, u8 *buffer, u32 length);
 void per_spi_transfer_isr(u8 instance, u8 *tx_buffer,
-                          u8 *rx_buffer, u32 length);
+						  u8 *rx_buffer, u32 length);
 
 bool per_spi_initialised(u8 instance);
 void per_spi_chip_format(u8 instance, u8 data_format,
-                         u8 chip_select, bool cshold);
+						 u8 chip_select, bool cshold);
 
 void per_spi_register_callback(u8 instance, t_spi_event event,
-                               void (*callback)());
+							   void (*callback)());
 #ifdef __cplusplus
 }
 #endif

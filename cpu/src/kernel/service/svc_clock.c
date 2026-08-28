@@ -51,7 +51,7 @@ under the terms of the GNU Affero General Public License as published by
 #define CLOCK_PERIOD 0x124F7 // 500us
 
 #define CLOCK_MODE                                                             \
-    TMR_CFG_32BIT_UNCH_CLK_BOTH_INT & ~TMR_TGCR_TIM34RS & ~TMR_TGCR_PLUSEN
+	TMR_CFG_32BIT_UNCH_CLK_BOTH_INT & ~TMR_TGCR_TIM34RS & ~TMR_TGCR_PLUSEN
 
 #define CLOCK_INT TMR_INT_TMR12_NON_CAPT_MODE
 #define CLOCK_INT_CHAN 5
@@ -74,21 +74,21 @@ void _clock_isr(void);
 
 void clock_init(void) {
 
-    t_timer_config clock_cfg = {.base_addr = CLOCK_TIMER,
-                                .mode = CLOCK_MODE,
-                                .period = CLOCK_PERIOD,
-                                .int_flags = CLOCK_INT,
-                                .int_chan = CLOCK_INT_CHAN,
-                                .p_isr = _clock_isr};
+	t_timer_config clock_cfg = {.base_addr = CLOCK_TIMER,
+								.mode = CLOCK_MODE,
+								.period = CLOCK_PERIOD,
+								.int_flags = CLOCK_INT,
+								.int_chan = CLOCK_INT_CHAN,
+								.p_isr = _clock_isr};
 
-    timer_init(clock_cfg);
+	timer_init(clock_cfg);
 }
 
 void clock_register_callback(void (*callback)(void)) {
 
-    if (callback != NULL) {
-        p_clock_callback = callback;
-    }
+	if (callback != NULL) {
+		p_clock_callback = callback;
+	}
 }
 
 u32 clock_get(void) { return g_clock; }
@@ -100,18 +100,18 @@ u32 clock_get(void) { return g_clock; }
 void _clock_isr(void) {
 
 #if NESTED_INTERRUPTS
-    // System interrupt already cleared in IRQHandler.
+	// System interrupt already cleared in IRQHandler.
 #else
-    // Clear interrupt.
-    IntSystemStatusClear(SYS_INT_TIMR2_ALL);
+	// Clear interrupt.
+	IntSystemStatusClear(SYS_INT_TIMR2_ALL);
 #endif
-    TimerIntStatusClear(CLOCK_TIMER, CLOCK_INT << 1);
+	TimerIntStatusClear(CLOCK_TIMER, CLOCK_INT << 1);
 
-    g_clock++;
+	g_clock++;
 
-    if (p_clock_callback != NULL) {
-        (*p_clock_callback)();
-    }
+	if (p_clock_callback != NULL) {
+		(*p_clock_callback)();
+	}
 }
 
 /*----- End of file --------------------------------------------------*/

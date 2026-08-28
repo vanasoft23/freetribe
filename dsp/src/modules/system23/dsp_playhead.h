@@ -2,10 +2,10 @@
 #define DSP_PLAYHEAD_H
 
 typedef struct {
-    uint32_t frame;
-    uint32_t frames_per_step;
-    uint32_t step_idx;
-    bool     playing;
+	uint32_t frame;
+	uint32_t frames_per_step;
+	uint32_t step_idx;
+	bool     playing;
 } t_playhead;
 
 void dsp_playhead_playstop(bool play);

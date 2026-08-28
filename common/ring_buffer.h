@@ -1,96 +1,151 @@
 /**
- * \file ring_buffer.h
- * \author Chris Karaplis
- * \brief Ring buffer API
+ * @file ring_buffer.h
+ * @brief Generic, fixed-capacity ring buffer for single-producer /
+ *        single-consumer use (e.g. main loop <-> ISR).
  *
- * Copyright (c) 2015, simplyembedded.org
+ * Usage
+ * -----
+ *   uint32_t storage[16];
+ *   rb_t rb;
  *
- * All rights reserved.
+ *   ring_buffer_init(&rb, storage, sizeof(storage[0]),
+ *                     sizeof(storage) / sizeof(storage[0]));
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ *   uint32_t sample = 42;
+ *   ring_buffer_put(&rb, &sample);
  *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *   uint32_t out;
+ *   ring_buffer_get(&rb, &out);
  *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+ * Thread / ISR safety
+ * --------------------
+ * `head` is only ever written by the producer and `tail` only ever
+ * written by the consumer, so a single producer and a single consumer
+ * may safely call ring_buffer_put()/ring_buffer_get() concurrently
+ * (e.g. one from an ISR, the other from main context) without extra
+ * locking, as long as reads/writes of `size_t` are atomic on the
+ * target. Multiple producers or multiple consumers still require
+ * external synchronization.
  */
-
-/* Modified by bangcorrupt 2023. */
 
 #ifndef RING_BUFFER_H
 #define RING_BUFFER_H
+
+#include "ft.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <stddef.h>
-#include <stdint.h>
+/* Kept for source compatibility with users of the previous API. */
+#ifndef ARRAY_SIZE
+#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
+#endif
 
-#include "ft_error.h"
+typedef enum {
+	RING_BUFFER_OK = 0,
+	RING_BUFFER_ERROR_NULL_ARG,   /**< a required pointer was NULL */
+	RING_BUFFER_ERROR_INVALID_SIZE, /**< elem_size == 0, or capacity
+	                                     is 0 or not a power of 2 */
+	RING_BUFFER_ERROR_FULL,       /**< buffer has no free slots */
+	RING_BUFFER_ERROR_EMPTY,      /**< buffer has no elements */
+} rb_err_t;
 
-/* Macro to get the size of an array */
-#define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
-
-/* Ring buffer descriptor */
-typedef unsigned int rbd_t;
-
-/* User defined ring buffer attributes */
 typedef struct {
-    size_t s_elem;
-    size_t n_elem;
-    void *buffer;
-} rb_attr_t;
+	uint8_t *buffer;      /**< caller-owned backing storage */
+	size_t elem_size;     /**< size of one element, in bytes */
+	size_t capacity;      /**< number of elements; must be a power of 2 */
+	volatile size_t head; /**< index of next write (producer-owned) */
+	volatile size_t tail; /**< index of next read (consumer-owned) */
+} rb_t;
 
 /**
- * \brief Initialize a ring buffer
- * \param[out] rb - pointer to a ring buffer descriptor
- * \param[in] attr - ring buffer attributes
- * \return 0 on success, -1 otherwise
+ * @brief Initialize a ring buffer over caller-supplied storage.
  *
- * The attributes must contain a ring buffer which is sized
- * to an even power of 2. This should be reflected by the
- * attribute n_elem.
+ * @param[out] rb        Ring buffer instance to initialize.
+ * @param[in]  buffer    Backing storage, at least
+ *                        `elem_size * capacity` bytes, owned and
+ *                        allocated by the caller (static, stack, or
+ *                        heap) and kept alive for the lifetime of `rb`.
+ * @param[in]  elem_size Size of one element, in bytes. Must be > 0.
+ * @param[in]  capacity  Number of elements the buffer can hold. Must
+ *                        be a power of 2 (e.g. 8, 16, 32, 64) and > 0.
+ *
+ * @return RING_BUFFER_OK on success, or an error code describing why
+ *         initialization failed.
  */
-int ring_buffer_init(rbd_t *rbd, rb_attr_t *attr);
+rb_err_t ring_buffer_init(
+	rb_t   *rb,
+	void   *buffer,
+	size_t  elem_size,
+	size_t  capacity
+);
 
 /**
- * \brief Add an element to the ring buffer
- * \param[in] rb - the ring buffer descriptor
- * \param[in] data - the data to add
- * \return 0 on success, -1 otherwise
+ * @brief Add an element to the buffer.
+ * @return RING_BUFFER_OK, RING_BUFFER_ERROR_NULL_ARG, or
+ *         RING_BUFFER_ERROR_FULL if there is no room.
  */
-int ring_buffer_put(rbd_t rbd, const void *data);
-
-int ring_buffer_put_force(rbd_t rbd, const void *data);
+rb_err_t ring_buffer_put(
+	rb_t       *rb,
+	const void *elem
+);
 
 /**
- * \brief Get (and remove) an element from the ring buffer
- * \param[in] rb - the ring buffer descriptor
- * \param[in] data - pointer to store the data
- * \return 0 on success, -1 otherwise
+ * @brief Add an element to the buffer, overwriting the oldest element
+ *        if the buffer is full instead of failing.
+ *
+ * @param[out] overwritten Optional (may be NULL). Set to true if an
+ *                          existing element was discarded to make room.
+ * @return RING_BUFFER_OK on success (this call cannot fail with
+ *         "full"), or RING_BUFFER_ERROR_NULL_ARG.
  */
-int ring_buffer_get(rbd_t rbd, void *data);
+rb_err_t ring_buffer_put_overwrite(
+	rb_t       *rb,
+	const void *elem,
+	bool       *overwritten
+);
 
-int rb_data_ready(rbd_t rbd);
-int rb_buffer_full(rbd_t rbd);
+/**
+ * @brief Remove and return the oldest element in the buffer.
+ * @return RING_BUFFER_OK, RING_BUFFER_ERROR_NULL_ARG, or
+ *         RING_BUFFER_ERROR_EMPTY if there is nothing to read.
+ */
+rb_err_t ring_buffer_get(
+	rb_t *rb,
+	void *elem
+);
+
+/**
+ * @brief Copy an element without removing it from the buffer.
+ * @param[in] offset Number of elements after the oldest element.
+ */
+rb_err_t ring_buffer_peek(
+	const rb_t *rb,
+	size_t      offset,
+	void       *elem
+);
+
+/** @brief Discard up to `count` oldest elements. */
+void ring_buffer_discard(rb_t *rb, size_t count);
+
+/** @brief True if the buffer has no free slots. */
+bool ring_buffer_is_full(const rb_t *rb);
+
+/** @brief True if the buffer has no elements. */
+bool ring_buffer_is_empty(const rb_t *rb);
+
+/** @brief Number of elements currently stored. */
+size_t ring_buffer_count(const rb_t *rb);
+
+/** @brief Maximum number of elements the buffer can hold. */
+size_t ring_buffer_capacity(const rb_t *rb);
+
+/** @brief Discard all elements. Does not touch the backing storage. */
+void ring_buffer_reset(rb_t *rb);
 
 #ifdef __cplusplus
 }
 #endif
+
 #endif /* RING_BUFFER_H */

@@ -1,30 +1,30 @@
 /*----------------------------------------------------------------------
 
-                     This file is part of Freetribe
+					 This file is part of Freetribe
 
-                https://github.com/bangcorrupt/freetribe
+				https://github.com/bangcorrupt/freetribe
 
-                                License
+								License
 
-                   GNU AFFERO GENERAL PUBLIC LICENSE
-                      Version 3, 19 November 2007
+				   GNU AFFERO GENERAL PUBLIC LICENSE
+					  Version 3, 19 November 2007
 
-                           AGPL-3.0-or-later
+						   AGPL-3.0-or-later
 
  Freetribe is free software: you can redistribute it and/or modify it
 under the terms of the GNU Affero General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
-                  (at your option) any later version.
+				  (at your option) any later version.
 
-     Freetribe is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty
-        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-          See the GNU General Public License for more details.
+	 Freetribe is distributed in the hope that it will be useful,
+	  but WITHOUT ANY WARRANTY; without even the implied warranty
+		of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+		  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
  along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-                       Copyright bangcorrupt 2024
+					   Copyright bangcorrupt 2024
 
 ----------------------------------------------------------------------*/
 
@@ -71,10 +71,10 @@ static t_delay_state g_blink_delay;
  */
 t_status app_init(void) {
 
-    // Initialise delay.
-    ft_start_delay(&g_blink_delay, DELAY_TIME);
+	// Initialise delay.
+	ft_start_delay(&g_blink_delay, DELAY_TIME);
 
-    return SUCCESS;
+	return SUCCESS;
 }
 
 /**
@@ -85,15 +85,15 @@ t_status app_init(void) {
  */
 void app_run(void) {
 
-    // Wait for delay.
-    if (ft_delay(&g_blink_delay)) {
+	// Wait for delay.
+	if (ft_delay(&g_blink_delay)) {
 
-        // Toggle LED.
-        ft_toggle_led(LED_TAP);
+		// Toggle LED.
+		ft_toggle_led(LED_TAP);
 
-        // Reset start time.
-        ft_start_delay(&g_blink_delay, DELAY_TIME);
-    }
+		// Reset start time.
+		ft_start_delay(&g_blink_delay, DELAY_TIME);
+	}
 }
 
 /*----- Static function implementations ------------------------------*/

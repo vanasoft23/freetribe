@@ -34,16 +34,16 @@ under the terms of the GNU Affero General Public License as published by
 #include "ft.h"
 
 typedef enum {
-    MODAL_UNSKIPPABLE,
-    MODAL_DISMISS,
-    MODAL_CONFIRM_INSTALL
+	MODAL_UNSKIPPABLE,
+	MODAL_DISMISS,
+	MODAL_CONFIRM_INSTALL
 } modal_type_t;
 
 typedef struct {
-    modal_type_t    type;
-    const char     *title;
-    const char     *message;
-    bool            cancel_selected;
+	modal_type_t    type;
+	const char     *title;
+	const char     *message;
+	bool            cancel_selected;
 } modal_t;
 
 #endif /* MODAL_H */

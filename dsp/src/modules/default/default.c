@@ -55,7 +55,7 @@ under the terms of the GNU Affero General Public License as published by
  */
 typedef enum {
 
-    PARAM_COUNT /// Should remain last to return number of parameters.
+	PARAM_COUNT /// Should remain last to return number of parameters.
 } e_param;
 
 /*----- Static variable definitions ----------------------------------*/
@@ -71,7 +71,7 @@ typedef enum {
  */
 void module_init(void) {
 
-    //
+	//
 }
 
 /**
@@ -81,7 +81,7 @@ void module_init(void) {
  * @param[out]  out Pointer to input buffer.
  */
 void module_process(fract32 *in, fract32 *out) {
-    //
+	//
 }
 
 /**
@@ -92,11 +92,11 @@ void module_process(fract32 *in, fract32 *out) {
  */
 void module_set_param(uint16_t param_index, int32_t value) {
 
-    switch (param_index) {
+	switch (param_index) {
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /**
@@ -108,15 +108,15 @@ void module_set_param(uint16_t param_index, int32_t value) {
  */
 int32_t module_get_param(uint16_t param_index) {
 
-    int32_t value = 0;
+	int32_t value = 0;
 
-    switch (param_index) {
+	switch (param_index) {
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 
-    return value;
+	return value;
 }
 
 /**
@@ -136,12 +136,12 @@ uint32_t module_get_param_count(void) { return PARAM_COUNT; }
  */
 void module_get_param_name(uint16_t param_index, char *text) {
 
-    switch (param_index) {
+	switch (param_index) {
 
-    default:
-        copy_string(text, "Unknown", MAX_PARAM_NAME_LENGTH);
-        break;
-    }
+	default:
+		copy_string(text, "Unknown", MAX_PARAM_NAME_LENGTH);
+		break;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/

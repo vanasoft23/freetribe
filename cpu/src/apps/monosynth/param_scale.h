@@ -43,8 +43,9 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
+#include "ft.h"
+
 #include <math.h>
-#include <stdint.h>
 
 #include "lookup_tables.h"
 
@@ -90,71 +91,71 @@ extern "C" {
 
 static inline float clamp_value(float value) {
 
-    return fmaxf(fminf(value, FRACT32_MAX_FLOAT), FRACT32_MIN_FLOAT);
+	return fmaxf(fminf(value, FRACT32_MAX_FLOAT), FRACT32_MIN_FLOAT);
 }
 
 static inline s32 float_to_fract32(float value) {
 
-    s32 result;
+	s32 result;
 
-    if (value == 0) {
-        result = 0;
+	if (value == 0) {
+		result = 0;
 
-    } else {
-        result = (s32)roundf(scalbnf(clamp_value(value), 31));
-    }
+	} else {
+		result = (s32)roundf(scalbnf(clamp_value(value), 31));
+	}
 
-    return result;
+	return result;
 }
 
 static inline s32 float_to_fix16(float value) {
 
-    s32 result;
+	s32 result;
 
-    if (value == 0) {
-        result = 0;
+	if (value == 0) {
+		result = 0;
 
-    } else {
-        result = (s32)(value * FIX16_ONE);
-    }
+	} else {
+		result = (s32)(value * FIX16_ONE);
+	}
 
-    return result;
+	return result;
 }
 
 static inline float note_to_freq(float note) {
 
-    return CONCERT_PITCH_HZ * powf(2.0, ((note - CONCERT_PITCH_MIDI) / 12.0));
+	return CONCERT_PITCH_HZ * powf(2.0, ((note - CONCERT_PITCH_MIDI) / 12.0));
 }
 
 static inline float freq_to_cv(float freq) {
 
-    // 0.1 per octave, 0 == 27.5 Hz (A0).
-    return (logf(freq / CV_CENTRE_FREQ) / logf(2.0)) / 10;
+	// 0.1 per octave, 0 == 27.5 Hz (A0).
+	return (logf(freq / CV_CENTRE_FREQ) / logf(2.0)) / 10;
 }
 
 static inline float note_to_cv(float note) {
 
-    return freq_to_cv(note_to_freq(note));
+	return freq_to_cv(note_to_freq(note));
 }
 
 static inline float cv_to_freq(float cv) {
 
-    return powf(2.0, cv * 10) * CV_CENTRE_FREQ;
+	return powf(2.0, cv * 10) * CV_CENTRE_FREQ;
 }
 
 static float cv_to_osc_freq(float cv) {
 
-    return cv_to_freq(cv) * OSC_FREQ_CONST;
+	return cv_to_freq(cv) * OSC_FREQ_CONST;
 }
 
 static float cv_to_filter_freq(float cv) {
 
-    return cv_to_freq(cv) * FILTER_FREQ_CONST;
+	return cv_to_freq(cv) * FILTER_FREQ_CONST;
 }
 
 static float cv_to_filter_freq_oversample(float cv) {
 
-    return cv_to_freq(cv) * FILTER_FREQ_OVERSAMPLE_CONST;
+	return cv_to_freq(cv) * FILTER_FREQ_OVERSAMPLE_CONST;
 }
 
 #ifdef __cplusplus

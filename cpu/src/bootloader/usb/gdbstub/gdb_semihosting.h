@@ -1,3 +1,4 @@
+#if 0
 /*----------------------------------------------------------------------
 
                      This file is part of Freetribe
@@ -56,3 +57,4 @@ bool gdb_semihosting_set_io_client(u32 client_mask);
 
 #endif /* GDB_SEMIHOSTING_H */
 
+#endif

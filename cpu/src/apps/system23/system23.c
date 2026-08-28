@@ -22,15 +22,15 @@
  */
 t_status app_init(void) {
 
-    lut_init();
-    
-    ptn_cache_init();
-    playback_init(180);
-    view_init();
-    view_select(VIEW_SEQUENCER);
+	lut_init();
+	
+	ptn_cache_init();
+	playback_init(180);
+	view_init();
+	view_select(VIEW_SEQUENCER);
 
-    ft_print("System23 initialised.");
-    return SUCCESS;
+	ft_print("System23 initialised.");
+	return SUCCESS;
 }
 
 /**
@@ -38,18 +38,18 @@ t_status app_init(void) {
  */
 void app_run(void) {
 
-    view_draw();
+	view_draw();
 
-    // static int timah;
-    // if (timah++ % 15 == 0) {
-    //     ft_printf("Sturen");
-    //     if (IPC_QUEUE_FULL == dev_dsp_ipc_read(0x00000060, test_terug, 64, _test, (void*)0x23AC1D23)) {
-    //         ft_printf("IPC_QUEUE_FULL");
-    //     }
-    //     // if (IPC_QUEUE_FULL == dev_dsp_ipc_transfer(0x00000060, (const u32*)0xC0004000, 71, _test, (void*)0x23AC1D23)) {
-    //     //     ft_printf("IPC_QUEUE_FULL");
-    //     // }
-    // }
+	// static int timah;
+	// if (timah++ % 15 == 0) {
+	//     ft_printf("Sturen");
+	//     if (IPC_QUEUE_FULL == dev_dsp_ipc_read(0x00000060, test_terug, 64, _test, (void*)0x23AC1D23)) {
+	//         ft_printf("IPC_QUEUE_FULL");
+	//     }
+	//     // if (IPC_QUEUE_FULL == dev_dsp_ipc_transfer(0x00000060, (const u32*)0xC0004000, 71, _test, (void*)0x23AC1D23)) {
+	//     //     ft_printf("IPC_QUEUE_FULL");
+	//     // }
+	// }
 
 }
 

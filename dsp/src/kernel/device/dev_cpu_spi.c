@@ -36,8 +36,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 #include "per_spi.h"
 
@@ -55,94 +54,91 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Static variable definitions ----------------------------------*/
 //
 // SPI Rx ring buffer.
-static rbd_t g_spi_rx_rbd;
-static uint8_t g_spi_rx_rbmem[SPI_RX_BUF_LEN];
+static rb_t g_spi_rx_rbd;
+static u8 g_spi_rx_rbmem[SPI_RX_BUF_LEN];
 
 // SPI Tx ring buffer.
-static rbd_t g_spi_tx_rbd;
-static uint8_t g_spi_tx_rbmem[SPI_TX_BUF_LEN];
+static rb_t g_spi_tx_rbd;
+static u8 g_spi_tx_rbmem[SPI_TX_BUF_LEN];
 
-static uint8_t g_cpu_spi_rx_byte;
-static uint8_t g_cpu_spi_tx_byte;
+static u8 g_cpu_spi_rx_byte;
+static u8 g_cpu_spi_tx_byte;
 
 /*----- Extern variable definitions ----------------------------------*/
 
 /*----- Static function prototypes -----------------------------------*/
 
-static int _cpu_spi_tx_dequeue(uint8_t *spi_byte);
-static void _cpu_spi_rx_enqueue(uint8_t *spi_byte);
+static bool _cpu_spi_tx_dequeue(u8 *spi_byte);
+static bool _cpu_spi_rx_enqueue(u8 *spi_byte);
 
-static void _cpu_spi_trx_byte(uint8_t *tx_byte, uint8_t *rx_byte);
+static void _cpu_spi_trx_byte(u8 *tx_byte, u8 *rx_byte);
 
 static void _cpu_spi_trx_callback(void);
 
 /*----- Extern function implementations ------------------------------*/
 
-void dev_cpu_spi_init(void) {
-    //
-    // Tx ring buffer attributes.
-    rb_attr_t tx_attr = {sizeof(g_spi_tx_rbmem[0]), ARRAY_SIZE(g_spi_tx_rbmem),
-                         g_spi_tx_rbmem};
+void dev_cpu_spi_init(void)
+{
+	// Initialise MCU message ring buffers.
+	int rb_init_status;
+	rb_init_status  = ring_buffer_init(&g_spi_tx_rbd, g_spi_tx_rbmem, sizeof(g_spi_tx_rbmem[0]), ARRAY_SIZE(g_spi_tx_rbmem));
+	rb_init_status |= ring_buffer_init(&g_spi_rx_rbd, g_spi_rx_rbmem, sizeof(g_spi_rx_rbmem[0]), ARRAY_SIZE(g_spi_rx_rbmem));
 
-    // Rx ring buffer attributes.
-    rb_attr_t rx_attr = {sizeof(g_spi_rx_rbmem[0]), ARRAY_SIZE(g_spi_rx_rbmem),
-                         g_spi_rx_rbmem};
+	if (RING_BUFFER_OK != rb_init_status) {
+		PANIC(PANIC_GENERIC);
+		return;
+	}
 
-    // Initialise MCU message ring buffers.
-    if (ring_buffer_init(&g_spi_tx_rbd, &tx_attr) ||
-        ring_buffer_init(&g_spi_rx_rbd, &rx_attr) == 0) {
+	per_spi_init();
 
-        per_spi_init();
+	per_spi_register_callback(EVT_SPI_TRX_COMPLETE, _cpu_spi_trx_callback);
 
-        per_spi_register_callback(EVT_SPI_TRX_COMPLETE, _cpu_spi_trx_callback);
-
-        // Initialise transfer.
-        _cpu_spi_trx_byte(&g_cpu_spi_tx_byte, &g_cpu_spi_rx_byte);
-    }
+	// Initialise transfer.
+	_cpu_spi_trx_byte(&g_cpu_spi_tx_byte, &g_cpu_spi_rx_byte);
 }
 
-/// TODO: Check/return status.
-void dev_cpu_spi_tx_enqueue(uint8_t *spi_byte) {
-
-    // Overwrite on overflow?
-    ring_buffer_put_force(g_spi_tx_rbd, spi_byte);
+bool dev_cpu_spi_tx_enqueue(u8 *spi_byte)
+{
+	// Overwrite on overflow?
+	int status = ring_buffer_put_overwrite(&g_spi_tx_rbd, spi_byte, NULL);
+	return status == RING_BUFFER_OK ? true : false;
 }
 
-int dev_cpu_spi_rx_dequeue(uint8_t *spi_byte) {
-
-    return ring_buffer_get(g_spi_rx_rbd, spi_byte);
+bool dev_cpu_spi_rx_dequeue(u8 *spi_byte)
+{
+	return RING_BUFFER_OK == ring_buffer_get(&g_spi_rx_rbd, spi_byte);
 }
 
 /*----- Static function implementations ------------------------------*/
 
-static int _cpu_spi_tx_dequeue(uint8_t *spi_byte) {
-
-    return ring_buffer_get(g_spi_tx_rbd, spi_byte);
+static bool _cpu_spi_tx_dequeue(u8 *spi_byte)
+{
+	return RING_BUFFER_OK == ring_buffer_get(&g_spi_tx_rbd, spi_byte);
 }
 
-/// TODO: Check/return status.
-static void _cpu_spi_rx_enqueue(uint8_t *spi_byte) {
-
-    // Overwrite on overflow?
-    ring_buffer_put_force(g_spi_rx_rbd, spi_byte);
+static bool _cpu_spi_rx_enqueue(u8 *spi_byte)
+{
+	// Overwrite on overflow?
+	int status = ring_buffer_put_overwrite(&g_spi_rx_rbd, spi_byte, NULL);
+	return status == RING_BUFFER_OK ? true : false;
 }
 
-static void _cpu_spi_trx_byte(uint8_t *tx_byte, uint8_t *rx_byte) {
-
-    per_spi_trx_int(tx_byte, rx_byte, 1);
+static void _cpu_spi_trx_byte(u8 *tx_byte, u8 *rx_byte)
+{
+	per_spi_trx_int(tx_byte, rx_byte, 1);
 }
 
-static void _cpu_spi_trx_callback(void) {
+static void _cpu_spi_trx_callback(void)
+{
+	_cpu_spi_rx_enqueue(&g_cpu_spi_rx_byte);
 
-    _cpu_spi_rx_enqueue(&g_cpu_spi_rx_byte);
+	// Transmit 0 if tx queue empty.
+	if (!_cpu_spi_tx_dequeue(&g_cpu_spi_tx_byte)) {
+		g_cpu_spi_tx_byte = 0;
+	}
 
-    // Transmit 0 if tx queue empty.
-    if (_cpu_spi_tx_dequeue(&g_cpu_spi_tx_byte)) {
-        g_cpu_spi_tx_byte = 0;
-    }
-
-    // CPU leads, so always re-enable transfer to catch next byte.
-    _cpu_spi_trx_byte(&g_cpu_spi_tx_byte, &g_cpu_spi_rx_byte);
+	// CPU leads, so always re-enable transfer to catch next byte.
+	_cpu_spi_trx_byte(&g_cpu_spi_tx_byte, &g_cpu_spi_rx_byte);
 }
 
 /*----- End of file --------------------------------------------------*/

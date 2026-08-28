@@ -166,31 +166,31 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    HOSTDMA_OFF = 0,
-    HOSTDMA_IDLE,
-    HOSTDMA_HOST_WRITE,
-    HOSTDMA_HOST_READ_APPROVED,
+	HOSTDMA_OFF = 0,
+	HOSTDMA_IDLE,
+	HOSTDMA_HOST_WRITE,
+	HOSTDMA_HOST_READ_APPROVED,
 } t_hostdma_state;
 
 typedef struct {
-    uint16_t blocks_remaining;
-    t_hostdma_metadata metadata;
+	uint16_t blocks_remaining;
+	t_hostdma_metadata metadata;
 } t_host_write_state;
 
 typedef struct {
-    uint16_t blocks_remaining;
-    t_hostdma_metadata metadata;
+	uint16_t blocks_remaining;
+	t_hostdma_metadata metadata;
 } t_host_read_state;
 
 typedef enum {
-    EVENT_HOST_READ_COMPLETE,
-    EVENT_HOST_WRITE_COMPLETE,
-    EVENT_ERROR,
+	EVENT_HOST_READ_COMPLETE,
+	EVENT_HOST_WRITE_COMPLETE,
+	EVENT_ERROR,
 } t_hostdma_event_type;
 
 typedef struct {
-    t_hostdma_event_type type;
-    t_hostdma_metadata metadata;
+	t_hostdma_event_type type;
+	t_hostdma_metadata metadata;
 } t_hostdma_event;
 
 /*----- Static function prototypes -----------------------------------*/
@@ -230,46 +230,46 @@ volatile int g_event_tail = 0;
  * @note    Registers to IVG 10, 12, and 13
  */
 void per_hostdma_init(t_hostdma_cb rx_callback,
-                      t_hostdma_cb tx_callback,
-                      t_hostdma_cb error_callback) {
-    
-    // Register HOSTDP status interrupt
-    *pSIC_IAR6 |= P49_IVG(13);
-    *pEVT13 = &_hostdp_status_isr;
-    *pSIC_IMASK1 |= IRQ_HOSTDP_STATUS;
-    ssync();
-    int i;
-    asm volatile("cli %0; bitset(%0, 13); sti %0; csync;" : "=d"(i)); // Unmask in the core event processor
-    ssync();
+					  t_hostdma_cb tx_callback,
+					  t_hostdma_cb error_callback) {
+	
+	// Register HOSTDP status interrupt
+	*pSIC_IAR6 |= P49_IVG(13);
+	*pEVT13 = &_hostdp_status_isr;
+	*pSIC_IMASK1 |= IRQ_HOSTDP_STATUS;
+	ssync();
+	int i;
+	asm volatile("cli %0; bitset(%0, 13); sti %0; csync;" : "=d"(i)); // Unmask in the core event processor
+	ssync();
 
-    // Register HOST READ DONE interrupt
-    *pSIC_IAR6 |= P50_IVG(12);
-    *pEVT12 = &_host_read_done_isr;
-    *pSIC_IMASK1 |= IRQ_HOSTRD_DONE;
-    ssync();
-    asm volatile("cli %0; bitset(%0, 12); sti %0; csync;" : "=d"(i)); // Unmask in the core event processor
-    ssync();
+	// Register HOST READ DONE interrupt
+	*pSIC_IAR6 |= P50_IVG(12);
+	*pEVT12 = &_host_read_done_isr;
+	*pSIC_IMASK1 |= IRQ_HOSTRD_DONE;
+	ssync();
+	asm volatile("cli %0; bitset(%0, 12); sti %0; csync;" : "=d"(i)); // Unmask in the core event processor
+	ssync();
 
-    // Register DMA1 HOSTDP interrupt
-    *pSIC_IAR3 |= P28_IVG(10);
-    *pEVT10 = &_hostdp_dma1_isr;
-    *pSIC_IMASK0 |= IRQ_DMA1;
-    ssync();
-    asm volatile("cli %0; bitset(%0, 10); sti %0; csync;" : "=d"(i)); // Unmask in the core event processor
-    ssync();
+	// Register DMA1 HOSTDP interrupt
+	*pSIC_IAR3 |= P28_IVG(10);
+	*pEVT10 = &_hostdp_dma1_isr;
+	*pSIC_IMASK0 |= IRQ_DMA1;
+	ssync();
+	asm volatile("cli %0; bitset(%0, 10); sti %0; csync;" : "=d"(i)); // Unmask in the core event processor
+	ssync();
 
 #ifdef DEBUG
-    _test_buffer();
+	_test_buffer();
 #endif
 
-    g_rx_callback      = rx_callback;
-    g_tx_callback      = tx_callback;
-    g_error_callback   = error_callback;
+	g_rx_callback      = rx_callback;
+	g_tx_callback      = tx_callback;
+	g_error_callback   = error_callback;
 
-    // Configure HostDMA
-    _host_control(BURST_MODE_ON_BY_DEFAULT, 0x0000);
+	// Configure HostDMA
+	_host_control(BURST_MODE_ON_BY_DEFAULT, 0x0000);
 
-    g_state = HOSTDMA_IDLE;
+	g_state = HOSTDMA_IDLE;
 }
 
 /**
@@ -277,22 +277,22 @@ void per_hostdma_init(t_hostdma_cb rx_callback,
  */
 void per_hostdma_process_events(void) {
 
-    while (g_event_tail != g_event_head) {
-        t_hostdma_event evt = g_event_queue[g_event_tail];
-        g_event_tail = (g_event_tail + 1) % MAX_EVENTS;
+	while (g_event_tail != g_event_head) {
+		t_hostdma_event evt = g_event_queue[g_event_tail];
+		g_event_tail = (g_event_tail + 1) % MAX_EVENTS;
 
-        switch (evt.type) {
-            case EVENT_HOST_READ_COMPLETE:
-                g_tx_callback(evt.metadata);
-                break;
-            case EVENT_HOST_WRITE_COMPLETE:
-                g_rx_callback(evt.metadata);
-                break;
-            case EVENT_ERROR:
-                g_error_callback(evt.metadata);
-                break;
-        }
-    }
+		switch (evt.type) {
+			case EVENT_HOST_READ_COMPLETE:
+				g_tx_callback(evt.metadata);
+				break;
+			case EVENT_HOST_WRITE_COMPLETE:
+				g_rx_callback(evt.metadata);
+				break;
+			case EVENT_ERROR:
+				g_error_callback(evt.metadata);
+				break;
+		}
+	}
 
 }
 
@@ -309,34 +309,34 @@ void per_hostdma_process_events(void) {
  *          HOSTDMA_BUS_OCCUPIED
  */
 t_hostdma_status per_hostdma_transfer(uint32_t host_address,
-                                      const uint16_t *words,
-                                      uint16_t word_count,
-                                      t_hostdma_metadata metadata) {
-    
-    if (HOSTDMA_OFF == g_state)
-        return HOSTDMA_UNINITIALISED;
-    
-    if (!_check_bus_availability())
-        return HOSTDMA_BUS_OCCUPIED;
+									  const uint16_t *words,
+									  uint16_t word_count,
+									  t_hostdma_metadata metadata) {
+	
+	if (HOSTDMA_OFF == g_state)
+		return HOSTDMA_UNINITIALISED;
+	
+	if (!_check_bus_availability())
+		return HOSTDMA_BUS_OCCUPIED;
 
-    // Prepare a header for transfer first
-    WRITE_HEADER_16(0x00, word_count     );
-    WRITE_HEADER_32(0x04, host_address   );
-    WRITE_HEADER_32(0x08, (uint32_t)words);
-    WRITE_HEADER_32(0x0C, metadata.meta0 );
-    WRITE_HEADER_32(0x10, metadata.meta1 );
-    WRITE_HEADER_32(0x14, metadata.meta2 );
-    WRITE_HEADER_32(0x18, metadata.meta3 );
-    WRITE_HEADER_32(0x1C, metadata.meta4 );
+	// Prepare a header for transfer first
+	WRITE_HEADER_16(0x00, word_count     );
+	WRITE_HEADER_32(0x04, host_address   );
+	WRITE_HEADER_32(0x08, (uint32_t)words);
+	WRITE_HEADER_32(0x0C, metadata.meta0 );
+	WRITE_HEADER_32(0x10, metadata.meta1 );
+	WRITE_HEADER_32(0x14, metadata.meta2 );
+	WRITE_HEADER_32(0x18, metadata.meta3 );
+	WRITE_HEADER_32(0x1C, metadata.meta4 );
 
-    g_tx_state.metadata = metadata;
-    g_tx_state.blocks_remaining = ((uint32_t)word_count + 15) / 16;
-    
-    // Request to claim bus
-    *pHOST_STATUS |= HSHK;
-    ssync();
+	g_tx_state.metadata = metadata;
+	g_tx_state.blocks_remaining = ((uint32_t)word_count + 15) / 16;
+	
+	// Request to claim bus
+	*pHOST_STATUS |= HSHK;
+	ssync();
 
-    return HOSTDMA_SUCCESS;
+	return HOSTDMA_SUCCESS;
 
 }
 
@@ -350,20 +350,20 @@ t_hostdma_status per_hostdma_transfer(uint32_t host_address,
  *          Normally, we would check hostdma status to see whether the bus is
  */
 static inline bool _check_bus_availability(void) {
-    uint16_t status = *pHOST_STATUS;
-    return  (HOSTDMA_IDLE == g_state)
-        // &&  (status & ALLOW_CNFG)
-        // && !(status & DMA_RDY)
-        // &&  (status & DMA_CMPLT)
-        && !(status & HSHK);
+	uint16_t status = *pHOST_STATUS;
+	return  (HOSTDMA_IDLE == g_state)
+		// &&  (status & ALLOW_CNFG)
+		// && !(status & DMA_RDY)
+		// &&  (status & DMA_CMPLT)
+		&& !(status & HSHK);
 }
 
 static inline void _host_control(bool enable_burst_mode, uint16_t extra_flags) {
-    if (enable_burst_mode)
-        *pHOST_CONTROL = INT_MODE | EHW | EHR | HOSTDP_DATA_SIZE | HOSTDP_EN | extra_flags | BDR;
-    else
-        *pHOST_CONTROL = INT_MODE | EHW | EHR | HOSTDP_DATA_SIZE | HOSTDP_EN | extra_flags;
-    ssync();
+	if (enable_burst_mode)
+		*pHOST_CONTROL = INT_MODE | EHW | EHR | HOSTDP_DATA_SIZE | HOSTDP_EN | extra_flags | BDR;
+	else
+		*pHOST_CONTROL = INT_MODE | EHW | EHR | HOSTDP_DATA_SIZE | HOSTDP_EN | extra_flags;
+	ssync();
 }
 
 /**
@@ -374,26 +374,26 @@ static inline void _host_control(bool enable_burst_mode, uint16_t extra_flags) {
  */
 static inline void _enqueue_event(t_hostdma_event_type type, t_hostdma_metadata metadata) {
 
-    int next_head = (g_event_head + 1) % MAX_EVENTS;
-    if (next_head == g_event_tail) {
-        // Overflow problem, this could happen when the CPU keeps firing
-        // transactions and the DSP main loop stalls for too long, being unable
-        // to serve event callbacks.
+	int next_head = (g_event_head + 1) % MAX_EVENTS;
+	if (next_head == g_event_tail) {
+		// Overflow problem, this could happen when the CPU keeps firing
+		// transactions and the DSP main loop stalls for too long, being unable
+		// to serve event callbacks.
 
-        // @todo: Handle this situation:
-        //        - Reset queue
-        //        - Put driver in halting error state, but ignore host's
-        //          acknowledgement (HOST IRQ) so HostDMA doesn't turn back on.
-        //          Best option would be to stash HOST IRQ as an event callback.
-        //        - Force software interrupt to call IPC layer error callback:
-        //          IPC layer will fire all it's user callbacks with IPC_FAILED.
-        //        - Once DSP breaks out of the bad loop the stashed HOST IRQ is
-        //          served, which means HostDMA restarts and greenlights host.
-        return;
-    }
-    g_event_queue[g_event_head].type = type;
-    g_event_queue[g_event_head].metadata = metadata;
-    g_event_head = next_head;
+		// @todo: Handle this situation:
+		//        - Reset queue
+		//        - Put driver in halting error state, but ignore host's
+		//          acknowledgement (HOST IRQ) so HostDMA doesn't turn back on.
+		//          Best option would be to stash HOST IRQ as an event callback.
+		//        - Force software interrupt to call IPC layer error callback:
+		//          IPC layer will fire all it's user callbacks with IPC_FAILED.
+		//        - Once DSP breaks out of the bad loop the stashed HOST IRQ is
+		//          served, which means HostDMA restarts and greenlights host.
+		return;
+	}
+	g_event_queue[g_event_head].type = type;
+	g_event_queue[g_event_head].metadata = metadata;
+	g_event_head = next_head;
 }
 
 /**
@@ -407,11 +407,11 @@ static inline void _enqueue_event(t_hostdma_event_type type, t_hostdma_metadata 
  */
 static inline void _handle_error(t_hostdma_metadata metadata) {
 
-    g_state = HOSTDMA_OFF;
-    *pSIC_IMASK0 &= ~IRQ_DMA1;
-    *pSIC_IMASK1 &= ~IRQ_HOSTRD_DONE;
-    _host_control(BURST_MODE_ON_BY_DEFAULT, BT_EN);
-    _enqueue_event(EVENT_ERROR, metadata);
+	g_state = HOSTDMA_OFF;
+	*pSIC_IMASK0 &= ~IRQ_DMA1;
+	*pSIC_IMASK1 &= ~IRQ_HOSTRD_DONE;
+	_host_control(BURST_MODE_ON_BY_DEFAULT, BT_EN);
+	_enqueue_event(EVENT_ERROR, metadata);
 
 }
 
@@ -423,27 +423,27 @@ static inline void _handle_error(t_hostdma_metadata metadata) {
  */
 __attribute__((interrupt_handler)) static void _hostdp_status_isr(void) {
 
-    *pHOST_STATUS |= HIRQ;
-    ssync();
+	*pHOST_STATUS |= HIRQ;
+	ssync();
 
-    // HostDP errored if suddenly the state machine is off. The host requested
-    // this interrupt to tell us to restart HostDMA.
-    // 1. Start state machine again
-    // 2. Re-enable DMA interrupts
-    // 3. Reset HostDMA peripheral
-    // 4. Clear BTE flag as greenlight for host to continue operation as usual
-    if (HOSTDMA_OFF == g_state) {
+	// HostDP errored if suddenly the state machine is off. The host requested
+	// this interrupt to tell us to restart HostDMA.
+	// 1. Start state machine again
+	// 2. Re-enable DMA interrupts
+	// 3. Reset HostDMA peripheral
+	// 4. Clear BTE flag as greenlight for host to continue operation as usual
+	if (HOSTDMA_OFF == g_state) {
 
-        g_state = HOSTDMA_IDLE;
-        *pSIC_IMASK0 |= IRQ_DMA1;
-        *pSIC_IMASK1 |= IRQ_HOSTRD_DONE;
-        *pHOST_CONTROL |= HOSTDP_RST;
-        ssync();
-        *pHOST_CONTROL &= ~BT_EN;
-        ssync();
-        return;
+		g_state = HOSTDMA_IDLE;
+		*pSIC_IMASK0 |= IRQ_DMA1;
+		*pSIC_IMASK1 |= IRQ_HOSTRD_DONE;
+		*pHOST_CONTROL |= HOSTDP_RST;
+		ssync();
+		*pHOST_CONTROL &= ~BT_EN;
+		ssync();
+		return;
 
-    }
+	}
 
 }
 
@@ -452,39 +452,39 @@ __attribute__((interrupt_handler)) static void _hostdp_status_isr(void) {
  *          a DMA error occurred during this process.
  */
 __attribute__((interrupt_handler)) static void _host_read_done_isr(void) {
-    
-    if (HOST_READ_ERROR()) {
-        _handle_error(g_tx_state.metadata);
+	
+	if (HOST_READ_ERROR()) {
+		_handle_error(g_tx_state.metadata);
 #ifdef SIMULATE_HOST_READ_ERROR
-        // Clear IRQ status to prevent retriggering
-        volatile uint16_t keep_hshk = (*pHOST_STATUS & HSHK);
-        *pHOST_STATUS = HOSTRD_DONE | keep_hshk;
-        ssync();
+		// Clear IRQ status to prevent retriggering
+		volatile uint16_t keep_hshk = (*pHOST_STATUS & HSHK);
+		*pHOST_STATUS = HOSTRD_DONE | keep_hshk;
+		ssync();
 #endif
-        return;
-    }
+		return;
+	}
 
-    if (1 == g_tx_state.blocks_remaining) {
-        
-        // For now we just turn off burst mode for every last block,
-        // burst mode expects power of two block lengths.
-        _host_control(false, 0x0000);
-        
-    }
-    else if (0 == g_tx_state.blocks_remaining) {
-        
-        g_state = HOSTDMA_IDLE;
-        _host_control(BURST_MODE_ON_BY_DEFAULT, 0x0000);
-        *pHOST_STATUS &= ~HSHK;
-        ssync();
-        _enqueue_event(EVENT_HOST_READ_COMPLETE, g_tx_state.metadata);
-        
-    }
-    g_tx_state.blocks_remaining--;
-    
-    volatile uint16_t keep_hshk = (*pHOST_STATUS & HSHK);
-    *pHOST_STATUS = HOSTRD_DONE | DMA_CMPLT | keep_hshk;
-    ssync();
+	if (1 == g_tx_state.blocks_remaining) {
+		
+		// For now we just turn off burst mode for every last block,
+		// burst mode expects power of two block lengths.
+		_host_control(false, 0x0000);
+		
+	}
+	else if (0 == g_tx_state.blocks_remaining) {
+		
+		g_state = HOSTDMA_IDLE;
+		_host_control(BURST_MODE_ON_BY_DEFAULT, 0x0000);
+		*pHOST_STATUS &= ~HSHK;
+		ssync();
+		_enqueue_event(EVENT_HOST_READ_COMPLETE, g_tx_state.metadata);
+		
+	}
+	g_tx_state.blocks_remaining--;
+	
+	volatile uint16_t keep_hshk = (*pHOST_STATUS & HSHK);
+	*pHOST_STATUS = HOSTRD_DONE | DMA_CMPLT | keep_hshk;
+	ssync();
 
 }
 
@@ -493,79 +493,79 @@ __attribute__((interrupt_handler)) static void _host_read_done_isr(void) {
  *          Also when a DMA error had occurred.
  */
 __attribute__((interrupt_handler)) static void _hostdp_dma1_isr(void) {
-    
-    if (HOST_WRITE_ERROR()) {
-        _handle_error(g_rx_state.metadata);
-        // Clear IRQ status to prevent retriggering
+	
+	if (HOST_WRITE_ERROR()) {
+		_handle_error(g_rx_state.metadata);
+		// Clear IRQ status to prevent retriggering
 #ifdef SIMULATE_HOST_WRITE_ERROR
-        *pDMA1_IRQ_STATUS = DMA_DONE;
+		*pDMA1_IRQ_STATUS = DMA_DONE;
 #else
-        *pDMA1_IRQ_STATUS = DMA_ERR; // note: I haven't verified whether this actually raises yet
+		*pDMA1_IRQ_STATUS = DMA_ERR; // note: I haven't verified whether this actually raises yet
 #endif
-        ssync();
-        return;
-    }
+		ssync();
+		return;
+	}
 
-    switch (g_state) {
-        
-        case HOSTDMA_IDLE: {
+	switch (g_state) {
+		
+		case HOSTDMA_IDLE: {
 
-            g_state = HOSTDMA_HOST_WRITE;
+			g_state = HOSTDMA_HOST_WRITE;
 
-            // First block of host write operation,
-            // we've just received the header.
-            g_rx_state.blocks_remaining = READ_HEADER_16(0x00);
-            g_rx_state.metadata.meta0   = READ_HEADER_32(0x0C);
-            g_rx_state.metadata.meta1   = READ_HEADER_32(0x10);
-            g_rx_state.metadata.meta2   = READ_HEADER_32(0x14);
-            g_rx_state.metadata.meta3   = READ_HEADER_32(0x18);
-            g_rx_state.metadata.meta4   = READ_HEADER_32(0x1C);
-            
-            bool header_only_transfer = (0 == g_rx_state.blocks_remaining);
-            if (header_only_transfer) {
+			// First block of host write operation,
+			// we've just received the header.
+			g_rx_state.blocks_remaining = READ_HEADER_16(0x00);
+			g_rx_state.metadata.meta0   = READ_HEADER_32(0x0C);
+			g_rx_state.metadata.meta1   = READ_HEADER_32(0x10);
+			g_rx_state.metadata.meta2   = READ_HEADER_32(0x14);
+			g_rx_state.metadata.meta3   = READ_HEADER_32(0x18);
+			g_rx_state.metadata.meta4   = READ_HEADER_32(0x1C);
+			
+			bool header_only_transfer = (0 == g_rx_state.blocks_remaining);
+			if (header_only_transfer) {
 
-                g_state = HOSTDMA_IDLE;
-                _host_control(BURST_MODE_ON_BY_DEFAULT, 0x0000);
-                _enqueue_event(EVENT_HOST_WRITE_COMPLETE, g_rx_state.metadata);
+				g_state = HOSTDMA_IDLE;
+				_host_control(BURST_MODE_ON_BY_DEFAULT, 0x0000);
+				_enqueue_event(EVENT_HOST_WRITE_COMPLETE, g_rx_state.metadata);
 
-            } else {
+			} else {
 
-                bool burst_next_block = (g_rx_state.blocks_remaining > 1);
-                _host_control(burst_next_block, 0x0000);
+				bool burst_next_block = (g_rx_state.blocks_remaining > 1);
+				_host_control(burst_next_block, 0x0000);
 
-            }
+			}
 
-        } break;
+		} break;
 
-        case HOSTDMA_HOST_WRITE: {
-            
-            bool last_block = (0 == g_rx_state.blocks_remaining);
-            if (last_block) {
+		case HOSTDMA_HOST_WRITE: {
+			
+			bool last_block = (0 == g_rx_state.blocks_remaining);
+			if (last_block) {
 
-                _host_control(BURST_MODE_ON_BY_DEFAULT, 0x0000);
-                g_state = HOSTDMA_IDLE;
-                _enqueue_event(EVENT_HOST_WRITE_COMPLETE, g_rx_state.metadata);
+				_host_control(BURST_MODE_ON_BY_DEFAULT, 0x0000);
+				g_state = HOSTDMA_IDLE;
+				_enqueue_event(EVENT_HOST_WRITE_COMPLETE, g_rx_state.metadata);
 
-            } else {
+			} else {
 
-                bool burst_next = (g_rx_state.blocks_remaining > 1);
-                _host_control(burst_next, 0x0000);
+				bool burst_next = (g_rx_state.blocks_remaining > 1);
+				_host_control(burst_next, 0x0000);
 
-            }
+			}
 
-            g_rx_state.blocks_remaining--;
+			g_rx_state.blocks_remaining--;
 
-        } break;
+		} break;
 
-        default: break;
+		default: break;
 
-    }
+	}
 
-    *pDMA1_IRQ_STATUS = DMA_DONE;
-    ssync();
-    volatile uint16_t keep_hshk = (*pHOST_STATUS & HSHK);
-    *pHOST_STATUS = DMA_CMPLT | keep_hshk;
-    ssync();
+	*pDMA1_IRQ_STATUS = DMA_DONE;
+	ssync();
+	volatile uint16_t keep_hshk = (*pHOST_STATUS & HSHK);
+	*pHOST_STATUS = DMA_CMPLT | keep_hshk;
+	ssync();
 
 }
 
@@ -574,11 +574,11 @@ __attribute__((interrupt_handler)) static void _hostdp_dma1_isr(void) {
 
 #ifdef DEBUG
 static void _test_buffer(void) {
-    volatile uint16_t *ptr = (uint16_t*)(0x00000060);
-    uint16_t number = 0;
-    int j;
-    for (j = 0; j < 512; j++) {
-        *ptr++ = number++;
-    }
+	volatile uint16_t *ptr = (uint16_t*)(0x00000060);
+	uint16_t number = 0;
+	int j;
+	for (j = 0; j < 512; j++) {
+		*ptr++ = number++;
+	}
 }
 #endif

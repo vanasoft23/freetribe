@@ -38,11 +38,11 @@ under the terms of the GNU Affero General Public License as published by
 #define CPU_IPC_H
 
 typedef enum {
-    IPC_SUCCESS = 0,
-    IPC_FAILED,
-    IPC_INVALID_ARGUMENT,
-    IPC_QUEUE_FULL,
-    IPC_DRIVER_LOCKED
+	IPC_SUCCESS = 0,
+	IPC_FAILED,
+	IPC_INVALID_ARGUMENT,
+	IPC_QUEUE_FULL,
+	IPC_DRIVER_LOCKED
 } t_ipc_status;
 
 void dev_cpu_ipc_init();
@@ -63,10 +63,10 @@ void dev_cpu_ipc_tick();
  *          IPC_QUEUE_FULL if the request queue is full.
  */
 t_ipc_status dev_cpu_ipc_transfer(uint32_t cpu_address,
-                                  const uint32_t *buffer,
-                                  uint16_t count,
-                                  void (*callback)(void *, t_ipc_status),
-                                  void *user_ctx);
+								  const uint32_t *buffer,
+								  uint16_t count,
+								  void (*callback)(void *, t_ipc_status),
+								  void *user_ctx);
 
 /**
  * @brief   Request a buffer of data from the CPU's memory.
@@ -83,9 +83,9 @@ t_ipc_status dev_cpu_ipc_transfer(uint32_t cpu_address,
  *          IPC_DRIVER_LOCKED    - the driver cannot accept any new requests
  */
 t_ipc_status dev_cpu_ipc_request_data(uint32_t   cpu_address,
-                                      uint32_t  *destination,
-                                      uint16_t   count,
-                                      void     (*callback)(void*, t_ipc_status),
-                                      void      *user_ctx);
+									  uint32_t  *destination,
+									  uint16_t   count,
+									  void     (*callback)(void*, t_ipc_status),
+									  void      *user_ctx);
 
 #endif

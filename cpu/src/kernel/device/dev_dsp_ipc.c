@@ -53,38 +53,38 @@ under the terms of the GNU Affero General Public License as published by
 
 typedef u16 t_ipc_op;
 enum {
-    IPC_OP_TRANSFER = 0, // standalone data transfer
-    IPC_OP_REQUEST  = 1, // part of a read request (initiator)
-    IPC_OP_RESPONSE = 2  // response to a read request
+	IPC_OP_TRANSFER = 0, // standalone data transfer
+	IPC_OP_REQUEST  = 1, // part of a read request (initiator)
+	IPC_OP_RESPONSE = 2  // response to a read request
 };
 
 typedef struct {
-    u32          dsp_address;
-    const u32   *buffer;
-    u16          count;
-    void            (*callback)(void *, t_ipc_status);
-    void             *user_ctx;
-    t_emifa_metadata  metadata;
+	u32          dsp_address;
+	const u32   *buffer;
+	u16          count;
+	void            (*callback)(void *, t_ipc_status);
+	void             *user_ctx;
+	t_emifa_metadata  metadata;
 } t_transfer;
 
 // (Bidirectional) metadata for data read request
 typedef struct {
-    t_ipc_op          op_type;
-    u16          count;
-    u32          src;
-    u32         *dest;
-    void            (*callback)(void *, t_ipc_status);
-    void             *user_ctx;
+	t_ipc_op          op_type;
+	u16          count;
+	u32          src;
+	u32         *dest;
+	void            (*callback)(void *, t_ipc_status);
+	void             *user_ctx;
 } t_meta_read;
 
 // (Bidirectional) metadata for standalone transfer
 typedef struct {
-    t_ipc_op          op_type;
-    u16          _meta0_hi;
-    u32          _meta1;
-    u32          _meta2;
-    void            (*callback)(void *, t_ipc_status);
-    void             *user_ctx;
+	t_ipc_op          op_type;
+	u16          _meta0_hi;
+	u32          _meta1;
+	u32          _meta2;
+	void            (*callback)(void *, t_ipc_status);
+	void             *user_ctx;
 } t_meta_tx;
 
 _Static_assert(sizeof(t_emifa_metadata) == sizeof(t_meta_read));
@@ -92,12 +92,12 @@ _Static_assert(sizeof(t_emifa_metadata) == sizeof(t_meta_tx  ));
 
 /*----- Static variable definitions ----------------------------------*/
 
-static rbd_t        g_rbd;
+static rb_t         g_rbd;
 static t_transfer   g_active_tx;
 static t_transfer   g_queue[QUEUE_SIZE];
 
 // Read requests must be bookkept to prevent losing callbacks in case of error
-static rbd_t        g_inflight_rbd;
+static rb_t         g_inflight_rbd;
 static t_transfer   g_inflight_reads[QUEUE_SIZE];
 
 static bool         g_lock_driver;
@@ -106,11 +106,11 @@ static bool         g_tx_in_progress;
 /*----- Static function prototypes -----------------------------------*/
 
 static t_ipc_status _transfer(u32         dsp_address,
-                              const u32  *buffer,
-                              u16         count,
-                              void           (*callback)(void *, t_ipc_status),
-                              void            *user_ctx,
-                              t_emifa_metadata metadata);
+							  const u32  *buffer,
+							  u16         count,
+							  void           (*callback)(void *, t_ipc_status),
+							  void            *user_ctx,
+							  t_emifa_metadata metadata);
 
 static void         _serve_queued_transfer();
 static t_ipc_status _enqueue_transfer(const t_transfer *tx);
@@ -132,21 +132,11 @@ static t_ipc_op _get_op_type(t_emifa_metadata meta);
  */
 void dev_dsp_ipc_init() {
 
-    rb_attr_t attr = {
-        sizeof(g_queue[0]),
-        ARRAY_SIZE(g_queue),
-        g_queue
-    };
-    ring_buffer_init(&g_rbd, &attr);
+	ring_buffer_init(&g_rbd, g_queue, sizeof(g_queue[0]), ARRAY_SIZE(g_queue));
 
-    rb_attr_t inflight_attr = {
-        sizeof(g_inflight_reads[0]),
-        ARRAY_SIZE(g_inflight_reads),
-        g_inflight_reads
-    };
-    ring_buffer_init(&g_inflight_rbd, &inflight_attr);
+	ring_buffer_init(&g_inflight_rbd, g_inflight_reads, sizeof(g_inflight_reads[0]), ARRAY_SIZE(g_inflight_reads));
 
-    per_emifa_init(&_on_idle, &_on_hostwr_done, &_on_hostrd_done, &_on_error);
+	per_emifa_init(&_on_idle, &_on_hostwr_done, &_on_hostrd_done, &_on_error);
 
 }
 
@@ -160,23 +150,23 @@ void dev_dsp_ipc_init() {
  * @param   user_ctx      User provided context for callback.
  */
 t_ipc_status dev_dsp_ipc_transfer(u32 dsp_address,
-                                  const u32 *buffer,
-                                  u16 count,
-                                  void (*callback)(void *, t_ipc_status),
-                                  void *user_ctx) {
+								  const u32 *buffer,
+								  u16 count,
+								  void (*callback)(void *, t_ipc_status),
+								  void *user_ctx) {
 
-    t_meta_tx meta = {
-        .op_type  = IPC_OP_TRANSFER,
-        .callback = callback,
-        .user_ctx = user_ctx
-    };
+	t_meta_tx meta = {
+		.op_type  = IPC_OP_TRANSFER,
+		.callback = callback,
+		.user_ctx = user_ctx
+	};
 
-    return _transfer(dsp_address,
-                     buffer,
-                     count,
-                     callback,
-                     user_ctx,
-                     STRUCT_CAST(t_emifa_metadata, meta));
+	return _transfer(dsp_address,
+					 buffer,
+					 count,
+					 callback,
+					 user_ctx,
+					 STRUCT_CAST(t_emifa_metadata, meta));
 }
 
 /**
@@ -189,28 +179,28 @@ t_ipc_status dev_dsp_ipc_transfer(u32 dsp_address,
  * @param   user_ctx      User provided context for callback.
  */
 t_ipc_status dev_dsp_ipc_read(u32 dsp_address,
-                              u32 *destination,
-                              u16 count,
-                              void (*callback)(void *, t_ipc_status),
-                              void *user_ctx) {
+							  u32 *destination,
+							  u16 count,
+							  void (*callback)(void *, t_ipc_status),
+							  void *user_ctx) {
 
-    // Request an empty host write transfer with only metadata in the
-    // header that instructs the DSP side IPC layer to send back data.
-    t_meta_read meta = {
-        .op_type    = IPC_OP_REQUEST,
-        .count      = count,
-        .src        = dsp_address,
-        .dest       = destination,
-        .callback   = callback,
-        .user_ctx   = user_ctx
-    };
+	// Request an empty host write transfer with only metadata in the
+	// header that instructs the DSP side IPC layer to send back data.
+	t_meta_read meta = {
+		.op_type    = IPC_OP_REQUEST,
+		.count      = count,
+		.src        = dsp_address,
+		.dest       = destination,
+		.callback   = callback,
+		.user_ctx   = user_ctx
+	};
 
-    return _transfer(HOST_TO_DSP_HEADER_BASE,
-                     NULL,
-                     0,
-                     NULL,
-                     NULL,
-                     STRUCT_CAST(t_emifa_metadata, meta));
+	return _transfer(HOST_TO_DSP_HEADER_BASE,
+					 NULL,
+					 0,
+					 NULL,
+					 NULL,
+					 STRUCT_CAST(t_emifa_metadata, meta));
 
 }
 
@@ -228,32 +218,32 @@ t_ipc_status dev_dsp_ipc_read(u32 dsp_address,
  * @param   metadata      Gets packed into the header.
  */
 static t_ipc_status _transfer(u32         dsp_address,
-                              const u32  *buffer,
-                              u16         count,
-                              void           (*callback)(void *, t_ipc_status),
-                              void            *user_ctx,
-                              t_emifa_metadata metadata) {
-    
-    if (g_lock_driver)
-        return IPC_DRIVER_LOCKED;
+							  const u32  *buffer,
+							  u16         count,
+							  void           (*callback)(void *, t_ipc_status),
+							  void            *user_ctx,
+							  t_emifa_metadata metadata) {
+	
+	if (g_lock_driver)
+		return IPC_DRIVER_LOCKED;
 
-    // Max transfer length is 65535 16-bit words
-    if (count >= 32768)
-        return IPC_INVALID_ARGUMENT;
-    
-    t_transfer tx = {
-        .dsp_address = dsp_address,
-        .buffer      = buffer,
-        .count       = count,
-        .callback    = callback,
-        .user_ctx    = user_ctx,
-        .metadata    = metadata
-    };
+	// Max transfer length is 65535 16-bit words
+	if (count >= 32768)
+		return IPC_INVALID_ARGUMENT;
+	
+	t_transfer tx = {
+		.dsp_address = dsp_address,
+		.buffer      = buffer,
+		.count       = count,
+		.callback    = callback,
+		.user_ctx    = user_ctx,
+		.metadata    = metadata
+	};
 
-    if (_try_immediate_send(&tx))
-        return IPC_SUCCESS;
+	if (_try_immediate_send(&tx))
+		return IPC_SUCCESS;
 
-    return _enqueue_transfer(&tx);
+	return _enqueue_transfer(&tx);
 }
 
 
@@ -264,29 +254,29 @@ static t_ipc_status _transfer(u32         dsp_address,
  */
 static bool _try_immediate_send(const t_transfer *tx) {
 
-    if (g_tx_in_progress)
-        return false;
+	if (g_tx_in_progress)
+		return false;
 
-    g_tx_in_progress  = true;
-    g_active_tx = *tx;
+	g_tx_in_progress  = true;
+	g_active_tx = *tx;
 
-    const u16 words16 = 2 * tx->count; // HostDMA expects 16-bit words
+	const u16 words16 = 2 * tx->count; // HostDMA expects 16-bit words
 
-    t_emifa_status st = per_emifa_transfer(tx->dsp_address,
-                                           (const u16*)tx->buffer,
-                                           words16,
-                                           tx->metadata);
-    
-    if (EMIFA_SUCCESS != st) {
-        g_tx_in_progress = false;
-        return false;
-    }
-    
-    if (IPC_OP_REQUEST == _get_op_type(tx->metadata)) {
-        _store_inflight_read(tx);
-    }
+	t_emifa_status st = per_emifa_transfer(tx->dsp_address,
+										   (const u16*)tx->buffer,
+										   words16,
+										   tx->metadata);
+	
+	if (EMIFA_SUCCESS != st) {
+		g_tx_in_progress = false;
+		return false;
+	}
+	
+	if (IPC_OP_REQUEST == _get_op_type(tx->metadata)) {
+		_store_inflight_read(tx);
+	}
 
-    return true;
+	return true;
 }
 
 /**
@@ -294,10 +284,10 @@ static bool _try_immediate_send(const t_transfer *tx) {
  */
 static t_ipc_status _enqueue_transfer(const t_transfer *tx) {
 
-    if (ring_buffer_put(g_rbd, tx)) {
-        return IPC_QUEUE_FULL;
-    }
-    return IPC_SUCCESS;
+	if (ring_buffer_put(&g_rbd, tx) != RING_BUFFER_OK) {
+		return IPC_QUEUE_FULL;
+	}
+	return IPC_SUCCESS;
 
 }
 
@@ -306,14 +296,14 @@ static t_ipc_status _enqueue_transfer(const t_transfer *tx) {
  */
 static void _serve_queued_transfer() {
 
-    if (!g_tx_in_progress && rb_data_ready(g_rbd)) {
-        
-        t_transfer tx;
-        ring_buffer_get(g_rbd, &tx);
-        if (!_try_immediate_send(&tx))
-            _enqueue_transfer(&tx);
-        
-    }
+	if (!g_tx_in_progress && !ring_buffer_is_empty(&g_rbd)) {
+		
+		t_transfer tx;
+		ring_buffer_get(&g_rbd, &tx);
+		if (!_try_immediate_send(&tx))
+			_enqueue_transfer(&tx);
+		
+	}
 
 }
 
@@ -323,10 +313,10 @@ static void _serve_queued_transfer() {
  */
 static void _store_inflight_read(const t_transfer *tx) {
 
-    if (ring_buffer_put(g_inflight_rbd, tx)) {
-        // @todo: Handle error
-        DEBUG_LOG("Inflight FIFO full!");
-    }
+	if (ring_buffer_put(&g_inflight_rbd, tx) != RING_BUFFER_OK) {
+		// @todo: Handle error
+		DLOG("Inflight FIFO full!");
+	}
 
 }
 
@@ -337,8 +327,8 @@ static void _store_inflight_read(const t_transfer *tx) {
  *          that we can perform a queued up transfer.
  */
 static void _on_idle() {
-    
-    _serve_queued_transfer();
+	
+	_serve_queued_transfer();
 
 }
 
@@ -347,13 +337,13 @@ static void _on_idle() {
  */
 static void _on_hostwr_done() {
 
-    DEBUG_LOG("_on_hostwr_done");
+	DLOG("_on_hostwr_done");
 
-    g_tx_in_progress = false;
+	g_tx_in_progress = false;
 
-    if (g_active_tx.callback) {
-        g_active_tx.callback(g_active_tx.user_ctx, IPC_SUCCESS);
-    }
+	if (g_active_tx.callback) {
+		g_active_tx.callback(g_active_tx.user_ctx, IPC_SUCCESS);
+	}
 
 }
 
@@ -364,36 +354,36 @@ static void _on_hostwr_done() {
  */
 static void _on_hostrd_done(t_emifa_metadata meta) {
 
-    DEBUG_LOG("_on_hostrd_done");
+	DLOG("_on_hostrd_done");
 
-    // CPU->DSP data request; finalize by firing user callback and cleaning inflight
-    if (IPC_OP_RESPONSE == _get_op_type(meta)) {
+	// CPU->DSP data request; finalize by firing user callback and cleaning inflight
+	if (IPC_OP_RESPONSE == _get_op_type(meta)) {
 
-        t_meta_read *read_meta = (t_meta_read*)&meta;
-        if (read_meta->callback)
-            read_meta->callback(read_meta->user_ctx, IPC_SUCCESS);
-        
-        // forget oldest inflight read request
-        t_transfer discard;
-        ring_buffer_get(g_inflight_rbd, &discard);
+		t_meta_read *read_meta = (t_meta_read*)&meta;
+		if (read_meta->callback)
+			read_meta->callback(read_meta->user_ctx, IPC_SUCCESS);
+		
+		// forget oldest inflight read request
+		t_transfer discard;
+		ring_buffer_get(&g_inflight_rbd, &discard);
 
-    }
+	}
 
-    // DSP->CPU data request; respond with requested data
-    t_meta_read *read_meta = (t_meta_read*)&meta;
-    if (read_meta->op_type == IPC_OP_REQUEST) {
+	// DSP->CPU data request; respond with requested data
+	t_meta_read *read_meta = (t_meta_read*)&meta;
+	if (read_meta->op_type == IPC_OP_REQUEST) {
 
-        read_meta->op_type = IPC_OP_RESPONSE;
-        _transfer((u32)       read_meta->dest,
-                  (const u32*)read_meta->src,
-                                   read_meta->count,
-                  NULL,
-                  NULL,
-                  STRUCT_CAST(t_emifa_metadata, *read_meta));
+		read_meta->op_type = IPC_OP_RESPONSE;
+		_transfer((u32)       read_meta->dest,
+				  (const u32*)read_meta->src,
+								   read_meta->count,
+				  NULL,
+				  NULL,
+				  STRUCT_CAST(t_emifa_metadata, *read_meta));
 
-    }
+	}
 
-    _serve_queued_transfer();
+	_serve_queued_transfer();
 
 }
 
@@ -410,31 +400,31 @@ static void _on_hostrd_done(t_emifa_metadata meta) {
  */
 static void _on_error(t_emifa_metadata meta) {
 
-    DEBUG_LOG("_on_error");
+	DLOG("_on_error");
 
-    g_lock_driver = false;
+	g_lock_driver = false;
 
-    // Empty the queue; fire callbacks of remaining transfers
-    t_transfer tx;
-    while (SUCCESS == ring_buffer_get(g_rbd, &tx)) {
-        if (tx.callback)
-            tx.callback(tx.user_ctx, IPC_FAILED);
-    }
+	// Empty the queue; fire callbacks of remaining transfers
+	t_transfer tx;
+	while (RING_BUFFER_OK == ring_buffer_get(&g_rbd, &tx)) {
+		if (tx.callback)
+			tx.callback(tx.user_ctx, IPC_FAILED);
+	}
 
-    // CPU->DSP transfer
-    if (g_tx_in_progress) {
-        g_tx_in_progress = false;
-        if (g_active_tx.callback)
-            g_active_tx.callback(g_active_tx.user_ctx, IPC_FAILED);
-    }
+	// CPU->DSP transfer
+	if (g_tx_in_progress) {
+		g_tx_in_progress = false;
+		if (g_active_tx.callback)
+			g_active_tx.callback(g_active_tx.user_ctx, IPC_FAILED);
+	}
 
-    // In-flight CPU->DSP data read requests
-    while (SUCCESS == ring_buffer_get(g_inflight_rbd, &tx)) {
-        if (tx.callback)
-            tx.callback(tx.user_ctx, IPC_FAILED);
-    }
+	// In-flight CPU->DSP data read requests
+	while (RING_BUFFER_OK == ring_buffer_get(&g_inflight_rbd, &tx)) {
+		if (tx.callback)
+			tx.callback(tx.user_ctx, IPC_FAILED);
+	}
 
-    g_lock_driver = true;
+	g_lock_driver = true;
 
 }
 
@@ -446,8 +436,8 @@ static void _on_error(t_emifa_metadata meta) {
  *         but it could be any metadata struct type in the future.
  */
 static t_ipc_op _get_op_type(t_emifa_metadata meta) {
-    t_meta_read *read_meta = (t_meta_read*)&meta;
-    return read_meta->op_type;
+	t_meta_read *read_meta = (t_meta_read*)&meta;
+	return read_meta->op_type;
 }
 
 

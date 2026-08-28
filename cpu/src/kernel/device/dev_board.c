@@ -74,19 +74,19 @@ static void _hardware_terminate(void);
  */
 void dev_board_init(void) {
 
-    per_pinmux_init();
+	per_pinmux_init();
 
-    per_aintc_init();
+	per_aintc_init();
 
-    /// TODO: Move blocking delay to device layer.
-    delay_init();
+	/// TODO: Move blocking delay to device layer.
+	delay_init();
 
-    per_gpio_init();
+	per_gpio_init();
 
-    _hardware_init();
+	_hardware_init();
 
-    /// TODO: Move up to svc_system.
-    dev_lcd_set_backlight(true, true, true);
+	/// TODO: Move up to svc_system.
+	dev_lcd_set_backlight(true, true, true);
 
 }
 
@@ -104,15 +104,15 @@ void dev_board_init(void) {
  *
  */
 void dev_board_terminate(void) {
-    // Allows handing off to factory bootloader.
-    // Factory SBL will hang if DDR already initialised.
-    per_ddr_terminate();
+	// Allows handing off to factory bootloader.
+	// Factory SBL will hang if DDR already initialised.
+	per_ddr_terminate();
 
-    // Flush TRS MIDI before terminating MCU.
-    per_uart_terminate(1);
-    per_uart_terminate(0);
+	// Flush TRS MIDI before terminating MCU.
+	per_uart_terminate(1);
+	per_uart_terminate(0);
 
-    _hardware_terminate();
+	_hardware_terminate();
 }
 
 void dev_board_power_off(void) { per_gpio_set_indexed(PIN_SHUTDOWN, 0); }
@@ -126,53 +126,53 @@ void dev_board_power_off(void) { per_gpio_set_indexed(PIN_SHUTDOWN, 0); }
  */
 static void _hardware_init(void) {
 
-    /// TODO: What does each pin represent?
+	/// TODO: What does each pin represent?
 
-    per_gpio_set_indexed(PIN_BOARD_MCU_RESET, 1);
+	per_gpio_set_indexed(PIN_BOARD_MCU_RESET, 1);
 
-    per_gpio_set_indexed(PIN_GP6_6, 1);
+	per_gpio_set_indexed(PIN_GP6_6, 1);
 
-    // Only red lights if not set.
-    // Something with power controller,
-    per_gpio_set_indexed(PIN_POWER_CTL, 1);
+	// Only red lights if not set.
+	// Something with power controller,
+	per_gpio_set_indexed(PIN_POWER_CTL, 1);
 
-    delay_block_us(60);
+	delay_block_us(60);
 
-    // ADC Reset.
-    per_gpio_set_indexed(PIN_BOARD_ADC_RESET, 0);
+	// ADC Reset.
+	per_gpio_set_indexed(PIN_BOARD_ADC_RESET, 0);
 
-    // ADC MCLK on ??
-    per_gpio_set_indexed(PIN_BOARD_ADC_MCLK, 1);
+	// ADC MCLK on ??
+	per_gpio_set_indexed(PIN_BOARD_ADC_MCLK, 1);
 
-    /// TODO: Timeout error.
-    //
-    // Wait until B8P15 is high.
-    while (!per_gpio_get_indexed(PIN_GP8_15))
-        ;
+	/// TODO: Timeout error.
+	//
+	// Wait until B8P15 is high.
+	while (!per_gpio_get_indexed(PIN_GP8_15))
+		;
 
-    delay_block_us(10);
+	delay_block_us(10);
 
-    per_gpio_set_indexed(PIN_GP7_11, 1);
+	per_gpio_set_indexed(PIN_GP7_11, 1);
 
-    /// TODO: What are these for?
-    //
-    // This is set during boot, then toggles continuously while app running.
-    per_gpio_set_indexed(PIN_GP6_11, 1);
-    per_gpio_set_indexed(PIN_GP6_12, 1);
+	/// TODO: What are these for?
+	//
+	// This is set during boot, then toggles continuously while app running.
+	per_gpio_set_indexed(PIN_GP6_11, 1);
+	per_gpio_set_indexed(PIN_GP6_12, 1);
 }
 
 static void _hardware_terminate(void) {
 
-    per_gpio_set_indexed(PIN_BOARD_MCU_RESET, 0);
-    per_gpio_set_indexed(PIN_GP6_6, 0);
-    per_gpio_set_indexed(PIN_POWER_CTL, 0);
+	per_gpio_set_indexed(PIN_BOARD_MCU_RESET, 0);
+	per_gpio_set_indexed(PIN_GP6_6, 0);
+	per_gpio_set_indexed(PIN_POWER_CTL, 0);
 
-    delay_block_us(60);
+	delay_block_us(60);
 
-    per_gpio_set_indexed(PIN_BOARD_ADC_RESET, 0);
-    per_gpio_set_indexed(PIN_BOARD_ADC_MCLK, 0);
+	per_gpio_set_indexed(PIN_BOARD_ADC_RESET, 0);
+	per_gpio_set_indexed(PIN_BOARD_ADC_MCLK, 0);
 
-    delay_block_us(10);
+	delay_block_us(10);
 }
 
 /*----- End of file --------------------------------------------------*/

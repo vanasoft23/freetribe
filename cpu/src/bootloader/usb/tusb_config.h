@@ -80,7 +80,7 @@ under the terms of the GNU Affero General Public License as published by
 /*--------------------------------------------------------------------*/
 
 #define CFG_TUSB_DEBUG 0
-#define CFG_TUSB_DEBUG_PRINTF boot_tusb_printf
+#define CFG_TUSB_DEBUG_PRINTF svc_log_printf
 
 #endif
 

@@ -41,7 +41,7 @@ under the terms of the GNU Affero General Public License as published by
 #include <stddef.h>
 #include <stdint.h>
 
-#include "ft_error.h"
+
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -68,72 +68,66 @@ static void _usr_run(void);
 /*----- Extern function implementations ------------------------------*/
 
 void usr_main_task(void *param) {
-    (void)param;
+	(void)param;
 
-    knl_register_user_task();
+	knl_register_user_task();
 
-    svc_dsp_wait_ready();
+	svc_dsp_wait_ready();
 
-    while (true) {
-        // knl_user_event_process();
-        usr_main_process();
-        // (void)ulTaskNotifyTake(pdTRUE, 0);
-        vTaskDelay(pdMS_TO_TICKS(1));
-    }
+	while (true) {
+		knl_user_event_process();
+		usr_main_process();
+		// (void)ulTaskNotifyTake(pdTRUE, 0);
+		vTaskDelay(pdMS_TO_TICKS(1));
+	}
 }
 
 void usr_main_process(void) {
 
-    static t_user_task_state state = STATE_INIT;
+	static t_user_task_state state = STATE_INIT;
 
-    switch (state) {
+	switch (state) {
 
-    // Initialise user task.
-    case STATE_INIT:
+	// Initialise user task.
+	case STATE_INIT:
 
-        if (error_check(_usr_init()) == SUCCESS) {
-            state = STATE_RUN;
-        }
-        // Remain in INIT state until initialisation successful.
-        break;
+		if (error_check(_usr_init()) == SUCCESS) {
+			state = STATE_RUN;
+		}
+		// Remain in INIT state until initialisation successful.
+		break;
 
-    case STATE_RUN:
+	case STATE_RUN:
 
-        _usr_run();
-        // Remain in RUN state.
-        break;
+		_usr_run();
+		// Remain in RUN state.
+		break;
 
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
-
-    default:
-        // TODO: Record unhandled state.
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
+	case STATE_ERROR:
+	default:
+		PANIC(PANIC_UNHANDLED_STATE);
+		break;
+	}
 }
 
 __attribute__((weak)) t_status app_init(void) {
-    //
-    return 0;
+	//
+	return 0;
 }
 
 __attribute__((weak)) void app_run(void) {
-    //
+	//
 }
 
 /*----- Static function implementations ------------------------------*/
 
 static t_status _usr_init(void) {
 
-    t_status result = ERROR;
+	t_status result = ERROR;
 
-    result = app_init();
+	result = app_init();
 
-    return result;
+	return result;
 }
 
 static void _usr_run(void) { app_run(); }

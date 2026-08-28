@@ -56,13 +56,13 @@ under the terms of the GNU Affero General Public License as published by
 
 typedef struct {
 
-    uint8_t *tx_buffer;
-    uint8_t *rx_buffer;
+	uint8_t *tx_buffer;
+	uint8_t *rx_buffer;
 
-    uint32_t trx_length;
+	uint32_t trx_length;
 
-    void (*trx_callback)();
-    void (*error_callback)();
+	void (*trx_callback)();
+	void (*error_callback)();
 
 } t_spi;
 
@@ -85,111 +85,111 @@ static inline void _spi_interrupt_disable(uint32_t int_flags);
 
 void per_spi_init(void) {
 
-    *pPORTGIO_SET = HWAIT;
+	*pPORTGIO_SET = HWAIT;
 
-    // Don't attempt to drive the clock.
-    *pSPI_BAUD = 0;
+	// Don't attempt to drive the clock.
+	*pSPI_BAUD = 0;
 
-    // Reset the flags register to defaults.
-    *pSPI_FLG = 0xff00;
+	// Reset the flags register to defaults.
+	*pSPI_FLG = 0xff00;
 
-    // 8 bit, MSB first, non-dma rx mode.
-    // Interrupt when SPI_RDBR is full.
-    *pSPI_CTL = SZ | EMISO;
+	// 8 bit, MSB first, non-dma rx mode.
+	// Interrupt when SPI_RDBR is full.
+	*pSPI_CTL = SZ | EMISO;
 
-    // Clear tx register.
-    *pSPI_TDBR = 0;
+	// Clear tx register.
+	*pSPI_TDBR = 0;
 
-    // SPI data interrupt IVG11.
-    *pSIC_IAR2 |= P21_IVG(11);
+	// SPI data interrupt IVG11.
+	*pSIC_IAR2 |= P21_IVG(11);
 
-    *pEVT11 = &_spi_isr;
+	*pEVT11 = &_spi_isr;
 
-    int i;
-    // Unmask in the core event processor.
-    asm volatile("cli %0; bitset(%0, 11); sti %0; csync;" : : "d"(i));
-    ssync();
+	int i;
+	// Unmask in the core event processor.
+	asm volatile("cli %0; bitset(%0, 11); sti %0; csync;" : : "d"(i));
+	ssync();
 
-    // Enable SPI.
-    *pSPI_CTL |= SPE;
-    ssync();
+	// Enable SPI.
+	*pSPI_CTL |= SPE;
+	ssync();
 
-    // Clear the SPI rx register by reading from it.
-    int j = *pSPI_RDBR;
-    (void)j;
+	// Clear the SPI rx register by reading from it.
+	int j = *pSPI_RDBR;
+	(void)j;
 
-    // Clear the Rx error bit (sticky - W1C).
-    *pSPI_STAT |= 0x10;
+	// Clear the Rx error bit (sticky - W1C).
+	*pSPI_STAT |= 0x10;
 
-    *pPORTGIO_CLEAR = HWAIT;
+	*pPORTGIO_CLEAR = HWAIT;
 }
 
 void per_spi_trx_int(uint8_t *tx_buffer, uint8_t *rx_buffer, uint32_t length) {
 
-    if (tx_buffer != NULL && tx_buffer != NULL && length != 0) {
+	if (tx_buffer != NULL && tx_buffer != NULL && length != 0) {
 
-        g_spi.rx_buffer = rx_buffer;
-        g_spi.tx_buffer = tx_buffer;
+		g_spi.rx_buffer = rx_buffer;
+		g_spi.tx_buffer = tx_buffer;
 
-        g_spi.trx_length = length;
+		g_spi.trx_length = length;
 
-        _spi_interrupt_enable(SPI_DATA_INT);
-    }
+		_spi_interrupt_enable(SPI_DATA_INT);
+	}
 }
 
 void per_spi_register_callback(t_spi_event event, void (*callback)()) {
 
-    switch (event) {
+	switch (event) {
 
-    case EVT_SPI_TRX_COMPLETE:
-        g_spi.trx_callback = callback;
-        break;
+	case EVT_SPI_TRX_COMPLETE:
+		g_spi.trx_callback = callback;
+		break;
 
-    case EVT_SPI_ERROR:
-        g_spi.error_callback = callback;
-        break;
+	case EVT_SPI_ERROR:
+		g_spi.error_callback = callback;
+		break;
 
-        // case SPI_ERROR:
+		// case SPI_ERROR:
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/
 
 static inline void _spi_interrupt_enable(uint32_t int_flags) {
 
-    *pSIC_IMASK0 |= int_flags;
-    ssync();
+	*pSIC_IMASK0 |= int_flags;
+	ssync();
 }
 
 static inline void _spi_interrupt_disable(uint32_t int_flags) {
 
-    *pSIC_IMASK0 &= ~int_flags;
-    ssync();
+	*pSIC_IMASK0 &= ~int_flags;
+	ssync();
 }
 
 __attribute__((interrupt_handler)) static void _spi_isr(void) {
 
-    *pPORTGIO_SET = HWAIT;
+	*pPORTGIO_SET = HWAIT;
 
-    *g_spi.rx_buffer++ = *pSPI_RDBR;
+	*g_spi.rx_buffer++ = *pSPI_RDBR;
 
-    *pSPI_TDBR = *g_spi.tx_buffer++;
+	*pSPI_TDBR = *g_spi.tx_buffer++;
 
-    if (--g_spi.trx_length == 0) {
+	if (--g_spi.trx_length == 0) {
 
-        _spi_interrupt_disable(SPI_DATA_INT);
+		_spi_interrupt_disable(SPI_DATA_INT);
 
-        if (g_spi.trx_callback != NULL) {
-            g_spi.trx_callback();
-        }
-    }
+		if (g_spi.trx_callback != NULL) {
+			g_spi.trx_callback();
+		}
+	}
 
-    ssync();
+	ssync();
 
-    *pPORTGIO_CLEAR = HWAIT;
+	*pPORTGIO_CLEAR = HWAIT;
 }
 
 /*----- End of file --------------------------------------------------*/

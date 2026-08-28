@@ -58,7 +58,7 @@ typedef void (*t_knl_user_event_handler)(const void *payload);
 void knl_init(void);
 void knl_register_user_task(void);
 bool knl_post_user_event(t_knl_user_event_handler handler,
-                         const void *payload, u32 payload_size);
+						 const void *payload, u32 payload_size);
 void knl_user_event_process(void);
 void knl_register_user_tick_callback(u32 divisor, void (*callback)(void));
 

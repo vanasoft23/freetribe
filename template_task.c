@@ -37,7 +37,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include "ft_error.h"
+
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -51,7 +51,7 @@ typedef enum { STATE_INIT, STATE_RUN, STATE_ERROR } e_template_task_state;
 
 /*----- Static function prototypes -----------------------------------*/
 
-static t_status _template_init(void);
+static bool _template_init(void);
 static void _template_run(void);
 
 /*----- Extern function implementations ------------------------------*/
@@ -64,7 +64,7 @@ void svc_template_task(void) {
 
     // Initialise template task.
     case STATE_INIT:
-        if (error_check(_template_init()) == SUCCESS) {
+        if (_template_init()) {
             state = STATE_RUN;
         }
         // Remain in INIT state until initialisation successful.
@@ -75,28 +75,22 @@ void svc_template_task(void) {
         break;
 
     case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
-
     default:
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
+        PANIC(PANIC_UNHANDLED_STATE);
         break;
     }
 }
 
 /*----- Static function implementations ------------------------------*/
 
-static t_status _template_init(void) {
+static bool _template_init(void) {
 
-    t_status result = TASK_INIT_ERROR;
+    bool success = false;
 
     // Initialise...
 
-    result = SUCCESS;
-
-    return result;
+    success = true;
+    return success;
 }
 
 static void _template_run(void) {

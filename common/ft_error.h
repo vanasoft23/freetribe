@@ -29,52 +29,77 @@ under the terms of the GNU Affero General Public License as published by
 ----------------------------------------------------------------------*/
 
 /**
- * @file    error.h
- *
- * @brief   Exports API for error.c.
+ * @file    ft_error.h
  */
 
-/// TODO: should there be a unified error code header?
-
-#ifndef ERROR_H
-#define ERROR_H
+#ifndef FT_ERROR_H
+#define FT_ERROR_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/*----- Includes -----------------------------------------------------*/
 
 /*----- Macros -------------------------------------------------------*/
 
-/*----- Typedefs -----------------------------------------------------*/
 
-/// @TODO: REMOVE THIS THING BECAUSE ERRORS SHOULDN'T BE GLOBAL
+#ifdef BLACKFIN
+
+  #ifdef __clang__
+    #define STATIC_ASSERT(cond, msg)
+  #else
+    #define STATIC_ASSERT(cond, msg) \
+        typedef char static_assertion_##msg[(cond) ? 1 : -1]
+  #endif
+
+#else
+
+  #ifdef DEBUG
+
+    #define ASSERT_ERROR_FORMAT "Assertion failed: %s, file %s, line %d\n"
+
+    #define ASSERT(condition)                                                   \
+        do {                                                                    \
+            if (!(condition)) {                                                 \
+                fatal_error(                                                    \
+                    ASSERT_ERROR_FORMAT,                                        \
+                    #condition, __FILE__, __LINE__);                            \
+            }                                                                   \
+        } while (0)
+
+  #else
+
+    #define ASSERT(condition) ((void)0)
+
+  #endif
+
+#endif
+
+/*----- Kernel fatal error handling ----------------------------------*/
+
 typedef enum {
-    SUCCESS,
-    ERROR,
-    WARNING,
-    UNRECOVERABLE_ERROR,
-    TASK_INIT_ERROR,
-    UNHANDLED_STATE_ERROR,
-    RING_BUFFER_INIT_ERROR,
-    RING_BUFFER_PUT_ERROR,
-    RING_BUFFER_GET_ERROR,
-    PANEL_PARSE_ERROR,
-    MMCSD_INVALID_FREQ_ERROR,
-} t_status;
+    PANIC_USER             = 0,
+    PANIC_GENERIC          = 1,
+    PANIC_STACK_CORRUPTION = 2,
+    PANIC_EXCEPTION        = 3,
+    PANIC_UNHANDLED_STATE  = 4,
+} e_panic_codes;
 
-/*----- Extern variable declarations ---------------------------------*/
+#define PANIC(error_code)                                                   \
+    do {                                                                    \
+        fatal_error(                                                        \
+            "ERROR %d, %s:%d",                                              \
+            error_code, __FILE__, __LINE__);                                \
+    } while (0)
 
-/*----- Extern function prototypes -----------------------------------*/
+extern void fatal_error(const char *format, ...)
+    __attribute__((noreturn, format(printf, 1, 2)));
 
-t_status error_check(t_status error);
-
-
+/*--------------------------------------------------------------------*/
 
 #ifdef __cplusplus
 }
 #endif
-#endif
+#endif /* FT_ERROR_H_ */
 
 /*----- End of file --------------------------------------------------*/

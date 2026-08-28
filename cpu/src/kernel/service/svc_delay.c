@@ -60,7 +60,7 @@ under the terms of the GNU Affero General Public License as published by
 #define DELAY_PERIOD 0x8F0D17F // 1s
 
 #define DELAY_MODE                                                             \
-    TMR_CFG_32BIT_UNCH_CLK_BOTH_INT & ~TMR_TGCR_TIM34RS & ~TMR_TGCR_PLUSEN
+	TMR_CFG_32BIT_UNCH_CLK_BOTH_INT & ~TMR_TGCR_TIM34RS & ~TMR_TGCR_PLUSEN
 
 #define CYCLES_PER_US 150 // 150MHz
 
@@ -80,52 +80,52 @@ static bool g_delay_ready = false;
 //
 void delay_init(void) {
 
-    t_timer_config delay_cfg = {.base_addr = DELAY_TIMER,
-                                .mode = DELAY_MODE,
-                                .period = DELAY_PERIOD,
-                                .int_flags = 0,
-                                .int_chan = DELAY_INT_CHANNEL,
-                                .p_isr = NULL};
+	t_timer_config delay_cfg = {.base_addr = DELAY_TIMER,
+								.mode = DELAY_MODE,
+								.period = DELAY_PERIOD,
+								.int_flags = 0,
+								.int_chan = DELAY_INT_CHANNEL,
+								.p_isr = NULL};
 
-    /// TODO: Init functions should return True on success.
-    timer_init(delay_cfg);
+	/// TODO: Init functions should return True on success.
+	timer_init(delay_cfg);
 
-    g_delay_ready = true;
+	g_delay_ready = true;
 }
 
 bool delay_ready(void) { return g_delay_ready; }
 
 void delay_block_us(u32 time) {
 
-    u32 start_count = 0;
-    u32 current_count = 0;
-    u32 delta = 0;
-    u32 elapsed_cycles = 0;
-    u32 elapsed_us = 0;
+	u32 start_count = 0;
+	u32 current_count = 0;
+	u32 delta = 0;
+	u32 elapsed_cycles = 0;
+	u32 elapsed_us = 0;
 
-    start_count = delay_get_current_count();
+	start_count = delay_get_current_count();
 
-    while (elapsed_us < time) {
+	while (elapsed_us < time) {
 
-        current_count = delay_get_current_count();
+		current_count = delay_get_current_count();
 
-        if (current_count >= start_count) {
-            delta = current_count - start_count;
+		if (current_count >= start_count) {
+			delta = current_count - start_count;
 
-        } else {
-            delta = (DELAY_PERIOD - start_count) + current_count + 1;
-        }
+		} else {
+			delta = (DELAY_PERIOD - start_count) + current_count + 1;
+		}
 
-        elapsed_cycles += delta;
+		elapsed_cycles += delta;
 
-        while (elapsed_cycles >= CYCLES_PER_US) {
+		while (elapsed_cycles >= CYCLES_PER_US) {
 
-            elapsed_us++;
-            elapsed_cycles -= CYCLES_PER_US;
-        }
+			elapsed_us++;
+			elapsed_cycles -= CYCLES_PER_US;
+		}
 
-        start_count = current_count;
-    }
+		start_count = current_count;
+	}
 }
 
 /// TODO: I think this only works if called at least once per second.
@@ -141,50 +141,50 @@ void delay_block_us(u32 time) {
 //
 bool delay_us(t_delay_state *state) {
 
-    u32 current_count = 0;
-    u32 delta = 0;
+	u32 current_count = 0;
+	u32 delta = 0;
 
-    if (!state->expired) {
+	if (!state->expired) {
 
-        if (state->elapsed_us < state->delay_time) {
+		if (state->elapsed_us < state->delay_time) {
 
-            current_count = delay_get_current_count();
+			current_count = delay_get_current_count();
 
-            if (current_count >= state->start_time) {
-                delta = current_count - state->start_time;
+			if (current_count >= state->start_time) {
+				delta = current_count - state->start_time;
 
-            } else {
-                delta = (DELAY_PERIOD - state->start_time) + current_count + 1;
-            }
+			} else {
+				delta = (DELAY_PERIOD - state->start_time) + current_count + 1;
+			}
 
-            state->elapsed_cycles += delta;
+			state->elapsed_cycles += delta;
 
-            /// TODO: Optimise.
+			/// TODO: Optimise.
 
-            while (state->elapsed_cycles >= CYCLES_PER_US) {
-                state->elapsed_us++;
-                state->elapsed_cycles -= CYCLES_PER_US;
-            }
+			while (state->elapsed_cycles >= CYCLES_PER_US) {
+				state->elapsed_us++;
+				state->elapsed_cycles -= CYCLES_PER_US;
+			}
 
-            state->start_time = current_count;
+			state->start_time = current_count;
 
-        } else {
-            state->elapsed_us = 0;
-            state->elapsed_cycles = 0;
-            state->expired = true;
-        }
-    }
+		} else {
+			state->elapsed_us = 0;
+			state->elapsed_cycles = 0;
+			state->expired = true;
+		}
+	}
 
-    return state->expired;
+	return state->expired;
 }
 
 void delay_start(t_delay_state *state, u32 time) {
 
-    state->start_time = delay_get_current_count();
-    state->delay_time = time;
-    state->elapsed_cycles = 0;
-    state->elapsed_us = 0;
-    state->expired = false;
+	state->start_time = delay_get_current_count();
+	state->delay_time = time;
+	state->elapsed_cycles = 0;
+	state->elapsed_us = 0;
+	state->expired = false;
 }
 
 void delay_block_ms(u32 time) { delay_block_us(time * 1000); }
@@ -194,8 +194,8 @@ u32 delay_get_current_count(void) { return timer_count_get(DELAY_TIMER); }
 /// TODO: Get elapsed time.
 
 void delay_cycles(u32 count) {
-    while (count--)
-        ;
+	while (count--)
+		;
 }
 
 /*----- Static function implementations ------------------------------*/

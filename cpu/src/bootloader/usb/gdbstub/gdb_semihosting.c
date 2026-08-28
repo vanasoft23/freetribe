@@ -1,3 +1,4 @@
+#if 0
 /*----------------------------------------------------------------------
 
                      This file is part of Freetribe
@@ -44,33 +45,34 @@ under the terms of the GNU Affero General Public License as published by
 
 
 typedef struct {
-    bool enabled;
-    u32  vector_address;
-    u8   io_client;
+	bool enabled;
+	u32  vector_address;
+	u8   io_client;
 } gdb_semihosting_config_t;
 
 static gdb_semihosting_config_t s_config;
 
 
 bool gdb_semihosting_enable(u32 vector_address) {
-    if ((vector_address != 0x00000008u) &&
-        (vector_address != 0xffff0008u)) {
-        return false;
-    }
+	if ((vector_address != 0x00000008u) &&
+		(vector_address != 0xffff0008u)) {
+		return false;
+	}
 
-    s_config.vector_address = vector_address;
-    s_config.enabled = true;
-    return true;
+	s_config.vector_address = vector_address;
+	s_config.enabled = true;
+	return true;
 }
 
 bool gdb_semihosting_set_io_client(u32 client_mask) {
-    // This stub only has the GDB connection; no telnet client. 
-    if (client_mask != 2u) {
-        return false;
-    }
+	// This stub only has the GDB connection; no telnet client. 
+	if (client_mask != 2u) {
+		return false;
+	}
 
-    s_config.io_client = (u8)client_mask;
-    return true;
+	s_config.io_client = (u8)client_mask;
+	return true;
 }
 
 /*----- End of file --------------------------------------------------*/
+#endif

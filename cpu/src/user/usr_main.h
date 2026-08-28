@@ -43,7 +43,7 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include "ft_error.h"
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -56,7 +56,7 @@ extern "C" {
 void usr_main_task(void *param);
 void usr_main_process(void);
 
-t_status app_init(void);
+bool app_init(void);
 void app_run(void);
 
 #ifdef __cplusplus

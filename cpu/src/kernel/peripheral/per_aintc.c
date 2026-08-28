@@ -62,63 +62,63 @@ extern void (*fnRAMVectors[NUM_INTERRUPTS])(void);
 /*----- Extern function implementations ------------------------------*/
 
 void per_aintc_init(void) {
-    
-    // Enable interrupt controller.
-    IntAINTCInit();
+	
+	// Enable interrupt controller.
+	IntAINTCInit();
 
 #if NESTED_INTERRUPTS
-    // Enable interrupt nesting.
-    IntNestModeSet(AINTC_CR_NESTMODE_INDIVIDUAL);
+	// Enable interrupt nesting.
+	IntNestModeSet(AINTC_CR_NESTMODE_INDIVIDUAL);
 #endif
 
-    // Enable interrupts in CPSR.
-    IntMasterIRQEnable();
+	// Enable interrupts in CPSR.
+	IntMasterIRQEnable();
 
-    // Enable global interrupts in AINTC.
-    IntGlobalEnable();
+	// Enable global interrupts in AINTC.
+	IntGlobalEnable();
 
-    // Enable host interrupts in AINTC.
-    IntIRQEnable();
+	// Enable host interrupts in AINTC.
+	IntIRQEnable();
 }
 
 void per_aintc_register_gpio_interrupt(u8 channel,
-                                       u8 pin,
-                                       u8 int_type,
-                                       void (*isr)(void)) {
+									   u8 pin,
+									   u8 int_type,
+									   void (*isr)(void)) {
 
-    u8 bank = per_gpio_bank_from_pin(pin);
-    u8 system_int = SYS_INT_GPIOB0 + bank;
-    
-    GPIODirModeSet(SOC_GPIO_0_REGS, pin, GPIO_DIR_INPUT);
-    GPIOIntTypeSet(SOC_GPIO_0_REGS, pin, int_type);
-    GPIOBankIntEnable(SOC_GPIO_0_REGS, bank);
+	u8 bank = per_gpio_bank_from_pin(pin);
+	u8 system_int = SYS_INT_GPIOB0 + bank;
+	
+	GPIODirModeSet(SOC_GPIO_0_REGS, pin, GPIO_DIR_INPUT);
+	GPIOIntTypeSet(SOC_GPIO_0_REGS, pin, int_type);
+	GPIOBankIntEnable(SOC_GPIO_0_REGS, bank);
 
-    IntChannelSet(system_int, channel);
-    IntRegister(system_int, isr);
-    IntSystemEnable(system_int);
+	IntChannelSet(system_int, channel);
+	IntRegister(system_int, isr);
+	IntSystemEnable(system_int);
 
 }
 
 void per_aintc_clear_status_gpio(u8 pin) {
 #if NESTED_INTERRUPTS
-    // System interrupt already cleared in IRQHandler.
+	// System interrupt already cleared in IRQHandler.
 #else
-    // Clear interrupt.
-    IntSystemStatusClear(SYS_INT_GPIOB0 + per_gpio_bank_from_pin(pin));
+	// Clear interrupt.
+	IntSystemStatusClear(SYS_INT_GPIOB0 + per_gpio_bank_from_pin(pin));
 #endif
-    GPIOPinIntClear(SOC_GPIO_0_REGS, pin);
+	GPIOPinIntClear(SOC_GPIO_0_REGS, pin);
 }
 
 void per_aintc_change_gpio_int_type(u8 pin, u8 int_type) {
-    GPIOIntTypeSet(SOC_GPIO_0_REGS, pin, int_type);
+	GPIOIntTypeSet(SOC_GPIO_0_REGS, pin, int_type);
 }
 
 void _pic_IrqHandler(void) {
-    u32 system_int =
-        HWREG(SOC_AINTC_0_REGS + AINTC_HIPIR(1)) & AINTC_HIPIR_PRI_INDX;
+	u32 system_int =
+		HWREG(SOC_AINTC_0_REGS + AINTC_HIPIR(1)) & AINTC_HIPIR_PRI_INDX;
 
-    if (system_int < NUM_INTERRUPTS && fnRAMVectors[system_int] != NULL)
-        fnRAMVectors[system_int]();
+	if (system_int < NUM_INTERRUPTS && fnRAMVectors[system_int] != NULL)
+		fnRAMVectors[system_int]();
 }
 
 /*----- Static function implementations ------------------------------*/

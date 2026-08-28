@@ -53,23 +53,23 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Static variable definitions ----------------------------------*/
 
 static unsigned int const vecTbl[14] = {0xE59FF018,
-                                        0xE59FF018,
-                                        0xE59FF018,
-                                        0xE59FF018,
-                                        0xE59FF014,
-                                        0xE24FF008,
-                                        0xE59FF010,
-                                        0xE59FF010,
-                                        (unsigned int)start,
-                                        (unsigned int)UndefInstHandler,
-                                        (unsigned int)SWIHandler,
-                                        (unsigned int)AbortHandler,
-                                        (unsigned int)IRQHandler,
-                                        (unsigned int)FIQHandler};
+										0xE59FF018,
+										0xE59FF018,
+										0xE59FF018,
+										0xE59FF014,
+										0xE24FF008,
+										0xE59FF010,
+										0xE59FF010,
+										(unsigned int)start,
+										(unsigned int)UndefInstHandler,
+										(unsigned int)SWIHandler,
+										(unsigned int)AbortHandler,
+										(unsigned int)IRQHandler,
+										(unsigned int)FIQHandler};
 
 // Keep the bootloader MMU table in SRAM for factory firmware handoff.
 __attribute__((section(".mmu_page_table"), aligned(16 * 1024)))
-    static volatile unsigned int page_table[4 * 1024];
+	static volatile unsigned int page_table[4 * 1024];
 
 /*----- Extern variable definitions ----------------------------------*/
 
@@ -87,12 +87,12 @@ static void _psc0_init(void);
 static void _psc1_init(void);
 static int _psc_module_enabled(u32 base_addr, u32 module_id);
 static void _pll0_init(unsigned char clk_src, unsigned char pllm,
-                       unsigned char prediv, unsigned char postdiv,
-                       unsigned char div1, unsigned char div3,
-                       unsigned char div7);
+					   unsigned char prediv, unsigned char postdiv,
+					   unsigned char div1, unsigned char div3,
+					   unsigned char div7);
 static void _pll1_init(unsigned char pllm, unsigned char postdiv,
-                       unsigned char div1, unsigned char div2,
-                       unsigned char div3);
+					   unsigned char div1, unsigned char div2,
+					   unsigned char div3);
 
 static void _config_cache_mmu(void);
 static void _boot_abort(void);
@@ -110,85 +110,85 @@ static void _boot_abort(void);
  **/
 void start_boot(void) {
 
-    SysCfgRegistersLock(); // enable write-protection for registers of SYSCFG module
-    
-    SysCfgRegistersUnlock(); // disable write-protection for registers of SYSCFG module
+	SysCfgRegistersLock(); // enable write-protection for registers of SYSCFG module
+	
+	SysCfgRegistersUnlock(); // disable write-protection for registers of SYSCFG module
 
-    _psc0_init();
+	_psc0_init();
 
-    _psc1_init();
+	_psc1_init();
 
-    // Set the PLL0 to generate 300MHz for ARM.
-    _pll0_init(PLL_CLK_SRC, PLL0_MUL, PLL0_PREDIV, PLL0_POSTDIV, PLL0_DIV1, PLL0_DIV3, PLL0_DIV7);
+	// Set the PLL0 to generate 300MHz for ARM.
+	_pll0_init(PLL_CLK_SRC, PLL0_MUL, PLL0_PREDIV, PLL0_POSTDIV, PLL0_DIV1, PLL0_DIV3, PLL0_DIV7);
 
-    _pll1_init(PLL1_MUL, PLL1_POSTDIV, PLL1_DIV1, PLL1_DIV2, PLL1_DIV3);
+	_pll1_init(PLL1_MUL, PLL1_POSTDIV, PLL1_DIV1, PLL1_DIV2, PLL1_DIV3);
 
-    per_ddr_init();
+	per_ddr_init();
 
-    _zero_bss();
+	_zero_bss();
 
-    _config_cache_mmu();
+	_config_cache_mmu();
 
-    _copy_vector_table();
+	_copy_vector_table();
 
-    boot_switch_to_ddr_stacks(); // stack was temporarily held in 8KiB ARM RAM, now we put it in DDR
+	boot_switch_to_ddr_stacks(); // stack was temporarily held in 8KiB ARM RAM, now we put it in DDR
 
-    main();
+	main();
 
-    _boot_abort();
+	_boot_abort();
 }
 
 void delay(unsigned int count) {
-    asm volatile(
-        "1:\n"
-        "subs %0, %0, #1\n"
-        "bne 1b\n"
-        : "+r"(count)
-        :
-        : "cc"
-    );
+	asm volatile(
+		"1:\n"
+		"subs %0, %0, #1\n"
+		"bne 1b\n"
+		: "+r"(count)
+		:
+		: "cc"
+	);
 }
 
 /*----- Static function implementations ------------------------------*/
 
 static void _zero_bss(void) {
-    extern u32 _bss_start;
-    extern u32 _bss_end;
-    for (u32 *ptr = &_bss_start; ptr < &_bss_end; ptr++) {
-        *ptr = 0;
-    }
+	extern u32 _bss_start;
+	extern u32 _bss_end;
+	for (u32 *ptr = &_bss_start; ptr < &_bss_end; ptr++) {
+		*ptr = 0;
+	}
 }
 
 /**
  * @brief  Returns true if already enabled
  */
 static int _psc_module_enabled(u32 base_addr, u32 module_id) {
-    u32 state = HWREG(base_addr + (module_id + PSC_PDSTAT0) * 4) & 0x3f;
-    return (3 == state);
+	u32 state = HWREG(base_addr + (module_id + PSC_PDSTAT0) * 4) & 0x3f;
+	return (3 == state);
 }
 
 /*
  *  Configure PSC0:
  */
 static void _psc0_init(void) {
-    
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_CC0, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_TC0, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_TC1, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_EMIFA, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_SPI0, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_MMCSD0, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_AINTC, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_ARM_RAMROM, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_UART0, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_SCR0_SS, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_SCR1_SS, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_SCR2_SS, 0, PSC_MDCTL_NEXT_ENABLE);
+	
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_CC0, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_TC0, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_TC1, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_EMIFA, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_SPI0, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_MMCSD0, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_AINTC, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_ARM_RAMROM, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_UART0, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_SCR0_SS, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_SCR1_SS, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_SCR2_SS, 0, PSC_MDCTL_NEXT_ENABLE);
 
-    // Initialize HW_PSC_ARM domain only if it's not yet enabled,
-    // otherwise boot crashes.
-    if (!_psc_module_enabled(SOC_PSC_0_REGS, HW_PSC_ARM))
-        PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_ARM, 0, PSC_MDCTL_NEXT_ENABLE);
+	// Initialize HW_PSC_ARM domain only if it's not yet enabled,
+	// otherwise boot crashes.
+	if (!_psc_module_enabled(SOC_PSC_0_REGS, HW_PSC_ARM))
+		PSCModuleControl(SOC_PSC_0_REGS, HW_PSC_ARM, 0, PSC_MDCTL_NEXT_ENABLE);
 
 }
 
@@ -197,25 +197,25 @@ static void _psc0_init(void) {
  */
 static void _psc1_init(void) {
 
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_CC1, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_USB0, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_GPIO, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_MCASP0, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SPI1, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_UART1, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_UART2, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_TC2, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF0_SS, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF1_SS, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF6_SS, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF7_SS, 0, PSC_MDCTL_NEXT_ENABLE);
-    PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF8_SS, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_CC1, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_USB0, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_GPIO, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_MCASP0, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SPI1, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_UART1, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_UART2, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_TC2, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF0_SS, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF1_SS, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF6_SS, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF7_SS, 0, PSC_MDCTL_NEXT_ENABLE);
+	PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SCRF8_SS, 0, PSC_MDCTL_NEXT_ENABLE);
 
-    // Initialize HW_PSC_SHRAM domain only if it's not yet enabled,
-    // otherwise boot crashes.
-    if (!_psc_module_enabled(SOC_PSC_1_REGS, HW_PSC_SHRAM))
-        PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SHRAM, 0, PSC_MDCTL_NEXT_ENABLE);
-    
+	// Initialize HW_PSC_SHRAM domain only if it's not yet enabled,
+	// otherwise boot crashes.
+	if (!_psc_module_enabled(SOC_PSC_1_REGS, HW_PSC_SHRAM))
+		PSCModuleControl(SOC_PSC_1_REGS, HW_PSC_SHRAM, 0, PSC_MDCTL_NEXT_ENABLE);
+	
 }
 
 /*
@@ -235,106 +235,106 @@ static void _psc1_init(void) {
  * @return  Int              Returns success or failure
  */
 static void _pll0_init(unsigned char clk_src, unsigned char pllm,
-                       unsigned char prediv, unsigned char postdiv,
-                       unsigned char div1, unsigned char div3,
-                       unsigned char div7) {
+					   unsigned char prediv, unsigned char postdiv,
+					   unsigned char div1, unsigned char div3,
+					   unsigned char div7) {
 
-    // Clear lock bit.
-    HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP0) &=
-        ~SYSCFG_CFGCHIP0_PLL_MASTER_LOCK;
+	// Clear lock bit.
+	HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP0) &=
+		~SYSCFG_CFGCHIP0_PLL_MASTER_LOCK;
 
-    // PLLENSRC must be cleared before PLLEN bit have any effect
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLENSRC;
+	// PLLENSRC must be cleared before PLLEN bit have any effect
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLENSRC;
 
-    // PLLCTL.EXTCLKSRC bit 9 should be left at 0
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_EXTCLKSRC;
+	// PLLCTL.EXTCLKSRC bit 9 should be left at 0
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_EXTCLKSRC;
 
-    // PLLEN = 0 put pll in bypass mode
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLEN;
+	// PLLEN = 0 put pll in bypass mode
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLEN;
 
-    // wait for 4 counts to switch pll to the bypass mode
-    delay(4);
+	// wait for 4 counts to switch pll to the bypass mode
+	delay(4);
 
-    // Select the Clock Mode bit 8 as On Chip Oscillator
-    // TODO: KLOPT GEEN KANKER VAN.
-    //       TRM CHAPTER 7.3, TABLE PLLCTL ZEGT:
-    //        BIT 0 IS INTERNAL OSCILLATOR
-    //        BIT 1 IS SQUARE WAVE
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_CLKMODE;
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) |= (clk_src << 8); 
+	// Select the Clock Mode bit 8 as On Chip Oscillator
+	// TODO: KLOPT GEEN KANKER VAN.
+	//       TRM CHAPTER 7.3, TABLE PLLCTL ZEGT:
+	//        BIT 0 IS INTERNAL OSCILLATOR
+	//        BIT 1 IS SQUARE WAVE
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_CLKMODE;
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) |= (clk_src << 8); 
 
-    // Clear the PLLRST to reset the PLL
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLRST;
+	// Clear the PLLRST to reset the PLL
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLRST;
 
-    // Disable PLL out
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLDIS;
+	// Disable PLL out
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLDIS;
 
-    // PLL initialization sequece, power up the PLL
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLPWRDN;
+	// PLL initialization sequece, power up the PLL
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLPWRDN;
 
-    // Enable PLL out.
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLDIS;
+	// Enable PLL out.
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLDIS;
 
-    // Wait for 2000 counts
-    delay(2000);
+	// Wait for 2000 counts
+	delay(2000);
 
-    // Program the required multiplier value
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLM) = pllm;
+	// Program the required multiplier value
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLM) = pllm;
 
-    HWREG(SOC_PLLC_0_REGS + PLLC_PREDIV) = PLLC_PREDIV_PREDEN | prediv;
-    HWREG(SOC_PLLC_0_REGS + PLLC_POSTDIV) = PLLC_POSTDIV_POSTDEN | postdiv;
+	HWREG(SOC_PLLC_0_REGS + PLLC_PREDIV) = PLLC_PREDIV_PREDEN | prediv;
+	HWREG(SOC_PLLC_0_REGS + PLLC_POSTDIV) = PLLC_POSTDIV_POSTDEN | postdiv;
 
-    // Check for the GOSTAT bit in PLLSTAT to clear to 0
-    // to indicate that no GO operation is currently in progress
-    while (HWREG(SOC_PLLC_0_REGS + PLLC_PLLSTAT) & PLLC_PLLSTAT_GOSTAT)
-        ;
+	// Check for the GOSTAT bit in PLLSTAT to clear to 0
+	// to indicate that no GO operation is currently in progress
+	while (HWREG(SOC_PLLC_0_REGS + PLLC_PLLSTAT) & PLLC_PLLSTAT_GOSTAT)
+		;
 
-    // divider values are assigned
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV1) = PLLC_PLLDIV1_D1EN | div1;
+	// divider values are assigned
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV1) = PLLC_PLLDIV1_D1EN | div1;
 
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV2) =
-        PLLC_PLLDIV2_D2EN | (((div1 + 1) * 2) - 1);
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV2) =
+		PLLC_PLLDIV2_D2EN | (((div1 + 1) * 2) - 1);
 
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV4) =
-        PLLC_PLLDIV4_D4EN | (((div1 + 1) * 4) - 1);
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV4) =
+		PLLC_PLLDIV4_D4EN | (((div1 + 1) * 4) - 1);
 
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV6) = PLLC_PLLDIV6_D6EN | div1;
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV6) = PLLC_PLLDIV6_D6EN | div1;
 
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV3) = PLLC_PLLDIV3_D3EN | div3;
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV3) = PLLC_PLLDIV3_D3EN | div3;
 
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV7) = PLLC_PLLDIV7_D7EN | div7;
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLDIV7) = PLLC_PLLDIV7_D7EN | div7;
 
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCMD) |= PLLC_PLLCMD_GOSET;
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCMD) |= PLLC_PLLCMD_GOSET;
 
-    // Wait for the Gostat bit in PLLSTAT to clear to 0
-    // (completion of phase alignment)
-    while (HWREG(SOC_PLLC_0_REGS + PLLC_PLLSTAT) & PLLC_PLLSTAT_GOSTAT)
-        ;
+	// Wait for the Gostat bit in PLLSTAT to clear to 0
+	// (completion of phase alignment)
+	while (HWREG(SOC_PLLC_0_REGS + PLLC_PLLSTAT) & PLLC_PLLSTAT_GOSTAT)
+		;
 
-    // Wait for 200 counts
-    delay(200);
+	// Wait for 200 counts
+	delay(200);
 
-    // set the PLLRST bit in PLLCTL to 1,bring the PLL out of reset
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLRST;
+	// set the PLLRST bit in PLLCTL to 1,bring the PLL out of reset
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLRST;
 
-    // Wait for 0x960 counts
-    delay(0x960);
+	// Wait for 0x960 counts
+	delay(0x960);
 
-    // removing pll from bypass mode
-    HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLEN;
+	// removing pll from bypass mode
+	HWREG(SOC_PLLC_0_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLEN;
 
-    // set PLL lock bit
-    HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP0) |=
-        (0x01 << SYSCFG_CFGCHIP0_PLL_MASTER_LOCK_SHIFT) &
-        SYSCFG_CFGCHIP0_PLL_MASTER_LOCK;
+	// set PLL lock bit
+	HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP0) |=
+		(0x01 << SYSCFG_CFGCHIP0_PLL_MASTER_LOCK_SHIFT) &
+		SYSCFG_CFGCHIP0_PLL_MASTER_LOCK;
 
-    /// TODO: Is this the default value?
-    ///         Could drive directly from PLL
-    ///         to increase speed.
-    //
-    // Not set in factory firmware.
-    // EMIFA driven by PLL0_SYSCLK3
-    // HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP3) &= CLK_PLL0_SYSCLK3;
+	/// TODO: Is this the default value?
+	///         Could drive directly from PLL
+	///         to increase speed.
+	//
+	// Not set in factory firmware.
+	// EMIFA driven by PLL0_SYSCLK3
+	// HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP3) &= CLK_PLL0_SYSCLK3;
 }
 
 /**
@@ -353,82 +353,82 @@ static void _pll0_init(unsigned char clk_src, unsigned char pllm,
  * @return  Int          Returns Success or Failure,depending on the execution
 **/
 static void _pll1_init(unsigned char pllm, unsigned char postdiv,
-                       unsigned char div1, unsigned char div2,
-                       unsigned char div3) {
-    // Clear PLL lock bit
-    HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP3) &=
-        ~SYSCFG_CFGCHIP3_PLL1_MASTER_LOCK;
+					   unsigned char div1, unsigned char div2,
+					   unsigned char div3) {
+	// Clear PLL lock bit
+	HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP3) &=
+		~SYSCFG_CFGCHIP3_PLL1_MASTER_LOCK;
 
-    // PLLENSRC must be cleared before PLLEN has any effect
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLENSRC;
+	// PLLENSRC must be cleared before PLLEN has any effect
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLENSRC;
 
-    // PLLCTL.EXTCLKSRC bit 9 should be left at 0
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_EXTCLKSRC;
+	// PLLCTL.EXTCLKSRC bit 9 should be left at 0
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_EXTCLKSRC;
 
-    // Set PLLEN=0 to put in bypass mode
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLEN;
+	// Set PLLEN=0 to put in bypass mode
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLEN;
 
-    // wait for 4 cycles to allow PLLEN mux
-    // switches properly to bypass clock
-    delay(4);
+	// wait for 4 cycles to allow PLLEN mux
+	// switches properly to bypass clock
+	delay(4);
 
-    // Clear PLLRST bit to reset the PLL
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLRST;
+	// Clear PLLRST bit to reset the PLL
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLRST;
 
-    // Disable the PLL output
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= PLLC_PLLCTL_PLLDIS;
+	// Disable the PLL output
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= PLLC_PLLCTL_PLLDIS;
 
-    // PLL initialization sequence
-    // Power up the PLL by setting PWRDN bit set to 0
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLPWRDN;
+	// PLL initialization sequence
+	// Power up the PLL by setting PWRDN bit set to 0
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLPWRDN;
 
-    // Enable the PLL output
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLDIS;
+	// Enable the PLL output
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) &= ~PLLC_PLLCTL_PLLDIS;
 
-    delay(2000);
+	delay(2000);
 
-    // Multiplier value is set
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLM) = pllm;
+	// Multiplier value is set
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLM) = pllm;
 
-    HWREG(SOC_PLLC_1_REGS + PLLC_POSTDIV) = PLLC_POSTDIV_POSTDEN | postdiv;
+	HWREG(SOC_PLLC_1_REGS + PLLC_POSTDIV) = PLLC_POSTDIV_POSTDEN | postdiv;
 
-    while (HWREG(SOC_PLLC_1_REGS + PLLC_PLLSTAT) & PLLC_PLLCMD_GOSET)
-        ;
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLDIV1) = PLLC_PLLDIV1_D1EN | div1;
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLDIV2) = PLLC_PLLDIV2_D2EN | div2;
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLDIV3) = PLLC_PLLDIV3_D3EN | div3;
+	while (HWREG(SOC_PLLC_1_REGS + PLLC_PLLSTAT) & PLLC_PLLCMD_GOSET)
+		;
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLDIV1) = PLLC_PLLDIV1_D1EN | div1;
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLDIV2) = PLLC_PLLDIV2_D2EN | div2;
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLDIV3) = PLLC_PLLDIV3_D3EN | div3;
 
-    // Set the GOSET bit in PLLCMD to 1 to initiate a new divider transition
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCMD) |= PLLC_PLLCMD_GOSET;
+	// Set the GOSET bit in PLLCMD to 1 to initiate a new divider transition
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCMD) |= PLLC_PLLCMD_GOSET;
 
-    while (HWREG(SOC_PLLC_1_REGS + PLLC_PLLSTAT) & PLLC_PLLSTAT_GOSTAT)
-        ;
+	while (HWREG(SOC_PLLC_1_REGS + PLLC_PLLSTAT) & PLLC_PLLSTAT_GOSTAT)
+		;
 
-    // Wait for the Gostat bit in PLLSTAT to clear to 0
-    // (completion of phase alignment).
-    delay(200);
+	// Wait for the Gostat bit in PLLSTAT to clear to 0
+	// (completion of phase alignment).
+	delay(200);
 
-    // set the PLLRST bit in PLLCTL to 1,bring the PLL out of reset
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLRST;
-    delay(0x960);
+	// set the PLLRST bit in PLLCTL to 1,bring the PLL out of reset
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLRST;
+	delay(0x960);
 
-    // Removing PLL from bypass mode
-    HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLEN;
+	// Removing PLL from bypass mode
+	HWREG(SOC_PLLC_1_REGS + PLLC_PLLCTL) |= PLLC_PLLCTL_PLLEN;
 
-    // set PLL lock bit
-    HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP3) |=
-        (0x1 << SYSCFG_CFGCHIP3_PLL1_MASTER_LOCK_SHIFT) &
-        SYSCFG_CFGCHIP3_PLL1_MASTER_LOCK;
+	// set PLL lock bit
+	HWREG(SOC_SYSCFG_0_REGS + SYSCFG0_CFGCHIP3) |=
+		(0x1 << SYSCFG_CFGCHIP3_PLL1_MASTER_LOCK_SHIFT) &
+		SYSCFG_CFGCHIP3_PLL1_MASTER_LOCK;
 }
 
 static void _copy_vector_table(void) {
-    unsigned int *dest = (unsigned int *)0xFFFF0000;
-    unsigned int *src = (unsigned int *)vecTbl;
-    unsigned int count;
+	unsigned int *dest = (unsigned int *)0xFFFF0000;
+	unsigned int *src = (unsigned int *)vecTbl;
+	unsigned int count;
 
-    for (count = 0; count < sizeof(vecTbl) / sizeof(vecTbl[0]); count++) {
-        dest[count] = src[count];
-    }
+	for (count = 0; count < sizeof(vecTbl) / sizeof(vecTbl[0]); count++) {
+		dest[count] = src[count];
+	}
 }
 
 /**
@@ -458,46 +458,46 @@ static void _copy_vector_table(void) {
  *          0xFFFFF000
  */
 static void _config_cache_mmu(void) {
-    int i;
-    const u32 FLAGS_DEFAULT = 0x00000c12; // Read+Write, no cache or buffer
-    const u32 FLAGS_CACHE   = 0x00000c1e; // Read+Write, cache   and buffer
+	int i;
+	const u32 FLAGS_DEFAULT = 0x00000c12; // Read+Write, no cache or buffer
+	const u32 FLAGS_CACHE   = 0x00000c1e; // Read+Write, cache   and buffer
 
-    // Default to identity mapping everything without caching
-    // Covers 0x0000–0x0FFF (4096 entries total page table)
-    for (i = 0; i <= 0xFFF; i++)
-        page_table[i] = (i << 20) | FLAGS_DEFAULT;
+	// Default to identity mapping everything without caching
+	// Covers 0x0000–0x0FFF (4096 entries total page table)
+	for (i = 0; i <= 0xFFF; i++)
+		page_table[i] = (i << 20) | FLAGS_DEFAULT;
 
-    // DDR identity mapped and cached from 0xC0000000-0xC3F00000
-    for (i = 0xC00; i <= 0xC3F; i++)
-        page_table[i] = (i << 20) | FLAGS_CACHE;
+	// DDR identity mapped and cached from 0xC0000000-0xC3F00000
+	for (i = 0xC00; i <= 0xC3F; i++)
+		page_table[i] = (i << 20) | FLAGS_CACHE;
 
-    // DDR uncached alias mirror from 0xC4000000-0xC7F00000
-    // Maps shifted physical base: (i - 0x40)
-    for (i = 0xC40; i <= 0xC7F; i++)
-        page_table[i] = ((i - 0x40) << 20) | FLAGS_DEFAULT;
+	// DDR uncached alias mirror from 0xC4000000-0xC7F00000
+	// Maps shifted physical base: (i - 0x40)
+	for (i = 0xC40; i <= 0xC7F; i++)
+		page_table[i] = ((i - 0x40) << 20) | FLAGS_DEFAULT;
 
-    // Bootloader SRAM vector table at 0x80000000 gets cached
-    page_table[0x800] = (0x800 << 20) | FLAGS_CACHE;
+	// Bootloader SRAM vector table at 0x80000000 gets cached
+	page_table[0x800] = (0x800 << 20) | FLAGS_CACHE;
 
-    // Vector table remap from low address space to DDR
-    page_table[0] = FLAGS_CACHE | 0xC0000000;
-    
-    CP15TtbSet((unsigned int)page_table);
-    CP15DomainAccessManager(); // factory firmware only sets Domain 0 to Manager
-    CP15ICacheFlush();
-    CP15DCacheFlush();
-    CP15InvalidateTLB();
-    CP15MMUEnable();
-    CP15ICacheEnable();
-    CP15DCacheEnable();
+	// Vector table remap from low address space to DDR
+	page_table[0] = FLAGS_CACHE | 0xC0000000;
+	
+	CP15TtbSet((unsigned int)page_table);
+	CP15DomainAccessManager(); // factory firmware only sets Domain 0 to Manager
+	CP15ICacheFlush();
+	CP15DCacheFlush();
+	CP15InvalidateTLB();
+	CP15MMUEnable();
+	CP15ICacheEnable();
+	CP15DCacheEnable();
 
 }
 
 
 
 static void _boot_abort(void) {
-    while (1)
-        ;
+	while (1)
+		;
 }
 
 

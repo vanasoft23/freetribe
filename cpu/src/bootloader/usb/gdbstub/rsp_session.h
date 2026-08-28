@@ -61,15 +61,15 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    const u8 *data;
-    u32       len;
+	const u8 *data;
+	u32       len;
 } rsp_packet_view_t;
 
 typedef enum {
-    RSP_RX_EVENT_NONE = 0,
-    RSP_RX_EVENT_PACKET,
-    RSP_RX_EVENT_ACK,
-    RSP_RX_EVENT_NACK,
+	RSP_RX_EVENT_NONE = 0,
+	RSP_RX_EVENT_PACKET,
+	RSP_RX_EVENT_ACK,
+	RSP_RX_EVENT_NACK,
 } rsp_rx_event_t;
 
 typedef struct rsp_session rsp_session_t;
@@ -90,6 +90,7 @@ bool      rsp_tx_retransmit_last(rsp_session_t *session);
 
 void rsp_session_reset(rsp_session_t *session);
 bool rsp_expect_escaped(rsp_session_t *session);
+bool rsp_awaiting_ack(rsp_session_t *session);
 
 #endif /* RSP_SESSION_H */
 

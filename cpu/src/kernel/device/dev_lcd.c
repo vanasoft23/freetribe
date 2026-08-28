@@ -95,123 +95,123 @@ static bool _lcd_try_set_page(u8 page_index, const u8 *page_buffer);
 
 void dev_lcd_init(void) {
 
-    s_initialised = false;
+	s_initialised = false;
 
-    t_spi_config config = {
-        .instance = LCD_SPI,
-        .int_channel = LCD_SPI_INT_CHANNEL,
-        .int_level = LCD_SPI_INT_LEVEL,
-        .pin_func = LCD_SPI_PIN_FUNC,
-        .int_enable = false, // @TODO: re-enable for freetribe kernel!
-    };
+	t_spi_config config = {
+		.instance = LCD_SPI,
+		.int_channel = LCD_SPI_INT_CHANNEL,
+		.int_level = LCD_SPI_INT_LEVEL,
+		.pin_func = LCD_SPI_PIN_FUNC,
+		.int_enable = false, // @TODO: re-enable for freetribe kernel!
+	};
 
-    per_spi_init(&config);
+	per_spi_init(&config);
 
-    t_spi_format format = {
-        .instance = LCD_SPI,
-        .index = LCD_SPI_DATA_FORMAT,
-        .freq = LCD_SPI_FREQ,
-        .char_length = LCD_SPI_CHAR_LENGTH,
-    };
+	t_spi_format format = {
+		.instance = LCD_SPI,
+		.index = LCD_SPI_DATA_FORMAT,
+		.freq = LCD_SPI_FREQ,
+		.char_length = LCD_SPI_CHAR_LENGTH,
+	};
 
-    per_spi_set_data_format(&format);
+	per_spi_set_data_format(&format);
 
-    _lcd_mode(COMMAND);
+	_lcd_mode(COMMAND);
 
-    // _lcd_command(0xa2); // 0xa2: LCD bias set
-    // _lcd_command(0xa0); // 0xa0: ADC select normal
-    // _lcd_command(0xc8); // 0xc8: Common output mode reverse
-    // _lcd_command(0x40); // 0x40: Line address 0
-    // _lcd_command(0x2f); // 0x2f: Power control: Boost=On, Reg=On, Follow=On
-    // _lcd_command(0xf8); // 0xf8: Booster ratio select mode set
-    // _lcd_command(0x00); // 0x00: Booster ratio register = 0
-    // _lcd_command(0x25); // 0x25: Voltage Regulator Resistor Ratio Set
-    //
-    // // Contrast setting.
-    // _lcd_command(0x81); // 0x81: Electronic volume mode set
-    // _lcd_command(0x22); // 0x22: Electronic volume register = 0x22
-    //
-    // _lcd_command(0xa4); // 0xa4: Display all points = Off
-    // _lcd_command(0xa6); // 0xa6: Display Normal/Reverse = Normal
-    // _lcd_command(0xaf); // 0xaf: Display on
+	// _lcd_command(0xa2); // 0xa2: LCD bias set
+	// _lcd_command(0xa0); // 0xa0: ADC select normal
+	// _lcd_command(0xc8); // 0xc8: Common output mode reverse
+	// _lcd_command(0x40); // 0x40: Line address 0
+	// _lcd_command(0x2f); // 0x2f: Power control: Boost=On, Reg=On, Follow=On
+	// _lcd_command(0xf8); // 0xf8: Booster ratio select mode set
+	// _lcd_command(0x00); // 0x00: Booster ratio register = 0
+	// _lcd_command(0x25); // 0x25: Voltage Regulator Resistor Ratio Set
+	//
+	// // Contrast setting.
+	// _lcd_command(0x81); // 0x81: Electronic volume mode set
+	// _lcd_command(0x22); // 0x22: Electronic volume register = 0x22
+	//
+	// _lcd_command(0xa4); // 0xa4: Display all points = Off
+	// _lcd_command(0xa6); // 0xa6: Display Normal/Reverse = Normal
+	// _lcd_command(0xaf); // 0xaf: Display on
 
-    u8 lcd_init_cmd[] = {
-        0xa2, 0xa0, 0xc8, 0x40, 0x2f, 0xf8, 0x00,
-        0x25, 0x81, 0x22, 0xa4, 0xa6, 0xaf
-    };
+	u8 lcd_init_cmd[] = {
+		0xa2, 0xa0, 0xc8, 0x40, 0x2f, 0xf8, 0x00,
+		0x25, 0x81, 0x22, 0xa4, 0xa6, 0xaf
+	};
 
-    _lcd_tx(lcd_init_cmd, sizeof((lcd_init_cmd)));
-    s_initialised = true;
+	_lcd_tx(lcd_init_cmd, sizeof((lcd_init_cmd)));
+	s_initialised = true;
 }
 
 // True sets reset pin low.
 void dev_lcd_reset(bool state) {
 
-    if (state) {
-        s_initialised = false;
-    }
-    per_gpio_set_indexed(PIN_GP6_9, !state);
+	if (state) {
+		s_initialised = false;
+	}
+	per_gpio_set_indexed(PIN_GP6_9, !state);
 }
 
 void dev_lcd_set_frame(u8 *frame_buffer) {
 
-    u8 page_index;
-    u8 *page_buffer;
+	u8 page_index;
+	u8 *page_buffer;
 
-    for (page_index = 0; page_index < LCD_PAGES; page_index++) {
+	for (page_index = 0; page_index < LCD_PAGES; page_index++) {
 
-        page_buffer = frame_buffer + page_index * LCD_COLUMNS;
+		page_buffer = frame_buffer + page_index * LCD_COLUMNS;
 
-        /// TODO: Implement ping-pong frame buffer.
-        ///       strcmp page buffer and only update changes.
+		/// TODO: Implement ping-pong frame buffer.
+		///       strcmp page buffer and only update changes.
 
-        dev_lcd_set_page(page_index, page_buffer);
-    }
+		dev_lcd_set_page(page_index, page_buffer);
+	}
 }
 
 bool dev_lcd_try_set_frame(const u8 *frame_buffer) {
 
-    if (!frame_buffer || !s_initialised || !per_spi_initialised(LCD_SPI)) {
-        return false;
-    }
+	if (!frame_buffer || !s_initialised || !per_spi_initialised(LCD_SPI)) {
+		return false;
+	}
 
-    for (u8 page_index = 0; page_index < LCD_PAGES; page_index++) {
-        const u8 *page_buffer = frame_buffer + page_index * LCD_COLUMNS;
+	for (u8 page_index = 0; page_index < LCD_PAGES; page_index++) {
+		const u8 *page_buffer = frame_buffer + page_index * LCD_COLUMNS;
 
-        if (!_lcd_try_set_page(page_index, page_buffer)) {
-            return false;
-        }
-    }
+		if (!_lcd_try_set_page(page_index, page_buffer)) {
+			return false;
+		}
+	}
 
-    return true;
+	return true;
 }
 
 void dev_lcd_set_page(u8 page_index, u8 *page_buffer) {
 
-    _lcd_mode(COMMAND);
+	_lcd_mode(COMMAND);
 
-    // _lcd_command(0xb0 | page_index); // Set display RAM page address.
-    // _lcd_command(0x40);              // Start line.
-    // _lcd_command(0x10);              // Column address upper.
-    // _lcd_command(0x00);              // Column address lower.
+	// _lcd_command(0xb0 | page_index); // Set display RAM page address.
+	// _lcd_command(0x40);              // Start line.
+	// _lcd_command(0x10);              // Column address upper.
+	// _lcd_command(0x00);              // Column address lower.
 
-    u8 lcd_page_cmd[] = {0xb0 | page_index, 0x40, 0x10, 0x00};
+	u8 lcd_page_cmd[] = {0xb0 | page_index, 0x40, 0x10, 0x00};
 
-    _lcd_tx(lcd_page_cmd, sizeof(lcd_page_cmd));
+	_lcd_tx(lcd_page_cmd, sizeof(lcd_page_cmd));
 
-    _lcd_mode(DATA);
+	_lcd_mode(DATA);
 
-    _lcd_tx(page_buffer, LCD_COLUMNS);
+	_lcd_tx(page_buffer, LCD_COLUMNS);
 }
 
 void dev_lcd_set_contrast(u8 contrast) {
 
-    contrast = contrast > 0x3f ? 0x3f : contrast;
-    contrast = contrast < 0x01 ? 0x01 : contrast;
+	contrast = contrast > 0x3f ? 0x3f : contrast;
+	contrast = contrast < 0x01 ? 0x01 : contrast;
 
-    _lcd_mode(COMMAND);
-    _lcd_command(0x81);
-    _lcd_command(contrast);
+	_lcd_mode(COMMAND);
+	_lcd_command(0x81);
+	_lcd_command(contrast);
 }
 
 /*
@@ -223,54 +223,54 @@ void dev_lcd_set_contrast(u8 contrast) {
  */
 void dev_lcd_set_backlight(bool red, bool green, bool blue) {
 
-    /// TODO: Define pin index.
-    //
-    // LCD Backlight on
-    per_gpio_set_indexed(LCD_BACKLIGHT_RED_PIN, red);
-    per_gpio_set_indexed(LCD_BACKLIGHT_GREEN_PIN, green);
-    per_gpio_set_indexed(LCD_BACKLIGHT_BLUE_PIN, blue);
+	/// TODO: Define pin index.
+	//
+	// LCD Backlight on
+	per_gpio_set_indexed(LCD_BACKLIGHT_RED_PIN, red);
+	per_gpio_set_indexed(LCD_BACKLIGHT_GREEN_PIN, green);
+	per_gpio_set_indexed(LCD_BACKLIGHT_BLUE_PIN, blue);
 
-    // Configure LCD
+	// Configure LCD
 }
 
 /*----- Static function implementations ------------------------------*/
 
 static void _lcd_tx(u8 *buffer, u32 length) {
 
-    /// TODO: DMA frame buffer.
+	/// TODO: DMA frame buffer.
 
-    per_spi_chip_format(LCD_SPI, LCD_SPI_DATA_FORMAT, LCD_SPI_CHIP_SELECT,
-                        LCD_SPI_CSHOLD);
+	per_spi_chip_format(LCD_SPI, LCD_SPI_DATA_FORMAT, LCD_SPI_CHIP_SELECT,
+						LCD_SPI_CSHOLD);
 
-    // per_spi_write_isr(LCD_SPI, buffer, length);
+	// per_spi_write_isr(LCD_SPI, buffer, length);
 
-    per_spi_write_blocking(LCD_SPI, buffer, length);
+	per_spi_write_blocking(LCD_SPI, buffer, length);
 }
 
 static bool _lcd_tx_bounded(const u8 *buffer, u32 length) {
 
-    per_spi_chip_format(LCD_SPI, LCD_SPI_DATA_FORMAT, LCD_SPI_CHIP_SELECT,
-                        LCD_SPI_CSHOLD);
+	per_spi_chip_format(LCD_SPI, LCD_SPI_DATA_FORMAT, LCD_SPI_CHIP_SELECT,
+						LCD_SPI_CSHOLD);
 
-    return per_spi_write_blocking_bounded(
-        LCD_SPI,
-        buffer,
-        length,
-        LCD_FATAL_SPI_POLL_LIMIT
-    );
+	return per_spi_write_blocking_bounded(
+		LCD_SPI,
+		buffer,
+		length,
+		LCD_FATAL_SPI_POLL_LIMIT
+	);
 }
 
 static bool _lcd_try_set_page(u8 page_index, const u8 *page_buffer) {
 
-    u8 lcd_page_cmd[] = {0xb0 | page_index, 0x40, 0x10, 0x00};
+	u8 lcd_page_cmd[] = {0xb0 | page_index, 0x40, 0x10, 0x00};
 
-    _lcd_mode(COMMAND);
-    if (!_lcd_tx_bounded(lcd_page_cmd, sizeof(lcd_page_cmd))) {
-        return false;
-    }
+	_lcd_mode(COMMAND);
+	if (!_lcd_tx_bounded(lcd_page_cmd, sizeof(lcd_page_cmd))) {
+		return false;
+	}
 
-    _lcd_mode(DATA);
-    return _lcd_tx_bounded(page_buffer, LCD_COLUMNS);
+	_lcd_mode(DATA);
+	return _lcd_tx_bounded(page_buffer, LCD_COLUMNS);
 }
 
 static void _lcd_mode(t_lcd_mode mode) { per_gpio_set_indexed(PIN_SPI0_SCS2__UART0_RTS__MII_RXD0, mode); }

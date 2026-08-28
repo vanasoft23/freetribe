@@ -51,8 +51,8 @@ extern "C" {
 
 /** @brief Get the bank number corresponding to pin number. */
 static inline u8 per_gpio_bank_from_pin(u8 pin_index) {
-    u8 bank_index = ((pin_index - 1) >> 4) * !!pin_index;
-    return bank_index;
+	u8 bank_index = ((pin_index - 1) >> 4) * !!pin_index;
+	return bank_index;
 }
 
 /*----- Typedefs -----------------------------------------------------*/

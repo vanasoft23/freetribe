@@ -49,22 +49,22 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    ARM_INSTRUCTION_STATUS_OK = 0,
-    ARM_INSTRUCTION_STATUS_INVALID_ARGUMENT,
-    ARM_INSTRUCTION_STATUS_INVALID_STATE,
-    ARM_INSTRUCTION_STATUS_UNALIGNED,
-    ARM_INSTRUCTION_STATUS_UNSUPPORTED,
-    ARM_INSTRUCTION_STATUS_UNPREDICTABLE,
+	ARM_INSTRUCTION_STATUS_OK = 0,
+	ARM_INSTRUCTION_STATUS_INVALID_ARGUMENT,
+	ARM_INSTRUCTION_STATUS_INVALID_STATE,
+	ARM_INSTRUCTION_STATUS_UNALIGNED,
+	ARM_INSTRUCTION_STATUS_UNSUPPORTED,
+	ARM_INSTRUCTION_STATUS_UNPREDICTABLE,
 } arm_instruction_status_t;
 
 typedef enum {
-    ARM_INSTRUCTION_SET_ARM = 0,
-    ARM_INSTRUCTION_SET_THUMB,
+	ARM_INSTRUCTION_SET_ARM = 0,
+	ARM_INSTRUCTION_SET_THUMB,
 } arm_instruction_set_t;
 
 typedef struct {
-    u32                   address;
-    arm_instruction_set_t instruction_set;
+	u32                   address;
+	arm_instruction_set_t instruction_set;
 } arm_instruction_step_target_t;
 
 /*----- Public API ---------------------------------------------------*/
@@ -84,8 +84,8 @@ typedef struct {
  * @returns Status describing whether the successor was calculated.
  */
 arm_instruction_status_t arm_instruction_get_step_target(
-    const arm_frame_t             *frame,
-    arm_instruction_step_target_t *target
+	const arm_frame_t             *frame,
+	arm_instruction_step_target_t *target
 );
 
 /*--------------------------------------------------------------------*/

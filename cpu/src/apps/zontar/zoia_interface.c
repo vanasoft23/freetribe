@@ -64,97 +64,97 @@ static void _encoder_dec(u32 clicks);
 
 void zoia_encoder(s32 clicks) {
 
-    if (clicks > 0) {
-        _encoder_inc(clicks);
+	if (clicks > 0) {
+		_encoder_inc(clicks);
 
-    } else if (clicks < 0) {
-        _encoder_dec(abs(clicks));
-    }
+	} else if (clicks < 0) {
+		_encoder_dec(abs(clicks));
+	}
 }
 
 void zoia_enter(void) {
 
-    g_event.value = ZOIA_VALUE_ENCODER;
+	g_event.value = ZOIA_VALUE_ENCODER;
 
-    g_event.type = ZOIA_EVENT_PRESS;
+	g_event.type = ZOIA_EVENT_PRESS;
 
-    zoia_enqueue(&g_event);
+	zoia_enqueue(&g_event);
 
-    g_event.type = ZOIA_EVENT_RELEASE;
+	g_event.type = ZOIA_EVENT_RELEASE;
 
-    zoia_enqueue(&g_event);
+	zoia_enqueue(&g_event);
 }
 
 void zoia_home(void) {
 
-    int i;
-    for (i = 0; i < 5; i++) {
-        zoia_back();
-    }
+	int i;
+	for (i = 0; i < 5; i++) {
+		zoia_back();
+	}
 }
 
 void zoia_back(void) {
 
-    g_event.value = ZOIA_VALUE_BACK;
+	g_event.value = ZOIA_VALUE_BACK;
 
-    g_event.type = ZOIA_EVENT_PRESS;
+	g_event.type = ZOIA_EVENT_PRESS;
 
-    zoia_enqueue(&g_event);
+	zoia_enqueue(&g_event);
 
-    g_event.type = ZOIA_EVENT_RELEASE;
+	g_event.type = ZOIA_EVENT_RELEASE;
 
-    zoia_enqueue(&g_event);
+	zoia_enqueue(&g_event);
 }
 
 /// TODO: Use Program Change instead.
 //
 void zoia_patch_set(u8 patch_index) {
 
-    patch_index = patch_index > 63 ? 63 : patch_index;
+	patch_index = patch_index > 63 ? 63 : patch_index;
 
-    zoia_home();
+	zoia_home();
 
-    zoia_encoder(-64);
+	zoia_encoder(-64);
 
-    zoia_encoder(patch_index);
+	zoia_encoder(patch_index);
 
-    zoia_press(ZOIA_VALUE_ENCODER);
+	zoia_press(ZOIA_VALUE_ENCODER);
 }
 
 /*----- Static function implementations ------------------------------*/
 
 static void _encoder_inc(u32 clicks) {
 
-    g_event.type = ZOIA_EVENT_TURN;
-    g_event.value = 127;
+	g_event.type = ZOIA_EVENT_TURN;
+	g_event.value = 127;
 
-    while (clicks > 63) {
+	while (clicks > 63) {
 
-        zoia_enqueue(&g_event);
+		zoia_enqueue(&g_event);
 
-        clicks -= 63;
-    }
+		clicks -= 63;
+	}
 
-    g_event.value = 64 + clicks;
+	g_event.value = 64 + clicks;
 
-    zoia_enqueue(&g_event);
+	zoia_enqueue(&g_event);
 }
 
 static void _encoder_dec(u32 clicks) {
 
-    g_event.type = ZOIA_EVENT_TURN;
-    g_event.value = 0;
+	g_event.type = ZOIA_EVENT_TURN;
+	g_event.value = 0;
 
-    while (clicks > 63) {
+	while (clicks > 63) {
 
-        zoia_enqueue(&g_event);
+		zoia_enqueue(&g_event);
 
-        clicks -= 63;
-    }
+		clicks -= 63;
+	}
 
-    g_event.value = 64 - clicks;
+	g_event.value = 64 - clicks;
 
-    zoia_enqueue(&g_event);
+	zoia_enqueue(&g_event);
 }
 
 /*----- End of file --------------------------------------------------*/

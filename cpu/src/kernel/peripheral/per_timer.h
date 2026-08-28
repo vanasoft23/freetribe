@@ -52,12 +52,12 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    u32 base_addr;
-    u32 mode;
-    u32 period;
-    u32 int_flags; // See hal_timer.h.
-    u32 int_chan;
-    void (*p_isr)(void);
+	u32 base_addr;
+	u32 mode;
+	u32 period;
+	u32 int_flags; // See hal_timer.h.
+	u32 int_chan;
+	void (*p_isr)(void);
 } t_timer_config;
 
 /*----- Extern variable declarations ---------------------------------*/

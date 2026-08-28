@@ -79,8 +79,6 @@
 // #define assert(expr) ((void)0)
 // #endif // DEBUG
 
-#define assert(expr) ((void)0)
-
 
 // typedef void (*none_arg_handler_t)(void);
 

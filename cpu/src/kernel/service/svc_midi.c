@@ -37,7 +37,7 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Includes -----------------------------------------------------*/
 
 #include "ft.h"
-#include "ft_error.h"
+
 
 #include <midi_fsm.h>
 #include <FreeRTOS.h>
@@ -69,95 +69,89 @@ static void _midi_rx_notify_from_isr(void);
 /*----- Extern function implementations ------------------------------*/
 
 void svc_midi_task(void *param) {
-    (void)param;
+	(void)param;
 
-    g_midi_task_handle = xTaskGetCurrentTaskHandle();
-    dev_trs_register_rx_callback(_midi_rx_notify_from_isr);
+	g_midi_task_handle = xTaskGetCurrentTaskHandle();
+	dev_trs_register_rx_callback(_midi_rx_notify_from_isr);
 
-    while (true) {
-        svc_midi_process();
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-    }
+	while (true) {
+		svc_midi_process();
+		ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+	}
 }
 
 void svc_midi_process(void) {
 
-    static t_midi_task_state state = STATE_INIT;
+	static t_midi_task_state state = STATE_INIT;
 
-    u8 midi_byte = 0;
+	u8 midi_byte = 0;
 
-    switch (state) {
+	switch (state) {
 
-    // Initialise MIDI task.
-    case STATE_INIT:
-        if (error_check(_midi_init()) == SUCCESS) {
-            state = STATE_RUN;
-        }
-        // Remain in INIT state until initialisation successful.
-        break;
+	// Initialise MIDI task.
+	case STATE_INIT:
+		if (error_check(_midi_init()) == SUCCESS) {
+			state = STATE_RUN;
+		}
+		// Remain in INIT state until initialisation successful.
+		break;
 
-    case STATE_RUN:
-        // Fetch and parse queued MIDI bytes.
-        while (dev_trs_rx_dequeue(&midi_byte) == SUCCESS) {
-            midi_receive_byte(midi_byte);
-        }
-        // No error if MIDI message not available.
-        break;
+	case STATE_RUN:
+		// Fetch and parse queued MIDI bytes.
+		while (dev_trs_rx_dequeue(&midi_byte) == SUCCESS) {
+			midi_receive_byte(midi_byte);
+		}
+		// No error if MIDI message not available.
+		break;
 
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
-
-    default:
-        // TODO: Record unhandled state.
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
+	case STATE_ERROR:
+	default:
+		PANIC(PANIC_UNHANDLED_STATE);
+		break;
+	}
 }
 
 /// TODO: Abstract this to separate library.
 ///          Functions returning messages.
 /// TODO: Running status, only send changes.
 void svc_midi_send_note_on(char chan, char note, char vel) {
-    _midi_out(0x90 | chan);
-    _midi_out(note);
-    _midi_out(vel);
+	_midi_out(0x90 | chan);
+	_midi_out(note);
+	_midi_out(vel);
 }
 
 void svc_midi_send_note_off(char chan, char note, char vel) {
-    _midi_out(0x80 | chan);
-    _midi_out(note);
-    _midi_out(vel);
+	_midi_out(0x80 | chan);
+	_midi_out(note);
+	_midi_out(vel);
 }
 
 void svc_midi_send_cc(u8 chan, u8 idx, u8 val) {
 
-    _midi_out(0xb0 | chan);
-    _midi_out(idx);
-    _midi_out(val);
+	_midi_out(0xb0 | chan);
+	_midi_out(idx);
+	_midi_out(val);
 }
 
 void svc_midi_send_string(char *text) {
 
-    _midi_out(0xf0);
+	_midi_out(0xf0);
 
-    while (*text) {
-        _midi_out(*text++);
-    }
+	while (*text) {
+		_midi_out(*text++);
+	}
 
-    _midi_out(0xf7);
+	_midi_out(0xf7);
 }
 
 /// TODO: Refactor svc_midi_send_sysex.
 //
 void sysex_response(u8 msg_id) {
-    _midi_out(0xf0);
+	_midi_out(0xf0);
 
-    _midi_out(msg_id);
+	_midi_out(msg_id);
 
-    _midi_out(0xf7);
+	_midi_out(0xf7);
 }
 
 void svc_midi_send_byte(u8 byte) { _midi_out(byte); }
@@ -166,50 +160,50 @@ void svc_midi_send_byte(u8 byte) { _midi_out(byte); }
 
 static t_status _midi_init(void) {
 
-    t_status result = TASK_INIT_ERROR;
+	t_status result = TASK_INIT_ERROR;
 
-    if (error_check(midi_init_fsm()) == SUCCESS) {
+	if (error_check(midi_init_fsm()) == SUCCESS) {
 
-        dev_trs_init();
+		dev_trs_init();
 
-        midi_register_sysex_handler((t_midi_sysex_callback)sysex_parse);
+		midi_register_sysex_handler((t_midi_sysex_callback)sysex_parse);
 
-        // Do any other initialisation.
-        result = SUCCESS;
-    }
+		// Do any other initialisation.
+		result = SUCCESS;
+	}
 
-    return result;
+	return result;
 }
 
 static void _midi_tx_buffer(u8 *data, u32 length) {
 
-    while (length--) {
+	while (length--) {
 
-        dev_trs_tx_enqueue(data++);
-    }
+		dev_trs_tx_enqueue(data++);
+	}
 }
 
 static void _midi_out(u8 midi_byte) {
 
-    /// TODO: Refactor to use returned error code.
-    //
-    dev_trs_tx_enqueue(&midi_byte);
+	/// TODO: Refactor to use returned error code.
+	//
+	dev_trs_tx_enqueue(&midi_byte);
 }
 
 static void _midi_rx_notify_from_isr(void) {
 
-    if (g_midi_task_handle != NULL) {
-        BaseType_t higher_priority_task_woken = pdFALSE;
+	if (g_midi_task_handle != NULL) {
+		BaseType_t higher_priority_task_woken = pdFALSE;
 
-        vTaskNotifyGiveFromISR(g_midi_task_handle,
-                               &higher_priority_task_woken);
+		vTaskNotifyGiveFromISR(g_midi_task_handle,
+							   &higher_priority_task_woken);
 
 #ifdef portYIELD_FROM_ISR
-        portYIELD_FROM_ISR(higher_priority_task_woken);
+		portYIELD_FROM_ISR(higher_priority_task_woken);
 #else
-        (void)higher_priority_task_woken;
+		(void)higher_priority_task_woken;
 #endif
-    }
+	}
 }
 
 /*----- End of file --------------------------------------------------*/

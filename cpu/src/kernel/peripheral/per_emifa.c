@@ -80,37 +80,37 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    EMIFA_OFF = 0,
-    EMIFA_IDLE,
-    EMIFA_ERROR,
-    EMIFA_HOST_WRITE_HEADER_CONFIG,
-    EMIFA_HOST_WRITE_HEADER_TRANSFER,
-    EMIFA_HOST_WRITE_CONFIG,
-    EMIFA_HOST_WRITE_TRANSFER,
-    EMIFA_HOST_WRITE_DONE,
-    EMIFA_HOST_READ_HEADER,
-    EMIFA_HOST_READ_CONFIG,
-    EMIFA_HOST_READ_TRANSFER,
-    EMIFA_HOST_READ_DONE,
+	EMIFA_OFF = 0,
+	EMIFA_IDLE,
+	EMIFA_ERROR,
+	EMIFA_HOST_WRITE_HEADER_CONFIG,
+	EMIFA_HOST_WRITE_HEADER_TRANSFER,
+	EMIFA_HOST_WRITE_CONFIG,
+	EMIFA_HOST_WRITE_TRANSFER,
+	EMIFA_HOST_WRITE_DONE,
+	EMIFA_HOST_READ_HEADER,
+	EMIFA_HOST_READ_CONFIG,
+	EMIFA_HOST_READ_TRANSFER,
+	EMIFA_HOST_READ_DONE,
 } t_emifa_state;
 
 typedef struct {
-    u16 words_total;
-    u16 words_remaining;
-    u16 block_count;
-    u16 block_length;
-    u32 current_dsp_address;
-    const u16 *input_ptr;
-    t_emifa_metadata metadata;
+	u16 words_total;
+	u16 words_remaining;
+	u16 block_count;
+	u16 block_length;
+	u32 current_dsp_address;
+	const u16 *input_ptr;
+	t_emifa_metadata metadata;
 } t_host_write_state;
 
 typedef struct {
-    u16 words_total;
-    u16 words_remaining;
-    u16 block_length;
-    u16 *host_address;
-    u32 dsp_address;
-    t_emifa_metadata metadata;
+	u16 words_total;
+	u16 words_remaining;
+	u16 block_length;
+	u16 *host_address;
+	u32 dsp_address;
+	t_emifa_metadata metadata;
 } t_host_read_state;
 
 /*----- Static function prototypes -----------------------------------*/
@@ -170,18 +170,18 @@ static volatile t_host_read_state g_rx_state;
 // State dispatch table (per_emifa_task)
 typedef void (*t_emifa_state_handler)(void);
 static const t_emifa_state_handler g_state_handlers[] = {
-    _handle_off,
-    _handle_idle,
-    _handle_error,
-    _handle_host_write_header_config,
-    NULL, // header transfer happens in ISR
-    _handle_host_write_config,
-    NULL, // data transfer happens in ISR
-    _handle_host_write_done,
-    NULL, // read header happens in ISR
-    _handle_host_read_config,
-    NULL, // read data happens in ISR
-    _handle_host_read_done,
+	_handle_off,
+	_handle_idle,
+	_handle_error,
+	_handle_host_write_header_config,
+	NULL, // header transfer happens in ISR
+	_handle_host_write_config,
+	NULL, // data transfer happens in ISR
+	_handle_host_write_done,
+	NULL, // read header happens in ISR
+	_handle_host_read_config,
+	NULL, // read data happens in ISR
+	_handle_host_read_done,
 };
 
 /*----- Extern function implementations ------------------------------*/
@@ -195,44 +195,45 @@ static const t_emifa_state_handler g_state_handlers[] = {
  * @param   error_callback  Fires when a DMA error was encountered and
  *                          the active transaction had been flushed.
  */
-void per_emifa_init(t_emifa_idle_callback idle_callback,
-                    t_emifa_tx_callback tx_callback,
-                    t_emifa_rx_callback rx_callback,
-                    t_emifa_error_callback error_callback) {
+void per_emifa_init(
+	t_emifa_idle_callback idle_callback,
+	t_emifa_tx_callback tx_callback,
+	t_emifa_rx_callback rx_callback,
+	t_emifa_error_callback error_callback)
+{
+	EMIFAWaitTimingConfig(SOC_EMIFA_0_REGS, EMIFA_CHIP_SELECT_2, EMIFA_ASYNC_WAITTIME_CONFIG(
+		 0, // wset   Write setup time or width in EMA_CLK cycles
+		 3, // wstb   Write strobe time or width in EMA_CLK cycles
+		 0, // whld   Write hold time or width in EMA_CLK cycles
+		 0, // rset   Read setup time or width in EMA_CLK cycles
+		 3, // rstb   Read strobe time or width in EMA_CLK cycles
+		 0, // rhld   Read hold time or width in EMA_CLK cycles
+		 0  // ta     Minimum Turn-Around time
+	));
+	EMIFAAsyncDevOpModeSelect(SOC_EMIFA_0_REGS, EMIFA_CHIP_SELECT_2, EMIFA_ASYNC_INTERFACE_NORMAL_MODE);
+	EMIFAAsyncDevDataBusWidthSelect(SOC_EMIFA_0_REGS, EMIFA_CHIP_SELECT_2, EMIFA_DATA_BUSWITTH_16BIT);
+	EMIFAExtendedWaitConfig(SOC_EMIFA_0_REGS, EMIFA_CHIP_SELECT_2, EMIFA_EXTENDED_WAIT_DISABLE);
+	
+	// Configure EMIFA interrupts
+	EMIFAMskedIntDisable(SOC_EMIFA_0_REGS, EMIFA_ASYNC_TIMOUT_INT);
+	EMIFAMskedIntDisable(SOC_EMIFA_0_REGS, EMIFA_LINE_TRAP_INT);
+	EMIFAMskedIntDisable(SOC_EMIFA_0_REGS, EMIFA_WAIT_RISE_INT);
 
-    EMIFAWaitTimingConfig(SOC_EMIFA_0_REGS, EMIFA_CHIP_SELECT_2, EMIFA_ASYNC_WAITTIME_CONFIG(
-         0, // wset   Write setup time or width in EMA_CLK cycles
-         3, // wstb   Write strobe time or width in EMA_CLK cycles
-         0, // whld   Write hold time or width in EMA_CLK cycles
-         0, // rset   Read setup time or width in EMA_CLK cycles
-         3, // rstb   Read strobe time or width in EMA_CLK cycles
-         0, // rhld   Read hold time or width in EMA_CLK cycles
-         0  // ta     Minimum Turn-Around time
-    ));
-    EMIFAAsyncDevOpModeSelect(SOC_EMIFA_0_REGS, EMIFA_CHIP_SELECT_2, EMIFA_ASYNC_INTERFACE_NORMAL_MODE);
-    EMIFAAsyncDevDataBusWidthSelect(SOC_EMIFA_0_REGS, EMIFA_CHIP_SELECT_2, EMIFA_DATA_BUSWITTH_16BIT);
-    EMIFAExtendedWaitConfig(SOC_EMIFA_0_REGS, EMIFA_CHIP_SELECT_2, EMIFA_EXTENDED_WAIT_DISABLE);
-    
-    // Configure EMIFA interrupts
-    EMIFAMskedIntDisable(SOC_EMIFA_0_REGS, EMIFA_ASYNC_TIMOUT_INT);
-    EMIFAMskedIntDisable(SOC_EMIFA_0_REGS, EMIFA_LINE_TRAP_INT);
-    EMIFAMskedIntDisable(SOC_EMIFA_0_REGS, EMIFA_WAIT_RISE_INT);
+	// HOST_ACK pin interrupt (HRDY/FRDY)
+	per_aintc_register_gpio_interrupt(
+		HOST_ACK_GPIO_INT_CHANNEL,
+		HOST_ACK_PIN,
+		GPIO_INT_TYPE_FALLEDGE,
+		_host_ack_isr
+	);
 
-    // HOST_ACK pin interrupt (HRDY/FRDY)
-    per_aintc_register_gpio_interrupt(
-        HOST_ACK_GPIO_INT_CHANNEL,
-        HOST_ACK_PIN,
-        GPIO_INT_TYPE_FALLEDGE,
-        _host_ack_isr
-    );
-
-    g_idle_callback  = idle_callback;
-    g_tx_callback    = tx_callback;
-    g_rx_callback    = rx_callback;
-    g_error_callback = error_callback;
+	g_idle_callback  = idle_callback;
+	g_tx_callback    = tx_callback;
+	g_rx_callback    = rx_callback;
+	g_error_callback = error_callback;
 
 #ifdef DEBUG_EMIFA_DUMMY_DATA
-    _gen_dummy_data();
+	_gen_dummy_data();
 #endif
 }
 
@@ -244,51 +245,54 @@ void per_emifa_init(t_emifa_idle_callback idle_callback,
  * @param   word_count    Number of 16-bit words to write. Cannot be uneven!
  * @param   metadata      Gets sent along through the header.
  */
-t_emifa_status per_emifa_transfer(u32 dsp_address,
-                                  const u16 *words,
-                                  u16 word_count,
-                                  t_emifa_metadata metadata) {
+t_emifa_status per_emifa_transfer(
+	u32 dsp_address,
+	const u16 *words,
+	u16 word_count,
+	t_emifa_metadata metadata
+) {
 
-    if (EMIFA_OFF == g_state) {
-        return EMIFA_UNINITIALISED;
-    }
-    
-    if (EMIFA_IDLE != g_state) {
-        return EMIFA_BUS_OCCUPIED;
-    }
-    
-    DEBUG_LOG("per_emifa_transfer");
-    g_tx_state.words_total         = word_count;
-    g_tx_state.words_remaining     = word_count;
-    g_tx_state.current_dsp_address = dsp_address;
-    g_tx_state.input_ptr           = words;
-    g_tx_state.block_count         = (word_count + 15) / 16;
-    g_tx_state.metadata            = metadata;
-    
-    g_state = EMIFA_HOST_WRITE_HEADER_CONFIG;
-    _handle_host_write_header_config(); // don't wait for next driver tick
-    _catch_dma_errors();
+	if (EMIFA_OFF == g_state) {
+		return EMIFA_UNINITIALISED;
+	}
+	
+	if (EMIFA_IDLE != g_state) {
+		return EMIFA_BUS_OCCUPIED;
+	}
+	
+	DLOG("per_emifa_transfer");
+	g_tx_state.words_total         = word_count;
+	g_tx_state.words_remaining     = word_count;
+	g_tx_state.current_dsp_address = dsp_address;
+	g_tx_state.input_ptr           = words;
+	g_tx_state.block_count         = (word_count + 15) / 16;
+	g_tx_state.metadata            = metadata;
+	
+	g_state = EMIFA_HOST_WRITE_HEADER_CONFIG;
+	_handle_host_write_header_config(); // don't wait for next driver tick
+	_catch_dma_errors();
 
-    return EMIFA_SUCCESS;
+	return EMIFA_SUCCESS;
 
 }
 
 /**
  * @brief   Update tick of the EMIFA engine.
  */
-void per_emifa_task(void) {
+void per_emifa_task(void)
+{
+	if (g_state < (sizeof(g_state_handlers) / sizeof(g_state_handlers[0]))
+	 && g_state_handlers[g_state])
+	{
+		g_state_handlers[g_state]();
+	}
 
-    if (g_state < (sizeof(g_state_handlers) / sizeof(g_state_handlers[0]))
-     && g_state_handlers[g_state]) {
-        g_state_handlers[g_state]();
-    }
-
-    _catch_dma_errors();
+	_catch_dma_errors();
 
 #ifdef DEBUG
-    // _print_emifa_state();
-    // _print_hostdma_state();
-    // ft_printf("");
+	// _print_emifa_state();
+	// _print_hostdma_state();
+	// ft_printf("");
 #endif
 }
 
@@ -298,44 +302,44 @@ void per_emifa_task(void) {
  * @brief   When HostDMA has not yet initialised itself on the DSP end
  *          we will wait for it do to so.
  */
-void _handle_off(void) {
-
-    if (_was_hostdma_initialized()) {
-            g_state = EMIFA_IDLE;
-    }
-
+void _handle_off(void)
+{
+	if (_was_hostdma_initialized()) {
+			g_state = EMIFA_IDLE;
+	}
 }
 
 /**
  * @brief   In idle state, poll for DSP request to lock the bus (HSHK bit).
  *          If asserted, configure for a host read operation.
  */
-void _handle_idle(void) {
+void _handle_idle(void)
+{
+	if (_handshake_bit() && _allow_config()) {
 
-    if (_handshake_bit() && _allow_config()) {
+		g_state = EMIFA_HOST_READ_HEADER;
+		_hostdma_config(
+			DSP_TO_HOST_HEADER_BASE,
+			DSP_TO_HOST_HEADER_LENGTH,
+			0x0000
+		);
 
-        g_state = EMIFA_HOST_READ_HEADER;
-        _hostdma_config(DSP_TO_HOST_HEADER_BASE,
-                        DSP_TO_HOST_HEADER_LENGTH,
-                        0x0000);
+	} else {
 
-    } else {
+		g_idle_callback(); // serve device layer
 
-        g_idle_callback(); // serve device layer
-
-    }
+	}
 }
 
 /**
  * @brief   DMA errors occurred; request HostDP status IRQ which tells HostDMA
  *          driver to reset HostDMA.
  */
-void _handle_error(void) {
-
-    _request_hostdp_status_interrupt(); // I wonder if this request could ever fail
-    g_error_callback(_dma_dir_bit() ? g_tx_state.metadata : g_rx_state.metadata);
-    g_state = EMIFA_OFF;
-
+void _handle_error(void)
+{
+	_request_hostdp_status_interrupt(); // I wonder if this request could ever fail
+	g_error_callback(_dma_dir_bit() ? g_tx_state.metadata : g_rx_state.metadata);
+	g_state = EMIFA_OFF;
 }
 
 /* Host read */
@@ -344,26 +348,24 @@ void _handle_error(void) {
  * @brief   A data transfer just happend, so now poll for a new configuration
  *          opportunity.
  */
-void _handle_host_read_config(void) {
-
-    if (_allow_config()) {
-        g_state = EMIFA_HOST_READ_TRANSFER;
-        g_rx_state.block_length = MIN(g_rx_state.words_remaining, 16);
-        _hostdma_config(g_rx_state.dsp_address, g_rx_state.block_length, 0x0000);
-    }
-    
+void _handle_host_read_config(void)
+{
+	if (_allow_config()) {
+		g_state = EMIFA_HOST_READ_TRANSFER;
+		g_rx_state.block_length = MIN(g_rx_state.words_remaining, 16);
+		_hostdma_config(g_rx_state.dsp_address, g_rx_state.block_length, 0x0000);
+	}
 }
 
 /**
  * @brief   Tell DSP operation has completed and reset driver in idle state.
  */
-void _handle_host_read_done(void) {
-
-    if (_is_dma_complete() && (EMIFA_ERROR != g_state)) {
-        g_state = EMIFA_IDLE;
-        g_rx_callback(g_rx_state.metadata);
-    }
-
+void _handle_host_read_done(void)
+{
+	if (_is_dma_complete() && (EMIFA_ERROR != g_state)) {
+		g_state = EMIFA_IDLE;
+		g_rx_callback(g_rx_state.metadata);
+	}
 }
 
 /* Host write */
@@ -372,38 +374,35 @@ void _handle_host_read_done(void) {
  * @brief   First action to happen when CPU requested a host write operation.
  *          We check to see if we can configure HostDMA.
  */
-void _handle_host_write_header_config(void) {
-
-    if (_allow_config()) {
-        g_state = EMIFA_HOST_WRITE_HEADER_TRANSFER;
-        _hostdma_config(HOST_TO_DSP_HEADER_BASE, HOST_TO_DSP_HEADER_LENGTH, HOST_CONFIG_WNR);
-    }
-
+void _handle_host_write_header_config(void)
+{
+	if (_allow_config()) {
+		g_state = EMIFA_HOST_WRITE_HEADER_TRANSFER;
+		_hostdma_config(HOST_TO_DSP_HEADER_BASE, HOST_TO_DSP_HEADER_LENGTH, HOST_CONFIG_WNR);
+	}
 }
 
 /**
  * @brief   If possible, tell HostDMA that we want to transfer a new block of data.
  */
-void _handle_host_write_config(void) {
-
-    if (_allow_config()) {
-        g_state = EMIFA_HOST_WRITE_TRANSFER;
-        g_tx_state.block_length = MIN(g_tx_state.words_remaining, 16);
-        _hostdma_config(g_tx_state.current_dsp_address, g_tx_state.block_length, HOST_CONFIG_WNR);
-    }
-    
+void _handle_host_write_config(void)
+{
+	if (_allow_config()) {
+		g_state = EMIFA_HOST_WRITE_TRANSFER;
+		g_tx_state.block_length = MIN(g_tx_state.words_remaining, 16);
+		_hostdma_config(g_tx_state.current_dsp_address, g_tx_state.block_length, HOST_CONFIG_WNR);
+	}
 }
 
 /**
  * @brief   Reset driver to idle state.
  */
-void _handle_host_write_done(void) {
-    
-    if (_is_dma_complete() && (EMIFA_ERROR != g_state)) {
-        g_state = EMIFA_IDLE;
-        g_tx_callback();
-    }
-
+void _handle_host_write_done(void)
+{
+	if (_is_dma_complete() && (EMIFA_ERROR != g_state)) {
+		g_state = EMIFA_IDLE;
+		g_tx_callback();
+	}
 }
 
 
@@ -411,100 +410,97 @@ void _handle_host_write_done(void) {
 
 /* Host write */
 
-static inline void _isr_host_write_header_transfer(void) {
+static inline void _isr_host_write_header_transfer(void)
+{
+	*HDMA_DATA_PORT = g_tx_state.block_count;
+	*HDMA_DATA_PORT = 0x0000;
+	*HDMA_DATA_PORT = 0x0000;
+	*HDMA_DATA_PORT = 0x0000;
+	*HDMA_DATA_PORT = 0x0000;
+	*HDMA_DATA_PORT = 0x0000;
+	*HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta0);
+	*HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta0);
 
-    *HDMA_DATA_PORT = g_tx_state.block_count;
-    *HDMA_DATA_PORT = 0x0000;
-    *HDMA_DATA_PORT = 0x0000;
-    *HDMA_DATA_PORT = 0x0000;
-    *HDMA_DATA_PORT = 0x0000;
-    *HDMA_DATA_PORT = 0x0000;
-    *HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta0);
-    *HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta0);
+	*HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta1);
+	*HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta1);
+	*HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta2);
+	*HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta2);
+	*HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta3);
+	*HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta3);
+	*HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta4);
+	*HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta4);
 
-    *HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta1);
-    *HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta1);
-    *HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta2);
-    *HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta2);
-    *HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta3);
-    *HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta3);
-    *HDMA_DATA_PORT = LO16(g_tx_state.metadata.meta4);
-    *HDMA_DATA_PORT = HI16(g_tx_state.metadata.meta4);
-
-    // Empty transfers are possible, which only sends some metadata
-    bool no_payload = (0 == g_tx_state.words_total);
-    g_state = no_payload ? EMIFA_HOST_WRITE_DONE
-                         : EMIFA_HOST_WRITE_CONFIG;
-
+	// Empty transfers are possible, which only sends some metadata
+	bool no_payload = (0 == g_tx_state.words_total);
+	g_state = no_payload ? EMIFA_HOST_WRITE_DONE
+						 : EMIFA_HOST_WRITE_CONFIG;
 }
 
-static inline void _isr_host_write_transfer(void) {
+static inline void _isr_host_write_transfer(void)
+{
+	for (int i = 0; i < g_tx_state.block_length; i++) {
+		*HDMA_DATA_PORT = *g_tx_state.input_ptr++;
+	}
 
-    for (int i = 0; i < g_tx_state.block_length; i++) {
-        *HDMA_DATA_PORT = *g_tx_state.input_ptr++;
-    }
+	g_tx_state.words_remaining -= g_tx_state.block_length;
+	g_tx_state.current_dsp_address += g_tx_state.block_length * sizeof(u16);
 
-    g_tx_state.words_remaining -= g_tx_state.block_length;
-    g_tx_state.current_dsp_address += g_tx_state.block_length * sizeof(u16);
-
-    bool last_block = (0 == g_tx_state.words_remaining);
-    g_state = last_block ? EMIFA_HOST_WRITE_DONE
-                         : EMIFA_HOST_WRITE_CONFIG;
+	bool last_block = (0 == g_tx_state.words_remaining);
+	g_state = last_block ? EMIFA_HOST_WRITE_DONE : EMIFA_HOST_WRITE_CONFIG;
 }
 
 /* Host read */
 
-static inline void _isr_host_read_header(void) {
+static inline void _isr_host_read_header(void)
+{
+	u16 _discard;
 
-    u16 _discard;
+	u16 word_count      = *HDMA_DATA_PORT;
+	_discard            = *HDMA_DATA_PORT;
+	u16 host_address_lo = *HDMA_DATA_PORT;
+	u16 host_address_hi = *HDMA_DATA_PORT;
+	u16 dsp_address_lo  = *HDMA_DATA_PORT;
+	u16 dsp_address_hi  = *HDMA_DATA_PORT;
+	u16 meta0_lo        = *HDMA_DATA_PORT;
+	u16 meta0_hi        = *HDMA_DATA_PORT;
 
-    u16 word_count      = *HDMA_DATA_PORT;
-    _discard                 = *HDMA_DATA_PORT;
-    u16 host_address_lo = *HDMA_DATA_PORT;
-    u16 host_address_hi = *HDMA_DATA_PORT;
-    u16 dsp_address_lo  = *HDMA_DATA_PORT;
-    u16 dsp_address_hi  = *HDMA_DATA_PORT;
-    u16 meta0_lo        = *HDMA_DATA_PORT;
-    u16 meta0_hi        = *HDMA_DATA_PORT;
+	u16 meta1_lo        = *HDMA_DATA_PORT;
+	u16 meta1_hi        = *HDMA_DATA_PORT;
+	u16 meta2_lo        = *HDMA_DATA_PORT;
+	u16 meta2_hi        = *HDMA_DATA_PORT;
+	u16 meta3_lo        = *HDMA_DATA_PORT;
+	u16 meta3_hi        = *HDMA_DATA_PORT;
+	u16 meta4_lo        = *HDMA_DATA_PORT;
+	u16 meta4_hi        = *HDMA_DATA_PORT;
 
-    u16 meta1_lo        = *HDMA_DATA_PORT;
-    u16 meta1_hi        = *HDMA_DATA_PORT;
-    u16 meta2_lo        = *HDMA_DATA_PORT;
-    u16 meta2_hi        = *HDMA_DATA_PORT;
-    u16 meta3_lo        = *HDMA_DATA_PORT;
-    u16 meta3_hi        = *HDMA_DATA_PORT;
-    u16 meta4_lo        = *HDMA_DATA_PORT;
-    u16 meta4_hi        = *HDMA_DATA_PORT;
+	g_rx_state.host_address    = (u16*)COMBINE16(host_address_hi, host_address_lo);
+	g_rx_state.dsp_address     = (u32) COMBINE16(dsp_address_hi , dsp_address_lo );
+	g_rx_state.words_total     = word_count;
+	g_rx_state.words_remaining = word_count;
 
-    g_rx_state.host_address    = (u16*)COMBINE16(host_address_hi, host_address_lo);
-    g_rx_state.dsp_address     = (u32) COMBINE16(dsp_address_hi , dsp_address_lo );
-    g_rx_state.words_total     = word_count;
-    g_rx_state.words_remaining = word_count;
+	g_rx_state.metadata.meta0 = COMBINE16(meta0_hi, meta0_lo);
+	g_rx_state.metadata.meta1 = COMBINE16(meta1_hi, meta1_lo);
+	g_rx_state.metadata.meta2 = COMBINE16(meta2_hi, meta2_lo);
+	g_rx_state.metadata.meta3 = COMBINE16(meta3_hi, meta3_lo);
+	g_rx_state.metadata.meta4 = COMBINE16(meta4_hi, meta4_lo);
 
-    g_rx_state.metadata.meta0 = COMBINE16(meta0_hi, meta0_lo);
-    g_rx_state.metadata.meta1 = COMBINE16(meta1_hi, meta1_lo);
-    g_rx_state.metadata.meta2 = COMBINE16(meta2_hi, meta2_lo);
-    g_rx_state.metadata.meta3 = COMBINE16(meta3_hi, meta3_lo);
-    g_rx_state.metadata.meta4 = COMBINE16(meta4_hi, meta4_lo);
-
-    g_state = EMIFA_HOST_READ_CONFIG;
-
+	g_state = EMIFA_HOST_READ_CONFIG;
 }
 
-static inline void _isr_host_read_transfer(void) {
+static inline void _isr_host_read_transfer(void)
+{
+	for (int i = 0; i < g_rx_state.block_length; i++) {
+		*g_rx_state.host_address++ = *HDMA_DATA_PORT;
+	}
 
-    for (int i = 0; i < g_rx_state.block_length; i++) {
-        *g_rx_state.host_address++ = *HDMA_DATA_PORT;
-    }
+	g_rx_state.words_remaining -= g_rx_state.block_length;
+	g_rx_state.dsp_address += g_rx_state.block_length * sizeof(u16);
 
-    g_rx_state.words_remaining -= g_rx_state.block_length;
-    g_rx_state.dsp_address += g_rx_state.block_length * sizeof(u16);
-
-    if (0 == g_rx_state.words_remaining) {
-        g_state = EMIFA_HOST_READ_DONE;
-    } else {
-        g_state = EMIFA_HOST_READ_CONFIG;
-    }
+	if (0 == g_rx_state.words_remaining) {
+		g_state = EMIFA_HOST_READ_DONE;
+	} else {
+		g_state = EMIFA_HOST_READ_CONFIG;
+	}
 }
 
 
@@ -519,18 +515,17 @@ static inline void _isr_host_read_transfer(void) {
  *            - LOW  means FIFO full (host should read data) "HRDY"
  *            - HIGH means FIFO empty (host read all data)
  */
-static void _host_ack_isr(void) {
+static void _host_ack_isr(void)
+{
+	per_aintc_clear_status_gpio(HOST_ACK_PIN);
 
-    per_aintc_clear_status_gpio(HOST_ACK_PIN);
-
-    switch (g_state) {
-        case EMIFA_HOST_WRITE_HEADER_TRANSFER: _isr_host_write_header_transfer(); break;
-        case EMIFA_HOST_WRITE_TRANSFER: _isr_host_write_transfer(); break;
-        case EMIFA_HOST_READ_HEADER: _isr_host_read_header(); break;
-        case EMIFA_HOST_READ_TRANSFER: _isr_host_read_transfer(); break;
-        default: break;
-    }
-
+	switch (g_state) {
+	case EMIFA_HOST_WRITE_HEADER_TRANSFER: _isr_host_write_header_transfer(); break;
+	case EMIFA_HOST_WRITE_TRANSFER: _isr_host_write_transfer(); break;
+	case EMIFA_HOST_READ_HEADER: _isr_host_read_header(); break;
+	case EMIFA_HOST_READ_TRANSFER: _isr_host_read_transfer(); break;
+	default: break;
+	}
 }
 
 /*--------------------------------------------------------------------*/
@@ -546,24 +541,24 @@ static void _host_ack_isr(void) {
  *                        With burst mode, value must be power of 2 and above 2.
  * @param   extra_flags   HOST_CONFIG flags. use HOST_CONFIG_WNR for host write mode.
  */
-static void _hostdma_config(u32 dsp_address, u16 word_count, u16 extra_flags) {
-
-    *HDMA_CONFIG_PORT = 0x00A9 | extra_flags;
-    *HDMA_CONFIG_PORT = LO16(dsp_address);
-    *HDMA_CONFIG_PORT = HI16(dsp_address);
-    *HDMA_CONFIG_PORT = word_count; // XCOUNT
-    *HDMA_CONFIG_PORT = 2;          // XMODIFY
-    *HDMA_CONFIG_PORT = 1;          // YCOUNT
-    *HDMA_CONFIG_PORT = 1;          // YMODIFY
-
+static void _hostdma_config(u32 dsp_address, u16 word_count, u16 extra_flags)
+{
+	*HDMA_CONFIG_PORT = 0x00A9 | extra_flags;
+	*HDMA_CONFIG_PORT = LO16(dsp_address);
+	*HDMA_CONFIG_PORT = HI16(dsp_address);
+	*HDMA_CONFIG_PORT = word_count; // XCOUNT
+	*HDMA_CONFIG_PORT = 2;          // XMODIFY
+	*HDMA_CONFIG_PORT = 1;          // YCOUNT
+	*HDMA_CONFIG_PORT = 1;          // YMODIFY
 }
 
 /**
  * @brief   Triggers hostdp status IRQ on the DSP. Cannot be used while HostDMA
  *          port is waiting for configuration.
  */
-static void _request_hostdp_status_interrupt(void) {
-    *(volatile u16*)HDMA_CONFIG_PORT = 0x1C; // HOST IRQ
+static void _request_hostdp_status_interrupt(void)
+{
+	*(volatile u16*)HDMA_CONFIG_PORT = 0x1C; // HOST IRQ
 }
 
 /**
@@ -573,20 +568,21 @@ static void _request_hostdp_status_interrupt(void) {
  *          FINISH command may not complete immediately but completes only after
  *          the DAB state machine has moved to a particular idle state.
  */
-static void _issue_dma_finish_command(void) {
-    *(volatile u16*)HDMA_CONFIG_PORT = 0x2C; // DMA FINISH
+static void _issue_dma_finish_command(void)
+{
+	*(volatile u16*)HDMA_CONFIG_PORT = 0x2C; // DMA FINISH
 }
 
 /**
  * @brief   Bus timeout enabled bit in HOST_STATUS is abused to serve as an
  *          error flag.
  */
-static void _catch_dma_errors(void) {
-
-    // Bus timeout enabled is a flag I abuse to signal an error
-    if (_bus_timeout_enabled() && EMIFA_OFF != g_state) {
-        g_state = EMIFA_ERROR;
-    }
+static void _catch_dma_errors(void)
+{
+	// Bus timeout enabled is a flag I abuse to signal an error
+	if (_bus_timeout_enabled() && EMIFA_OFF != g_state) {
+		g_state = EMIFA_ERROR;
+	}
 
 }
 
@@ -611,11 +607,12 @@ static inline bool _bus_timeout_enabled(void) { return (*HDMA_CONFIG_PORT & HOST
  * 
  * @returns true if HostDMA peripheral has been initialized by the DSP.
  */
-static inline bool _was_hostdma_initialized(void) {
-    u16 status = *HDMA_CONFIG_PORT;
-    return !((status & HOST_STATUS_FIFOFULL) && (status & HOST_STATUS_FIFOEMPTY))
-         &&  (status & HOST_STATUS_ALLOW_CNFG) // a previous error was handled
-         && !(status & HOST_STATUS_BTE);       // ... ditto ...
+static inline bool _was_hostdma_initialized(void)
+{
+	u16 status = *HDMA_CONFIG_PORT;
+	return !((status & HOST_STATUS_FIFOFULL) && (status & HOST_STATUS_FIFOEMPTY))
+	         &&  (status & HOST_STATUS_ALLOW_CNFG) // a previous error was handled
+	         && !(status & HOST_STATUS_BTE);       // ... ditto ...
 }
 
 
@@ -628,81 +625,84 @@ static inline bool _was_hostdma_initialized(void) {
 /**
  * @brief   Fills DDR2 ram buffer with dummy data.
  */
-static void _gen_dummy_data(void) {
-    u16 *ptr = (u16*)0xC0000000;
-    for (int i = 0; i < 64; i++) {
-        *ptr++ = i;
-    }
+static void _gen_dummy_data(void)
+{
+	u16 *ptr = (u16*)0xC0000000;
+	for (int i = 0; i < 64; i++) {
+		*ptr++ = i;
+	}
 }
 
 /**
  * @brief   Useful for print debugging.
  */
-static void _print_hostdma_state(void) {
-    DEBUG_LOG("[HostDMA state] allow_cnfg:%i dma_rdy:%i   dma_cmplt:%i hshk:%i",
-        (int)_allow_config(),
-        (int)_is_dma_ready(),
-        (int)_is_dma_complete(),
-        (int)_handshake_bit()
-    );
-    DEBUG_LOG("                fifofull:%i   fifoempty:%i dma_dir:%i   bte:%i",
-        (int)_is_fifo_full(),
-        (int)_is_fifo_empty(),
-        (int)_dma_dir_bit(),
-        (int)_bus_timeout_enabled()
-    );
+static void _print_hostdma_state(void)
+{
+	DLOG("[HostDMA state] allow_cnfg:%i dma_rdy:%i   dma_cmplt:%i hshk:%i",
+		(int)_allow_config(),
+		(int)_is_dma_ready(),
+		(int)_is_dma_complete(),
+		(int)_handshake_bit()
+	);
+	DLOG("                fifofull:%i   fifoempty:%i dma_dir:%i   bte:%i",
+		(int)_is_fifo_full(),
+		(int)_is_fifo_empty(),
+		(int)_dma_dir_bit(),
+		(int)_bus_timeout_enabled()
+	);
 }
 
 /**
  * @brief   Useful for print debugging.
  */
-static void _print_emifa_state(void) {
-    static const char* STATE_STRS[] = {
-        "EMIFA_OFF",
-        "EMIFA_IDLE",
-        "EMIFA_ERROR",
-        "EMIFA_HOST_WRITE_HEADER_CONFIG",
-        "EMIFA_HOST_WRITE_HEADER_TRANSFER",
-        "EMIFA_HOST_WRITE_CONFIG",
-        "EMIFA_HOST_WRITE_TRANSFER",
-        "EMIFA_HOST_WRITE_DONE",
-        "EMIFA_HOST_READ_HEADER",
-        "EMIFA_HOST_READ_CONFIG",
-        "EMIFA_HOST_READ_TRANSFER",
-        "EMIFA_HOST_READ_DONE",
-    };
-    switch (g_state) {
-        case EMIFA_HOST_WRITE_HEADER_CONFIG:
-        case EMIFA_HOST_WRITE_HEADER_TRANSFER:
-        case EMIFA_HOST_WRITE_CONFIG:
-        case EMIFA_HOST_WRITE_TRANSFER:
-        case EMIFA_HOST_WRITE_DONE:
-            DEBUG_LOG("[EMIFA state] %s (tx) total: %i left: %i block: %i",
-                STATE_STRS[g_state],
-                (int)g_tx_state.words_total,
-                (int)g_tx_state.words_remaining,
-                (int)g_tx_state.block_length
-            );
-            break;
+static void _print_emifa_state(void)
+{
+	static const char* STATE_STRS[] = {
+		"EMIFA_OFF",
+		"EMIFA_IDLE",
+		"EMIFA_ERROR",
+		"EMIFA_HOST_WRITE_HEADER_CONFIG",
+		"EMIFA_HOST_WRITE_HEADER_TRANSFER",
+		"EMIFA_HOST_WRITE_CONFIG",
+		"EMIFA_HOST_WRITE_TRANSFER",
+		"EMIFA_HOST_WRITE_DONE",
+		"EMIFA_HOST_READ_HEADER",
+		"EMIFA_HOST_READ_CONFIG",
+		"EMIFA_HOST_READ_TRANSFER",
+		"EMIFA_HOST_READ_DONE",
+	};
+	switch (g_state) {
+	case EMIFA_HOST_WRITE_HEADER_CONFIG:
+	case EMIFA_HOST_WRITE_HEADER_TRANSFER:
+	case EMIFA_HOST_WRITE_CONFIG:
+	case EMIFA_HOST_WRITE_TRANSFER:
+	case EMIFA_HOST_WRITE_DONE:
+		DLOG("[EMIFA state] %s (tx) total: %i left: %i block: %i",
+			STATE_STRS[g_state],
+			(int)g_tx_state.words_total,
+			(int)g_tx_state.words_remaining,
+			(int)g_tx_state.block_length
+		);
+		break;
 
-        case EMIFA_HOST_READ_HEADER:
-        case EMIFA_HOST_READ_CONFIG:
-        case EMIFA_HOST_READ_TRANSFER:
-        case EMIFA_HOST_READ_DONE:
-            DEBUG_LOG("[EMIFA state] %s (rx) total: %i left: %i block: %i dsp: %p host: %p",
-                STATE_STRS[g_state],
-                (int)g_rx_state.words_total,
-                (int)g_rx_state.words_remaining,
-                (int)g_rx_state.block_length,
-                (int*)g_rx_state.dsp_address,
-                (int*)g_rx_state.host_address
-            );
-            break;
+	case EMIFA_HOST_READ_HEADER:
+	case EMIFA_HOST_READ_CONFIG:
+	case EMIFA_HOST_READ_TRANSFER:
+	case EMIFA_HOST_READ_DONE:
+		DLOG("[EMIFA state] %s (rx) total: %i left: %i block: %i dsp: %p host: %p",
+			STATE_STRS[g_state],
+			(int)g_rx_state.words_total,
+			(int)g_rx_state.words_remaining,
+			(int)g_rx_state.block_length,
+			(int*)g_rx_state.dsp_address,
+			(int*)g_rx_state.host_address
+		);
+		break;
 
-        default:
-            DEBUG_LOG("[EMIFA state] %s ", STATE_STRS[g_state]);
-            break;
-    }
+	default:
+		DLOG("[EMIFA state] %s ", STATE_STRS[g_state]);
+		break;
+	}
 
 }
 

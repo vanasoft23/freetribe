@@ -1,30 +1,30 @@
 /*----------------------------------------------------------------------
 
-                     This file is part of Freetribe
+					 This file is part of Freetribe
 
-                https://github.com/bangcorrupt/freetribe
+				https://github.com/bangcorrupt/freetribe
 
-                                License
+								License
 
-                   GNU AFFERO GENERAL PUBLIC LICENSE
-                      Version 3, 19 November 2007
+				   GNU AFFERO GENERAL PUBLIC LICENSE
+					  Version 3, 19 November 2007
 
-                           AGPL-3.0-or-later
+						   AGPL-3.0-or-later
 
  Freetribe is free software: you can redistribute it and/or modify it
 under the terms of the GNU Affero General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
-                  (at your option) any later version.
+				  (at your option) any later version.
 
-     Freetribe is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty
-        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-          See the GNU General Public License for more details.
+	 Freetribe is distributed in the hope that it will be useful,
+	  but WITHOUT ANY WARRANTY; without even the implied warranty
+		of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+		  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
  along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-                       Copyright bangcorrupt 2024
+					   Copyright bangcorrupt 2024
 
 ----------------------------------------------------------------------*/
 
@@ -106,14 +106,14 @@ static char *_int_to_string(u8 value);
  */
 t_status app_init(void) {
 
-    t_status status = ERROR;
+	t_status status = ERROR;
 
-    _register_callbacks();
-    _ui_init();
+	_register_callbacks();
+	_ui_init();
 
-    status = SUCCESS;
+	status = SUCCESS;
 
-    return status;
+	return status;
 }
 
 /**
@@ -128,22 +128,22 @@ t_status app_init(void) {
  */
 void app_run(void) {
 
-    if (g_level_knob_changed) {
-        ft_set_module_param(0, 0, g_level_knob << 23);
-        ft_set_module_param(0, 1, g_level_knob << 23);
+	if (g_level_knob_changed) {
+		ft_set_module_param(0, 0, g_level_knob << 23);
+		ft_set_module_param(0, 1, g_level_knob << 23);
 
-        _ui_print("Level: ");
-        _ui_print(_int_to_string(g_level_knob));
-        _ui_print("\n\x00");
+		_ui_print("Level: ");
+		_ui_print(_int_to_string(g_level_knob));
+		_ui_print("\n\x00");
 
-        g_level_knob_changed = false;
-    }
+		g_level_knob_changed = false;
+	}
 
-    if (g_toggle_led) {
-        ft_toggle_led(LED_TAP);
+	if (g_toggle_led) {
+		ft_toggle_led(LED_TAP);
 
-        g_toggle_led = false;
-    }
+		g_toggle_led = false;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/
@@ -157,11 +157,11 @@ void app_run(void) {
  */
 static void _register_callbacks(void) {
 
-    ft_register_tick_callback(USER_TICK_DIV, _tick_callback);
+	ft_register_tick_callback(USER_TICK_DIV, _tick_callback);
 
-    ft_register_midi_callback(EVT_CHAN_NOTE_ON, _note_on_callback);
-    ft_register_midi_callback(EVT_CHAN_NOTE_OFF, _note_off_callback);
-    ft_register_panel_callback(KNOB_EVENT, _knob_callback);
+	ft_register_midi_callback(EVT_CHAN_NOTE_ON, _note_on_callback);
+	ft_register_midi_callback(EVT_CHAN_NOTE_OFF, _note_off_callback);
+	ft_register_panel_callback(KNOB_EVENT, _knob_callback);
 }
 
 /**
@@ -173,23 +173,23 @@ static void _register_callbacks(void) {
  */
 static void _ui_init(void) {
 
-    g_device.x_dim = 128;
-    g_device.y_dim = 64;
-    g_device.pset = _put_pixel;
+	g_device.x_dim = 128;
+	g_device.y_dim = 64;
+	g_device.pset = _put_pixel;
 
-    // Initialise uGUI
-    UG_Init(&g_gui, &g_device);
+	// Initialise uGUI
+	UG_Init(&g_gui, &g_device);
 
-    /// TODO: Is fill_frame driver broken?
-    //
-    UG_DriverRegister(DRIVER_FILL_FRAME, svc_display_fill_frame);
+	/// TODO: Is fill_frame driver broken?
+	//
+	UG_DriverRegister(DRIVER_FILL_FRAME, svc_display_fill_frame);
 
-    // Configure uGUI
-    UG_FontSelect(FONT_6X8);
-    UG_ConsoleSetArea(0, 1, 127, 63);
-    UG_ConsoleSetBackcolor(C_BLACK);
-    UG_ConsoleSetForecolor(C_WHITE);
-    UG_FillScreen(C_BLACK);
+	// Configure uGUI
+	UG_FontSelect(FONT_6X8);
+	UG_ConsoleSetArea(0, 1, 127, 63);
+	UG_ConsoleSetBackcolor(C_BLACK);
+	UG_ConsoleSetForecolor(C_WHITE);
+	UG_FillScreen(C_BLACK);
 }
 
 /**
@@ -205,16 +205,16 @@ static void _ui_init(void) {
  */
 static void _tick_callback(void) {
 
-    static u16 led_count;
+	static u16 led_count;
 
-    if (led_count >= LED_TICK_DIV) {
+	if (led_count >= LED_TICK_DIV) {
 
-        g_toggle_led = true;
-        led_count = 0;
+		g_toggle_led = true;
+		led_count = 0;
 
-    } else {
-        led_count++;
-    }
+	} else {
+		led_count++;
+	}
 }
 
 /**
@@ -227,7 +227,7 @@ static void _tick_callback(void) {
  * @param[in]   vel     MIDI note velocity.
  */
 static void _note_on_callback(char chan, char note, char vel) {
-    ft_send_note_on(chan, note, vel);
+	ft_send_note_on(chan, note, vel);
 }
 
 /**
@@ -240,7 +240,7 @@ static void _note_on_callback(char chan, char note, char vel) {
  * @param[in]   vel     MIDI note velocity.
  */
 static void _note_off_callback(char chan, char note, char vel) {
-    ft_send_note_off(chan, note, vel);
+	ft_send_note_off(chan, note, vel);
 }
 
 /**
@@ -262,16 +262,16 @@ static void _note_off_callback(char chan, char note, char vel) {
  */
 void _knob_callback(u8 index, u8 value) {
 
-    ft_send_cc(0, index, value >> 1);
+	ft_send_cc(0, index, value >> 1);
 
-    switch (index) {
+	switch (index) {
 
-    // Level knob.
-    case 0:
-        g_level_knob = value;
-        g_level_knob_changed = true;
-        break;
-    }
+	// Level knob.
+	case 0:
+		g_level_knob = value;
+		g_level_knob_changed = true;
+		break;
+	}
 }
 
 /**
@@ -287,7 +287,7 @@ void _knob_callback(u8 index, u8 value) {
  */
 static void _put_pixel(UG_S16 x, UG_S16 y, UG_COLOR c) {
 
-    svc_display_put_pixel(x, y, !c);
+	svc_display_put_pixel(x, y, !c);
 }
 
 /**
@@ -297,8 +297,8 @@ static void _put_pixel(UG_S16 x, UG_S16 y, UG_COLOR c) {
  */
 static void _ui_print(char *text) {
 
-    //
-    UG_ConsolePutString(text);
+	//
+	UG_ConsolePutString(text);
 }
 
 /**
@@ -313,11 +313,11 @@ static void _ui_print(char *text) {
 
 static char *_int_to_string(u8 value) {
 
-    static char value_string[5];
+	static char value_string[5];
 
-    itoa(value, value_string, 10);
+	itoa(value, value_string, 10);
 
-    return value_string;
+	return value_string;
 }
 
 /*----- End of file --------------------------------------------------*/

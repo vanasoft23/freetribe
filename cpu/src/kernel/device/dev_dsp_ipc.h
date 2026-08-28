@@ -50,11 +50,11 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    IPC_SUCCESS = 0,
-    IPC_FAILED,
-    IPC_INVALID_ARGUMENT,
-    IPC_QUEUE_FULL,
-    IPC_DRIVER_LOCKED,
+	IPC_SUCCESS = 0,
+	IPC_FAILED,
+	IPC_INVALID_ARGUMENT,
+	IPC_QUEUE_FULL,
+	IPC_DRIVER_LOCKED,
 } t_ipc_status;
 
 /*----- Extern variable declarations ---------------------------------*/
@@ -76,10 +76,10 @@ void dev_dsp_ipc_init();
  * @param   user_ctx      User provided context for callback.
  */
 t_ipc_status dev_dsp_ipc_transfer(u32 dsp_address,
-                                  const u32* buffer,
-                                  u16 count,
-                                  void (*callback)(void *, t_ipc_status),
-                                  void *user_ctx);
+								  const u32* buffer,
+								  u16 count,
+								  void (*callback)(void *, t_ipc_status),
+								  void *user_ctx);
 
 /**
  * @brief   Request a buffer of data from the DSP's memory.
@@ -91,10 +91,10 @@ t_ipc_status dev_dsp_ipc_transfer(u32 dsp_address,
  * @param   user_ctx      User provided context for callback.
  */
 t_ipc_status dev_dsp_ipc_read(u32 dsp_address,
-                              u32 *destination,
-                              u16 count,
-                              void (*callback)(void *, t_ipc_status),
-                              void *user_ctx);
+							  u32 *destination,
+							  u16 count,
+							  void (*callback)(void *, t_ipc_status),
+							  void *user_ctx);
 
 #ifdef __cplusplus
 }

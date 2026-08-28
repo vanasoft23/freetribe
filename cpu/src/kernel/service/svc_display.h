@@ -58,7 +58,7 @@ void svc_display_process(void);
 void svc_display_put_pixel(u16 pos_x, u16 pos_y, bool state);
 
 s8 svc_display_fill_frame(u16 x_start, u16 y_start,
-                              u16 x_end, u16 y_end, bool state);
+							  u16 x_end, u16 y_end, bool state);
 
 void svc_display_set_contrast(u8 contrast);
 

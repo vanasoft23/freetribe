@@ -23,16 +23,11 @@
 #ifndef FT_H
 #define FT_H
 
-#include <string.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdbool.h>
+#include <string.h> // maybe not appropriate?
 
 #include "ft_types.h"
 #include "ft_macros.h"
-
-/// TODO: move into ft_error along with ASSERT and shit
-extern void fatal_error(const char *format, ...)
-    __attribute__((noreturn, format(printf, 1, 2))); // #include "ft_error.h"
+#include "ft_log.h"
+#include "ft_error.h"
 
 #endif

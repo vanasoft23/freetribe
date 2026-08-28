@@ -57,17 +57,17 @@ extern "C" {
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    HOSTDMA_SUCCESS = 0,
-    HOSTDMA_UNINITIALISED,
-    HOSTDMA_BUS_OCCUPIED,
+	HOSTDMA_SUCCESS = 0,
+	HOSTDMA_UNINITIALISED,
+	HOSTDMA_BUS_OCCUPIED,
 } t_hostdma_status;
 
 typedef struct {
-    uint32_t meta0;
-    uint32_t meta1;
-    uint32_t meta2;
-    uint32_t meta3;
-    uint32_t meta4;
+	uint32_t meta0;
+	uint32_t meta1;
+	uint32_t meta2;
+	uint32_t meta3;
+	uint32_t meta4;
 } t_hostdma_metadata;
 
 typedef void (*t_hostdma_cb)(t_hostdma_metadata);
@@ -80,8 +80,8 @@ typedef void (*t_hostdma_cb)(t_hostdma_metadata);
  * @note    Registers to IVG 10, 12, and 13
  */
 void per_hostdma_init(t_hostdma_cb rx_callback,
-                      t_hostdma_cb tx_callback,
-                      t_hostdma_cb error_callback);
+					  t_hostdma_cb tx_callback,
+					  t_hostdma_cb error_callback);
 
 /**
  * @brief   Polls event queue to execute callbacks deferred from ISRs.
@@ -99,9 +99,9 @@ void per_hostdma_process_events(void);
  * @return  HOSTDMA_SUCCESS on success, otherwise an error code.
  */
 t_hostdma_status per_hostdma_transfer(uint32_t host_address,
-                                      const uint16_t *words,
-                                      uint16_t word_count,
-                                      t_hostdma_metadata metadata);
+									  const uint16_t *words,
+									  uint16_t word_count,
+									  t_hostdma_metadata metadata);
 
 #ifdef __cplusplus
 }

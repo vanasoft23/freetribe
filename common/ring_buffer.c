@@ -1,168 +1,141 @@
-/**
- * \file ring_buffer.c
- * \author Chris Karaplis
- * \brief Ring buffer implementation
- *
- * Copyright (c) 2015, simplyembedded.org
- *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+#include "ft.h"
 
-/* Modified by bangcorrupt 2023 */
-
-#include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 
-#include "ft_error.h"
 #include "ring_buffer.h"
 
-#define RING_BUFFER_MAX 64
 
-struct ring_buffer {
-    size_t s_elem;
-    size_t n_elem;
-    uint8_t *buf;
-    volatile size_t head;
-    volatile size_t tail;
-};
 
-static struct ring_buffer _rb[RING_BUFFER_MAX];
-
-static int _ring_buffer_full(struct ring_buffer *rb);
-static int _ring_buffer_empty(struct ring_buffer *rb);
-
-/**
- * \brief Initialize a ring buffer
- * \param[out] rb - pointer to a ring buffer descriptor
- * \param[in] attr - ring buffer attributes
- * \return 0 on success, -1 otherwise
- *
- * The attributes must contain a ring buffer which is sized
- * to an even power of 2. This should be reflected by the
- * attribute n_elem.
- */
-int ring_buffer_init(rbd_t *rbd, rb_attr_t *attr) {
-    static int idx = 0;
-    int result = RING_BUFFER_INIT_ERROR;
-
-    if ((idx < RING_BUFFER_MAX) && (rbd != NULL) && (attr != NULL)) {
-        if ((attr->buffer != NULL) && (attr->s_elem > 0)) {
-            /* Check that the size of the ring buffer is a power of
-             * 2 */
-            if (((attr->n_elem - 1) & attr->n_elem) == 0) {
-                /* Initialize the ring buffer internal variables
-                 */
-                _rb[idx].head = 0;
-                _rb[idx].tail = 0;
-                _rb[idx].buf = attr->buffer;
-                _rb[idx].s_elem = attr->s_elem;
-                _rb[idx].n_elem = attr->n_elem;
-
-                *rbd = idx++;
-                result = SUCCESS;
-            }
-        }
-    }
-
-    return result;
+static size_t slot_offset(const rb_t *rb, size_t index)
+{
+	return (index & (rb->capacity - 1)) * rb->elem_size;
 }
 
-/**
- * \brief Add an element to the ring buffer
- * \param[in] rbd - the ring buffer descriptor
- * \param[in] data - the data to add
- * \return 0 on success, -1 otherwise
- */
-int ring_buffer_put(rbd_t rbd, const void *data) {
-    int result = RING_BUFFER_PUT_ERROR;
+rb_err_t ring_buffer_init(rb_t *rb, void *buffer, size_t elem_size, size_t capacity)
+{
+	if ((rb == NULL) || (buffer == NULL)) {
+		return RING_BUFFER_ERROR_NULL_ARG;
+	}
 
-    if ((rbd < RING_BUFFER_MAX) && (_ring_buffer_full(&_rb[rbd]) == 0)) {
-        const size_t offset =
-            (_rb[rbd].head & (_rb[rbd].n_elem - 1)) * _rb[rbd].s_elem;
-        memcpy(&(_rb[rbd].buf[offset]), data, _rb[rbd].s_elem);
-        _rb[rbd].head++;
+	/* capacity must be a power of 2 (0 doesn't count) so that indices
+	 * can be wrapped with a bitmask instead of a modulo */
+	if ((elem_size == 0) || (capacity == 0) || ((capacity & (capacity - 1)) != 0)) {
+		return RING_BUFFER_ERROR_INVALID_SIZE;
+	}
 
-        result = SUCCESS;
-    }
+	rb->buffer = (uint8_t *)buffer;
+	rb->elem_size = elem_size;
+	rb->capacity = capacity;
+	rb->head = 0;
+	rb->tail = 0;
 
-    return result;
+	return RING_BUFFER_OK;
 }
 
-int ring_buffer_put_force(rbd_t rbd, const void *data) {
+rb_err_t ring_buffer_put(rb_t *rb, const void *elem)
+{
+	if ((rb == NULL) || (elem == NULL)) {
+		return RING_BUFFER_ERROR_NULL_ARG;
+	}
 
-    int result = RING_BUFFER_PUT_ERROR;
+	if (ring_buffer_is_full(rb)) {
+		return RING_BUFFER_ERROR_FULL;
+	}
 
-    if (rbd < RING_BUFFER_MAX) {
-        // Clear oldest element if ring buffer full.
-        if (_ring_buffer_full(&_rb[rbd])) {
-            _rb[rbd].tail++;
-            result = WARNING;
-        }
+	memcpy(&rb->buffer[slot_offset(rb, rb->head)], elem, rb->elem_size);
+	rb->head++;
 
-        const size_t offset =
-            (_rb[rbd].head & (_rb[rbd].n_elem - 1)) * _rb[rbd].s_elem;
-        memcpy(&(_rb[rbd].buf[offset]), data, _rb[rbd].s_elem);
-        _rb[rbd].head++;
-
-        result = result != WARNING ? SUCCESS : WARNING;
-    }
-
-    return result;
+	return RING_BUFFER_OK;
 }
 
-/**
- * \brief Get (and remove) an element from the ring buffer
- * \param[in] rb - the ring buffer descriptor
- * \param[in] data - pointer to store the data
- * \return 0 on success, -1 otherwise
- */
-int ring_buffer_get(rbd_t rbd, void *data) {
-    int result = RING_BUFFER_GET_ERROR;
+rb_err_t ring_buffer_put_overwrite(rb_t *rb, const void *elem, bool *overwritten)
+{
+	if ((rb == NULL) || (elem == NULL)) {
+		return RING_BUFFER_ERROR_NULL_ARG;
+	}
 
-    if ((rbd < RING_BUFFER_MAX) && (_ring_buffer_empty(&_rb[rbd]) == 0)) {
-        const size_t offset =
-            (_rb[rbd].tail & (_rb[rbd].n_elem - 1)) * _rb[rbd].s_elem;
-        memcpy(data, &(_rb[rbd].buf[offset]), _rb[rbd].s_elem);
-        _rb[rbd].tail++;
+	const bool was_full = ring_buffer_is_full(rb);
+	if (was_full) {
+		rb->tail++; /* drop the oldest element to make room */
+	}
+	if (overwritten != NULL) {
+		*overwritten = was_full;
+	}
 
-        result = SUCCESS;
-    }
-    return result;
+	memcpy(&rb->buffer[slot_offset(rb, rb->head)], elem, rb->elem_size);
+	rb->head++;
+
+	return RING_BUFFER_OK;
 }
 
-/// TODO: Return bool?
-static int _ring_buffer_full(struct ring_buffer *rb) {
-    return ((rb->head - rb->tail) == rb->n_elem) ? 1 : 0;
+rb_err_t ring_buffer_get(rb_t *rb, void *elem)
+{
+	if ((rb == NULL) || (elem == NULL)) {
+		return RING_BUFFER_ERROR_NULL_ARG;
+	}
+
+	if (ring_buffer_is_empty(rb)) {
+		return RING_BUFFER_ERROR_EMPTY;
+	}
+
+	memcpy(elem, &rb->buffer[slot_offset(rb, rb->tail)], rb->elem_size);
+	rb->tail++;
+
+	return RING_BUFFER_OK;
 }
 
-static int _ring_buffer_empty(struct ring_buffer *rb) {
-    return ((rb->head - rb->tail) == 0U) ? 1 : 0;
+rb_err_t ring_buffer_peek(const rb_t *rb, size_t offset, void *elem)
+{
+	if ((rb == NULL) || (elem == NULL)) {
+		return RING_BUFFER_ERROR_NULL_ARG;
+	}
+
+	if (offset >= ring_buffer_count(rb)) {
+		return RING_BUFFER_ERROR_EMPTY;
+	}
+
+	memcpy(elem, &rb->buffer[slot_offset(rb, rb->tail + offset)], rb->elem_size);
+	return RING_BUFFER_OK;
 }
 
-/// TODO: Refactor and delete.
-int rb_data_ready(rbd_t rbd) { return !_ring_buffer_empty(&_rb[rbd]); }
+void ring_buffer_discard(rb_t *rb, size_t count)
+{
+	if (rb == NULL) {
+		return;
+	}
 
-int rb_buffer_full(rbd_t rbd) { return _ring_buffer_full(&_rb[rbd]); }
+	const size_t pending = ring_buffer_count(rb);
+	if (count > pending) {
+		count = pending;
+	}
+
+	rb->tail += count;
+}
+
+bool ring_buffer_is_full(const rb_t *rb)
+{
+	return (rb != NULL) && ((rb->head - rb->tail) == rb->capacity);
+}
+
+bool ring_buffer_is_empty(const rb_t *rb)
+{
+	return (rb == NULL) || (rb->head == rb->tail);
+}
+
+size_t ring_buffer_count(const rb_t *rb)
+{
+	return (rb != NULL) ? (rb->head - rb->tail) : 0;
+}
+
+size_t ring_buffer_capacity(const rb_t *rb)
+{
+	return (rb != NULL) ? rb->capacity : 0;
+}
+
+void ring_buffer_reset(rb_t *rb)
+{
+	if (rb != NULL) {
+		rb->head = 0;
+		rb->tail = 0;
+	}
+}

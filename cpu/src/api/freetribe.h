@@ -42,12 +42,15 @@ under the terms of the GNU Affero General Public License as published by
 
 #ifdef __cplusplus
 extern "C" {
-  #endif
+#endif
   
-  /*----- Includes -----------------------------------------------------*/
-  
-#include "ft.h"
-#include "ft_error.h"
+/*----- Includes -----------------------------------------------------*/
+
+// Internal freetribe headers
+#include "ft_types.h"
+// #include "ft_macros.h"
+// #include "ft_log.h"
+// #include "ft_error.h"
 
 #include <midi_fsm.h>
 
@@ -79,15 +82,19 @@ void ft_start_delay(t_delay_state *state, u32 time);
 
 void ft_put_pixel(u16 pos_x, u16 pos_y, bool state);
 
-s8 ft_fill_frame(u16 x_start, u16 y_start, u16 x_end,
-                     u16 y_end, bool state);
+s8 ft_fill_frame(
+	u16 x_start, u16 y_start, u16 x_end,
+	u16 y_end, bool state
+);
 
 void ft_register_print_callback(void (*callback)(char *));
 void ft_print(char *text);
 void ft_printf(const char *format, ...);
 
-void ft_register_midi_callback(event_type event,
-                               t_midi_event_callback callback);
+void ft_register_midi_callback(
+        event_type event,
+	t_midi_event_callback callback
+);
 
 void ft_send_note_on(char chan, char note, char vel);
 void ft_send_note_off(char chan, char note, char vel);
@@ -101,7 +108,7 @@ void ft_set_led(t_led_index led_index, bool state);
 void ft_set_trigger_mode(u8 mode);
 
 void ft_set_module_param(u16 module_id, u16 param_index,
-                         s32 param_value);
+						 s32 param_value);
 
 void ft_get_module_param(u16 module_id, u16 param_index);
 

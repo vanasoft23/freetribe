@@ -4,11 +4,11 @@
 #include "types.h"
 
 typedef struct {
-    fract32 *buffer;
-    uint32_t write_offset;
-    uint32_t read_offset;
-    uint32_t delay_length;
-    fract32 feedback;
+	fract32 *buffer;
+	uint32_t write_offset;
+	uint32_t read_offset;
+	uint32_t delay_length;
+	fract32 feedback;
 } t_delayline;
 
 void    delayline_init(t_delayline *dl);

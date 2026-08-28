@@ -56,10 +56,10 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Typedefs -----------------------------------------------------*/
 
 enum e_unix_signal {
-    SIGINT   = 2,  // Ctrl+C
-    SIGILL   = 4,  // Undefined instruction
-    SIGTRAP  = 5,  // Just connected, Breakpoint, single-step
-    SIGSEGV  = 11, // Data/prefetch abort
+	SIGINT   = 2,  // Ctrl+C
+	SIGILL   = 4,  // Undefined instruction
+	SIGTRAP  = 5,  // Just connected, Breakpoint, single-step
+	SIGSEGV  = 11, // Data/prefetch abort
 };
 
 /*----- Globals ------------------------------------------------------*/
@@ -68,7 +68,7 @@ extern volatile gdb_monitor_t g_monitor;
 
 /*----- API basics ---------------------------------------------------*/
 
-void gdb_monitor_init(void);
+void gdb_monitor_reset(void);
 
 /*----- Start/stop state API -----------------------------------------*/
 
@@ -138,17 +138,17 @@ bool gdb_monitor_frame_ready(void);
 /*----- Memory API ---------------------------------------------------*/
 
 bool gdb_monitor_read_memory(
-    void *context,
-    u32   address,
-    u8   *destination,
-    u32   length
+	void *context,
+	u32   address,
+	u8   *destination,
+	u32   length
 );
 
 bool gdb_monitor_write_memory(
-    void     *context,
-    u32       address,
-    const u8 *source,
-    u32       length
+	void     *context,
+	u32       address,
+	const u8 *source,
+	u32       length
 );
 
 /*--------------------------------------------------------------------*/
