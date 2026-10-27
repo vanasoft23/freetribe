@@ -54,7 +54,7 @@ extern "C" {
 /*----- Extern function prototypes -----------------------------------*/
 
 void clock_init(void);
-uint32_t clock_get(void);
+u32 clock_get(void);
 void clock_register_callback(void (*callback)(void));
 
 #ifdef __cplusplus
