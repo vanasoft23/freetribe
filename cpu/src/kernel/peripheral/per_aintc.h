@@ -43,6 +43,8 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
+#include "ft.h"
+
 /*----- Macros -------------------------------------------------------*/
 
 /*----- Typedefs -----------------------------------------------------*/
@@ -52,6 +54,51 @@ extern "C" {
 /*----- Extern function prototypes -----------------------------------*/
 
 void per_aintc_init(void);
+
+void per_aintc_register_int(u8 channel,	u8 system_int, void (*isr)(void));
+
+void per_aintc_unregister_int(u8 system_int);
+
+/**
+ * @brief   Register interrupt triggered by GPIO pin.
+ *
+ * @param   channel    Channel number for a system interrupt. 0-1 are mapped to FIQ
+ *                     and 2-31 are mapped to IRQ of ARM. One or more system interrupts
+ *                     can be mapped to one channel. However, one system interrupt
+ *                     can not be mapped to multiple channels.
+ * 
+ * @param   pin        Indexed GPIO pin number, starting from 1 through 144.
+ * 
+ * @param   int_type   How interrupt generation triggers based on electrical signal:
+ *                     - GPIO_INT_TYPE_NOEDGE
+ *                     - GPIO_INT_TYPE_FALLEDGE
+ *                     - GPIO_INT_TYPE_RISEDGE
+ *                     - GPIO_INT_TYPE_BOTHEDGE
+ * 
+ * @param   isr        Callback function.
+ */
+void per_aintc_register_gpio_int(u8 channel, u8 pin, u8 int_type, void (*isr)(void));
+
+/**
+ * @brief   Clear interrupt status for GPIO interrupts.
+ * 
+ * @param   pin    Indexed GPIO pin number, starting from 1 through 144.
+ */
+void per_aintc_clear_status_gpio(u8 pin);
+
+/**
+ * @brief   Change trigger type of GPIO pin interrupt.
+ * 
+ * @param   pin        Indexed GPIO pin number, starting from 1 through 144.
+ * 
+ * @param   int_type   How interrupt generation triggers based on electrical signal:
+ *                     - GPIO_INT_TYPE_NOEDGE
+ *                     - GPIO_INT_TYPE_FALLEDGE
+ *                     - GPIO_INT_TYPE_RISEDGE
+ *                     - GPIO_INT_TYPE_BOTHEDGE
+ * 
+ */
+void per_aintc_change_gpio_int_type(u8 pin, u8 int_type);
 
 #ifdef __cplusplus
 }
