@@ -37,12 +37,14 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
+#include "ft.h"
+
 #include "fract_math.h"
 #include "types.h"
 
 #include "module.h"
 
-#include "utils.h"
+#include "string/str_misc.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -139,7 +141,7 @@ void module_get_param_name(uint16_t param_index, char *text) {
     switch (param_index) {
 
     default:
-        copy_string(text, "Unknown", MAX_PARAM_NAME_LENGTH);
+        strncpy(text, "Unknown", MAX_PARAM_NAME_LENGTH);
         break;
     }
 }
