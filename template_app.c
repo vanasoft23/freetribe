@@ -53,18 +53,15 @@ under the terms of the GNU Affero General Public License as published by
 /**
  * @brief   Initialise application.
  *
- * @return status   Status code indicating success:
- *                  - SUCCESS
- *                  - WARNING
- *                  - ERROR
+ * @return true on success
  */
-t_status app_init(void) {
+bool app_init(void) {
 
-    t_status status = ERROR;
+    bool success = false;
 
-    status = SUCCESS;
+    success = true;
 
-    return status;
+    return success;
 }
 
 /**
