@@ -36,8 +36,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 #include "hw_gpio.h"
 #include "hw_types.h"
@@ -68,88 +67,59 @@ under the terms of the GNU Affero General Public License as published by
  * @return  None.
  *
  */
-void per_gpio_init(void) {
+void per_gpio_init(void)
+{
+	/// TODO: Use bitmask macros instead of magic numbers.
 
-    /// TODO: Use bitmask macros instead of magic numbers.
+	// Set pin direction and state.
 
-    // Set pin direction and state.
+	// SPI1 CS0 CS1 outputs, set.
+	//      Is this necessary if using pins in SPI mode?
+	// HWREG(SOC_GPIO_0_REGS + GPIO_OUT_DATA(1)) = 0xc000;
+	GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 1, 0xc000);
 
-    // SPI1 CS0 CS1 outputs, set.
-    //      Is this necessary if using pins in SPI mode?
-    // HWREG(SOC_GPIO_0_REGS + GPIO_OUT_DATA(1)) = 0xc000;
-    GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 1, 0xc000);
+	// HWREG(SOC_GPIO_0_REGS + GPIO_DIR(1)) = 0xffff3fff;
+	GPIOBankDirModeSet(SOC_GPIO_0_REGS, 1, 0xffff3fff);
 
-    // HWREG(SOC_GPIO_0_REGS + GPIO_DIR(1)) = 0xffff3fff;
-    GPIOBankDirModeSet(SOC_GPIO_0_REGS, 1, 0xffff3fff);
+	// B5 P14 output, clear.
+	// HWREG(SOC_GPIO_0_REGS + GPIO_OUT_DATA(2)) = 0x0;
+	GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 2, 0x0);
 
-    // B5 P14 output, clear.
-    // HWREG(SOC_GPIO_0_REGS + GPIO_OUT_DATA(2)) = 0x0;
-    GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 2, 0x0);
+	// HWREG(SOC_GPIO_0_REGS + GPIO_DIR(2)) = 0xbfffffff;
+	GPIOBankDirModeSet(SOC_GPIO_0_REGS, 2, 0xbfffffff);
 
-    // HWREG(SOC_GPIO_0_REGS + GPIO_DIR(2)) = 0xbfffffff;
-    GPIOBankDirModeSet(SOC_GPIO_0_REGS, 2, 0xbfffffff);
+	// B6 0, 1, 7, 13, 14, 15 out.
+	// B6 2, 11 set
+	// B7 14, 13, 12, 11, 10 out
+	// B7 14 Set
+	// HWREG(SOC_GPIO_0_REGS + GPIO_OUT_DATA(3)) = 0x40000804;
+	GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 3, 0x40000804);
 
-    // B6 0, 1, 7, 13, 14, 15 out.
-    // B6 2, 11 set
-    // B7 14, 13, 12, 11, 10 out
-    // B7 14 Set
-    // HWREG(SOC_GPIO_0_REGS + GPIO_OUT_DATA(3)) = 0x40000804;
-    GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 3, 0x40000804);
+	// HWREG(SOC_GPIO_0_REGS + GPIO_DIR(3)) = 0x83ffe083;
+	GPIOBankDirModeSet(SOC_GPIO_0_REGS, 3, 0x83ffe083);
 
-    // HWREG(SOC_GPIO_0_REGS + GPIO_DIR(3)) = 0x83ffe083;
-    GPIOBankDirModeSet(SOC_GPIO_0_REGS, 3, 0x83ffe083);
+	// B8 P2 LCD Cmd/Data.
+	// HWREG(SOC_GPIO_0_REGS + GPIO_OUT_DATA(4)) = 0x0;
+	GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 4, 0x0);
 
-    // B8 P2 LCD Cmd/Data.
-    // HWREG(SOC_GPIO_0_REGS + GPIO_OUT_DATA(4)) = 0x0;
-    GPIOBankOutputDataSet(SOC_GPIO_0_REGS, 4, 0x0);
-
-    // HWREG(SOC_GPIO_0_REGS + GPIO_DIR(4)) = 0x0000fffd;
-    GPIOBankDirModeSet(SOC_GPIO_0_REGS, 4, 0x0000fffd);
+	// HWREG(SOC_GPIO_0_REGS + GPIO_DIR(4)) = 0x0000fffd;
+	GPIOBankDirModeSet(SOC_GPIO_0_REGS, 4, 0x0000fffd);
 }
 
-/// TODO: Refactor to always use indexed access.
-//          Allows #define PIN_NAME and avoids multiple conversions.
-
-bool per_gpio_get(uint8_t bank, uint8_t pin) {
-
-    // Pins indexed from 1 to 0x90.
-    uint8_t pin_index = (bank << 4) + pin + 1;
-
-    return per_gpio_get_indexed(pin_index);
+bool per_gpio_get_indexed(u8 pin_index)
+{
+	return GPIOPinRead(SOC_GPIO_0_REGS, pin_index);
 }
 
-void per_gpio_set(uint8_t bank, uint8_t pin, bool state) {
-
-    // Pins indexed from 1 to 0x90.
-    uint8_t pin_index = (bank << 4) + pin + 1;
-
-    per_gpio_set_indexed(pin_index, state);
+void per_gpio_set_indexed(u8 pin_index, bool state)
+{
+	GPIOPinWrite(SOC_GPIO_0_REGS, pin_index, state);
 }
 
-void per_gpio_toggle(uint8_t bank, uint8_t pin) {
-
-    // Pins indexed from 1 to 0x90.
-    uint8_t pin_index = (bank << 4) + pin + 1;
-
-    per_gpio_toggle_indexed(pin_index);
-}
-
-bool per_gpio_get_indexed(uint8_t pin_index) {
-
-    return GPIOPinRead(SOC_GPIO_0_REGS, pin_index);
-}
-
-void per_gpio_set_indexed(uint8_t pin_index, bool state) {
-
-    GPIOPinWrite(SOC_GPIO_0_REGS, pin_index, state);
-}
-
-void per_gpio_toggle_indexed(uint8_t pin_index) {
-
-    bool state;
-
-    state = GPIOPinRead(SOC_GPIO_0_REGS, pin_index);
-    GPIOPinWrite(SOC_GPIO_0_REGS, pin_index, !state);
+void per_gpio_toggle_indexed(u8 pin_index)
+{
+	bool state = GPIOPinRead(SOC_GPIO_0_REGS, pin_index);
+	GPIOPinWrite(SOC_GPIO_0_REGS, pin_index, !state);
 }
 
 /*----- Static function implementations ------------------------------*/
