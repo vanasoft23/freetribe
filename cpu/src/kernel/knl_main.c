@@ -1,3 +1,4 @@
+#if 0
 /*----------------------------------------------------------------------
 
                      This file is part of Freetribe
@@ -31,179 +32,220 @@ under the terms of the GNU Affero General Public License as published by
 /**
  * @file    knl_main.c
  *
- * @brief   Main task for Freetribe CPU kernel.
+ * @brief   Kernel bootstrap and FreeRTOS task creation.
  */
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
+#include "ft.h"
 
-#include "svc_clock.h"
-#include "svc_delay.h"
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "task.h"
+
 #include "svc_display.h"
 #include "svc_dsp.h"
 #include "svc_midi.h"
 #include "svc_panel.h"
 #include "svc_system.h"
-#include "svc_systick.h"
+//#include "svc_usb.h"
+
+#include "knl_main.h"
 
 /*----- Macros -------------------------------------------------------*/
 
-// #define DISPLAY_TICK_DIV 0
+#define KNL_ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
+
+#define MIDI_TASK_PRIORITY 2
+#define PANEL_TASK_PRIORITY 4
+#define DSP_TASK_PRIORITY 3
+#define DISPLAY_TASK_PRIORITY 2
+//#define USB_TASK_PRIORITY 3
+
+#define USER_EVENT_QUEUE_LENGTH 32
+#define USER_EVENT_PAYLOAD_SIZE 16
+#define USER_EVENT_MAX_PER_PUMP 8
+
+#define MIDI_TASK_STACK_WORDS 512
+#define PANEL_TASK_STACK_WORDS 4096
+#define DSP_TASK_STACK_WORDS 1024
+#define DISPLAY_TASK_STACK_WORDS 512
+//#define USB_TASK_STACK_WORDS 1024
 
 /*----- Typedefs -----------------------------------------------------*/
 
-typedef enum { STATE_INIT, STATE_RUN, STATE_ERROR } t_kernel_task_state;
+typedef struct {
+	TaskFunction_t  entry;
+	const char     *name;
+	u16             stack_words;
+	UBaseType_t     priority;
+} t_knl_task_config;
+
+typedef struct {
+	t_knl_user_event_handler handler;
+	u8 payload[USER_EVENT_PAYLOAD_SIZE];
+} t_knl_user_event;
 
 /*----- Static variable definitions ----------------------------------*/
 
-volatile static bool g_user_tick = false;
-
-static uint32_t g_user_tick_div;
-
-/*----- Extern variable definitions ----------------------------------*/
+static QueueHandle_t g_user_event_queue = NULL;
+static TaskHandle_t g_user_task_handle = NULL;
 
 /*----- Static function prototypes -----------------------------------*/
 
-static t_status _kernel_init(void);
-static void _kernel_run(void);
-
-static void (*p_user_tick_callback)(void) = NULL;
-
-static void _systick_callback(uint32_t systick);
-static void _panel_ack_callback(uint32_t version);
-static void _held_buttons_callback(uint32_t *held_buttons);
+static void _create_user_event_queue(void);
+static void _register_service_callbacks(void);
+static void _create_service_tasks(void);
+static void _panel_ack_callback(u32 version);
+static void _held_buttons_callback(u32 *held_buttons);
 static void _print_callback(char *text);
+static void _notify_user_task(void);
+static void _create_task(const t_knl_task_config *task);
+
+/*----- Static constant definitions ----------------------------------*/
+
+static const t_knl_task_config g_service_tasks[] = {
+	// {svc_midi_task, "midi", MIDI_TASK_STACK_WORDS, MIDI_TASK_PRIORITY},
+	{svc_panel_task, "panel", PANEL_TASK_STACK_WORDS, PANEL_TASK_PRIORITY},
+	{svc_display_task, "display", DISPLAY_TASK_STACK_WORDS, DISPLAY_TASK_PRIORITY},
+	{svc_dsp_task, "dsp", DSP_TASK_STACK_WORDS, DSP_TASK_PRIORITY},
+//    {svc_usb_task, "usb", USB_TASK_STACK_WORDS, USB_TASK_PRIORITY},
+};
 
 /*----- Extern function implementations ------------------------------*/
 
-void knl_main_task(void) {
+void knl_init(void)
+{
+	svc_system_init();
+	svc_system_print("Welcome to Freetribe!\n");
+	svc_system_print("Hardware initialised.\n");
 
-    static t_kernel_task_state state = STATE_INIT;
-
-    switch (state) {
-
-    // Initialise kernel task.
-    case STATE_INIT:
-
-        if (error_check(_kernel_init()) == SUCCESS) {
-            state = STATE_RUN;
-
-            /// TODO: Implement sysex_printf
-            //
-            svc_system_print("Kernel task initialised.\n");
-        }
-        // Remain in INIT state until initialisation successful.
-        break;
-
-    case STATE_RUN:
-
-        _kernel_run();
-        // Remain in RUN state.
-        break;
-
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
-
-    default:
-        /// TODO: Record unhandled state.
-        //
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
+#ifdef FREETRIBE_FREERTOS
+	// _create_user_event_queue();
+	// _register_service_callbacks();
+	// _create_service_tasks();
+#endif
 }
 
-void knl_register_user_tick_callback(uint32_t divisor, void (*callback)(void)) {
-
-    if (callback != NULL) {
-        p_user_tick_callback = callback;
-        g_user_tick_div = divisor;
-    }
+void knl_register_user_task(void)
+{
+	g_user_task_handle = xTaskGetCurrentTaskHandle();
 }
+
+bool knl_post_user_event(
+	t_knl_user_event_handler handler,
+	const void *payload, u32 payload_size)
+{
+	t_knl_user_event event = {0};
+
+	if ((g_user_event_queue == NULL)
+	 || (handler == NULL)
+	 || (payload_size > USER_EVENT_PAYLOAD_SIZE))
+	{
+		return false;
+	}
+
+	event.handler = handler;
+
+	if ((payload != NULL) && (payload_size > 0)) {
+		memcpy(event.payload, payload, payload_size);
+	}
+
+	if (xQueueSend(g_user_event_queue, &event, 0) != pdPASS) {
+		return false;
+	}
+
+	_notify_user_task();
+
+	return true;
+}
+
+void knl_user_event_process(void)
+{
+	t_knl_user_event event;
+	u32 events_processed = 0;
+
+	if (g_user_event_queue == NULL) {
+		return;
+	}
+
+	while ((events_processed < USER_EVENT_MAX_PER_PUMP) &&
+			(xQueueReceive(g_user_event_queue, &event, 0) == pdPASS))
+{
+		if (event.handler != NULL) {
+			event.handler(event.payload);
+		}
+		events_processed++;
+	}
+}
+
 
 /*----- Static function implementations ------------------------------*/
 
-static t_status _kernel_init(void) {
+static void _create_user_event_queue(void)
+{
+	if (g_user_event_queue != NULL) {
+		return;
+	}
 
-    // System task only runs initialisation stage.
-    svc_system_task();
-
-    // Initialise MIDI early to catch kernel print.
-    svc_midi_task();
-    svc_system_register_print_callback(_print_callback);
-
-    svc_system_print("Welcome to Freetribe!\n");
-
-    svc_system_print("Hardware initialised.\n");
-
-    // Initialise timers.
-    systick_init();
-    systick_register_callback(_systick_callback);
-
-    svc_panel_register_callback(PANEL_ACK_EVENT, _panel_ack_callback);
-    svc_panel_register_callback(HELD_BUTTONS_EVENT, _held_buttons_callback);
-
-    // Initialise control panel.
-    svc_panel_task();
-
-    // Initialise DSP.
-    svc_dsp_task();
-
-    // Initialise display.
-    svc_display_task();
-
-    return SUCCESS;
+	g_user_event_queue = xQueueCreate(USER_EVENT_QUEUE_LENGTH, sizeof(t_knl_user_event));
+	configASSERT(g_user_event_queue != NULL);
 }
 
-static void _kernel_run(void) {
 
-    svc_panel_task();
-    svc_dsp_task();
-    svc_midi_task();
-    svc_display_task();
-
-    if (g_user_tick && p_user_tick_callback != NULL) {
-        (*p_user_tick_callback)();
-        g_user_tick = false;
-    }
+static void _register_service_callbacks(void)
+{
+	svc_system_register_print_callback(_print_callback);
+	svc_panel_register_callback(PANEL_ACK_EVENT, _panel_ack_callback);
+	svc_panel_register_callback(HELD_BUTTONS_EVENT, _held_buttons_callback);
 }
 
-static void _systick_callback(uint32_t systick) {
-
-    static uint8_t user_tick;
-
-    // Set flag to run user tick callback.
-    if (user_tick >= g_user_tick_div) {
-        g_user_tick = true;
-        user_tick = 0;
-    } else {
-        user_tick++;
-    }
+static void _create_service_tasks(void)
+{
+	for (u32 i = 0; i < KNL_ARRAY_SIZE(g_service_tasks); i++) {
+		_create_task(&g_service_tasks[i]);
+	}
 }
 
-static void _panel_ack_callback(uint32_t version) {
+static void _panel_ack_callback(u32 version)
+{
+	/// TODO: Store version with get method exposed to user.
 
-    /// TODO: Store version with get method exposed to user.
-
-    // Clear callback registration.
-    svc_panel_register_callback(PANEL_ACK_EVENT, NULL);
+	// Clear callback registration.
+	svc_panel_register_callback(PANEL_ACK_EVENT, NULL);
 }
 
-static void _held_buttons_callback(uint32_t *held_buttons) {
+static void _held_buttons_callback(u32 *held_buttons)
+{
+	/// TODO: Store buttons with get method exposed to user.
 
-    /// TODO: Store buttons with get method exposed to user.
-
-    // Clear callback registration.
-    svc_panel_register_callback(HELD_BUTTONS_EVENT, NULL);
+	// Clear callback registration.
+	svc_panel_register_callback(HELD_BUTTONS_EVENT, NULL);
 }
 
-/// TODO: Implement Newlib syscalls.
-//
-static void _print_callback(char *text) { svc_midi_send_string(text); }
+static void _print_callback(char *text)
+{ svc_midi_send_string(text); }
+
+static void _notify_user_task(void)
+{
+	if (g_user_task_handle != NULL) {
+		xTaskNotifyGive(g_user_task_handle);
+	}
+}
+
+static void _create_task(const t_knl_task_config *task)
+{
+	BaseType_t result;
+
+	result = xTaskCreate(
+			task->entry,
+			task->name,
+			task->stack_words,
+			NULL,
+			task->priority,
+			NULL);
+	configASSERT(result == pdPASS);
+}
 
 /*----- End of file --------------------------------------------------*/
+#endif

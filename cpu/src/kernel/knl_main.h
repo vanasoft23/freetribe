@@ -1,3 +1,4 @@
+#if 0
 /*----------------------------------------------------------------------
 
                      This file is part of Freetribe
@@ -43,18 +44,23 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdint.h>
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
 /*----- Typedefs -----------------------------------------------------*/
 
+typedef void (*t_knl_user_event_handler)(const void *payload);
+
 /*----- Extern variable declarations ---------------------------------*/
 
 /*----- Extern function prototypes -----------------------------------*/
 
-void knl_main_task(void);
-void knl_register_user_tick_callback(uint32_t divisor, void (*callback)(void));
+void knl_init(void);
+void knl_register_user_task(void);
+bool knl_post_user_event(t_knl_user_event_handler handler,
+						 const void *payload, u32 payload_size);
+void knl_user_event_process(void);
 
 #ifdef __cplusplus
 }
@@ -62,3 +68,4 @@ void knl_register_user_tick_callback(uint32_t divisor, void (*callback)(void));
 #endif
 
 /*----- End of file --------------------------------------------------*/
+#endif
