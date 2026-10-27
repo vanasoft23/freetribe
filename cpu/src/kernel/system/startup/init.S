@@ -77,8 +77,8 @@
 @ Define the stack sizes for different modes. The user/system mode will use
 @ the rest of the total stack size
 @
-        .set  UND_STACK_SIZE, 0x8
-        .set  ABT_STACK_SIZE, 0x8
+        .set  UND_STACK_SIZE, 0x600
+        .set  ABT_STACK_SIZE, 0x600
         .set  FIQ_STACK_SIZE, 0x8
         .set  IRQ_STACK_SIZE, 0x600
         .set  SVC_STACK_SIZE, 0x200
@@ -96,7 +96,7 @@
 
         .equ  I_F_BIT, 0xC0               
 
-@**************************** Code Seection ***********************************
+@**************************** Code Section ************************************
         .text
 
 @
@@ -113,94 +113,89 @@
 @ main() function. 
 @
 start:
-@
-@ Set up the Stack for Undefined mode
-@
-         LDR   r0, =_stack                     @ Read the stack address
-         MSR   cpsr_c, #MODE_UND|I_F_BIT       @ switch to undef  mode
-         MOV   sp,r0                           @ write the stack pointer
-         SUB   r0, r0, #UND_STACK_SIZE         @ give stack space
-@
-@ Set up the Stack for abort mode
-@        
-         MSR   cpsr_c, #MODE_ABT|I_F_BIT       @ Change to abort mode
-         MOV   sp, r0                          @ write the stack pointer
-         SUB   r0,r0, #ABT_STACK_SIZE          @ give stack space
-@
-@ Set up the Stack for FIQ mode
-@       
-         MSR   cpsr_c, #MODE_FIQ|I_F_BIT       @ change to FIQ mode
-         MOV   sp,r0                           @ write the stack pointer
-         SUB   r0,r0, #FIQ_STACK_SIZE          @ give stack space
-@
-@ Set up the Stack for IRQ mode
-@       
-         MSR   cpsr_c, #MODE_IRQ|I_F_BIT       @ change to IRQ mode
-         MOV   sp,r0                           @ write the stack pointer
-         SUB   r0,r0, #IRQ_STACK_SIZE          @ give stack space
-@
-@ Set up the Stack for SVC mode
-@        
-         MSR   cpsr_c, #MODE_SVC|I_F_BIT       @ change to SVC mode
-         MOV   sp,r0                           @ write the stack pointer
-         SUB   r0,r0, #SVC_STACK_SIZE          @ give stack space
-@
-@ Set up the Stack for User/System mode
-@      
-         MSR   cpsr_c, #MODE_SYS|I_F_BIT       @ change to system mode
-         MOV   sp,r0                           @ write the stack pointer
 
+@
+@ A debugger or previous firmware image may leave MMU/caches enabled. Start
+@ from a known physical-memory state before clearing DDR-backed sections.
+@
+        @ MRC   p15, #0, r0, c1, c0, #0
+        @ BIC   r0, r0, #0x00001000         @ Disable I-cache
+        @ BIC   r0, r0, #0x00000004         @ Disable D-cache
+        @ BIC   r0, r0, #0x00000001         @ Disable MMU
+        @ MCR   p15, #0, r0, c1, c0, #0
+        @ MOV   r0, #0
+        @ MCR   p15, #0, r0, c7, c5, #0     @ Invalidate I-cache
+        @ MCR   p15, #0, r0, c7, c6, #0     @ Invalidate D-cache
+        @ MCR   p15, #0, r0, c8, c7, #0     @ Invalidate TLB
+        @ MCR   p15, #0, r0, c7, c10, #4    @ Drain write buffer
+
+@
+@ Set stack pointers; they point into OC-RAM
+@
+        MSR   cpsr_c, #MODE_ABT|I_F_BIT
+        LDR   sp, =_abt_stack_top
+
+        MSR   cpsr_c, #MODE_UND|I_F_BIT
+        LDR   sp, =_und_stack_top
+
+        MSR   cpsr_c, #MODE_FIQ|I_F_BIT
+        LDR   sp, =_fiq_stack_top
+
+        MSR   cpsr_c, #MODE_IRQ|I_F_BIT
+        LDR   sp, =_irq_stack_top
+
+        MSR   cpsr_c, #MODE_SVC|I_F_BIT
+        LDR   sp, =_svc_stack_top
+
+        @ No need for USR/SYS mode stack
 
 @
 @ Clear the BSS section here
 @
 Clear_Bss_Section:
 
-         LDR   r0, =_bss_start                 @ Start address of BSS
-         LDR   r1, =(_bss_end - 0x04)          @ End address of BSS
-         MOV   r2, #0
+        LDR   r0, =_bss_start             @ Start address of BSS
+        LDR   r1, =(_bss_end - 0x04)      @ End address of BSS
+        MOV   r2, #0
 BSS_Loop: 
-         STR   r2, [r0], #4                    @ Clear one word in BSS
-         CMP   r0, r1
-         BLE   BSS_Loop                        @ Clear till BSS end
-
+        STR   r2, [r0], #4                @ Clear one word in BSS
+        CMP   r0, r1
+        BLE   BSS_Loop                    @ Clear till BSS end
 
 @
 @ Clear the Heap section here
 @
 Clear_Heap_Section:
 
-         LDR   r0, =_heap_start                @ Start address of heap
-         LDR   r1, =(_heap_end - 0x04)         @ End address of heap
-         MOV   r2, #0
+        LDR   r0, =_heap_start            @ Start address of heap
+        LDR   r1, =(_heap_end - 0x04)     @ End address of heap
+        MOV   r2, #0
 Heap_Loop: 
-         STR   r2, [r0], #4                    @ Clear one word in heap
-         CMP   r0, r1
-         BLE   Heap_Loop                       @ Clear till heap end
-
+        STR   r2, [r0], #4                @ Clear one word in heap
+        CMP   r0, r1
+        BLE   Heap_Loop                   @ Clear till heap end
 
 @
 @ Paint the Stack section here
 @
 Paint_Stack_Section:
 
-         LDR   r0, =_stack                     @ Start address of stack
-         LDR   r1, =(_stack_low)               @ Lowest address of stack
-         LDR   r2, paint
+        LDR   r0, =_stack_end             @ Top address of stack
+        LDR   r1, =(_stack_start)         @ Lowest address of stack
+        LDR   r2, paint
 Stack_Loop: 
-         STR   r2, [r0], #-4                   @ Paint one word in stack
-         CMP   r0, r1
-         BGT   Stack_Loop                      @ Paint until lowest address of stack
+        STR   r2, [r0, #-4]!              @ Paint one word in stack
+        CMP   r0, r1
+        BHI   Stack_Loop                  @ Paint until lowest address of stack
 
 @
-@ Enter the start_boot function. The execution still happens in system mode
+@ Enter the start_boot function
 @
 Enter_main:
-         LDR   r10,=start_boot                 @ Get the address of start_boot
-         MOV   lr,pc                           @ Dummy return 
-         BX    r10                             @ Branch to start_boot
-         SUB   pc, pc, #0x08                   @ looping   
-
+        LDR   r10,=start_boot             @ Get the address of start_boot
+        MOV   lr,pc                       @ Dummy return 
+        BX    r10                         @ Branch to start_boot
+        SUB   pc, pc, #0x08               @ looping
 
 paint:
     .word 0xdeadc0de
