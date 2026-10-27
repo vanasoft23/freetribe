@@ -53,33 +53,33 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Extern function implementations ------------------------------*/
 
 __attribute__((weak)) void module_init(void) {
-    //
+	//
 }
 
 __attribute__((weak)) void module_process(fract32 *in, fract32 *out) {
-    //
+	//
 }
 
 __attribute__((weak)) void module_set_param(uint16_t param_index,
-                                            int32_t value) {
-    //
+											int32_t value) {
+	//
 }
 
 __attribute__((weak)) int32_t module_get_param(uint16_t param_index) {
-    //
-    return 0;
+	//
+	return 0;
 }
 
 // Get number of parameters
 __attribute__((weak)) uint32_t module_get_param_count(void) {
-    //
-    return 0;
+	//
+	return 0;
 }
 
 // Buffer 'text' must provide 'MAX_PARAM_NAME_LENGTH' bytes of storage.
 __attribute__((weak)) void module_get_param_name(uint16_t param_index,
-                                                 char *text) {
-    //
+												 char *text) {
+	//
 }
 
 /*----- Static function implementations ------------------------------*/
