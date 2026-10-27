@@ -46,28 +46,28 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "csl_uart.h"
+#include "hw_uart.h"
 
 /*----- Macros -------------------------------------------------------*/
 
 #define UART_0 0
 #define UART_1 1
 
-#define OVERSAMPLE_13 UART_OVER_SAMP_RATE_13
-#define OVERSAMPLE_16 UART_OVER_SAMP_RATE_16
+#define OVERSAMPLE_13 UART_MDR_OSM_SEL
+#define OVERSAMPLE_16 0
 
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum { UART_TX_COMPLETE, UART_RX_COMPLETE, UART_RX_ERROR } t_uart_event;
 
 typedef struct {
-    uint8_t instance;
-    uint32_t baud;
-    uint8_t word_length;
-    bool int_enable;
-    uint8_t int_channel;
-    bool fifo_enable;
-    uint32_t oversample;
+	u8 instance;
+	u32 baud;
+	u8 word_length;
+	bool int_enable;
+	u8 int_channel;
+	bool fifo_enable;
+	u32 oversample;
 } t_uart_config;
 
 /*----- Extern variable declarations ---------------------------------*/
@@ -76,16 +76,16 @@ typedef struct {
 
 void per_uart_init(t_uart_config *config);
 
-void per_uart_register_callback(uint8_t instance, t_uart_event event,
-                                void (*callback)());
+void per_uart_register_callback(u8 instance, t_uart_event event,
+								void (*callback)());
 
-void per_uart_transmit(uint8_t instance, uint8_t *buffer, uint32_t length);
-void per_uart_transmit_int(uint8_t instance, uint8_t *buffer, uint32_t length);
+void per_uart_transmit(u8 instance, u8 *buffer, u32 length);
+void per_uart_transmit_int(u8 instance, u8 *buffer, u32 length);
 
-void per_uart_receive(uint8_t instance, uint8_t *buffer, uint32_t length);
-void per_uart_receive_int(uint8_t instance, uint8_t *buffer, uint32_t length);
+void per_uart_receive(u8 instance, u8 *buffer, u32 length);
+void per_uart_receive_int(u8 instance, u8 *buffer, u32 length);
 
-void per_uart_terminate(uint8_t instance);
+void per_uart_terminate(u8 instance);
 
 #ifdef __cplusplus
 }
