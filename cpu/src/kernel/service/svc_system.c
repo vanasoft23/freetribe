@@ -36,23 +36,19 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stddef.h>
+#include "ft.h"
 
-/// TODO: Device layer blocking delay.
-///       integrate timers into system service.
-
-#include "svc_delay.h"
-
+#include "dev_lcd.h"
 #include "dev_board.h"
 #include "dev_flash.h"
+#include "dev_dsp_ipc.h"
+#include "dev_delay.h"
 
-#include "ft_error.h"
+#include "svc_system.h"
 
 /*----- Macros -------------------------------------------------------*/
 
 /*----- Typedefs -----------------------------------------------------*/
-
-typedef enum { STATE_INIT, STATE_RUN, STATE_ERROR } t_system_task_state;
 
 /*----- Static variable definitions ----------------------------------*/
 
@@ -62,92 +58,44 @@ static void (*p_print_callback)(char *text) = NULL;
 
 /*----- Static function prototypes -----------------------------------*/
 
-static t_status _system_init(void);
-static void _system_run(void);
-
 /*----- Extern function implementations ------------------------------*/
 
-void svc_system_task(void) {
+void svc_system_init(void)
+{
+	dev_board_init();
 
-    static t_system_task_state state = STATE_INIT;
+	/// TODO: How long is necessary?
+	///          Are there signals we can test?
+	// Give the hardware time to wake up.
+	// dev_delay_block_us(500000); // 2000000
 
-    switch (state) {
-
-    // Initialise system task.
-    case STATE_INIT:
-        if (error_check(_system_init()) == SUCCESS) {
-            state = STATE_RUN;
-        }
-        // Remain in INIT state until initialisation successful.
-        break;
-
-    case STATE_RUN:
-        _system_run();
-        break;
-
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
-
-    default:
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
+	/// TODO: Only necessary if flash is locked.
+	// dev_flash_unlock(); // workaround flash write protect
 }
 
 /// TODO: Implement standard library IO via SysEx.
 //
-void svc_system_print(char *text) {
-
-    if (p_print_callback != NULL) {
-        (p_print_callback)(text);
-    }
+void svc_system_print(char *text)
+{
+	if (p_print_callback != NULL) {
+		(p_print_callback)(text);
+	}
 }
 
-void svc_system_register_print_callback(void (*callback)(char *)) {
-
-    if (callback != NULL) {
-        p_print_callback = callback;
-    }
+void svc_system_register_print_callback(void (*callback)(char *))
+{
+	if (callback != NULL) {
+		p_print_callback = callback;
+	}
 }
 
-void svc_system_shutdown(void) {
-
-    dev_board_terminate();
-    dev_board_power_off();
+void svc_system_shutdown(void)
+{
+	dev_board_terminate();
+	dev_board_power_off();
 }
 
 /*----- Static function implementations ------------------------------*/
 
-static t_status _system_init(void) {
-
-    t_status result = TASK_INIT_ERROR;
-
-    // Initialise hardware.
-    dev_board_init();
-
-    /// TODO: How long is necessary?
-    ///          Are there signals we can test?
-    //
-    // Give the hardware time to wake up.
-    delay_block_us(2000000);
-
-    /// TODO: Only necessary if flash is locked.
-    //
-    // Workaround flash write protect.
-    // flash_unlock();
-
-    result = SUCCESS;
-
-    return result;
-}
-
-static void _system_run(void) {
-
-    /// TODO: Maybe integrate timers into system task
-    ///       and kick watchdog in run state.
-}
 
 /*----- End of file --------------------------------------------------*/
