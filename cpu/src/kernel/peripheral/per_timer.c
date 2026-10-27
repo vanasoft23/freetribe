@@ -36,10 +36,11 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdint.h>
+#include "ft.h"
 
-#include "csl_interrupt.h"
-#include "csl_timer.h"
+#include <csl_interrupt.h>
+#include <csl_timer.h>
+#include <soc_AM1808.h>
 
 #include "per_timer.h"
 
@@ -53,6 +54,8 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Static function prototypes -----------------------------------*/
 
+static u32 _timer_system_interrupt(u32 base_addr, u32 int_flags);
+
 /*----- Extern function implementations ------------------------------*/
 
 /// TODO: This only supports interrupts for Timer12,
@@ -61,48 +64,83 @@ under the terms of the GNU Affero General Public License as published by
 /// TODO: ISR should be part of this peripheral driver,
 ///         Register callback from device driver above.
 //
-void timer_init(t_timer_config config) {
+void timer_init(t_timer_config config)
+{
+	// Set emulation mode FREE.
+	TimerEmulationModeSet(config.base_addr, TMR_EMUMGT_FREE);
 
-    // Set emulation mode FREE.
-    TimerEmulationModeSet(config.base_addr, TMR_EMUMGT_FREE);
+	// Set timer mode.
+	TimerConfigure(config.base_addr, config.mode);
 
-    // Set timer mode.
-    TimerConfigure(config.base_addr, config.mode);
+	// Set period.
+	TimerPeriodSet(config.base_addr, TMR_TIMER12, config.period);
 
-    // Set period.
-    TimerPeriodSet(config.base_addr, TMR_TIMER12, config.period);
+	// Enable continuous timer.
+	TimerEnable(config.base_addr, TMR_TIMER12, TMR_ENABLE_CONT);
 
-    // Enable continuous timer.
-    TimerEnable(config.base_addr, TMR_TIMER12, TMR_ENABLE_CONT);
+	// Configure interrupt in AINTC.
+	if (config.p_isr) {
+		u32 system_int = _timer_system_interrupt(config.base_addr, config.int_flags);
 
-    // Configure interrupt in AINTC.
-    if (config.p_isr) {
+		// Register interrupt service routine.
+		IntRegister(system_int, config.p_isr);
 
-        // Register interrupt service routine.
-        IntRegister(SYS_INT_TINT12_0, config.p_isr);
+		// Set interrupt channel
+		IntChannelSet(system_int, config.int_chan);
 
-        // Set interrupt channel
-        IntChannelSet(SYS_INT_TINT12_0, config.int_chan);
+		// Enable system interrupts for timer.
+		IntSystemEnable(system_int);
+	}
 
-        // Enable system interrupts for timer.
-        IntSystemEnable(SYS_INT_TINT12_0);
-    }
+	// Enable specified interrupts.
+	TimerIntEnable(config.base_addr, config.int_flags);
 
-    // Enable specified interrupts.
-    TimerIntEnable(config.base_addr, config.int_flags);
-
-    // Clear all interrupts.
-    TimerIntStatusClear(config.base_addr, TMR_INTSTAT12_TIMER_NON_CAPT |
-                                              TMR_INTSTAT12_TIMER_CAPT |
-                                              TMR_INTSTAT34_TIMER_NON_CAPT |
-                                              TMR_INTSTAT34_TIMER_CAPT);
+	// Clear all interrupts.
+	TimerIntStatusClear(config.base_addr, TMR_INTSTAT12_TIMER_NON_CAPT |
+										  TMR_INTSTAT12_TIMER_CAPT |
+										  TMR_INTSTAT34_TIMER_NON_CAPT |
+										  TMR_INTSTAT34_TIMER_CAPT);
 }
 
-uint32_t timer_count_get(uint32_t base_addr) {
+// void timer_unregister_interrupt(u32 base_addr) {
 
-    return TimerCounterGet(base_addr, TMR_TIMER12);
+//     IntSystemDisable(SYS_INT_TINT12_0);
+//     IntUnRegister(SYS_INT_TINT12_0);
+	
+//     // note: interrupt channel should now be 8 like factory SBL
+
+//     TimerIntDisable(base_addr, TMR_INTSTAT12_TIMER_NON_CAPT |
+//                                TMR_INTSTAT12_TIMER_CAPT |
+//                                TMR_INTSTAT34_TIMER_NON_CAPT |
+//                                TMR_INTSTAT34_TIMER_CAPT);
+
+//     TimerIntStatusClear(base_addr, TMR_INTSTAT12_TIMER_NON_CAPT |
+//                                    TMR_INTSTAT12_TIMER_CAPT |
+//                                    TMR_INTSTAT34_TIMER_NON_CAPT |
+//                                    TMR_INTSTAT34_TIMER_CAPT);
+	
+// }
+
+u32 timer_count_get(u32 base_addr)
+{
+	return TimerCounterGet(base_addr, TMR_TIMER12);
 }
 
 /*----- Static function implementations ------------------------------*/
+
+static u32 _timer_system_interrupt(u32 base_addr, u32 int_flags)
+{
+	if (base_addr == SOC_TMR_1_REGS) {
+		if (int_flags & TMR_INT_TMR34_NON_CAPT_MODE)
+			return SYS_INT_TINT34_1;
+
+		return SYS_INT_TINT12_1;
+	}
+
+	if (int_flags & TMR_INT_TMR34_NON_CAPT_MODE)
+		return SYS_INT_TINT34_0;
+
+	return SYS_INT_TINT12_0;
+}
 
 /*----- End of file --------------------------------------------------*/
