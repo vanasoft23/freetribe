@@ -36,14 +36,24 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
+#include "ft.h"
 
-#include "knl_main.h"
+#include <FreeRTOS.h>
+#include <task.h>
+
+#include "dev_board.h"
+#include "dev_lcd.h"
+#include "dev_dsp_ipc.h"
+
+#include "svc_system.h"
+
+#include "system/fatal_error.h"
+
 #include "usr_main.h"
 
-#include "svc_dsp.h"
-
 /*----- Macros -------------------------------------------------------*/
+
+
 
 /*----- Typedefs -----------------------------------------------------*/
 
@@ -53,29 +63,79 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Static function prototypes -----------------------------------*/
 
+static void _startup_task(void *params);
+static void _create_startup_task(void);
+static void _create_user_task(void);
+
 /*----- Extern function implementations ------------------------------*/
 
+
 /**
- * @brief  Run kernel and app.
- *
- */
-int main(void) {
-
-    while (!svc_dsp_ready()) {
-        knl_main_task();
-    }
-
-    /// TODO: Implement scheduler.
-    //
-    while (true) {
-
-        knl_main_task();
-        usr_main_task();
-    }
-
-    return 0;
+* @brief  Run kernel and app.
+*
+*/
+int main(void)
+{
+	dev_board_init();
+	dev_lcd_set_backlight(true, true, true);
+	dev_dsp_ipc_init();
+	
+	_create_startup_task();
+	
+	DLOG("starting scheduler");
+	vTaskStartScheduler();
+	
+	return 0;
 }
 
 /*----- Static function implementations ------------------------------*/
+
+static void _startup_task(void *params)
+{
+	DLOG(__FUNCTION__);
+	
+	// @TODO: wait for MCU to be ready
+	
+	// @TODO: start DSP task
+	// @TODO: start USB task
+	// @TODO: start MIDI task
+	
+	// svc_dsp_wait_ready(); ///////// IMPORTANT: user task must be sealed from kernel init!
+	
+	_create_user_task();
+	
+	// svc_system_print("Starting user task...");
+	
+	// svc_system_print("Freetribe initialised!");
+	
+	// taskYIELD();
+}
+
+
+static void _create_startup_task(void)
+{
+	#define STARTUP_TASK_PRIORITY       9
+	#define STARTUP_TASK_STACK_WORDS 1024
+	
+	BaseType_t result = xTaskCreate(
+		_startup_task, "startup",
+		STARTUP_TASK_STACK_WORDS, NULL,
+		STARTUP_TASK_PRIORITY, NULL
+	);
+	configASSERT(result == pdPASS);
+}
+
+static void _create_user_task(void)
+{
+	#define USER_TASK_STACK_WORDS    1024
+	#define USER_TASK_PRIORITY          2
+	
+	BaseType_t result = xTaskCreate(
+		usr_main_task, "user",
+		USER_TASK_STACK_WORDS, NULL,
+		USER_TASK_PRIORITY, NULL
+	);
+	configASSERT(result == pdPASS);
+}
 
 /*----- End of file --------------------------------------------------*/
