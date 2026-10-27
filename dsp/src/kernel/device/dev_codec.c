@@ -60,17 +60,17 @@ under the terms of the GNU Affero General Public License as published by
 /*----- Extern function implementations ------------------------------*/
 
 void dev_codec_init(void) {
-    //
+	//
 }
 
 void dev_codec_transmit(fract32 *output) {
-    //
+	//
 }
 
 int32_t dev_codec_receive(fract32 *input) {
-    //
+	//
 
-    return 0;
+	return 0;
 }
 
 /*----- Static function implementations ------------------------------*/
