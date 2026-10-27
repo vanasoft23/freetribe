@@ -36,8 +36,7 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -51,29 +50,31 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Extern function implementations ------------------------------*/
 
-void *_sbrk(int incr) {
 
-    extern uint8_t _heap_end; /* Defined by the linker */
 
-    static uint8_t *heap_end;
+// void *_sbrk(int incr) {
 
-    uint8_t *prev_heap_end;
+//     extern u8 _heap_end; /* Defined by the linker */
 
-    if (heap_end == 0) {
-        heap_end = &_heap_end;
-    }
-    prev_heap_end = heap_end;
+//     static u8 *heap_end;
 
-    /// TODO: Check for collision.
-    //
-    // if (heap_end + incr > stack_ptr) {
-    //     // write(1, "Heap and stack collision\n", 25);
-    //     // abort();
-    // }
+//     u8 *prev_heap_end;
 
-    heap_end += incr;
-    return (void *)prev_heap_end;
-}
+//     if (heap_end == 0) {
+//         heap_end = &_heap_end;
+//     }
+//     prev_heap_end = heap_end;
+
+//     /// TODO: Check for collision.
+//     //
+//     // if (heap_end + incr > stack_ptr) {
+//     //     // write(1, "Heap and stack collision\n", 25);
+//     //     // abort();
+//     // }
+
+//     heap_end += incr;
+//     return (void *)prev_heap_end;
+// }
 
 /*----- Static function implementations ------------------------------*/
 
