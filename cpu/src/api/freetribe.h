@@ -43,25 +43,24 @@ under the terms of the GNU Affero General Public License as published by
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+  
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+// Internal freetribe headers
+#include "ft_types.h"
+// #include "ft_macros.h"
+// #include "ft_log.h"
+// #include "ft_error.h"
 
-#include "ft_error.h"
+#include <midi_fsm.h>
 
 #include "svc_clock.h"
-#include "svc_delay.h"
+#include "dev_delay.h"
 #include "svc_display.h"
 #include "svc_dsp.h"
 #include "svc_midi.h"
-#include "svc_panel.h"
 #include "svc_sysex.h"
 #include "svc_system.h"
-#include "svc_systick.h"
-
-#include "midi_fsm.h"
 
 #include "knl_main.h"
 #include "usr_main.h"
@@ -70,43 +69,97 @@ extern "C" {
 
 /*----- Typedefs -----------------------------------------------------*/
 
-/*----- Extern variable declarations ---------------------------------*/
 
-/*----- Extern function prototypes -----------------------------------*/
 
-void ft_register_tick_callback(uint32_t divisor, void (*callback)(void));
+// typedef struct {
+// 	const char *name;
+// 	size_t stack_size;              // Bytes
+// 	ft_priority_t priority;
+// } ft_task_attr_t;
+
+
+
+
+
+/*----- Tasks --------------------------------------------------------*/
+
+typedef enum {
+	FT_EVENT_BUTTON = 0,
+	FT_EVENT_ENCODER = 1,
+	FT_EVENT_KNOB = 2,
+	FT_EVENT_UNDEFINED = 3,
+	FT_EVENT_TRIGGER = 4,
+	FT_EVENT_XY_PAD = 5,
+	FT_EVENT_PANEL_ACK,
+	FT_EVENT_HELD_BUTTONS // Only fires once HELD_BUTTONS_MSW received.
+} ft_event_id_t;
+
+typedef struct {
+	ft_event_id_t id;
+} ft_event_t;
+
+void ft_subscribe_event(ft_event_id_t event_id);
+
+bool ft_poll_event(ft_event_t *event);
+
+typedef enum {
+	FT_PRIO_BACKGROUND,
+	FT_PRIO_NORMAL,
+	FT_PRIO_REALTIME
+} ft_priority_t;
+
+typedef void (*ft_task_fn)(void);
+
+void ft_create_task(ft_task_fn *proc, ft_priority_t prio);
+
+/*----- Delay --------------------------------------------------------*/
 
 bool ft_delay(t_delay_state *state);
-void ft_start_delay(t_delay_state *state, uint32_t time);
+void ft_start_delay(t_delay_state *state, u32 time);
 
-void ft_put_pixel(uint16_t pos_x, uint16_t pos_y, bool state);
+/*----- Graphics -----------------------------------------------------*/
 
-int8_t ft_fill_frame(uint16_t x_start, uint16_t y_start, uint16_t x_end,
-                     uint16_t y_end, bool state);
+void ft_put_pixel(u16 pos_x, u16 pos_y, bool state);
+
+s8 ft_fill_frame(
+	u16 x_start, u16 y_start, u16 x_end,
+	u16 y_end, bool state
+);
+
+/*----- LEDs ---------------------------------------------------------*/
+
+/*----- Logging / Debug ----------------------------------------------*/
 
 void ft_register_print_callback(void (*callback)(char *));
 void ft_print(char *text);
+void ft_printf(const char *format, ...);
 
-void ft_register_midi_callback(event_type event,
-                               t_midi_event_callback callback);
+/*----- MIDI API -----------------------------------------------------*/
+
+void ft_register_midi_callback(
+        event_type event,
+	t_midi_event_callback callback
+);
 
 void ft_send_note_on(char chan, char note, char vel);
 void ft_send_note_off(char chan, char note, char vel);
 void ft_send_cc(char chan, char index, char val);
 
+/*----- Panel --------------------------------------------------------*/
+
+void ft_register_panel_callback(t_panel_event event, void *callback);
+void ft_set_led(t_led_index led_index, bool state);
+void ft_toggle_led(t_led_index led_index);
+
 /// TODO: Cast void pointers to typedef function pointers.
 //
-void ft_register_panel_callback(t_panel_event event, void *callback);
-void ft_toggle_led(t_led_index led_index);
-void ft_set_led(t_led_index led_index, bool state);
-void ft_set_trigger_mode(uint8_t mode);
+void ft_set_trigger_mode(u8 mode);
 
-void ft_set_module_param(uint16_t module_id, uint16_t param_index,
-                         int32_t param_value);
+void ft_set_module_param(u16 module_id, u16 param_index, s32 param_value);
 
-void ft_get_module_param(uint16_t module_id, uint16_t param_index);
+void ft_get_module_param(u16 module_id, u16 param_index);
 
-void ft_register_dsp_callback(uint8_t msg_type, uint8_t msg_id, void *callback);
+void ft_register_dsp_callback(u8 msg_type, u8 msg_id, void *callback);
 
 void ft_shutdown(void);
 
