@@ -1,0 +1,12 @@
+root = true
+
+[{cpu/src/**.{c,h},dsp/src/**.{c,h}}]
+end_of_line = lf
+insert_final_newline = true
+indent_style = tab
+tab_width = 8
+
+[{cpu/src/**.{S,inc},dsp/src/**.{S,inc}}]
+end_of_line = lf
+indent_style = space
+indent_size = 8
