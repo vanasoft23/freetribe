@@ -1,30 +1,30 @@
 /*----------------------------------------------------------------------
 
-                     This file is part of Freetribe
+					 This file is part of Freetribe
 
-                https://github.com/bangcorrupt/freetribe
+				https://github.com/bangcorrupt/freetribe
 
-                                License
+								License
 
-                   GNU AFFERO GENERAL PUBLIC LICENSE
-                      Version 3, 19 November 2007
+				   GNU AFFERO GENERAL PUBLIC LICENSE
+					  Version 3, 19 November 2007
 
-                           AGPL-3.0-or-later
+						   AGPL-3.0-or-later
 
  Freetribe is free software: you can redistribute it and/or modify it
 under the terms of the GNU Affero General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
-                  (at your option) any later version.
+				  (at your option) any later version.
 
-     Freetribe is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty
-        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-          See the GNU General Public License for more details.
+	 Freetribe is distributed in the hope that it will be useful,
+	  but WITHOUT ANY WARRANTY; without even the implied warranty
+		of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+		  See the GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
  along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-                       Copyright bangcorrupt 2024
+					   Copyright bangcorrupt 2024
 
 ----------------------------------------------------------------------*/
 
@@ -57,8 +57,8 @@ static bool g_toggle_led = false;
 
 /*----- Static function prototypes -----------------------------------*/
 
-void _knob_callback(uint8_t index, uint8_t value);
-void _button_callback(uint8_t index, bool state);
+void _knob_callback(u8 index, u8 value);
+void _button_callback(u8 index, bool state);
 
 /*----- Extern function implementations ------------------------------*/
 
@@ -73,15 +73,16 @@ void _button_callback(uint8_t index, bool state);
  *                  - WARNING
  *                  - ERROR
  */
-t_status app_init(void) {
+t_status app_init(void)
+{
 
-    t_status status = ERROR;
+	t_status status = ERROR;
 
-    ft_register_panel_callback(KNOB_EVENT, _knob_callback);
-    ft_register_panel_callback(BUTTON_EVENT, _button_callback);
+	ft_register_panel_callback(KNOB_EVENT, _knob_callback);
+	ft_register_panel_callback(BUTTON_EVENT, _button_callback);
 
-    status = SUCCESS;
-    return status;
+	status = SUCCESS;
+	return status;
 }
 
 /**
@@ -90,13 +91,14 @@ t_status app_init(void) {
  * In this example, we test a flag set in the panel
  * button callback and conditionally toggle an LED.
  */
-void app_run(void) {
+void app_run(void)
+{
 
-    if (g_toggle_led) {
-        ft_toggle_led(LED_PLAY);
+	if (g_toggle_led) {
+		ft_toggle_led(LED_PLAY);
 
-        g_toggle_led = false;
-    }
+		g_toggle_led = false;
+	}
 }
 
 /*----- Static function implementations ------------------------------*/
@@ -113,9 +115,10 @@ void app_run(void) {
  * @param[in]   index   Index of knob.
  * @param[in]   value   Values of knob.
  */
-void _knob_callback(uint8_t index, uint8_t value) {
+void _knob_callback(u8 index, u8 value)
+{
 
-    ft_send_cc(0, index, value >> 1);
+	ft_send_cc(0, index, value >> 1);
 }
 
 /**
@@ -131,19 +134,20 @@ void _knob_callback(uint8_t index, uint8_t value) {
  * @param[in]   index   Index of button.
  * @param[in]   state   State of button.
  */
-void _button_callback(uint8_t index, bool state) {
+void _button_callback(u8 index, bool state)
+{
 
-    switch (index) {
+	switch (index) {
 
-    case BUTTON_PLAY:
-        if (state == 1) {
-            g_toggle_led = true;
-        }
-        break;
+	case BUTTON_PLAY:
+		if (state == 1) {
+			g_toggle_led = true;
+		}
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 /*----- End of file --------------------------------------------------*/
