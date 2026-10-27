@@ -41,14 +41,15 @@ under the terms of the GNU Affero General Public License as published by
 #include <stddef.h>
 #include <stdint.h>
 
-#include "ft_error.h"
 
+
+#include "FreeRTOS.h"
+#include "task.h"
+
+#include "knl_main.h"
 #include "usr_main.h"
 
 /*----- Macros -------------------------------------------------------*/
-
-#define DEBUG_TICK_DIV 1000
-#define USER_TICK_DIV 0
 
 /*----- Typedefs -----------------------------------------------------*/
 
@@ -60,65 +61,42 @@ typedef enum { STATE_INIT, STATE_RUN, STATE_ERROR } t_user_task_state;
 
 /*----- Static function prototypes -----------------------------------*/
 
-static t_status _usr_init(void);
+static bool _usr_init(void);
 static void _usr_run(void);
 
 /*----- Extern function implementations ------------------------------*/
 
-void usr_main_task(void) {
+void usr_main_task(void *param)
+{
+	(void)param;
 
-    static t_user_task_state state = STATE_INIT;
-
-    switch (state) {
-
-    // Initialise user task.
-    case STATE_INIT:
-
-        if (error_check(_usr_init()) == SUCCESS) {
-            state = STATE_RUN;
-        }
-        // Remain in INIT state until initialisation successful.
-        break;
-
-    case STATE_RUN:
-
-        _usr_run();
-        // Remain in RUN state.
-        break;
-
-    case STATE_ERROR:
-        error_check(UNRECOVERABLE_ERROR);
-        break;
-
-    default:
-        // TODO: Record unhandled state.
-        if (error_check(UNHANDLED_STATE_ERROR) != SUCCESS) {
-            state = STATE_ERROR;
-        }
-        break;
-    }
+	(void)_usr_init();
+		
+	for (;;) {
+		_usr_run();
+		vTaskDelay(pdMS_TO_TICKS(1));
+	}
 }
 
-__attribute__((weak)) t_status app_init(void) {
-    //
-    return 0;
+__attribute__((weak)) bool app_init(void)
+{
+	//
+	return 0;
 }
 
-__attribute__((weak)) void app_run(void) {
-    //
+__attribute__((weak)) void app_run(void)
+{
+	//
 }
 
 /*----- Static function implementations ------------------------------*/
 
-static t_status _usr_init(void) {
-
-    t_status result = ERROR;
-
-    result = app_init();
-
-    return result;
+static bool _usr_init(void)
+{
+	return app_init();
 }
 
-static void _usr_run(void) { app_run(); }
+static void _usr_run(void)
+{ app_run(); }
 
 /*----- End of file --------------------------------------------------*/
