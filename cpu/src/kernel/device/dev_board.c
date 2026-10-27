@@ -36,21 +36,19 @@ under the terms of the GNU Affero General Public License as published by
 
 /*----- Includes -----------------------------------------------------*/
 
+#include "ft.h"
+
 #include "per_aintc.h"
 #include "per_ddr.h"
 #include "per_gpio.h"
 #include "per_pinmux.h"
-#include "per_spi.h"
 #include "per_uart.h"
+#include "per_spi2.h"
+#include "per_timer2.h"
 
 #include "dev_board.h"
 
-/// TODO: Move up to svc_system.
-#include "dev_flash.h"
-#include "dev_lcd.h"
-
-/// TODO: Move blocking delay to device layer.
-#include "svc_delay.h"
+#include "dev_delay.h"
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -68,6 +66,8 @@ static void _hardware_terminate(void);
 
 /*----- Extern function implementations ------------------------------*/
 
+extern void vPortTickISR( void *context );
+
 /*
  * @brief   Initialise and configure main board.
  *
@@ -75,24 +75,35 @@ static void _hardware_terminate(void);
  *
  * @return  None
  */
-void dev_board_init(void) {
+void dev_board_init(void)
+{
+	per_pinmux_init();
 
-    per_pinmux_init();
+	per_aintc_init();
+	
+	// FreeRTOS tick timer
+	per_timer2_init(TIMER0_BASE, &(timer_config_t){
+		.mode      = TIMER_MODE_32_BIT_UNCHAINED,
+		.source    = TIMER_SOURCE_INTERNAL,
+		.counter12 = {
+			.operation    = TIMER_OPER_CONTINUOUS,
+			.period       = 0x5DBFu, // 1ms, Assumes 24 MHz input (ASYNC3)
+			.on_period    = vPortTickISR
+		}
+	});
+	
+	dev_delay_init();
 
-    per_aintc_init();
+	per_gpio_init();
 
-    /// TODO: Move blocking delay to device layer.
-    delay_init();
+	_hardware_init();
 
-    per_gpio_init();
+	spi_config_t config = {
+		.instance = 1
+	};
+	per_spi2_init(&config);
 
-    _hardware_init();
 
-    /// TODO: Move up to svc_system.
-    dev_lcd_set_backlight(true, true, true);
-
-    /// TODO: Move up to svc_system.
-    dev_flash_init();
 }
 
 /*----- Static function implementations ------------------------------*/
@@ -108,19 +119,21 @@ void dev_board_init(void) {
  * @return none
  *
  */
-void dev_board_terminate(void) {
-    // Allows handing off to factory bootloader.
-    // Factory SBL will hang if DDR already initialised.
-    per_ddr_terminate();
+void dev_board_terminate(void)
+{
+	// Allows handing off to factory bootloader.
+	// Factory SBL will hang if DDR already initialised.
+	per_ddr_terminate();
 
-    // Flush TRS MIDI before terminating MCU.
-    per_uart_terminate(1);
-    per_uart_terminate(0);
+	// Flush TRS MIDI before terminating MCU.
+	per_uart_terminate(1);
+	per_uart_terminate(0);
 
-    _hardware_terminate();
+	_hardware_terminate();
 }
 
-void dev_board_power_off(void) { per_gpio_set(7, 14, 0); }
+void dev_board_power_off(void)
+{ per_gpio_set_indexed(PIN_SHUTDOWN, 0); }
 
 /*
  * @brief   Set GPIO to initialise board hardware?
@@ -129,57 +142,55 @@ void dev_board_power_off(void) { per_gpio_set(7, 14, 0); }
  *
  * @return  none
  */
-static void _hardware_init(void) {
+static void _hardware_init(void)
+{
+	/// TODO: What does each pin represent?
 
-    /// TODO: What does each pin represent?
+	per_gpio_set_indexed(PIN_BOARD_MCU_RESET, 1);
 
-    // MCU out of reset.
-    per_gpio_set_indexed(105, 1); // Set GP6P8
+	per_gpio_set_indexed(PIN_GP6_6, 1);
 
-    per_gpio_set_indexed(103, 1); // Set GP6P6
+	// Only red lights if not set.
+	// Something with power controller,
+	per_gpio_set_indexed(PIN_POWER_CTL, 1);
 
-    // Only red lights if not set.
-    // Something with power controller,
-    per_gpio_set_indexed(126, 1); // Set GP7P13
+	dev_delay_spin_us(60);
 
-    delay_block_us(60);
+	// ADC Reset.
+	per_gpio_set_indexed(PIN_BOARD_ADC_RESET, 0);
 
-    // ADC Reset.
-    per_gpio_set_indexed(99, 0); // Clear GP6P2
+	// ADC MCLK on ??
+	per_gpio_set_indexed(PIN_BOARD_ADC_MCLK, 1);
 
-    // ADC MCLK on ??
-    per_gpio_set_indexed(123, 1); // Set GP7P10
+	/// TODO: Timeout error.
+	//
+	// Wait until B8P15 is high.
+	while (!per_gpio_get_indexed(PIN_GP8_15))
+		;
 
-    /// TODO: Timeout error.
-    //
-    // Wait until B8P15 is high.
-    while (!per_gpio_get_indexed(144))
-        ;
+	dev_delay_spin_us(10);
 
-    delay_block_us(10);
+	per_gpio_set_indexed(PIN_GP7_11, 1);
 
-    per_gpio_set_indexed(124, 1); // Set GP7P11
-
-    /// TODO: What are these for?
-    //
-    // This is set during boot, then toggles continuously while app running.
-    per_gpio_set(6, 11, 1); // Set GP6P11
-    //
-    // per_gpio_set(6, 12, 1); // Set GP6P12
+	/// TODO: What are these for?
+	//
+	// This is set during boot, then toggles continuously while app running.
+	per_gpio_set_indexed(PIN_GP6_11, 1);
+	per_gpio_set_indexed(PIN_GP6_12, 1);
 }
 
-static void _hardware_terminate(void) {
+static void _hardware_terminate(void)
+{
+	per_gpio_set_indexed(PIN_BOARD_MCU_RESET, 0);
+	per_gpio_set_indexed(PIN_GP6_6, 0);
+	per_gpio_set_indexed(PIN_POWER_CTL, 0);
 
-    per_gpio_set_indexed(105, 0); // Set GP6P8
-    per_gpio_set_indexed(103, 0); // Set GP6P6
-    per_gpio_set_indexed(126, 0); // Set GP7P13
+	dev_delay_block_us(60);
 
-    delay_block_us(60);
+	per_gpio_set_indexed(PIN_BOARD_ADC_RESET, 0);
+	per_gpio_set_indexed(PIN_BOARD_ADC_MCLK, 0);
 
-    per_gpio_set_indexed(99, 0);  // Set GP6P2
-    per_gpio_set_indexed(123, 0); // Set GP7P10
-
-    delay_block_us(10);
+	dev_delay_block_us(10);
 }
 
 /*----- End of file --------------------------------------------------*/
