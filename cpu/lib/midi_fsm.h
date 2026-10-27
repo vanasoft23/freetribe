@@ -75,7 +75,7 @@ under the terms of the GNU Affero General Public License as published by
 extern "C" {
 #endif
 
-#include "ft_error.h"
+
 
 /*
  * As libmidi is primarily intended for use in embedded environments, users
@@ -153,13 +153,21 @@ typedef enum event_type {
 
 } event_type;
 
+
+// @TODO: Remove temporary midi status
+typedef enum {
+    MIDI_FSM_OK = 0,
+    MIDI_FSM_INVALID = -1,
+} midi_status_t;
+
+
 /**
  * Initialize the MIDI library. This routine must be called prior to using
  * library functions or unpredictable behavior may result.
  *
  * @return Zero on success; nonzero status otherwise.
  */
-t_status midi_init_fsm();
+midi_status_t midi_init_fsm();
 
 /**
  * Register an event handler for the specified event. To clear an event
@@ -172,7 +180,7 @@ t_status midi_init_fsm();
  * @param cb Function to invoke upon receipt of the MIDI event.
  * @return Status code indicating (see above for comments.)
  */
-t_status midi_register_event_handler(event_type evt, t_midi_event_callback cb);
+midi_status_t midi_register_event_handler(event_type evt, t_midi_event_callback cb);
 
 /**
  * @brief Register an event callback for system exclusive messages.
@@ -182,7 +190,7 @@ t_status midi_register_event_handler(event_type evt, t_midi_event_callback cb);
  * @return Status code indicating (see above for comments.)
  *
  */
-t_status midi_register_sysex_handler(t_midi_sysex_callback cb);
+midi_status_t midi_register_sysex_handler(t_midi_sysex_callback cb);
 
 /**
  * Processes a byte arriving via the MIDI input of the device. This function
@@ -200,7 +208,7 @@ t_status midi_register_sysex_handler(t_midi_sysex_callback cb);
  *
  * @return Number of callback invocations. Returns negative status on error.
  */
-t_status midi_receive_byte(char byte);
+midi_status_t midi_receive_byte(char byte);
 
 #ifdef __cplusplus
 }
