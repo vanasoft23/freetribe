@@ -49,8 +49,6 @@ extern "C" {
 #include "hw_spi.h"
 #include "soc_AM1808.h"
 
-#include "csl_spi.h"
-
 /*----- Macros -------------------------------------------------------*/
 
 #define SPI_INSTANCES SOC_SPI_PER_CNT
@@ -70,12 +68,21 @@ extern "C" {
 #define SPI_PIN_CS1 SPI_SPIPC0_SCS0FUN1
 #define SPI_PIN_CS2 SPI_SPIPC0_SCS0FUN2
 
-#define SPI_INT_LEVEL_TX SPI_TRANSMIT_INTLVL
-#define SPI_INT_LEVEL_TX_RX SPI_TRANSMIT_INTLVL | SPI_RECV_INTLVL
+#define SPI_PIN_DIR_CS0 SPI_SPIPC1_SCS0DIR0
+#define SPI_PIN_DIR_CS1 SPI_SPIPC1_SCS0DIR1
+#define SPI_PIN_DIR_CS2 SPI_SPIPC1_SCS0DIR2
+
+#define SPI_DATA_FORMAT0 SPI_SPIDAT1_DFSEL_FORMAT0
+#define SPI_DATA_FORMAT1 SPI_SPIDAT1_DFSEL_FORMAT1
+#define SPI_DATA_FORMAT2 SPI_SPIDAT1_DFSEL_FORMAT2
+#define SPI_DATA_FORMAT3 SPI_SPIDAT1_DFSEL_FORMAT3
+
+#define SPI_INT_LEVEL_TX SPI_SPILVL_TXINTLVL
+#define SPI_INT_LEVEL_TX_RX SPI_SPILVL_TXINTLVL | SPI_SPILVL_RXINTLVL
 
 #define SPI_INT_LEVEL_TX_RX_TIMEOUT_DESYNC                                     \
-    SPI_TRANSMIT_INTLVL | SPI_RECV_INTLVL | SPI_TIMEOUT_INTLVL |               \
-        SPI_DESYNC_SLAVE_INTLVL
+	SPI_SPILVL_TXINTLVL | SPI_SPILVL_RXINTLVL | SPI_SPILVL_TIMEOUTLVL |        \
+		SPI_SPILVL_DESYNCLVL
 
 #define SPI_MODULE_FREQ SOC_SPI_0_MODULE_FREQ
 
@@ -87,30 +94,31 @@ extern "C" {
 
 #define SPI_DEFAULT_DATA_FORMAT SPI_DATA_FORMAT0
 #define SPI_DEFAULT_FREQ SPI_FREQ_30_MHZ
-#define SPI_DEFAULT_PHASE SPI_CLK_OUTOFPHASE
+#define SPI_DEFAULT_PHASE SPI_SPIFMT_PHASE
 #define SPI_DEFAULT_CHAR_LENGTH 8
 
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef enum {
-    SPI_TX_COMPLETE,
-    SPI_RX_COMPLETE,
+	SPI_TX_COMPLETE,
+	SPI_RX_COMPLETE,
 } t_spi_event;
 
 typedef struct {
-    uint8_t instance;
-    uint8_t int_channel;
-    uint32_t int_level;
-    bool int_enable;
-    uint32_t pin_func;
+	u8 instance;
+	u8 int_channel;
+	u32 int_level;
+	bool int_enable;
+	u32 pin_func;
+	u32 pin_dir;
 } t_spi_config;
 
 typedef struct {
-    uint8_t instance;
-    uint8_t index;
-    uint32_t freq;
-    uint8_t char_length;
-    uint8_t ena_timeout;
+	u8 instance;
+	u8 index;
+	u32 freq;
+	u8 char_length;
+	u8 ena_timeout;
 } t_spi_format;
 
 /*----- Extern variable declarations ---------------------------------*/
@@ -118,23 +126,32 @@ typedef struct {
 /*----- Extern function prototypes -----------------------------------*/
 
 void per_spi_init(t_spi_config *config);
+void per_spi_unregister_interrupts(u8 instance);
 void per_spi_set_data_format(t_spi_format *format);
 
-void per_spi_tx_int(uint8_t instance, uint8_t *buffer, uint32_t length);
-void per_spi_trx_int(uint8_t instance, uint8_t *tx_buffer, uint8_t *rx_buffer,
-                     uint32_t length);
+// Blocking/polled transfers.
+void per_spi_write_blocking(u8 instance, u8 *buffer,
+							u32 length);
+bool per_spi_write_blocking_bounded(u8 instance, const u8 *buffer,
+									u32 length, u32 poll_limit);
+void per_spi_transfer_blocking(u8 instance, u8 *tx_buffer,
+							   u8 *rx_buffer, u32 length);
+void per_spi_transfer_blocking_end(u8 instance, u8 *tx_buffer,
+								   u8 *rx_buffer, u32 length,
+								   u8 data_format,
+								   u8 chip_select);
 
-bool per_spi_initialised(uint8_t instance);
-void per_spi_chip_format(uint8_t instance, uint8_t data_format,
-                         uint8_t chip_select, bool cshold);
+// Interrupt-driven transfers.
+void per_spi_write_isr(u8 instance, u8 *buffer, u32 length);
+void per_spi_transfer_isr(u8 instance, u8 *tx_buffer,
+						  u8 *rx_buffer, u32 length);
 
-void per_spi_register_callback(uint8_t instance, t_spi_event event,
-                               void (*callback)());
+bool per_spi_initialised(u8 instance);
+void per_spi_chip_format(u8 instance, u8 data_format,
+						 u8 chip_select, bool cshold);
 
-void per_spi_tx(uint32_t, uint8_t *, uint32_t);
-void per_spi_rx(uint32_t, uint8_t *, uint32_t);
-
-void per_spi1_tx_wait(uint8_t *buffer, uint32_t length);
+void per_spi_register_callback(u8 instance, t_spi_event event,
+							   void (*callback)());
 #ifdef __cplusplus
 }
 #endif
