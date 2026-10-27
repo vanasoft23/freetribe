@@ -43,10 +43,9 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
-#include "ft_error.h"
+
 
 /*----- Macros -------------------------------------------------------*/
 
@@ -55,21 +54,21 @@ extern "C" {
 enum e_message_type { MSG_TYPE_MODULE, MSG_TYPE_SYSTEM };
 
 enum e_module_msg_id {
-    MODULE_GET_PARAM_VALUE,
-    MODULE_SET_PARAM_VALUE,
-    MODULE_PARAM_VALUE,
-    MODULE_GET_PARAM_NAME,
-    MODULE_PARAM_NAME
+	MODULE_GET_PARAM_VALUE,
+	MODULE_SET_PARAM_VALUE,
+	MODULE_PARAM_VALUE,
+	MODULE_GET_PARAM_NAME,
+	MODULE_PARAM_NAME
 };
 
 enum e_system_msg_id {
-    SYSTEM_CHECK_READY,
-    SYSTEM_READY,
-    SYSTEM_GET_PORT_STATE,
-    SYSTEM_SET_PORT_STATE,
-    SYSTEM_PORT_STATE,
-    SYSTEM_GET_PROFILE,
-    SYSTEM_PROFILE,
+	SYSTEM_CHECK_READY,
+	SYSTEM_READY,
+	SYSTEM_GET_PORT_STATE,
+	SYSTEM_SET_PORT_STATE,
+	SYSTEM_PORT_STATE,
+	SYSTEM_GET_PROFILE,
+	SYSTEM_PROFILE,
 };
 
 /*----- Typedefs -----------------------------------------------------*/
@@ -78,18 +77,19 @@ enum e_system_msg_id {
 
 /*----- Extern function prototypes -----------------------------------*/
 
-void svc_dsp_task(void);
+void svc_dsp_task(void *param);
+void svc_dsp_process(void);
 
-void svc_dsp_register_callback(uint8_t msg_type, uint8_t msg_id,
-                               void *callback);
+void svc_dsp_register_callback(u8 msg_type, u8 msg_id,
+							   void *callback);
 
-void svc_dsp_set_module_param(uint16_t module_id, uint16_t param_index,
-                              int32_t param_value);
+void svc_dsp_set_module_param(u16 module_id, u16 param_index,
+							  s32 param_value);
 
-void svc_dsp_get_module_param(uint16_t module_id, uint16_t param_index);
+void svc_dsp_get_module_param(u16 module_id, u16 param_index);
 
 void svc_dsp_get_port_state(void);
-bool svc_dsp_ready(void);
+void svc_dsp_wait_ready(void);
 
 void svc_dsp_get_profile(void);
 
