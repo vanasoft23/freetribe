@@ -29,13 +29,12 @@ under the terms of the GNU Affero General Public License as published by
 ----------------------------------------------------------------------*/
 
 /**
- * @file    svc_delay.h
+ * @file    dev_delay.h
  *
- * @brief   Public interface for delay.c.
+ * @brief   Public interface for dev_delay.c.
  */
 
-#ifndef SVC_DELAY_H
-#define SVC_DELAY_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,38 +42,38 @@ extern "C" {
 
 /*----- Includes -----------------------------------------------------*/
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "ft.h"
 
 /*----- Macros -------------------------------------------------------*/
 
 /*----- Typedefs -----------------------------------------------------*/
 
 typedef struct {
-    uint32_t start_time;
-    uint32_t delay_time;
-    uint32_t elapsed_cycles;
-    uint32_t elapsed_us;
-    bool expired;
+	u32  start_time;
+	u32  delay_time;
+	u32  elapsed_cycles;
+	u32  elapsed_us;
+	bool expired;
 } t_delay_state;
 
 /*----- Extern variable declarations ---------------------------------*/
 
 /*----- Extern function prototypes -----------------------------------*/
 
-void delay_init(void);
-bool delay_us(t_delay_state *state);
-void delay_start(t_delay_state *state, uint32_t time);
-void delay_block_us(uint32_t time);
-void delay_block_ms(uint32_t time);
-uint32_t delay_get_current_count(void);
-uint32_t delay_get_elapsed_cycles(uint32_t start_count);
-void delay_cycles(uint32_t count);
-bool delay_ready(void);
+void dev_delay_init(void);
+bool dev_delay_us(t_delay_state *state);
+void dev_delay_start(t_delay_state *state, u32 time);
+void dev_delay_block_us(u32 time);
+void dev_delay_block_ms(u32 time);
+u32 dev_delay_get_current_count(void);
+u32 dev_delay_get_elapsed_cycles(u32 start_count);
+void dev_delay_cycles(u32 count);
+// Approximate CPU busy-wait; assumes a 300 MHz ARM clock.
+void dev_delay_spin_us(u32 time);
+bool dev_delay_ready(void);
 
 #ifdef __cplusplus
 }
-#endif
 #endif
 
 /*----- End of file --------------------------------------------------*/
