@@ -40,12 +40,14 @@ under the terms of the GNU Affero General Public License as published by
 #include <builtins.h>
 #include <stdint.h>
 
+#include "ft_error.h"
 #include "init.h"
 #include "module.h"
 #include "per_gpio.h"
 #include "per_spi.h"
 #include "per_sport.h"
 #include "svc_cpu.h"
+#include "heap.h"
 
 #include "knl_profile.h"
 
@@ -65,82 +67,92 @@ static uint32_t g_saved_imask;
 
 inline void disable_interrupts(void) {
 
-    g_saved_imask = *pIMASK;
-    *pIMASK = 0;
-    ssync();
+	g_saved_imask = *pIMASK;
+	*pIMASK = 0;
+	ssync();
 }
 
 inline void enable_interrupts(void) {
 
-    *pIMASK = g_saved_imask;
-    ssync();
+	*pIMASK = g_saved_imask;
+	ssync();
 }
 
 int main(void) {
 
-    uint64_t start;
-    uint64_t stop;
+	uint64_t start;
+	uint64_t stop;
 
-    *pPORTGIO_SET = HWAIT;
+	*pPORTGIO_SET = HWAIT;
 
-    /// TODO: Move to initcode, before main.
-    pll_init();
-    ebiu_init();
+	/// TODO: Move to initcode, before main.
+	pll_init();
+	ebiu_init();
 
-    per_gpio_init();
+	per_gpio_init();
 
-    sysint_init();
+	sysint_init();
 
-    dma_init();
+	dma_init();
 
-    // Initialise communication with CPU.
-    svc_cpu_task();
+	heap_init();
 
-    sport0_init();
+	// Initialise communication with CPU.
+	svc_cpu_task();
 
-    module_init();
+	sport0_init();
 
-    while (true) {
+	module_init();
 
-        if (sport0_frame_received()) {
+	while (true) {
 
-            start = cycles();
+		if (sport0_frame_received()) {
 
-            // disable_interrupts();
+			start = cycles();
 
-            /// TODO: Maybe disable interrupts while processing audio.
-            //
-            module_process(sport0_get_rx_buffer(), sport0_get_tx_buffer());
+			// disable_interrupts();
 
-            sport0_frame_processed();
+			/// TODO: Maybe disable interrupts while processing audio.
+			//
+			module_process(sport0_get_rx_buffer(), sport0_get_tx_buffer());
 
-            stop = cycles();
+			sport0_frame_processed();
 
-            g_module_cycles = stop - start;
+			stop = cycles();
 
-            // enable_interrupts();
-        }
+			g_module_cycles = stop - start;
 
-        // Process communication with CPU.
-        svc_cpu_task();
-    }
+			// enable_interrupts();
+		}
+
+		// Process communication with CPU.
+		svc_cpu_task();
+	}
 }
 
 void sysint_init(void) {
 
-    *pSIC_IAR0 = 0;
-    *pSIC_IAR1 = 0;
-    *pSIC_IAR2 = 0;
-    *pSIC_IAR3 = 0;
-    *pSIC_IAR4 = 0;
-    *pSIC_IAR5 = 0;
-    *pSIC_IAR6 = 0;
-    *pSIC_IAR7 = 0;
+	*pSIC_IAR0 = 0;
+	*pSIC_IAR1 = 0;
+	*pSIC_IAR2 = 0;
+	*pSIC_IAR3 = 0;
+	*pSIC_IAR4 = 0;
+	*pSIC_IAR5 = 0;
+	*pSIC_IAR6 = 0;
+	*pSIC_IAR7 = 0;
 
-    *pSIC_IWR0 = 0xffffffff;
-    *pSIC_IWR1 = 0xffffffff;
+	*pSIC_IWR0 = 0xffffffff;
+	*pSIC_IWR1 = 0xffffffff;
 }
 
 /*----- Static function implementations ------------------------------*/
 
 /*----- End of file --------------------------------------------------*/
+
+
+
+
+void fatal_error(const char *format, ...)
+{
+	while(1){}
+}
