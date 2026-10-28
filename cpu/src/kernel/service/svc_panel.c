@@ -116,8 +116,10 @@ static void _panel_post_user_event(const t_panel_user_event *event);
 #else
 static void _panel_post_user_event(const t_panel_user_event *event);
 #endif
+#if 0
 #ifdef FREETRIBE_FREERTOS
 static void _panel_rx_notify_from_isr(void);
+#endif
 #endif
 
 /*----- Extern function implementations ------------------------------*/
@@ -128,7 +130,9 @@ void svc_panel_task(void *param)
 
 #ifdef FREETRIBE_FREERTOS
 	g_panel_task_handle = xTaskGetCurrentTaskHandle();
+#if 0
 	dev_mcu_register_rx_callback(_panel_rx_notify_from_isr);
+#endif
 #endif
 
 	while (true) {
@@ -519,6 +523,7 @@ static void _panel_post_user_event(const t_panel_user_event *event)
 }
 #endif
 
+#if 0
 #ifdef FREETRIBE_FREERTOS
 static void _panel_rx_notify_from_isr(void)
 {
@@ -531,6 +536,7 @@ static void _panel_rx_notify_from_isr(void)
 	portYIELD_FROM_ISR(higher_priority_task_woken);
 	
 }
+#endif
 #endif
 
 /*----- End of file --------------------------------------------------*/

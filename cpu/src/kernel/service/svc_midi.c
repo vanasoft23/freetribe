@@ -200,16 +200,8 @@ static void _midi_rx_notify_from_isr(void)
 {
 
 	if (g_midi_task_handle != NULL) {
-		BaseType_t higher_priority_task_woken = pdFALSE;
-
-		vTaskNotifyGiveFromISR(g_midi_task_handle,
-							   &higher_priority_task_woken);
-
-#ifdef portYIELD_FROM_ISR
-		portYIELD_FROM_ISR(higher_priority_task_woken);
-#else
-		(void)higher_priority_task_woken;
-#endif
+		BaseType_t high_prio_task_woken = pdFALSE;
+		vTaskNotifyGiveFromISR(g_midi_task_handle, &high_prio_task_woken);
 	}
 }
 
