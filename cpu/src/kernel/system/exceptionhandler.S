@@ -73,7 +73,8 @@
         .equ ADDR_HIPIR2, (0xFFFEE000) + (0x900 + (1 * 4))
         .equ SWI_NUM_MASK, 0xFF000000
         .equ CPSR_MODE_MASK, 0x1F
-        .equ MODE_SVC, 0x13
+        .equ CPSR_MODE_USR, 0x10
+        .equ CPSR_MODE_SVC, 0x13
 
         .equ GDB_SIGTRAP, 5
         
@@ -91,31 +92,19 @@
         .global __exception_handlers_start
 __exception_handlers_start:
 
-    CMP     r7, #0                        @ SYS_YIELD
-    BEQ     SWI_Yield
-
-    @ Ordinary syscall
-    STMFD   sp!, {r4-r11, r12, lr}
-
-    SUB     sp, sp, #8
-    STR     r7, [sp]
-
-    BL      syscall_dispatch
-
-    ADD     sp, sp, #8
-    LDMFD   sp!, {r4-r11, r12, lr}
-    MOVS    pc, lr
-
 @***********************************************************************
 @*                  Function Definition of SWI Handler
 @***********************************************************************
 @
 @ R12 is the syscall number
 @
+        .type SWIHandler, %function
 SWIHandler:
+#ifdef FREETRIBE_FREERTOS
         @ FreeRTOS yield gets fast path
         CMP      r12, #SYS_YIELD
         BEQ      vPortYield               @ doesn't return here
+        
         
         STMFD    sp!, {r4-r11, r12, lr}
         LDR      r14, =g_syscall_table
@@ -130,7 +119,6 @@ SWIHandler:
 @         @ CMP      r0, 0x123456
 @         @ BL       gdb_stub_print
         
-        
 @         LDR      r0, [lr, #-4]            @ R0 contains SWI instruction
 @         BICS     r0, r0, #SWI_NUM_MASK    @ Get the SWI number, setting CPSR flags
         
@@ -139,9 +127,13 @@ SWIHandler:
 @         BEQ      vPortYield               @ CPSR Zero flag means SWI 0
 @ #endif
 
-
-
 @         MOVS     pc, lr                   @ Return after SWI and restore CPSR
+
+#else
+        MOVS     pc, lr                   @ Return after SWI and restore CPSR
+#endif
+
+
 
 
 @***********************************************************************
@@ -400,15 +392,15 @@ undef_bp_hit:
         @ Skip this part if callee was not in SVC mode
         MRS      r3, spsr                 @ R3 contains SPSR_undef
         AND      r1, r3, #CPSR_MODE_MASK
-        CMP      r1, #MODE_SVC
+        CMP      r1, #CPSR_MODE_SVC
         BNE      undef_captured_sp_lr
 
         @ Preserve cpsr_irq
         MRS      r2, cpsr                 @ R2 contains CPSR_undef
 
         @ Switch to SVC mode
-        BIC      r1, r2, #CPSR_MODE_MASK  @ CPSR mode bit cleared
-        ORR      r1, r1, #MODE_SVC        @ Set SYS mode bit
+        BIC      r1, r2, #CPSR_MODE_MASK
+        ORR      r1, r1, #CPSR_MODE_SVC
         ORR      r1, r1, #0xC0            @ Disable IRQ and FIQ temporarily
         MSR      cpsr_c, r1
 
@@ -483,7 +475,7 @@ preserve_remaining_context:
         @ This part gets skipped if callee was not in SVC mode
         MRS      r3, spsr                 @ R3 contains SPSR_irq
         AND      r1, r3, #CPSR_MODE_MASK
-        CMP      r1, #MODE_SVC
+        CMP      r1, #CPSR_MODE_SVC
         BNE      sp_lr_good
 
         @ Preserve cpsr_irq
@@ -491,7 +483,7 @@ preserve_remaining_context:
 
         @ Switch to SVC mode
         BIC      r1, r2, #CPSR_MODE_MASK  @ CPSR mode bit cleared
-        ORR      r1, r1, #MODE_SVC        @ Set SVC mode bit
+        ORR      r1, r1, #CPSR_MODE_SVC   @ Set SVC mode bit
         ORR      r1, r1, #0xC0            @ Disable IRQ and FIQ temporarily
         MSR      cpsr_c, r1
 

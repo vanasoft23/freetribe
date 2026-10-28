@@ -58,18 +58,6 @@ extern void vTaskSwitchContext( void );
 extern void vPortTickISR( void *context );
 
 
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken ) \
-    do {                                               \
-        if( ( xHigherPriorityTaskWoken ) != pdFALSE )  \
-        {                                              \
-            vTaskSwitchContext();                      \
-        }                                              \
-    } while( 0 )
-
-#define portEND_SWITCHING_ISR( xHigherPriorityTaskWoken ) \
-    portYIELD_FROM_ISR( xHigherPriorityTaskWoken )
-
-    
 
 /*-----------------------------------------------------------*/
 
