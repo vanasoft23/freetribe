@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"name": "freetribe",
+			"path": "."
+		}
+	],
+	"settings": {
+		"clangd.arguments": [
+			"--compile-commands-dir=${workspaceFolder}/build",
+			"--query-driver=C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gcc.exe"
+		],
+		"[m68k]": {
+			"editor.rulers": []
+		},
+		"cortex-debug.variableUseNaturalFormat": false,
+		"cmake.sourceDirectory": [
+			"${workspaceFolder}",
+			"${workspaceFolder}/cpu/tests/native"
+		],
+		"cmake.useCMakePresets": "always",
+		"cmake.exportCompileCommandsFile": false,
+		"cmake.ctest.testExplorerIntegrationEnabled": true
+	}
+}
