@@ -1,0 +1,60 @@
+@-----------------------------------------------------------------------
+@
+@                     This file is part of Freetribe
+@
+@                https://github.com/bangcorrupt/freetribe
+@
+@                                License
+@
+@                   GNU AFFERO GENERAL PUBLIC LICENSE
+@                      Version 3, 19 November 2007
+@
+@                           AGPL-3.0-or-later
+@
+@  Freetribe is free software: you can redistribute it and/or modify it
+@ under the terms of the GNU Affero General Public License as published by
+@    the Free Software Foundation, either version 3 of the License, or
+@                   (at your option) any later version.
+@
+@     Freetribe is distributed in the hope that it will be useful,
+@      but WITHOUT ANY WARRANTY; without even the implied warranty
+@        of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+@          See the GNU General Public License for more details.
+@
+@   You should have received a copy of the GNU General Public License
+@ along with this program. If not, see <https://www.gnu.org/licenses/>.
+@
+@                       Copyright bangcorrupt 2023
+@
+@-----------------------------------------------------------------------
+
+@***********************************************************************
+@
+@ delay.S - Provides routine to accurately delay in CPU cycles.
+@ Author: vanasoft23
+@
+@***********************************************************************
+
+@**************************** Functions ********************************
+
+        .global delay_cycles
+        .type delay_cycles, %function
+
+@**************************** Constants ********************************
+
+        
+
+@**************************** Text Section *****************************
+
+        .text
+        .cpu arm926ej-s
+        .code 32
+
+
+@***********************************************************************
+@*             Function Definition of delay_cycles
+@***********************************************************************
+delay_cycles:
+        SUBS     r0, r0, #1               @ 1 cycle
+        BNE      1b                       @ 3 cycles
+        BX       lr                       @ 3 cycles
